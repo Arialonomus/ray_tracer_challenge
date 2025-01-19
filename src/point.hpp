@@ -19,6 +19,9 @@ namespace gfx
         [[nodiscard]] float z() const { return m_z; }
         [[nodiscard]] float w() const { return m_w; }
 
+        // Operations
+        bool operator==(const Point& rhs) const;
+
     private:
         float m_x{ 0.0 };
         float m_y{ 0.0 };
