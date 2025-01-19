@@ -1,5 +1,7 @@
+
 #include <pch.h>
 #include "point.hpp"
+#include "vector.hpp"
 
 // Tests the default constructor
 TEST(GraphicsPoint, DefaultConstructor)
@@ -48,7 +50,7 @@ TEST(GraphicsPoint, CopyConstructor)
 }
 
 // Tests the assignment operator
-TEST(GraphicsVector, AssignmentOperator)
+TEST(GraphicsPoint, AssignmentOperator)
 {
     gfx::Point pt_a{ 1.0, 2.0, 3.0 };
     const gfx::Point pt_b{ 17.0, -3.5, 1.2 };
@@ -77,4 +79,39 @@ TEST(GraphicsPoint, InequalityOperator)
     const gfx::Point pt_b{ 0.0, 5.0, -2.0 };
 
     EXPECT_TRUE(pt_a != pt_b);
+}
+
+// Tests the point translation (point + vector addition) operator and show commutativity
+TEST(GraphicsPoint, PointTranslation)
+{
+    const gfx::Point pt{ 3.0, -2.0, 5.0, 1.0 };
+    const gfx::Vector vec{ -2.0, 3.0, 1.0, 0.0 };
+
+    const gfx::Point pt_translated_l = pt + vec;
+
+    EXPECT_FLOAT_EQ(pt_translated_l.x(), 1.0);
+    EXPECT_FLOAT_EQ(pt_translated_l.y(), 1.0);
+    EXPECT_FLOAT_EQ(pt_translated_l.z(), 6.0);
+    EXPECT_FLOAT_EQ(pt_translated_l.w(), 1.0);
+
+    const gfx::Point pt_translated_r = vec + pt;
+
+    EXPECT_FLOAT_EQ(pt_translated_r.x(), 1.0);
+    EXPECT_FLOAT_EQ(pt_translated_r.y(), 1.0);
+    EXPECT_FLOAT_EQ(pt_translated_r.z(), 6.0);
+    EXPECT_FLOAT_EQ(pt_translated_r.w(), 1.0);
+}
+
+// Tests the point translation (point + vector addition) shorthand operator
+TEST(GraphicsPoint, PointTranslationShorthandOperator)
+{
+    gfx::Point pt{ 3.0, -2.0, 5.0, 1.0 };
+    const gfx::Vector vec{ -2.0, 3.0, 1.0, 0.0 };
+
+    pt += vec;
+
+    EXPECT_FLOAT_EQ(pt.x(), 1.0);
+    EXPECT_FLOAT_EQ(pt.y(), 1.0);
+    EXPECT_FLOAT_EQ(pt.z(), 6.0);
+    EXPECT_FLOAT_EQ(pt.w(), 1.0);
 }
