@@ -293,3 +293,24 @@ TEST(GraphicsVector, DotProduct)
     EXPECT_FLOAT_EQ(dot_l, 20.0);
     EXPECT_FLOAT_EQ(dot_r, 20.0);
 }
+
+// Test the vector cross product member function
+TEST(GraphicsVector, CrossProduct)
+{
+    const gfx::Vector vec_a{ 1.0, 2.0, 3.0 };
+    const gfx::Vector vec_b{ 2.0, 3.0, 4.0 };
+
+    const gfx::Vector cross_a = vec_a.crossProduct(vec_b);
+
+    EXPECT_FLOAT_EQ(cross_a.x(), -1.0);
+    EXPECT_FLOAT_EQ(cross_a.y(), 2.0);
+    EXPECT_FLOAT_EQ(cross_a.z(), -1.0);
+    EXPECT_FLOAT_EQ(cross_a.w(), 0.0);
+
+    const gfx::Vector cross_b = vec_b.crossProduct(vec_a);
+
+    EXPECT_FLOAT_EQ(cross_b.x(), 1.0);
+    EXPECT_FLOAT_EQ(cross_b.y(), -2.0);
+    EXPECT_FLOAT_EQ(cross_b.z(), 1.0);
+    EXPECT_FLOAT_EQ(cross_b.w(), 0.0);
+}
