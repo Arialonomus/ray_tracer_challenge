@@ -144,3 +144,18 @@ TEST(GraphicsPoint, PointReverseTranslationShorthandOperator)
     EXPECT_FLOAT_EQ(pt.z(), -6.0);
     EXPECT_FLOAT_EQ(pt.w(), 1.0);
 }
+
+
+// Tests the distance vector (point-point subtraction) operator
+TEST(GraphicsPoint, DistanceVector)
+{
+    const gfx::Point pt_a{ 3.0, 2.0, 1.0 };
+    const gfx::Point pt_b{ 5.0, 6.0, 7.0 };
+
+    const gfx::Vector distance = pt_a - pt_b;
+
+    EXPECT_FLOAT_EQ(distance.x(), -2.0);
+    EXPECT_FLOAT_EQ(distance.y(), -4.0);
+    EXPECT_FLOAT_EQ(distance.z(), -6.0);
+    EXPECT_FLOAT_EQ(distance.w(), 0.0);
+}
