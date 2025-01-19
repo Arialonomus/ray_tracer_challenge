@@ -23,6 +23,17 @@ TEST(GraphicsVector, Constructor)
     EXPECT_FLOAT_EQ(vec.w(), 0.0);
 }
 
+// Tests the homogeneous coordinate constructor
+TEST(GraphicsVector, HomogeneousConstructor)
+{
+    const gfx::Vector vec{ 4.0, -4.0, 3.0, 0.5 };
+
+    EXPECT_FLOAT_EQ(vec.x(), 4.0);
+    EXPECT_FLOAT_EQ(vec.y(), -4.0);
+    EXPECT_FLOAT_EQ(vec.z(), 3.0);
+    EXPECT_FLOAT_EQ(vec.w(), 0.5);
+}
+
 // Tests the copy constructor
 TEST(GraphicsVector, CopyConstructor)
 {
