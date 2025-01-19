@@ -122,3 +122,16 @@ TEST(GraphicsVector, VectorSubtractionShorthandOperator)
     EXPECT_FLOAT_EQ(vec_a.z(), -10.1);
     EXPECT_FLOAT_EQ(vec_a.w(), 0.0);
 }
+
+// Tests unary negation operator
+TEST(GraphicsVector, VectorNegationOperator)
+{
+    const gfx::Vector vec_a{ 15.6, -2.2, 0.0 };
+
+    const gfx::Vector vec_b = -vec_a;
+
+    EXPECT_FLOAT_EQ(vec_a.x(), -15.6);
+    EXPECT_FLOAT_EQ(vec_a.y(), 2.2);
+    EXPECT_FLOAT_EQ(vec_a.z(), 0.0);
+    EXPECT_FLOAT_EQ(vec_a.w(), 0.0);
+}
