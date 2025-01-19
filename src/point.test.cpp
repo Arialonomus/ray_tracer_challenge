@@ -33,3 +33,11 @@ TEST(RTPoint, CopyConstructor)
     EXPECT_FLOAT_EQ(pt_cpy.z(), 3.0);
     EXPECT_FLOAT_EQ(pt_cpy.w(), 1.0);
 }
+
+TEST(RTPoint, ComparisonOperator)
+{
+    const gfx::Point pt_a{ 4.0, -4.0, 3.0 };
+    const gfx::Point pt_b{ 4.0, -4.0, 3.0 };
+
+    EXPECT_TRUE(pt_a == pt_b);
+}
