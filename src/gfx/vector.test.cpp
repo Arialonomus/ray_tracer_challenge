@@ -202,3 +202,17 @@ TEST(GraphicsVector, ScalarMultplicationShorthand)
     EXPECT_FLOAT_EQ(vec.z(), 10.5);
     EXPECT_FLOAT_EQ(vec.w(), -14.0);
 }
+
+// Tests scalar multiplication by a fraction
+TEST(GraphicsVector, ScalarMultplicationFraction)
+{
+    const gfx::Vector vec{ 1.0, -2.0, 3.0, -4.0 };
+    constexpr float scalar = 0.5;
+
+    const gfx::Vector vec_scaled = vec * scalar;
+
+    EXPECT_FLOAT_EQ(vec_scaled.x(), 0.5);
+    EXPECT_FLOAT_EQ(vec_scaled.y(), -1.0);
+    EXPECT_FLOAT_EQ(vec_scaled.z(), 1.5);
+    EXPECT_FLOAT_EQ(vec_scaled.w(), -2.0);
+}
