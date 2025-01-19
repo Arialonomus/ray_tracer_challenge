@@ -20,7 +20,7 @@ namespace gfx
         [[nodiscard]] float w() const { return m_w; }
 
         // Operations
-        bool operator==(const Point& rhs) const;
+        [[nodiscard]] bool operator==(const Point& rhs) const;
 
     private:
         float m_x{ 0.0 };
