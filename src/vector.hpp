@@ -6,17 +6,17 @@ namespace gfx {
     public:
         // Constructors
         Vector() = default;
-        Vector(float x, float y, float z);
+        Vector(const float x, const float y, const float z) : m_x{ x }, m_y{ y }, m_z{ z } {}
         Vector(Vector&) = default;
 
         // Destructor
         ~Vector() = default;
 
         // Accessors
-        float x() const { return m_x; }
-        float y() const { return m_y; }
-        float z() const { return m_z; }
-        float w() const { return m_w; }
+        [[nodiscard]] float x() const { return m_x; }
+        [[nodiscard]] float y() const { return m_y; }
+        [[nodiscard]] float z() const { return m_z; }
+        [[nodiscard]] float w() const { return m_w; }
 
     private:
         float m_x{ 0.0 };
