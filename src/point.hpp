@@ -14,10 +14,10 @@ namespace gfx
         ~Point() = default;
 
         // Accessors
-        float x() const { return m_x; }
-        float y() const { return m_y; }
-        float z() const { return m_z; }
-        float w() const { return m_w; }
+        [[nodiscard]] float x() const { return m_x; }
+        [[nodiscard]] float y() const { return m_y; }
+        [[nodiscard]] float z() const { return m_z; }
+        [[nodiscard]] float w() const { return m_w; }
 
     private:
         float m_x{ 0.0 };
