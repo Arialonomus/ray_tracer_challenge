@@ -104,8 +104,16 @@ gfx::Vector gfx::operator*(const float lhs, const Vector& rhs)
     return rhs * lhs;
 }
 
+// Normalize Vector
 gfx::Vector gfx::normalize(const Vector& src)
 {
     const float magnitude = src.magnitude();
     return Vector{ src.x() / magnitude, src.y() / magnitude, src.z() / magnitude, src.w() / magnitude };
-};
+}
+
+// Vector Dot Product
+float gfx::dotProduct(const Vector& lhs, const Vector& rhs)
+{
+    return lhs.x() * rhs.x() + lhs.y() * rhs.y() + lhs.z() * rhs.z() + lhs.w() * rhs.w();
+}
+;

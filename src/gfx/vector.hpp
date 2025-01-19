@@ -46,7 +46,6 @@ namespace gfx {
         // Returns a float representing the magnitude of the vector
         [[nodiscard]] float magnitude() const;
 
-
     private:
         float m_x{ 0.0 };
         float m_y{ 0.0 };
@@ -66,4 +65,7 @@ namespace gfx {
     // Returns a normalized version of the input vector, i.e. a vector with the
     // same direction but a magnitude of 1
     [[nodiscard]] Vector normalize(const Vector& src);
+
+    // Returns the dot product of this vector with the input vector
+    [[nodiscard]] float dotProduct(const Vector& lhs, const Vector& rhs);
 }
