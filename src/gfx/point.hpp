@@ -2,6 +2,8 @@
 
 namespace gfx
 {
+    class Vector;   // Forward declaration for vector-point operations
+
     class Point
     {
     public:
@@ -33,10 +35,23 @@ namespace gfx
 
         [[nodiscard]] bool operator==(const Point& rhs) const;
 
+        /* Arithmetic Operator Overloads */
+
+
+        [[nodiscard]] Point operator-(const Vector& vec) const;
+        Point& operator+=(const Vector& vec);
+        Point& operator-=(const Vector& vec);
+
+
     private:
         float m_x{ 0.0 };
         float m_y{ 0.0 };
         float m_z{ 0.0 };
         float m_w{ 1.0 };
     };
+
+    /* Global Arithmetic Operator Overloads */
+
+    [[nodiscard]] Point operator+(const Point& lhs, const Vector& rhs);
+    [[nodiscard]] Point operator+(const Vector& lhs, const Point& rhs);
 }
