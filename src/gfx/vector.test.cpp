@@ -259,3 +259,24 @@ TEST(GraphicsVector, Magnitude)
     EXPECT_FLOAT_EQ(vec_c.magnitude(), std::sqrt(14));
     EXPECT_FLOAT_EQ(vec_d.magnitude(), std::sqrt(14));
 }
+
+// Test the normalize function for vectors
+TEST(GraphicsVector, Normalize)
+{
+    const gfx::Vector vec_a{ 4.0, 0.0, 0.0 };
+    const gfx::Vector vec_b{ 1.0, 2.0, 3.0 };
+
+    const gfx::Vector vec_a_norm = normalize(vec_a);
+
+    EXPECT_FLOAT_EQ(vec_a_norm.x(), 1.0);
+    EXPECT_FLOAT_EQ(vec_a_norm.y(), 0.0);
+    EXPECT_FLOAT_EQ(vec_a_norm.z(), 0.0);
+    EXPECT_FLOAT_EQ(vec_a_norm.w(), 0.0);
+
+    const gfx::Vector vec_b_norm = normalize(vec_b);
+
+    EXPECT_FLOAT_EQ(vec_b_norm.x(), 1.0 / std::sqrt(14));
+    EXPECT_FLOAT_EQ(vec_b_norm.y(), 2.0 / std::sqrt(14));
+    EXPECT_FLOAT_EQ(vec_b_norm.z(), 3.0 / std::sqrt(14));
+    EXPECT_FLOAT_EQ(vec_b_norm.w(), 0.0);
+}
