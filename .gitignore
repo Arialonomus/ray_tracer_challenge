@@ -397,5 +397,9 @@ FodyWeavers.xsd
 *.msp
 
 # JetBrains Rider
-*.sln.iml
+*.sln
 /tests/test.cpp
+
+# Visual Studio Project Files
+*.sln
+*.vcxproj*
