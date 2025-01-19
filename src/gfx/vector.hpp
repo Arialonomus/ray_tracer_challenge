@@ -8,9 +8,14 @@ namespace gfx {
         Vector() = default;
         Vector(const float x, const float y, const float z) : m_x{ x }, m_y{ y }, m_z{ z } {}
         Vector(const Vector&) = default;
+        Vector(Vector&&) = default;
 
         // Destructor
         ~Vector() = default;
+
+        // Assignment Operators
+        Vector& operator=(const Vector&) = default;
+        Vector& operator=(Vector&&) = default;
 
         // Accessors
         [[nodiscard]] float x() const { return m_x; }
@@ -27,4 +32,5 @@ namespace gfx {
         float m_z{ 0.0 };
         float m_w{ 0.0 };
     };
+
 }

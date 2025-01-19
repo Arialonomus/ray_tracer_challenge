@@ -9,9 +9,14 @@ namespace gfx
         Point() = default;
         Point(const float x, const float y, const float z) : m_x{ x }, m_y{ y }, m_z{ z } {}
         Point(const Point&) = default;
+        Point(Point&&) = default;
 
         // Destructor
         ~Point() = default;
+
+        // Assignment Operators
+        Point& operator=(const Point&) = default;
+        Point& operator=(Point&&) = default;
 
         // Accessors
         [[nodiscard]] float x() const { return m_x; }
