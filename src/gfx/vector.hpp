@@ -7,7 +7,7 @@ namespace gfx {
         // Constructors
         Vector() = default;
         Vector(const float x, const float y, const float z) : m_x{ x }, m_y{ y }, m_z{ z } {}
-        Vector(Vector&) = default;
+        Vector(const Vector&) = default;
 
         // Destructor
         ~Vector() = default;
