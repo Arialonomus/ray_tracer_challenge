@@ -33,4 +33,6 @@ namespace gfx {
         float m_w{ 0.0 };
     };
 
+    // Global Operators
+    [[nodiscard]] Vector operator+(const Vector& lhs, const Vector& rhs);
 }

@@ -8,4 +8,9 @@ bool gfx::Vector::operator==(const Vector& rhs) const
         && utils::areEqual(m_y, rhs.y())
         && utils::areEqual(m_z, rhs.z())
         && utils::areEqual(m_w, rhs.w());
+}
+
+gfx::Vector gfx::operator+(const Vector& lhs, const Vector& rhs)
+{
+    return gfx::Vector{ lhs.x() + rhs.x(), lhs.y() + rhs.y(), lhs.z() + rhs.z() };
 };
