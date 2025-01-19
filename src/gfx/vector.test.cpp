@@ -123,6 +123,20 @@ TEST(GraphicsVector, VectorSubtractionShorthandOperator)
     EXPECT_FLOAT_EQ(vec_a.w(), 0.0);
 }
 
+// Tests subtraction from the zero vector
+TEST(GraphicsVector, SubtractionFromZeroVector)
+{
+    const gfx::Vector vec_zero{ 0.0, 0.0, 0.0 };
+    const gfx::Vector vec{ 1.0, 2.0, -3.0 };
+
+    const gfx::Vector vec_neg = vec_zero - vec;
+
+    EXPECT_FLOAT_EQ(vec_neg.x(), -1.0);
+    EXPECT_FLOAT_EQ(vec_neg.y(), -2.0);
+    EXPECT_FLOAT_EQ(vec_neg.z(), 3.0);
+    EXPECT_FLOAT_EQ(vec_neg.w(), 0.0);
+}
+
 // Tests unary negation operator
 TEST(GraphicsVector, VectorNegationOperator)
 {
@@ -130,8 +144,8 @@ TEST(GraphicsVector, VectorNegationOperator)
 
     const gfx::Vector vec_b = -vec_a;
 
-    EXPECT_FLOAT_EQ(vec_a.x(), -15.6);
-    EXPECT_FLOAT_EQ(vec_a.y(), 2.2);
-    EXPECT_FLOAT_EQ(vec_a.z(), 0.0);
-    EXPECT_FLOAT_EQ(vec_a.w(), 0.0);
+    EXPECT_FLOAT_EQ(vec_b.x(), -15.6);
+    EXPECT_FLOAT_EQ(vec_b.y(), 2.2);
+    EXPECT_FLOAT_EQ(vec_b.z(), 0.0);
+    EXPECT_FLOAT_EQ(vec_b.w(), 0.0);
 }
