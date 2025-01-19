@@ -81,7 +81,7 @@ TEST(GraphicsPoint, InequalityOperator)
     EXPECT_TRUE(pt_a != pt_b);
 }
 
-// Tests the point translation (point + vector addition) operator and show commutativity
+// Tests the point translation (point-vector addition) operator and show commutativity
 TEST(GraphicsPoint, PointTranslation)
 {
     const gfx::Point pt{ 3.0, -2.0, 5.0, 1.0 };
@@ -102,7 +102,7 @@ TEST(GraphicsPoint, PointTranslation)
     EXPECT_FLOAT_EQ(pt_translated_r.w(), 1.0);
 }
 
-// Tests the point translation (point + vector addition) shorthand operator
+// Tests the point translation (point-vector addition) shorthand operator
 TEST(GraphicsPoint, PointTranslationShorthandOperator)
 {
     gfx::Point pt{ 3.0, -2.0, 5.0, 1.0 };
@@ -113,5 +113,34 @@ TEST(GraphicsPoint, PointTranslationShorthandOperator)
     EXPECT_FLOAT_EQ(pt.x(), 1.0);
     EXPECT_FLOAT_EQ(pt.y(), 1.0);
     EXPECT_FLOAT_EQ(pt.z(), 6.0);
+    EXPECT_FLOAT_EQ(pt.w(), 1.0);
+}
+
+// Tests the point reverse translation (point-vector subtraction) operator
+TEST(GraphicsPoint, PointReverseTranslation)
+{
+    const gfx::Point pt{ 3.0, 2.0, 1.0 };
+    const gfx::Vector vec{ 5.0, 6.0, 7.0 };
+
+    const gfx::Point pt_translated_l = pt - vec;
+
+    EXPECT_FLOAT_EQ(pt_translated_l.x(), -2.0);
+    EXPECT_FLOAT_EQ(pt_translated_l.y(), -4.0);
+    EXPECT_FLOAT_EQ(pt_translated_l.z(), -6.0);
+    EXPECT_FLOAT_EQ(pt_translated_l.w(), 1.0);
+
+}
+
+// Tests the point reverse translation (point-vector subtraction) shorthand operator
+TEST(GraphicsPoint, PointReverseTranslationShorthandOperator)
+{
+    gfx::Point pt{ 3.0, 2.0, 1.0 };
+    const gfx::Vector vec{ 5.0, 6.0, 7.0 };
+
+    pt -= vec;
+
+    EXPECT_FLOAT_EQ(pt.x(), -2.0);
+    EXPECT_FLOAT_EQ(pt.y(), -4.0);
+    EXPECT_FLOAT_EQ(pt.z(), -6.0);
     EXPECT_FLOAT_EQ(pt.w(), 1.0);
 }
