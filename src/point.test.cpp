@@ -4,7 +4,7 @@
 // Tests the default constructor
 TEST(RTPoint, DefaultConstructor)
 {
-    const Point pt;
+    const gfx::Point pt;
 
     EXPECT_FLOAT_EQ(pt.x(), 0.0);
     EXPECT_FLOAT_EQ(pt.y(), 0.0);
@@ -15,7 +15,7 @@ TEST(RTPoint, DefaultConstructor)
 // Tests the standard constructor
 TEST(RTPoint, Constructor)
 {
-    const Point pt{ 4.0, -4.0, 3.0 };
+    const gfx::Point pt{ 4.0, -4.0, 3.0 };
 
     EXPECT_FLOAT_EQ(pt.x(), 4.0);
     EXPECT_FLOAT_EQ(pt.y(), -4.0);
@@ -25,8 +25,8 @@ TEST(RTPoint, Constructor)
 
 TEST(RTPoint, CopyConstructor)
 {
-    const Point pt_src{ 4.0, -4.0, 3.0 };
-    const Point pt_cpy{ pt_src };
+    const gfx::Point pt_src{ 4.0, -4.0, 3.0 };
+    const gfx::Point pt_cpy{ pt_src };
 
     EXPECT_FLOAT_EQ(pt_cpy.x(), 4.0);
     EXPECT_FLOAT_EQ(pt_cpy.y(), -4.0);
