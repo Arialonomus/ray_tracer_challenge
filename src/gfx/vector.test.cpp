@@ -94,3 +94,31 @@ TEST(GraphicsVector, VectorAdditionShorthandOperator)
     EXPECT_FLOAT_EQ(vec_a.z(), 4.1);
     EXPECT_FLOAT_EQ(vec_a.w(), 0.0);
 }
+
+// Tests vector-vector subtraction with the subtraction operator
+TEST(GraphicsVector, VectorSubtractionOperator)
+{
+    const gfx::Vector vec_a{ 1.0, 2.0, -3.0 };
+    const gfx::Vector vec_b{ 5.0, -4.5, 7.1 };
+
+    const gfx::Vector vec_c = vec_a - vec_b;
+
+    EXPECT_FLOAT_EQ(vec_c.x(), -4.0);
+    EXPECT_FLOAT_EQ(vec_c.y(), 6.5);
+    EXPECT_FLOAT_EQ(vec_c.z(), -10.1);
+    EXPECT_FLOAT_EQ(vec_c.w(), 0.0);
+}
+
+// Tests vector-vector subtraction with the shorthand subtraction operator
+TEST(GraphicsVector, VectorSubtractionShorthandOperator)
+{
+    gfx::Vector vec_a{ 1.0, 2.0, -3.0 };
+    const gfx::Vector vec_b{ 5.0, -4.5, 7.1 };
+
+    vec_a -= vec_b;
+
+    EXPECT_FLOAT_EQ(vec_a.x(), -4.0);
+    EXPECT_FLOAT_EQ(vec_a.y(), 6.5);
+    EXPECT_FLOAT_EQ(vec_a.z(), -10.1);
+    EXPECT_FLOAT_EQ(vec_a.w(), 0.0);
+}
