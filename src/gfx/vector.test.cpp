@@ -68,7 +68,7 @@ TEST(GraphicsVector, InequalityOperator)
 }
 
 // Tests vector-vector addition with the addition operator
-TEST(GraphicsVector, VectorVectorAddition)
+TEST(GraphicsVector, VectorAdditionOperator)
 {
     const gfx::Vector vec_a{ 1.0, 2.0, -3.0 };
     const gfx::Vector vec_b{ 5.0, -4.5, 7.1 };
@@ -79,4 +79,18 @@ TEST(GraphicsVector, VectorVectorAddition)
     EXPECT_FLOAT_EQ(vec_c.y(), -2.5);
     EXPECT_FLOAT_EQ(vec_c.z(), 4.1);
     EXPECT_FLOAT_EQ(vec_c.w(), 0.0);
+}
+
+// Tests vector-vector addition with the shorthand addition operator
+TEST(GraphicsVector, VectorAdditionShorthandOperator)
+{
+    gfx::Vector vec_a{ 1.0, 2.0, -3.0 };
+    const gfx::Vector vec_b{ 5.0, -4.5, 7.1 };
+
+    vec_a += vec_b;
+
+    EXPECT_FLOAT_EQ(vec_a.x(), 6.0);
+    EXPECT_FLOAT_EQ(vec_a.y(), -2.5);
+    EXPECT_FLOAT_EQ(vec_a.z(), 4.1);
+    EXPECT_FLOAT_EQ(vec_a.w(), 0.0);
 }
