@@ -26,6 +26,7 @@ namespace gfx {
         // Operations
         [[nodiscard]] bool operator==(const Vector& rhs) const;
         Vector& operator+=(const Vector& rhs);
+        Vector& operator-=(const Vector& rhs);
 
 
     private:
@@ -37,4 +38,5 @@ namespace gfx {
 
     // Global Operators
     [[nodiscard]] Vector operator+(const Vector& lhs, const Vector& rhs);
+    [[nodiscard]] Vector operator-(const Vector& lhs, const Vector& rhs);
 }

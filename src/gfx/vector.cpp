@@ -10,6 +10,7 @@ bool gfx::Vector::operator==(const Vector& rhs) const
         && utils::areEqual(m_w, rhs.w());
 }
 
+// Vector Addition Shorthand Operator
 gfx::Vector& gfx::Vector::operator+=(const Vector& rhs)
 {
     m_x += rhs.x();
@@ -20,7 +21,24 @@ gfx::Vector& gfx::Vector::operator+=(const Vector& rhs)
     return *this;
 }
 
+gfx::Vector& gfx::Vector::operator-=(const Vector& rhs)
+{
+    m_x -= rhs.x();
+    m_y -= rhs.y();
+    m_z -= rhs.z();
+    m_w -= rhs.w();
+
+    return *this;
+}
+
+// Vector Addition Operator
 gfx::Vector gfx::operator+(const Vector& lhs, const Vector& rhs)
 {
     return gfx::Vector{ lhs.x() + rhs.x(), lhs.y() + rhs.y(), lhs.z() + rhs.z() };
+}
+
+// Vector Subtraction Operator
+gfx::Vector gfx::operator-(const Vector& lhs, const Vector& rhs)
+{
+    return gfx::Vector{ lhs.x() - rhs.x(), lhs.y() - rhs.y(), lhs.z() - rhs.z() };
 };
