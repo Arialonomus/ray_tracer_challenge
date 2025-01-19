@@ -1,7 +1,6 @@
 #include "point.hpp"
 #include "../utils/util_functions.hpp"
 
-
 // Comparison Operator
 bool gfx::Point::operator==(const Point& rhs) const
 {

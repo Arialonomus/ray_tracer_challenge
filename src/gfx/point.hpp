@@ -5,26 +5,32 @@ namespace gfx
     class Point
     {
     public:
-        // Constructors
+        /* Constructors */
+
         Point() = default;
         Point(const float x, const float y, const float z) : m_x{ x }, m_y{ y }, m_z{ z } {}
+        Point(const float x, const float y, const float z, const float w) : m_x{ x }, m_y{ y }, m_z{ z }, m_w{ w } {}
         Point(const Point&) = default;
         Point(Point&&) = default;
 
-        // Destructor
+        /* Destructor */
+
         ~Point() = default;
 
-        // Assignment Operators
+        /* Assignment Operators */
+
         Point& operator=(const Point&) = default;
         Point& operator=(Point&&) = default;
 
-        // Accessors
+        /* Accessors */
+
         [[nodiscard]] float x() const { return m_x; }
         [[nodiscard]] float y() const { return m_y; }
         [[nodiscard]] float z() const { return m_z; }
         [[nodiscard]] float w() const { return m_w; }
 
-        // Operations
+        /* Comparison Operator Overloads */
+
         [[nodiscard]] bool operator==(const Point& rhs) const;
 
     private:
