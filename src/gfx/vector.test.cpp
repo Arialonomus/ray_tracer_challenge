@@ -7,10 +7,10 @@ TEST(GraphicsVector, DefaultConstructor)
 {
     const gfx::Vector vec;
 
-    EXPECT_FLOAT_EQ(vec.x(), 0.0);
-    EXPECT_FLOAT_EQ(vec.y(), 0.0);
-    EXPECT_FLOAT_EQ(vec.z(), 0.0);
-    EXPECT_FLOAT_EQ(vec.w(), 0.0);
+    ASSERT_FLOAT_EQ(vec.x(), 0.0);
+    ASSERT_FLOAT_EQ(vec.y(), 0.0);
+    ASSERT_FLOAT_EQ(vec.z(), 0.0);
+    ASSERT_FLOAT_EQ(vec.w(), 0.0);
 }
 
 // Tests the standard constructor
@@ -18,10 +18,10 @@ TEST(GraphicsVector, Constructor)
 {
     const gfx::Vector vec{ 4.0, -4.0, 3.0 };
 
-    EXPECT_FLOAT_EQ(vec.x(), 4.0);
-    EXPECT_FLOAT_EQ(vec.y(), -4.0);
-    EXPECT_FLOAT_EQ(vec.z(), 3.0);
-    EXPECT_FLOAT_EQ(vec.w(), 0.0);
+    ASSERT_FLOAT_EQ(vec.x(), 4.0);
+    ASSERT_FLOAT_EQ(vec.y(), -4.0);
+    ASSERT_FLOAT_EQ(vec.z(), 3.0);
+    ASSERT_FLOAT_EQ(vec.w(), 0.0);
 }
 
 // Tests the homogeneous coordinate constructor
@@ -29,10 +29,10 @@ TEST(GraphicsVector, HomogeneousConstructor)
 {
     const gfx::Vector vec{ 4.0, -4.0, 3.0, 0.5 };
 
-    EXPECT_FLOAT_EQ(vec.x(), 4.0);
-    EXPECT_FLOAT_EQ(vec.y(), -4.0);
-    EXPECT_FLOAT_EQ(vec.z(), 3.0);
-    EXPECT_FLOAT_EQ(vec.w(), 0.5);
+    ASSERT_FLOAT_EQ(vec.x(), 4.0);
+    ASSERT_FLOAT_EQ(vec.y(), -4.0);
+    ASSERT_FLOAT_EQ(vec.z(), 3.0);
+    ASSERT_FLOAT_EQ(vec.w(), 0.5);
 }
 
 // Tests the copy constructor
@@ -41,10 +41,10 @@ TEST(GraphicsVector, CopyConstructor)
     const gfx::Vector vec_src{ 4.0, -4.0, 3.0 };
     const gfx::Vector vec_cpy{ vec_src };
 
-    EXPECT_FLOAT_EQ(vec_cpy.x(), 4.0);
-    EXPECT_FLOAT_EQ(vec_cpy.y(), -4.0);
-    EXPECT_FLOAT_EQ(vec_cpy.z(), 3.0);
-    EXPECT_FLOAT_EQ(vec_cpy.w(), 0.0);
+    ASSERT_FLOAT_EQ(vec_cpy.x(), 4.0);
+    ASSERT_FLOAT_EQ(vec_cpy.y(), -4.0);
+    ASSERT_FLOAT_EQ(vec_cpy.z(), 3.0);
+    ASSERT_FLOAT_EQ(vec_cpy.w(), 0.0);
 }
 
 // Tests the assignment operator
@@ -55,10 +55,10 @@ TEST(GraphicsVector, AssignmentOperator)
 
     vec_a = vec_b;
 
-    EXPECT_FLOAT_EQ(vec_a.x(), 17.0);
-    EXPECT_FLOAT_EQ(vec_a.y(), -3.5);
-    EXPECT_FLOAT_EQ(vec_a.z(), 1.2);
-    EXPECT_FLOAT_EQ(vec_a.w(), 0.0);
+    ASSERT_FLOAT_EQ(vec_a.x(), 17.0);
+    ASSERT_FLOAT_EQ(vec_a.y(), -3.5);
+    ASSERT_FLOAT_EQ(vec_a.z(), 1.2);
+    ASSERT_FLOAT_EQ(vec_a.w(), 0.0);
 }
 
 // Tests the comparison operator
@@ -254,10 +254,10 @@ TEST(GraphicsVector, Magnitude)
     const gfx::Vector vec_c{ 1.0, 2.0, 3.0 };
     const gfx::Vector vec_d{ -1.0, -2.0, -3.0 };
 
-    EXPECT_FLOAT_EQ(vec_a.magnitude(), 1.0);
-    EXPECT_FLOAT_EQ(vec_b.magnitude(), 1.0);
-    EXPECT_FLOAT_EQ(vec_c.magnitude(), std::sqrt(14));
-    EXPECT_FLOAT_EQ(vec_d.magnitude(), std::sqrt(14));
+    ASSERT_FLOAT_EQ(vec_a.magnitude(), 1.0);
+    ASSERT_FLOAT_EQ(vec_b.magnitude(), 1.0);
+    ASSERT_FLOAT_EQ(vec_c.magnitude(), std::sqrt(14));
+    ASSERT_FLOAT_EQ(vec_d.magnitude(), std::sqrt(14));
 }
 
 // Test the normalize function for vectors
