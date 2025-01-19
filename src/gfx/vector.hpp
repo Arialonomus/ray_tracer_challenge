@@ -46,6 +46,9 @@ namespace gfx {
         // Returns a float representing the magnitude of the vector
         [[nodiscard]] float magnitude() const;
 
+        // Returns a vector representing the cross product of this vector and the input vector
+        [[nodiscard]] Vector crossProduct(const Vector& rhs) const;
+
     private:
         float m_x{ 0.0 };
         float m_y{ 0.0 };

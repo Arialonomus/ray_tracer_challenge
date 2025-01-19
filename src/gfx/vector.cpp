@@ -80,6 +80,11 @@ float gfx::Vector::magnitude() const
     return std::sqrt(std::pow(m_x, 2) + std::pow(m_y, 2) + std::pow(m_z, 2) + std::pow(m_w, 2));
 }
 
+gfx::Vector gfx::Vector::crossProduct(const Vector& rhs) const
+{
+    return Vector{ m_y * rhs.z() - m_z * rhs.y(), m_z * rhs.x() - m_x * rhs.z(), m_x * rhs.y() - m_y * rhs.x() };
+}
+
 // Vector Addition Operator
 gfx::Vector gfx::operator+(const Vector& lhs, const Vector& rhs)
 {
@@ -116,4 +121,3 @@ float gfx::dotProduct(const Vector& lhs, const Vector& rhs)
 {
     return lhs.x() * rhs.x() + lhs.y() * rhs.y() + lhs.z() * rhs.z() + lhs.w() * rhs.w();
 }
-;
