@@ -28,15 +28,23 @@ namespace gfx {
         [[nodiscard]] float z() const { return m_z; }
         [[nodiscard]] float w() const { return m_w; }
 
-        /* Operations */
+        /* Comparison Operator Overloads */
 
         [[nodiscard]] bool operator==(const Vector& rhs) const;
+
+        /* Arithmetic Operator Overloads */
+
         [[nodiscard]] Vector operator/(float scalar) const;
+        [[nodiscard]] Vector operator-() const;
         Vector& operator+=(const Vector& rhs);
         Vector& operator-=(const Vector& rhs);
         Vector& operator*=(float scalar);
         Vector& operator/=(float scalar);
-        [[nodiscard]] Vector operator-() const;
+
+        /* Vector Operations */
+
+        // Returns a float representing the magnitude of the vector
+        [[nodiscard]] float magnitude() const;
 
 
     private:
@@ -46,7 +54,7 @@ namespace gfx {
         float m_w{ 0.0 };
     };
 
-    /* Global Operators */
+    /* Global Arithmetic Operator Overloads */
 
     [[nodiscard]] Vector operator+(const Vector& lhs, const Vector& rhs);
     [[nodiscard]] Vector operator-(const Vector& lhs, const Vector& rhs);

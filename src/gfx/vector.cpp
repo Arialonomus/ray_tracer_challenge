@@ -1,6 +1,7 @@
 #include "vector.hpp"
 
 #include <stdexcept>
+#include <cmath>
 
 #include "../utils/util_functions.hpp"
 
@@ -21,6 +22,12 @@ gfx::Vector gfx::Vector::operator/(const float scalar) const
         throw std::invalid_argument{ "Divide by zero." };
     }
     return Vector{ m_x / scalar, m_y / scalar, m_z / scalar, m_w / scalar };
+}
+
+// Unary Negation Operator
+gfx::Vector gfx::Vector::operator-() const
+{
+    return Vector{ -m_x, -m_y, -m_z, -m_w };
 }
 
 // Vector Addition Shorthand Operator
@@ -67,10 +74,10 @@ gfx::Vector& gfx::Vector::operator/=(const float scalar)
     return *this;
 }
 
-// Unary Negation Operator
-gfx::Vector gfx::Vector::operator-() const
+// Magnitude of the Vector
+float gfx::Vector::magnitude() const
 {
-    return Vector{ -m_x, -m_y, -m_z, -m_w };
+    return std::sqrt(std::pow(m_x, 2) + std::pow(m_y, 2) + std::pow(m_z, 2) + std::pow(m_w, 2));
 }
 
 // Vector Addition Operator
