@@ -8,6 +8,7 @@ namespace gfx {
 
         Vector() = default;
         Vector(const float x, const float y, const float z) : m_x{ x }, m_y{ y }, m_z{ z } {}
+        Vector(const float x, const float y, const float z, const float w) : m_x{ x }, m_y{ y }, m_z{ z }, m_w{ w } {}
         Vector(const Vector&) = default;
         Vector(Vector&&) = default;
 
