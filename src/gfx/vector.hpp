@@ -32,6 +32,7 @@ namespace gfx {
         [[nodiscard]] bool operator==(const Vector& rhs) const;
         Vector& operator+=(const Vector& rhs);
         Vector& operator-=(const Vector& rhs);
+        Vector& operator*=(float scalar);
         [[nodiscard]] Vector operator-() const;
 
 
@@ -46,4 +47,6 @@ namespace gfx {
 
     [[nodiscard]] Vector operator+(const Vector& lhs, const Vector& rhs);
     [[nodiscard]] Vector operator-(const Vector& lhs, const Vector& rhs);
+    [[nodiscard]] Vector operator*(const Vector& lhs, float rhs);
+    [[nodiscard]] Vector operator*(float lhs, const Vector& rhs);
 }

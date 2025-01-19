@@ -21,12 +21,24 @@ gfx::Vector& gfx::Vector::operator+=(const Vector& rhs)
     return *this;
 }
 
+// Vector Subtraction Shorthand Operator
 gfx::Vector& gfx::Vector::operator-=(const Vector& rhs)
 {
     m_x -= rhs.x();
     m_y -= rhs.y();
     m_z -= rhs.z();
     m_w -= rhs.w();
+
+    return *this;
+}
+
+// Scalar Multiplication Shorthand Operator
+gfx::Vector& gfx::Vector::operator*=(const float scalar)
+{
+    m_x *= scalar;
+    m_y *= scalar;
+    m_z *= scalar;
+    m_w *= scalar;
 
     return *this;
 }
@@ -40,11 +52,23 @@ gfx::Vector gfx::Vector::operator-() const
 // Vector Addition Operator
 gfx::Vector gfx::operator+(const Vector& lhs, const Vector& rhs)
 {
-    return gfx::Vector{ lhs.x() + rhs.x(), lhs.y() + rhs.y(), lhs.z() + rhs.z() };
+    return Vector{ lhs.x() + rhs.x(), lhs.y() + rhs.y(), lhs.z() + rhs.z() };
 }
 
 // Vector Subtraction Operator
 gfx::Vector gfx::operator-(const Vector& lhs, const Vector& rhs)
 {
-    return gfx::Vector{ lhs.x() - rhs.x(), lhs.y() - rhs.y(), lhs.z() - rhs.z() };
+    return Vector{ lhs.x() - rhs.x(), lhs.y() - rhs.y(), lhs.z() - rhs.z() };
+}
+
+// Scalar Multiplication Operator (Vector Left-Hand)
+gfx::Vector gfx::operator*(const Vector& lhs, const float rhs)
+{
+    return Vector{ lhs.x() * rhs, lhs.y() * rhs, lhs.z() * rhs };
+}
+
+// Scalar Multiplication Operator (Vector Right-Hand)
+gfx::Vector gfx::operator*(const float lhs, const Vector& rhs)
+{
+    return rhs * lhs;
 };
