@@ -41,3 +41,11 @@ TEST(RTPoint, ComparisonOperator)
 
     EXPECT_TRUE(pt_a == pt_b);
 }
+
+TEST(RTPoint, InequalityOperator)
+{
+    const gfx::Point pt_a{ 4.0, -4.0, 3.0 };
+    const gfx::Point pt_b{ 0.0, 5.0, -2.0 };
+
+    EXPECT_TRUE(pt_a != pt_b);
+}
