@@ -2,7 +2,7 @@
 #include "point.hpp"
 
 // Tests the default constructor
-TEST(RTPoint, DefaultConstructor)
+TEST(GraphicsPoint, DefaultConstructor)
 {
     const gfx::Point pt;
 
@@ -13,7 +13,7 @@ TEST(RTPoint, DefaultConstructor)
 }
 
 // Tests the standard constructor
-TEST(RTPoint, Constructor)
+TEST(GraphicsPoint, Constructor)
 {
     const gfx::Point pt{ 4.0, -4.0, 3.0 };
 
@@ -23,7 +23,7 @@ TEST(RTPoint, Constructor)
     EXPECT_FLOAT_EQ(pt.w(), 1.0);
 }
 
-TEST(RTPoint, CopyConstructor)
+TEST(GraphicsPoint, CopyConstructor)
 {
     const gfx::Point pt_src{ 4.0, -4.0, 3.0 };
     const gfx::Point pt_cpy{ pt_src };
@@ -34,7 +34,7 @@ TEST(RTPoint, CopyConstructor)
     EXPECT_FLOAT_EQ(pt_cpy.w(), 1.0);
 }
 
-TEST(RTPoint, ComparisonOperator)
+TEST(GraphicsPoint, ComparisonOperator)
 {
     const gfx::Point pt_a{ 4.0, -4.0, 3.0 };
     const gfx::Point pt_b{ 4.0, -4.0, 3.0 };
@@ -42,7 +42,7 @@ TEST(RTPoint, ComparisonOperator)
     EXPECT_TRUE(pt_a == pt_b);
 }
 
-TEST(RTPoint, InequalityOperator)
+TEST(GraphicsPoint, InequalityOperator)
 {
     const gfx::Point pt_a{ 4.0, -4.0, 3.0 };
     const gfx::Point pt_b{ 0.0, 5.0, -2.0 };
