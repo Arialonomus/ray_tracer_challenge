@@ -54,4 +54,5 @@ namespace gfx
 
     [[nodiscard]] Point operator+(const Point& lhs, const Vector& rhs);
     [[nodiscard]] Point operator+(const Vector& lhs, const Point& rhs);
+    [[nodiscard]] Vector operator-(const Point& lhs, const Point& rhs);
 }

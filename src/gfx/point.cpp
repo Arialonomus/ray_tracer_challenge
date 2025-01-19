@@ -51,3 +51,9 @@ gfx::Point gfx::operator+(const Vector& lhs, const Point& rhs)
 {
     return Point{ lhs.x() + rhs.x(), lhs.y() + rhs.y(), lhs.z() + rhs.z() };
 }
+
+// Vector Distance Operator
+gfx::Vector gfx::operator-(const Point& lhs, const Point& rhs)
+{
+    return Vector{ lhs.x() - rhs.x(), lhs.y() - rhs.y(), lhs.z() - rhs.z() };
+}
