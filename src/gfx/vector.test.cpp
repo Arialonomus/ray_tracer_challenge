@@ -1,4 +1,5 @@
 #include <pch.h>
+#include <cmath>
 #include "vector.hpp"
 
 // Tests the default constructor
@@ -243,4 +244,18 @@ TEST(GraphicsVector, ScalarDivisionShorthand)
     EXPECT_FLOAT_EQ(vec.y(), -1.0);
     EXPECT_FLOAT_EQ(vec.z(), 1.5);
     EXPECT_FLOAT_EQ(vec.w(), -2.0);
+}
+
+// Tests the magnitude member function
+TEST(GraphicsVector, Magnitude)
+{
+    const gfx::Vector vec_a{ 0.0, 1.0, 0.0 };
+    const gfx::Vector vec_b{ 0.0, 0.0, 1.0 };
+    const gfx::Vector vec_c{ 1.0, 2.0, 3.0 };
+    const gfx::Vector vec_d{ -1.0, -2.0, -3.0 };
+
+    EXPECT_FLOAT_EQ(vec_a.magnitude(), 1.0);
+    EXPECT_FLOAT_EQ(vec_b.magnitude(), 1.0);
+    EXPECT_FLOAT_EQ(vec_c.magnitude(), std::sqrt(14));
+    EXPECT_FLOAT_EQ(vec_d.magnitude(), std::sqrt(14));
 }
