@@ -31,6 +31,12 @@ gfx::Vector& gfx::Vector::operator-=(const Vector& rhs)
     return *this;
 }
 
+// Unary Negation Operator
+gfx::Vector gfx::Vector::operator-() const
+{
+    return Vector{ -m_x, -m_y, -m_z };
+}
+
 // Vector Addition Operator
 gfx::Vector gfx::operator+(const Vector& lhs, const Vector& rhs)
 {
