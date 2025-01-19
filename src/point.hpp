@@ -5,7 +5,7 @@ class Point
 public:
     // Constructors
     Point() = default;
-    Point(float x, float y, float z);
+    Point(const float x, const float y, const float z) : m_x{ x }, m_y{ y }, m_z{ z } {}
     Point(Point&) = default;
 
     // Destructor
