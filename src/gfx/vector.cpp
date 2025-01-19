@@ -52,19 +52,19 @@ gfx::Vector gfx::Vector::operator-() const
 // Vector Addition Operator
 gfx::Vector gfx::operator+(const Vector& lhs, const Vector& rhs)
 {
-    return Vector{ lhs.x() + rhs.x(), lhs.y() + rhs.y(), lhs.z() + rhs.z() };
+    return Vector{ lhs.x() + rhs.x(), lhs.y() + rhs.y(), lhs.z() + rhs.z(), lhs.w() + rhs.w() };
 }
 
 // Vector Subtraction Operator
 gfx::Vector gfx::operator-(const Vector& lhs, const Vector& rhs)
 {
-    return Vector{ lhs.x() - rhs.x(), lhs.y() - rhs.y(), lhs.z() - rhs.z() };
+    return Vector{ lhs.x() - rhs.x(), lhs.y() - rhs.y(), lhs.z() - rhs.z(), lhs.w() - rhs.w() };
 }
 
 // Scalar Multiplication Operator (Vector Left-Hand)
 gfx::Vector gfx::operator*(const Vector& lhs, const float rhs)
 {
-    return Vector{ lhs.x() * rhs, lhs.y() * rhs, lhs.z() * rhs };
+    return Vector{ lhs.x() * rhs, lhs.y() * rhs, lhs.z() * rhs, lhs.w() * rhs };
 }
 
 // Scalar Multiplication Operator (Vector Right-Hand)
