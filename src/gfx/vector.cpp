@@ -1,4 +1,7 @@
 #include "vector.hpp"
+
+#include <stdexcept>
+
 #include "../utils/util_functions.hpp"
 
 // Comparison Operator
@@ -8,6 +11,16 @@ bool gfx::Vector::operator==(const Vector& rhs) const
         && utils::areEqual(m_y, rhs.y())
         && utils::areEqual(m_z, rhs.z())
         && utils::areEqual(m_w, rhs.w());
+}
+
+// Scalar Division Operator
+gfx::Vector gfx::Vector::operator/(const float scalar) const
+{
+    if (scalar == 0.0)
+    {
+        throw std::invalid_argument{ "Divide by zero." };
+    }
+    return Vector{ m_x / scalar, m_y / scalar, m_z / scalar, m_w / scalar };
 }
 
 // Vector Addition Shorthand Operator
@@ -43,10 +56,21 @@ gfx::Vector& gfx::Vector::operator*=(const float scalar)
     return *this;
 }
 
+// Scalar Division Shorthand Operator
+gfx::Vector& gfx::Vector::operator/=(const float scalar)
+{
+    m_x /= scalar;
+    m_y /= scalar;
+    m_z /= scalar;
+    m_w /= scalar;
+
+    return *this;
+}
+
 // Unary Negation Operator
 gfx::Vector gfx::Vector::operator-() const
 {
-    return Vector{ -m_x, -m_y, -m_z };
+    return Vector{ -m_x, -m_y, -m_z, -m_w };
 }
 
 // Vector Addition Operator

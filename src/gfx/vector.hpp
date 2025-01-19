@@ -31,9 +31,11 @@ namespace gfx {
         /* Operations */
 
         [[nodiscard]] bool operator==(const Vector& rhs) const;
+        [[nodiscard]] Vector operator/(float scalar) const;
         Vector& operator+=(const Vector& rhs);
         Vector& operator-=(const Vector& rhs);
         Vector& operator*=(float scalar);
+        Vector& operator/=(float scalar);
         [[nodiscard]] Vector operator-() const;
 
 
