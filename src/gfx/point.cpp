@@ -1,5 +1,5 @@
 #include "point.hpp"
-#include "utils/util_functions.hpp"
+#include "../utils/util_functions.hpp"
 
 
 // Comparison Operator
