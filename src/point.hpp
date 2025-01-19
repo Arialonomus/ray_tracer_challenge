@@ -6,7 +6,7 @@ public:
     // Constructors
     Point() = default;
     Point(const float x, const float y, const float z) : m_x{ x }, m_y{ y }, m_z{ z } {}
-    Point(Point&) = default;
+    Point(const Point&) = default;
 
     // Destructor
     ~Point() = default;
