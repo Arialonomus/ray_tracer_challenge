@@ -138,7 +138,7 @@ TEST(GraphicsVector, SubtractionFromZeroVector)
 }
 
 // Tests unary negation operator
-TEST(GraphicsVector, VectorNegationOperator)
+TEST(GraphicsVector, NegationOperator)
 {
     const gfx::Vector vec_a{ 15.6, -2.2, 0.0 };
 
@@ -148,4 +148,46 @@ TEST(GraphicsVector, VectorNegationOperator)
     EXPECT_FLOAT_EQ(vec_b.y(), 2.2);
     EXPECT_FLOAT_EQ(vec_b.z(), 0.0);
     EXPECT_FLOAT_EQ(vec_b.w(), 0.0);
+}
+
+// Tests scalar multiplication when the vector is the left-hand operand
+TEST(GraphicsVector, ScalarMultplicationLeft)
+{
+    const gfx::Vector vec{ 1.0, -2.0, 3.0 };
+    constexpr float scalar = 3.5;
+
+    const gfx::Vector vec_scaled = vec * scalar;
+
+    EXPECT_FLOAT_EQ(vec_scaled.x(), 3.5);
+    EXPECT_FLOAT_EQ(vec_scaled.y(), -7.0);
+    EXPECT_FLOAT_EQ(vec_scaled.z(), 10.5);
+    EXPECT_FLOAT_EQ(vec_scaled.w(), 0.0);
+}
+
+// Tests scalar multiplication when the vector is the right-hand operand
+TEST(GraphicsVector, ScalarMultplicationRight)
+{
+    const gfx::Vector vec{ 1.0, -2.0, 3.0 };
+    constexpr float scalar = 3.5;
+
+    const gfx::Vector vec_scaled = scalar * vec;
+
+    EXPECT_FLOAT_EQ(vec_scaled.x(), 3.5);
+    EXPECT_FLOAT_EQ(vec_scaled.y(), -7.0);
+    EXPECT_FLOAT_EQ(vec_scaled.z(), 10.5);
+    EXPECT_FLOAT_EQ(vec_scaled.w(), 0.0);
+}
+
+// Tests scalar multiplication using the shorthand multiplication operator
+TEST(GraphicsVector, ScalarMultplicationShorthand)
+{
+    gfx::Vector vec{ 1.0, -2.0, 3.0 };
+    constexpr float scalar = 3.5;
+
+    vec *= scalar;
+
+    EXPECT_FLOAT_EQ(vec.x(), 3.5);
+    EXPECT_FLOAT_EQ(vec.y(), -7.0);
+    EXPECT_FLOAT_EQ(vec.z(), 10.5);
+    EXPECT_FLOAT_EQ(vec.w(), 0.0);
 }
