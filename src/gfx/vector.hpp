@@ -25,6 +25,8 @@ namespace gfx {
 
         // Operations
         [[nodiscard]] bool operator==(const Vector& rhs) const;
+        Vector& operator+=(const Vector& rhs);
+
 
     private:
         float m_x{ 0.0 };

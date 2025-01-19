@@ -10,6 +10,16 @@ bool gfx::Vector::operator==(const Vector& rhs) const
         && utils::areEqual(m_w, rhs.w());
 }
 
+gfx::Vector& gfx::Vector::operator+=(const Vector& rhs)
+{
+    m_x += rhs.x();
+    m_y += rhs.y();
+    m_z += rhs.z();
+    m_w += rhs.w();
+
+    return *this;
+}
+
 gfx::Vector gfx::operator+(const Vector& lhs, const Vector& rhs)
 {
     return gfx::Vector{ lhs.x() + rhs.x(), lhs.y() + rhs.y(), lhs.z() + rhs.z() };
