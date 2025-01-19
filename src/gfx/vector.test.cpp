@@ -280,3 +280,16 @@ TEST(GraphicsVector, Normalize)
     EXPECT_FLOAT_EQ(vec_b_norm.z(), 3.0 / std::sqrt(14));
     EXPECT_FLOAT_EQ(vec_b_norm.w(), 0.0);
 }
+
+// Test the dot product function for vectors, and show commutativity
+TEST(GraphicsVector, DotProduct)
+{
+    const gfx::Vector vec_a{ 1.0, 2.0, 3.0 };
+    const gfx::Vector vec_b{ 2.0, 3.0, 4.0 };
+
+    const float dot_l = dotProduct(vec_a, vec_b);
+    const float dot_r = dotProduct(vec_b, vec_a);
+
+    EXPECT_FLOAT_EQ(dot_l, 20.0);
+    EXPECT_FLOAT_EQ(dot_r, 20.0);
+}
