@@ -216,3 +216,31 @@ TEST(GraphicsVector, ScalarMultplicationFraction)
     EXPECT_FLOAT_EQ(vec_scaled.z(), 1.5);
     EXPECT_FLOAT_EQ(vec_scaled.w(), -2.0);
 }
+
+// Tests scalar division using the division operator
+TEST(GraphicsVector, ScalarDivision)
+{
+    const gfx::Vector vec{ 1.0, -2.0, 3.0, -4.0 };
+    constexpr float scalar = 2.0;
+
+    const gfx::Vector vec_scaled = vec / scalar;
+
+    EXPECT_FLOAT_EQ(vec_scaled.x(), 0.5);
+    EXPECT_FLOAT_EQ(vec_scaled.y(), -1.0);
+    EXPECT_FLOAT_EQ(vec_scaled.z(), 1.5);
+    EXPECT_FLOAT_EQ(vec_scaled.w(), -2.0);
+}
+
+// Tests scalar division using the shorthand division operator
+TEST(GraphicsVector, ScalarDivisionShorthand)
+{
+    gfx::Vector vec{ 1.0, -2.0, 3.0, -4.0 };
+    constexpr float scalar = 2.0;
+
+    vec /= scalar;
+
+    EXPECT_FLOAT_EQ(vec.x(), 0.5);
+    EXPECT_FLOAT_EQ(vec.y(), -1.0);
+    EXPECT_FLOAT_EQ(vec.z(), 1.5);
+    EXPECT_FLOAT_EQ(vec.w(), -2.0);
+}
