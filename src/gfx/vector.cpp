@@ -102,4 +102,10 @@ gfx::Vector gfx::operator*(const Vector& lhs, const float rhs)
 gfx::Vector gfx::operator*(const float lhs, const Vector& rhs)
 {
     return rhs * lhs;
+}
+
+gfx::Vector gfx::normalize(const Vector& src)
+{
+    const float magnitude = src.magnitude();
+    return Vector{ src.x() / magnitude, src.y() / magnitude, src.z() / magnitude, src.w() / magnitude };
 };

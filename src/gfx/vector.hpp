@@ -60,4 +60,10 @@ namespace gfx {
     [[nodiscard]] Vector operator-(const Vector& lhs, const Vector& rhs);
     [[nodiscard]] Vector operator*(const Vector& lhs, float rhs);
     [[nodiscard]] Vector operator*(float lhs, const Vector& rhs);
+
+    /* Global Vector Operations */
+
+    // Returns a normalized version of the input vector, i.e. a vector with the
+    // same direction but a magnitude of 1
+    [[nodiscard]] Vector normalize(const Vector& src);
 }
