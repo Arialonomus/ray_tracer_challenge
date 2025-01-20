@@ -73,7 +73,7 @@ TEST(GraphicsColor, ColorAdditionShorthandOperator)
     EXPECT_FLOAT_EQ(clr_a.b(), 1.0);
 }
 
-// Tests color addition with the addition operator
+// Tests color subtraction with the subtraction operator
 TEST(GraphicsColor, ColorSubtractionOperator)
 {
     const gfx::Color clr_a{ 0.9, 0.6, 0.75 };
@@ -86,7 +86,7 @@ TEST(GraphicsColor, ColorSubtractionOperator)
     EXPECT_FLOAT_EQ(clr_c.b(), 0.5);
 }
 
-// Tests color addition with the addition shorthand operator
+// Tests color subtraction with the subtraction shorthand operator
 TEST(GraphicsColor, ColorSubtractionShorthandOperator)
 {
     gfx::Color clr_a{ 0.9, 0.6, 0.75 };
@@ -97,4 +97,30 @@ TEST(GraphicsColor, ColorSubtractionShorthandOperator)
     EXPECT_FLOAT_EQ(clr_a.r(), 0.2);
     EXPECT_FLOAT_EQ(clr_a.g(), 0.5);
     EXPECT_FLOAT_EQ(clr_a.b(), 0.5);
+}
+
+// Tests color scalar multiplication with the multiplication operator
+TEST(GraphicsColor, ColorScalarMultiplicationOperator)
+{
+    const gfx::Color clr{ 0.2, 0.3, 0.4 };
+    constexpr float scalar = 2.0;
+
+    const gfx::Color clr_scaled = clr * scalar;
+
+    EXPECT_FLOAT_EQ(clr_scaled.r(), 0.4);
+    EXPECT_FLOAT_EQ(clr_scaled.g(), 0.6);
+    EXPECT_FLOAT_EQ(clr_scaled.b(), 0.8);
+}
+
+// Tests color scalar multiplication with the multiplication shorthand operator
+TEST(GraphicsColor, ColorScalarMultiplicationShorthandOperator)
+{
+    gfx::Color clr{ 0.2, 0.3, 0.4 };
+    constexpr float scalar = 2.0;
+
+    clr *= scalar;
+
+    EXPECT_FLOAT_EQ(clr.r(), 0.4);
+    EXPECT_FLOAT_EQ(clr.g(), 0.6);
+    EXPECT_FLOAT_EQ(clr.b(), 0.8);
 }
