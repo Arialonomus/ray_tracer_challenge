@@ -91,13 +91,13 @@ gfx::Vector4 gfx::Vector4::crossProduct(const Vector4& rhs) const
     return Vector4{ m_y * rhs.z() - m_z * rhs.y(), m_z * rhs.x() - m_x * rhs.z(), m_x * rhs.y() - m_y * rhs.x(), 0.0 };
 }
 
-// Returns a Vector4 representing a vector in space
+// Vector Factory Function
 gfx::Vector4 gfx::vector(const float x, const float y, const float z)
 {
     return Vector4{ x, y, z, 0.0 };
 }
 
-// Returns a Vector4 representing a point in space
+// Point Factory Function
 gfx::Vector4 gfx::point(const float x, const float y, const float z)
 {
     return Vector4{ x, y, z, 1.0 };
