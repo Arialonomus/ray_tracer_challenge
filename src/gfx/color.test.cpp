@@ -45,3 +45,30 @@ TEST(GraphicsColor, AssignmentOperator)
     ASSERT_FLOAT_EQ(clr_a.g(), 0.4);
     ASSERT_FLOAT_EQ(clr_a.b(), 1.7);
 }
+
+
+// Tests color addition with the addition operator
+TEST(GraphicsColor, ColorAdditionOperator)
+{
+    const gfx::Color clr_a{ 0.9, 0.6, 0.75 };
+    const gfx::Color clr_b{ 0.7, 0.1, 0.25 };
+
+    const gfx::Color clr_c = clr_a + clr_b;
+
+    EXPECT_FLOAT_EQ(clr_c.r(), 1.6);
+    EXPECT_FLOAT_EQ(clr_c.g(), 0.7);
+    EXPECT_FLOAT_EQ(clr_c.b(), 1.0);
+}
+
+// Tests color addition with the addition shorthand operator
+TEST(GraphicsColor, ColorAdditionShorthandOperator)
+{
+    gfx::Color clr_a{ 0.9, 0.6, 0.75 };
+    const gfx::Color clr_b{ 0.7, 0.1, 0.25 };
+
+    clr_a += clr_b;
+
+    EXPECT_FLOAT_EQ(clr_a.r(), 1.6);
+    EXPECT_FLOAT_EQ(clr_a.g(), 0.7);
+    EXPECT_FLOAT_EQ(clr_a.b(), 1.0);
+}
