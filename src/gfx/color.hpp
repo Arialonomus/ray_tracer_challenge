@@ -27,9 +27,17 @@ namespace gfx
         [[nodiscard]] float g() const { return m_g; }
         [[nodiscard]] float b() const { return m_b; }
 
+        /* Arithmetic Operator Overloads */
+
+        Color& operator+=(const Color& rhs);
+
     private:
         float m_r{ 0.0 };
         float m_g{ 0.0 };
         float m_b{ 0.0 };
     };
+
+    /* Global Arithmetic Operator Overloads */
+
+    [[nodiscard]] Color operator+(const Color& lhs, const Color& rhs);
 }
