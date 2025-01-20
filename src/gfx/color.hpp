@@ -30,6 +30,7 @@ namespace gfx
         /* Arithmetic Operator Overloads */
 
         Color& operator+=(const Color& rhs);
+        Color& operator-=(const Color& rhs);
 
     private:
         float m_r{ 0.0 };
@@ -40,4 +41,5 @@ namespace gfx
     /* Global Arithmetic Operator Overloads */
 
     [[nodiscard]] Color operator+(const Color& lhs, const Color& rhs);
+    [[nodiscard]] Color operator-(const Color& lhs, const Color& rhs);
 }
