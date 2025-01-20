@@ -31,6 +31,7 @@ namespace gfx
 
         Color& operator+=(const Color& rhs);
         Color& operator-=(const Color& rhs);
+        Color& operator*=(float scalar);
 
     private:
         float m_r{ 0.0 };
@@ -42,4 +43,6 @@ namespace gfx
 
     [[nodiscard]] Color operator+(const Color& lhs, const Color& rhs);
     [[nodiscard]] Color operator-(const Color& lhs, const Color& rhs);
+    [[nodiscard]] Color operator*(const Color& lhs, float rhs);
+    [[nodiscard]] Color operator*(float lhs, const Color& rhs);
 }
