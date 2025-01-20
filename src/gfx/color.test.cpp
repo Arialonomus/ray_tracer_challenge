@@ -99,7 +99,7 @@ TEST(GraphicsColor, SubtractionShorthandOperator)
     EXPECT_FLOAT_EQ(clr_a.b(), 0.5);
 }
 
-// Tests color scalar multiplication with the multiplication operator
+// Tests color scalar multiplication with the multiplication operator and shows commutativity
 TEST(GraphicsColor, ScalarMultiplicationOperator)
 {
     const gfx::Color clr{ 0.2, 0.3, 0.4 };
@@ -129,4 +129,36 @@ TEST(GraphicsColor, ScalarMultiplicationShorthandOperator)
     EXPECT_FLOAT_EQ(clr.r(), 0.4);
     EXPECT_FLOAT_EQ(clr.g(), 0.6);
     EXPECT_FLOAT_EQ(clr.b(), 0.8);
+}
+
+// Tests color multiplication (Hadamard product) with the multiplication operator and shows commutativity
+TEST(GraphicsColor, MultiplicationOperator)
+{
+    const gfx::Color clr_a{ 1.0, 0.2, 0.4 };
+    const gfx::Color clr_b{ 0.9, 1.0, 0.1 };
+
+    const gfx::Color clr_product_l = clr_a * clr_b;
+
+    EXPECT_FLOAT_EQ(clr_product_l.r(), 0.9);
+    EXPECT_FLOAT_EQ(clr_product_l.g(), 0.2);
+    EXPECT_FLOAT_EQ(clr_product_l.b(), 0.04);
+
+    const gfx::Color clr_product_r = clr_b * clr_a;
+
+    EXPECT_FLOAT_EQ(clr_product_r.r(), 0.9);
+    EXPECT_FLOAT_EQ(clr_product_r.g(), 0.2);
+    EXPECT_FLOAT_EQ(clr_product_r.b(), 0.04);
+}
+
+// Tests color multiplication (Hadamard product) with the multiplication shorthand operator
+TEST(GraphicsColor, MultiplicationShorthandOperator)
+{
+    gfx::Color clr_a{ 1.0, 0.2, 0.4 };
+    const gfx::Color clr_b{ 0.9, 1.0, 0.1 };
+
+    clr_a *= clr_b;
+
+    EXPECT_FLOAT_EQ(clr_a.r(), 0.9);
+    EXPECT_FLOAT_EQ(clr_a.g(), 0.2);
+    EXPECT_FLOAT_EQ(clr_a.b(), 0.04);
 }
