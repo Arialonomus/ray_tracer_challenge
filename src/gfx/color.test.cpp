@@ -105,11 +105,17 @@ TEST(GraphicsColor, ColorScalarMultiplicationOperator)
     const gfx::Color clr{ 0.2, 0.3, 0.4 };
     constexpr float scalar = 2.0;
 
-    const gfx::Color clr_scaled = clr * scalar;
+    const gfx::Color clr_scaled_l = clr * scalar;
 
-    EXPECT_FLOAT_EQ(clr_scaled.r(), 0.4);
-    EXPECT_FLOAT_EQ(clr_scaled.g(), 0.6);
-    EXPECT_FLOAT_EQ(clr_scaled.b(), 0.8);
+    EXPECT_FLOAT_EQ(clr_scaled_l.r(), 0.4);
+    EXPECT_FLOAT_EQ(clr_scaled_l.g(), 0.6);
+    EXPECT_FLOAT_EQ(clr_scaled_l.b(), 0.8);
+
+    const gfx::Color clr_scaled_r = scalar * clr;
+
+    EXPECT_FLOAT_EQ(clr_scaled_r.r(), 0.4);
+    EXPECT_FLOAT_EQ(clr_scaled_r.g(), 0.6);
+    EXPECT_FLOAT_EQ(clr_scaled_r.b(), 0.8);
 }
 
 // Tests color scalar multiplication with the multiplication shorthand operator
