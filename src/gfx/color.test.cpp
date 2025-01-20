@@ -48,7 +48,7 @@ TEST(GraphicsColor, AssignmentOperator)
 
 
 // Tests color addition with the addition operator
-TEST(GraphicsColor, ColorAdditionOperator)
+TEST(GraphicsColor, AdditionOperator)
 {
     const gfx::Color clr_a{ 0.9, 0.6, 0.75 };
     const gfx::Color clr_b{ 0.7, 0.1, 0.25 };
@@ -61,7 +61,7 @@ TEST(GraphicsColor, ColorAdditionOperator)
 }
 
 // Tests color addition with the addition shorthand operator
-TEST(GraphicsColor, ColorAdditionShorthandOperator)
+TEST(GraphicsColor, AdditionShorthandOperator)
 {
     gfx::Color clr_a{ 0.9, 0.6, 0.75 };
     const gfx::Color clr_b{ 0.7, 0.1, 0.25 };
@@ -74,7 +74,7 @@ TEST(GraphicsColor, ColorAdditionShorthandOperator)
 }
 
 // Tests color subtraction with the subtraction operator
-TEST(GraphicsColor, ColorSubtractionOperator)
+TEST(GraphicsColor, SubtractionOperator)
 {
     const gfx::Color clr_a{ 0.9, 0.6, 0.75 };
     const gfx::Color clr_b{ 0.7, 0.1, 0.25 };
@@ -87,7 +87,7 @@ TEST(GraphicsColor, ColorSubtractionOperator)
 }
 
 // Tests color subtraction with the subtraction shorthand operator
-TEST(GraphicsColor, ColorSubtractionShorthandOperator)
+TEST(GraphicsColor, SubtractionShorthandOperator)
 {
     gfx::Color clr_a{ 0.9, 0.6, 0.75 };
     const gfx::Color clr_b{ 0.7, 0.1, 0.25 };
@@ -100,7 +100,7 @@ TEST(GraphicsColor, ColorSubtractionShorthandOperator)
 }
 
 // Tests color scalar multiplication with the multiplication operator
-TEST(GraphicsColor, ColorScalarMultiplicationOperator)
+TEST(GraphicsColor, ScalarMultiplicationOperator)
 {
     const gfx::Color clr{ 0.2, 0.3, 0.4 };
     constexpr float scalar = 2.0;
@@ -119,7 +119,7 @@ TEST(GraphicsColor, ColorScalarMultiplicationOperator)
 }
 
 // Tests color scalar multiplication with the multiplication shorthand operator
-TEST(GraphicsColor, ColorScalarMultiplicationShorthandOperator)
+TEST(GraphicsColor, ScalarMultiplicationShorthandOperator)
 {
     gfx::Color clr{ 0.2, 0.3, 0.4 };
     constexpr float scalar = 2.0;

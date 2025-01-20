@@ -91,7 +91,7 @@ TEST(GraphicsVector4, InequalityOperator)
 }
 
 // Tests vector-vector addition with the addition operator
-TEST(GraphicsVector4, Vector4AdditionOperator)
+TEST(GraphicsVector4, AdditionOperator)
 {
     const gfx::Vector4 vec_a{ 1.0, 2.0, -3.0, 0.0 };
     const gfx::Vector4 vec_b{ 5.0, -4.5, 7.1, 1.6 };
@@ -105,7 +105,7 @@ TEST(GraphicsVector4, Vector4AdditionOperator)
 }
 
 // Tests vector-vector addition with the shorthand addition operator
-TEST(GraphicsVector4, Vector4AdditionShorthandOperator)
+TEST(GraphicsVector4, AdditionShorthandOperator)
 {
     gfx::Vector4 vec_a{ 1.0, 2.0, -3.0, 0.0 };
     const gfx::Vector4 vec_b{ 5.0, -4.5, 7.1, 1.6 };
@@ -118,8 +118,8 @@ TEST(GraphicsVector4, Vector4AdditionShorthandOperator)
     EXPECT_FLOAT_EQ(vec_a.w(), 1.6);
 }
 
-// Tests vector-vector subtraction with the subtraction operator
-TEST(GraphicsVector4, Vector4SubtractionOperator)
+// Tests the subtraction operator
+TEST(GraphicsVector4, SubtractionOperator)
 {
     const gfx::Vector4 vec_a{ 1.0, 2.0, -3.0, 0.0 };
     const gfx::Vector4 vec_b{ 5.0, -4.5, 7.1, 1.6 };
@@ -132,8 +132,8 @@ TEST(GraphicsVector4, Vector4SubtractionOperator)
     EXPECT_FLOAT_EQ(vec_c.w(), -1.6);
 }
 
-// Tests vector-vector subtraction with the shorthand subtraction operator
-TEST(GraphicsVector4, Vector4SubtractionShorthandOperator)
+// Tests the shorthand subtraction operator
+TEST(GraphicsVector4, SubtractionShorthandOperator)
 {
     gfx::Vector4 vec_a{ 1.0, 2.0, -3.0, 0.0 };
     const gfx::Vector4 vec_b{ 5.0, -4.5, 7.1, 1.6 };
@@ -147,7 +147,7 @@ TEST(GraphicsVector4, Vector4SubtractionShorthandOperator)
 }
 
 // Tests subtraction from the zero vector
-TEST(GraphicsVector4, SubtractionFromZeroVector4)
+TEST(GraphicsVector4, SubtractionFromZeroVector)
 {
     const gfx::Vector4 vec_zero{ 0.0, 0.0, 0.0, 0.0 };
     const gfx::Vector4 vec{ 1.0, 2.0, -3.0, -4.0 };
@@ -173,32 +173,25 @@ TEST(GraphicsVector4, NegationOperator)
     EXPECT_FLOAT_EQ(vec_b.w(), 4.0);
 }
 
-// Tests scalar multiplication when the vector is the left-hand operand
-TEST(GraphicsVector4, ScalarMultplicationLeft)
+// Tests scalar multiplication operator and shows commutativity
+TEST(GraphicsVector4, ScalarMultplication)
 {
     const gfx::Vector4 vec{ 1.0, -2.0, 3.0, -4.0 };
     constexpr float scalar = 3.5;
 
-    const gfx::Vector4 vec_scaled = vec * scalar;
+    const gfx::Vector4 vec_scaled_l = vec * scalar;
 
-    EXPECT_FLOAT_EQ(vec_scaled.x(), 3.5);
-    EXPECT_FLOAT_EQ(vec_scaled.y(), -7.0);
-    EXPECT_FLOAT_EQ(vec_scaled.z(), 10.5);
-    EXPECT_FLOAT_EQ(vec_scaled.w(), -14.0);
-}
+    EXPECT_FLOAT_EQ(vec_scaled_l.x(), 3.5);
+    EXPECT_FLOAT_EQ(vec_scaled_l.y(), -7.0);
+    EXPECT_FLOAT_EQ(vec_scaled_l.z(), 10.5);
+    EXPECT_FLOAT_EQ(vec_scaled_l.w(), -14.0);
 
-// Tests scalar multiplication when the vector is the right-hand operand
-TEST(GraphicsVector4, ScalarMultplicationRight)
-{
-    const gfx::Vector4 vec{ 1.0, -2.0, 3.0, -4.0 };
-    constexpr float scalar = 3.5;
+    const gfx::Vector4 vec_scaled_r = scalar * vec;
 
-    const gfx::Vector4 vec_scaled = scalar * vec;
-
-    EXPECT_FLOAT_EQ(vec_scaled.x(), 3.5);
-    EXPECT_FLOAT_EQ(vec_scaled.y(), -7.0);
-    EXPECT_FLOAT_EQ(vec_scaled.z(), 10.5);
-    EXPECT_FLOAT_EQ(vec_scaled.w(), -14.0);
+    EXPECT_FLOAT_EQ(vec_scaled_r.x(), 3.5);
+    EXPECT_FLOAT_EQ(vec_scaled_r.y(), -7.0);
+    EXPECT_FLOAT_EQ(vec_scaled_r.z(), 10.5);
+    EXPECT_FLOAT_EQ(vec_scaled_r.w(), -14.0);
 }
 
 // Tests scalar multiplication using the shorthand multiplication operator
@@ -271,7 +264,7 @@ TEST(GraphicsVector4, Magnitude)
     ASSERT_FLOAT_EQ(vec_d.magnitude(), std::sqrt(14));
 }
 
-// Test the normalize function for vectors
+// Tests the normalize function for vectors
 TEST(GraphicsVector4, Normalize)
 {
     const gfx::Vector4 vec_a{ 4.0, 0.0, 0.0, 0.0 };
@@ -292,7 +285,7 @@ TEST(GraphicsVector4, Normalize)
     EXPECT_FLOAT_EQ(vec_b_norm.w(), 0.0);
 }
 
-// Test the dot product function for vectors, and show commutativity
+// Tests the dot product function for vectors, and shows commutativity
 TEST(GraphicsVector4, DotProduct)
 {
     const gfx::Vector4 vec_a{ 1.0, 2.0, 3.0, 0.0 };
@@ -305,7 +298,7 @@ TEST(GraphicsVector4, DotProduct)
     EXPECT_FLOAT_EQ(dot_r, 20.0);
 }
 
-// Test the vector cross product member function
+// Tests the vector cross product member function
 TEST(GraphicsVector4, CrossProduct)
 {
     const gfx::Vector4 vec_a{ 1.0, 2.0, 3.0, 0.0 };
