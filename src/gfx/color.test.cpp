@@ -72,3 +72,29 @@ TEST(GraphicsColor, ColorAdditionShorthandOperator)
     EXPECT_FLOAT_EQ(clr_a.g(), 0.7);
     EXPECT_FLOAT_EQ(clr_a.b(), 1.0);
 }
+
+// Tests color addition with the addition operator
+TEST(GraphicsColor, ColorSubtractionOperator)
+{
+    const gfx::Color clr_a{ 0.9, 0.6, 0.75 };
+    const gfx::Color clr_b{ 0.7, 0.1, 0.25 };
+
+    const gfx::Color clr_c = clr_a - clr_b;
+
+    EXPECT_FLOAT_EQ(clr_c.r(), 0.2);
+    EXPECT_FLOAT_EQ(clr_c.g(), 0.5);
+    EXPECT_FLOAT_EQ(clr_c.b(), 0.5);
+}
+
+// Tests color addition with the addition shorthand operator
+TEST(GraphicsColor, ColorSubtractionShorthandOperator)
+{
+    gfx::Color clr_a{ 0.9, 0.6, 0.75 };
+    const gfx::Color clr_b{ 0.7, 0.1, 0.25 };
+
+    clr_a -= clr_b;
+
+    EXPECT_FLOAT_EQ(clr_a.r(), 0.2);
+    EXPECT_FLOAT_EQ(clr_a.g(), 0.5);
+    EXPECT_FLOAT_EQ(clr_a.b(), 0.5);
+}
