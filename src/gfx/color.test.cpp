@@ -1,4 +1,3 @@
-
 #include <pch.h>
 #include "color.hpp"
 
@@ -46,6 +45,23 @@ TEST(GraphicsColor, AssignmentOperator)
     ASSERT_FLOAT_EQ(clr_a.b(), 1.7);
 }
 
+// Tests the equality operator
+TEST(GraphicsColor, EqualityOperator)
+{
+    const gfx::Color clr_a{ -0.5, 0.4, 1.7 };
+    const gfx::Color clr_b{ -0.5, 0.4, 1.7 };
+
+    EXPECT_TRUE(clr_a == clr_b);
+}
+
+// Tests the inequality operator
+TEST(GraphicsColor, InequalityOperator)
+{
+    const gfx::Color clr_a{ 1.0, 2.0, 3.0 };
+    const gfx::Color clr_b{ -0.5, 0.4, 1.7 };
+
+    EXPECT_TRUE(clr_a != clr_b);
+}
 
 // Tests color addition with the addition operator
 TEST(GraphicsColor, AdditionOperator)
