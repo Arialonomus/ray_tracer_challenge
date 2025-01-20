@@ -55,6 +55,11 @@ namespace gfx {
         float m_w{ 0.0 };
     };
 
+    /* Factory Functions */
+
+    [[nodiscard]] Vector4 vector(float x, float y, float z);
+    [[nodiscard]] Vector4 point(float x, float y, float z);
+
     /* Global Arithmetic Operator Overloads */
 
     [[nodiscard]] Vector4 operator+(const Vector4& lhs, const Vector4& rhs);
