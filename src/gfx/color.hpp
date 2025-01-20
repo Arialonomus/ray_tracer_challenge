@@ -27,6 +27,10 @@ namespace gfx
         [[nodiscard]] float g() const { return m_g; }
         [[nodiscard]] float b() const { return m_b; }
 
+        /* Comparison Operator Overloads */
+
+        [[nodiscard]] bool operator==(const Color& rhs) const;
+
         /* Arithmetic Operator Overloads */
 
         Color& operator+=(const Color& rhs);

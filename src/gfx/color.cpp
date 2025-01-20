@@ -1,6 +1,16 @@
 #include "color.hpp"
 
-// Color Addition Shorthand Operator
+#include "../utils/util_functions.hpp"
+
+// Equality Operator
+bool gfx::Color::operator==(const Color& rhs) const
+{
+    return utils::areEqual(m_r, rhs.r())
+        && utils::areEqual(m_g, rhs.g())
+        && utils::areEqual(m_b, rhs.b());
+}
+
+// Addition Shorthand Operator
 gfx::Color& gfx::Color::operator+=(const Color& rhs)
 {
     m_r += rhs.r();
@@ -10,7 +20,7 @@ gfx::Color& gfx::Color::operator+=(const Color& rhs)
     return *this;
 }
 
-// Color Subtraction Shorthand Operator
+// Subtraction Shorthand Operator
 gfx::Color& gfx::Color::operator-=(const Color& rhs)
 {
     m_r -= rhs.r();
@@ -40,13 +50,13 @@ gfx::Color& gfx::Color::operator*=(const float scalar)
     return *this;
 }
 
-// Color Addition Operator
+// Addition Operator
 gfx::Color gfx::operator+(const Color& lhs, const Color& rhs)
 {
     return Color{ lhs.r() + rhs.r(), lhs.g() + rhs.g(), lhs.b() + rhs.b() };
 }
 
-// Color Subtraction Operator
+// Subtraction Operator
 gfx::Color gfx::operator-(const Color& lhs, const Color& rhs)
 {
     return Color{ lhs.r() - rhs.r(), lhs.g() - rhs.g(), lhs.b() - rhs.b() };
