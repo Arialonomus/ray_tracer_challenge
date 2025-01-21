@@ -19,13 +19,24 @@ namespace gfx
 
         Canvas() = delete;
         Canvas(const size_t width, const size_t height)
-                : m_pixels(width * height),
-                  m_grid(m_pixels.data(), width, height)
+                : m_pixels{ width * height },
+                  m_grid{ m_pixels.data(), width, height }
         {}
         Canvas(const size_t width, const size_t height, const Color& color)
-                : m_pixels(width * height, color),
-                  m_grid(m_pixels.data(), width, height)
+                : m_pixels{ width * height, color },
+                  m_grid{ m_pixels.data(), width, height }
         {}
+        Canvas(Canvas&) = delete;
+        Canvas(Canvas&&) = delete;
+
+        /* Destructor */
+
+        ~Canvas() = default;
+
+        /* Assignment Operators */
+
+        Canvas& operator=(const Canvas&) = delete;
+        Canvas& operator=(Canvas&&) = delete;
 
         /* Accessors */
 
