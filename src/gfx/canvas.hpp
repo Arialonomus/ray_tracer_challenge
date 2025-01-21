@@ -13,7 +13,6 @@ namespace gfx
         /* Constructors */
 
         Canvas() = delete;
-
         Canvas(const size_t width, const size_t height)
                 : m_pixels(width * height),
                   m_grid(m_pixels.data(), width, height)
@@ -21,13 +20,16 @@ namespace gfx
 
         /* Accessors */
 
+        // Returns the width of the canvas, in pixels
         [[nodiscard]] size_t width() const
         { return m_grid.extents().extent(0); }
 
+        // Returns the height of the canvas, in pixels
         [[nodiscard]] size_t height() const
         { return m_grid.extents().extent(1); }
 
-        [[nodiscard]] Color operator[](const size_t col, const size_t row) const
+        // Returns a reference the color of the pixel at a given coordinate, in column-major order
+        [[nodiscard]] Color& operator[](const size_t col, const size_t row) const
         { return m_grid[col, row]; }
 
     private:
