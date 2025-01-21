@@ -10,8 +10,8 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif()
 
 # Define options for building components
-option(BUILD_TESTS "Build unit tests" ON)
-option(BUILD_DEMOS "Build demo programs" OFF)
+option(BUILD_TESTS "Build unit tests" TRUE)
+option(BUILD_DEMOS "Build demo programs" TRUE)
 
 # Add subdirectories
 add_subdirectory(src)
