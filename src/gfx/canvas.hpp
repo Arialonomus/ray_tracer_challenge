@@ -2,11 +2,16 @@
 
 #include <vector>
 #include <mdspan>
+#include <string>
 
 #include "color.hpp"
 
 namespace gfx
 {
+    constexpr std::string_view PPM_IDENTIFIER{ "P3" };
+    constexpr int PPM_MAX_COLOR_VALUE{ 255 };
+    constexpr int PPM_MAX_LINE_LEN{ 70 };
+
     class Canvas
     {
     public:
@@ -28,7 +33,7 @@ namespace gfx
         [[nodiscard]] size_t height() const
         { return m_grid.extents().extent(1); }
 
-        // Returns a reference the color of the pixel at a given coordinate, in column-major order
+        // Returns a reference to the color of the pixel at a given coordinate, in column-major order
         [[nodiscard]] Color& operator[](const size_t col, const size_t row) const
         { return m_grid[col, row]; }
 
@@ -36,4 +41,9 @@ namespace gfx
         std::vector<Color> m_pixels;
         std::mdspan<Color, std::extents<size_t, std::dynamic_extent, std::dynamic_extent>, std::layout_left> m_grid;
     };
+
+    /* Canvas Export Methods */
+
+    // Returns a string containing the canvas color data in PPM format
+    std::string exportAsPPM(const Canvas& canvas);
 }
