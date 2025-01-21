@@ -22,6 +22,10 @@ namespace gfx
                 : m_pixels(width * height),
                   m_grid(m_pixels.data(), width, height)
         {}
+        Canvas(const size_t width, const size_t height, const Color& color)
+                : m_pixels(width * height, color),
+                  m_grid(m_pixels.data(), width, height)
+        {}
 
         /* Accessors */
 
