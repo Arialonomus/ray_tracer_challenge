@@ -1,4 +1,5 @@
-#include <pch.h>
+#include "gtest/gtest.h"
+
 #include "color.hpp"
 
 // Tests the default constructor

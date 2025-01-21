@@ -403,3 +403,6 @@ FodyWeavers.xsd
 # Visual Studio Project Files
 *.sln
 *.vcxproj*
+
+# Google Test files
+tests/lib/*

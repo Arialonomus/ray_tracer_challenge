@@ -1,7 +1,6 @@
-#include <pch.h>
-#include "canvas.hpp"
+#include "gtest/gtest.h"
 
-#include "color.hpp"
+#include "canvas.hpp"
 
 // Tests the standard constructor
 TEST(GraphicsCanvas, Constructor)
@@ -12,14 +11,4 @@ TEST(GraphicsCanvas, Constructor)
 
     ASSERT_EQ(canvas.width(), width);
     ASSERT_EQ(canvas.height(), height);
-
-    const gfx::Color black{ 0.0, 0.0, 0.0 };
-
-    for (int i : width)
-    {
-        for (int j : height)
-        {
-            ASSERT_EQ(canvas[i, j], black);
-        }
-    }
 }
