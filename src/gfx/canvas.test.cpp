@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 
-// Tests the standard constructor
+// Tests the standard constructor (initialized to black)
 TEST(GraphicsCanvas, Constructor)
 {
     constexpr size_t width = 10;
@@ -22,6 +22,25 @@ TEST(GraphicsCanvas, Constructor)
         for (int row = 0; row < height; ++row) {
             gfx::Color pixel = canvas[col, row];
             ASSERT_TRUE(pixel == black);
+        }
+}
+
+// Tests initializing the canvas to a specific color
+TEST(GraphicsCanvas, ConstructorInitializedColor)
+{
+    constexpr size_t width = 10;
+    constexpr size_t height = 20;
+    const gfx::Color red{ 1.0,0.0,0.0 };
+
+    const gfx::Canvas canvas{ width, height, red };
+
+    ASSERT_EQ(canvas.width(), width);
+    ASSERT_EQ(canvas.height(), height);
+
+    for (int col = 0; col < width; ++col)
+        for (int row = 0; row < height; ++row) {
+            gfx::Color pixel = canvas[col, row];
+            ASSERT_TRUE(pixel == red);
         }
 }
 
