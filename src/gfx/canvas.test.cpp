@@ -23,3 +23,16 @@ TEST(GraphicsCanvas, Constructor)
             ASSERT_TRUE(pixel == black);
         }
 }
+
+// Tests writing a pixel at a given coordinate
+TEST(GraphicsCanvas, WritePixelColor)
+{
+    constexpr size_t width = 10;
+    constexpr size_t height = 20;
+    const gfx::Canvas canvas{ width, height };
+    const gfx::Color red{ 1.0,0.0,0.0 };
+
+    canvas[2, 3] = red;
+    const gfx::Color test_pixel = canvas[2, 3];
+    ASSERT_TRUE(test_pixel == red);
+}
