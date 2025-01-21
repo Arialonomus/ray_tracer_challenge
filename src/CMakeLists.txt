@@ -21,10 +21,14 @@ target_compile_features(gfx PUBLIC cxx_std_23)
 add_executable(
         ch_01 demos/ch_01/ch_01.cpp
 )
+add_executable(
+        ch_02 demos/ch_02/ch_02.cpp
+)
 
 # List the demo targets
 set(DEMO_TARGETS
         ch_01
+        ch_02
 )
 
 # Apply common configurations for all demo executables
