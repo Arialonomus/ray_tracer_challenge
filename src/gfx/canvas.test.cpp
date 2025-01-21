@@ -1,6 +1,9 @@
 #include "gtest/gtest.h"
 
 #include "canvas.hpp"
+#include "color.hpp"
+
+#include <print>
 
 // Tests the standard constructor
 TEST(GraphicsCanvas, Constructor)
@@ -11,4 +14,12 @@ TEST(GraphicsCanvas, Constructor)
 
     ASSERT_EQ(canvas.width(), width);
     ASSERT_EQ(canvas.height(), height);
+
+    const gfx::Color black{ 0.0,0.0,0.0 };
+
+    for (int col = 0; col < width; ++col)
+        for (int row = 0; row < height; ++row) {
+            gfx::Color pixel = canvas[col, row];
+            ASSERT_TRUE(pixel == black);
+        }
 }
