@@ -43,4 +43,8 @@ namespace gfx {
         std::array<float, 16> m_data;
         std::mdspan<float, std::extents<size_t, 4, 4>> m_grid;
     };
+
+    /* Global Arithmetic Operator Overloads */
+
+    [[nodiscard]] Matrix4 operator*(const Matrix4& lhs, const Matrix4& rhs);
 };
