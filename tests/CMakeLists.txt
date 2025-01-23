@@ -10,6 +10,7 @@ set(UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/vector4.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/color.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/canvas.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/matrix4.test.cpp
 )
 
 # Gather all test sources into single variable

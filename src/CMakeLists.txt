@@ -6,6 +6,7 @@ target_sources(gfx PRIVATE
         gfx/vector4.cpp
         gfx/color.cpp
         gfx/canvas.cpp
+        gfx/matrix4.cpp
 )
 
 # Include the directories for the gfx library
