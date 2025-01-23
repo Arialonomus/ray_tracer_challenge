@@ -223,15 +223,15 @@ TEST(GraphicsMatrix4, Transpose)
 TEST(GraphicsMatrix4, Submatrix)
 {
     const gfx::Matrix4 matrix{
-            -6.0, 1.0, 1.0, -6.0,
+            -6.0, 1.0, 1.0, 6.0,
             -8.0, 5.0, 8.0, 6.0,
             -1.0, 0.0, 8.0, 2.0,
-            0.0, 0.0, 5.0, 8.0
+            -7.0, 1.0, -1.0, 1.0
     };
     const gfx::Matrix3 submatrix_expected{
             -6.0, 1.0, 6.0,
             -8.0, 8.0, 6.0,
-            -7.0, 1.0, 7.0
+            -7.0, -1.0, 1.0
     };
 
     const gfx::Matrix3 submatrix_actual = matrix.submatrix(2, 1);
