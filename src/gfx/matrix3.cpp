@@ -43,3 +43,13 @@ float gfx::Matrix3::minor(const size_t row, const size_t col) const
     return this->submatrix(row, col).determinant();
 }
 
+float gfx::Matrix3::cofactor(const size_t row, const size_t col) const
+{
+    float minor = this->minor(row, col);
+    if (row + col % 2 == 0) {
+        return minor;
+    } else {
+        return -minor;
+    }
+}
+

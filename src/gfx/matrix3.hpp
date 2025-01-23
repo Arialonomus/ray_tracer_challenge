@@ -54,6 +54,9 @@ namespace gfx {
         // Returns the minor of the element at a passed in row & column
         [[nodiscard]] float minor(size_t row, size_t col) const;
 
+        // Returns the cofactor of the element at a passed in row & column
+        [[nodiscard]] float cofactor(size_t row, size_t col) const;
+
 
     private:
         /* Data Members */
