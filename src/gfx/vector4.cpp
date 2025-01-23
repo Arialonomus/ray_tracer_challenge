@@ -1,24 +1,31 @@
 #include "vector4.hpp"
 
+#include <ranges>
 #include <stdexcept>
 #include <cmath>
 
-#include "../utils/util_functions.hpp"
+#include "util_functions.hpp"
+
+// Span Constructor
+gfx::Vector4::Vector4(std::span<const float, 4> values)
+        : m_data{ }
+{
+    std::copy(values.begin(), values.end(), m_data.begin());
+}
 
 // Comparison Operator
 bool gfx::Vector4::operator==(const Vector4& rhs) const
 {
     return utils::areEqual(m_data[0], rhs.x())
-        && utils::areEqual(m_data[1], rhs.y())
-        && utils::areEqual(m_data[2], rhs.z())
-        && utils::areEqual(m_data[3], rhs.w());
+           && utils::areEqual(m_data[1], rhs.y())
+           && utils::areEqual(m_data[2], rhs.z())
+           && utils::areEqual(m_data[3], rhs.w());
 }
 
 // Scalar Division Operator
 gfx::Vector4 gfx::Vector4::operator/(const float scalar) const
 {
-    if (scalar == 0.0)
-    {
+    if (scalar == 0.0) {
         throw std::invalid_argument{ "Divide by zero." };
     }
     return Vector4{ m_data[0] / scalar, m_data[1] / scalar, m_data[2] / scalar, m_data[3] / scalar };
@@ -66,8 +73,7 @@ gfx::Vector4& gfx::Vector4::operator*=(const float scalar)
 // Scalar Division Shorthand Operator
 gfx::Vector4& gfx::Vector4::operator/=(const float scalar)
 {
-    if (scalar == 0.0)
-    {
+    if (scalar == 0.0) {
         throw std::invalid_argument{ "Divide by zero." };
     }
 
@@ -88,7 +94,8 @@ float gfx::Vector4::magnitude() const
 // Vector Cross Product
 gfx::Vector4 gfx::Vector4::crossProduct(const Vector4& rhs) const
 {
-    return Vector4{ m_data[1] * rhs.z() - m_data[2] * rhs.y(), m_data[2] * rhs.x() - m_data[0] * rhs.z(), m_data[0] * rhs.y() - m_data[1] * rhs.x(), 0.0 };
+    return Vector4{ m_data[1] * rhs.z() - m_data[2] * rhs.y(), m_data[2] * rhs.x() - m_data[0] * rhs.z(),
+                    m_data[0] * rhs.y() - m_data[1] * rhs.x(), 0.0 };
 }
 
 // Vector Factory Function

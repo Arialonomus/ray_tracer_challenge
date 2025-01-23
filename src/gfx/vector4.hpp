@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <span>
 
 namespace gfx {
     class Vector4
@@ -10,6 +11,7 @@ namespace gfx {
 
         Vector4() = default;
         Vector4(const float x, const float y, const float z, const float w) : m_data{ x, y, z ,w } {}
+        explicit Vector4(std::span<const float, 4> values);
         Vector4(const Vector4&) = default;
         Vector4(Vector4&&) = default;
 
