@@ -40,6 +40,10 @@ namespace gfx {
         [[nodiscard]] float& operator[](const size_t row, const size_t col)
         { return m_data[row * 3 + col]; }
 
+        /* Comparison Operators */
+
+        [[nodiscard]] bool operator==(const Matrix3& rhs) const;
+
     private:
         /* Data Members */
 

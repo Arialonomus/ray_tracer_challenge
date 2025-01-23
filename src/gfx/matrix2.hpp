@@ -28,6 +28,10 @@ namespace gfx {
         Matrix2& operator=(const Matrix2&) = default;
         Matrix2& operator=(Matrix2&&) = default;
 
+        /* Comparison Operators */
+
+        [[nodiscard]] bool operator==(const Matrix2& rhs) const;
+
         /* Accessors */
 
         // Returns a copy of the float stored in a given position using row-major ordering
@@ -46,7 +50,7 @@ namespace gfx {
     private:
         /* Data Members */
 
-        std::array<float, 4> m_data{};
+        std::array<float, 4> m_data{ };
     };
 
 }
