@@ -3,6 +3,7 @@ add_library(gfx)
 
 # Set source files for the gfx library
 target_sources(gfx PRIVATE
+        utils/util_functions.cpp
         gfx/vector4.cpp
         gfx/color.cpp
         gfx/canvas.cpp
