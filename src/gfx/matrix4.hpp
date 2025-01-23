@@ -59,6 +59,9 @@ namespace gfx {
         // Returns the determinant of this matrix
         [[nodiscard]] float determinant() const;
 
+        // Returns the inverse of this matrix
+        [[nodiscard]] Matrix4 inverse() const;
+
     private:
         /* Data Members */
 

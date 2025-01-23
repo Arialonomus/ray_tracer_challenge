@@ -1,6 +1,7 @@
 #include "matrix4.hpp"
 
 #include <ranges>
+#include <stdexcept>
 
 #include "util_functions.hpp"
 
@@ -22,37 +23,6 @@ bool gfx::Matrix4::operator==(const gfx::Matrix4& rhs) const
         }
 
     return true;
-}
-
-// Matrix Multiplication Operator
-gfx::Matrix4 gfx::operator*(const Matrix4& lhs, const gfx::Matrix4& rhs)
-{
-    gfx::Matrix4 return_matrix{ };
-    for (int row = 0; row < 4; ++row)
-        for (int col = 0; col < 4; ++col) {
-            return_matrix[row, col] =
-                    lhs[row, 0] * rhs[0, col] +
-                    lhs[row, 1] * rhs[1, col] +
-                    lhs[row, 2] * rhs[2, col] +
-                    lhs[row, 3] * rhs[3, col];
-        }
-
-    return return_matrix;
-}
-
-// Matrix-Vector Multiplication Operator
-gfx::Vector4 gfx::operator*(const gfx::Matrix4& lhs, const gfx::Vector4& rhs)
-{
-    std::array<float, 4> vector_values{ };
-    for (int row = 0; row < 4; ++row) {
-        vector_values[row] =
-                lhs[row, 0] * rhs.x() +
-                lhs[row, 1] * rhs.y() +
-                lhs[row, 2] * rhs.z() +
-                lhs[row, 3] * rhs.w();
-    }
-
-    return gfx::Vector4{ vector_values };
 }
 
 // Matrix Transposition
@@ -87,9 +57,60 @@ float gfx::Matrix4::determinant() const
     float determinant = 0;
     for (int col = 0; col < 4; ++col) {
         float minor = this->submatrix(0, col).determinant();
-        determinant += m_data[col] * (0 + col % 2 == 0 ? minor : -minor);
+        determinant += m_data[col] * ((0 + col) % 2 == 0 ? minor : -minor);
     }
 
     return determinant;
 }
 
+// Matrix Inverse
+gfx::Matrix4 gfx::Matrix4::inverse() const
+{
+    // Determine if matrix is invertible
+    const float determinant = this->determinant();
+    if (determinant == 0) {
+        throw std::invalid_argument{ "Matrix determinant cannot be zero." };
+    }
+
+    // Invert matrix
+    gfx::Matrix4 inverted_matrix{ };
+    for (int row = 0; row < 4; ++row)
+        for (int col = 0; col < 4; ++col) {
+            const float minor = this->submatrix(row, col).determinant();
+            const float cofactor = (row + col) % 2 == 0 ? minor : -minor;
+            inverted_matrix[col, row] = cofactor / determinant;
+        }
+
+    return inverted_matrix;
+}
+
+// Matrix Multiplication Operator
+gfx::Matrix4 gfx::operator*(const Matrix4& lhs, const gfx::Matrix4& rhs)
+{
+    gfx::Matrix4 return_matrix{ };
+    for (int row = 0; row < 4; ++row)
+        for (int col = 0; col < 4; ++col) {
+            return_matrix[row, col] =
+                    lhs[row, 0] * rhs[0, col] +
+                    lhs[row, 1] * rhs[1, col] +
+                    lhs[row, 2] * rhs[2, col] +
+                    lhs[row, 3] * rhs[3, col];
+        }
+
+    return return_matrix;
+}
+
+// Matrix-Vector Multiplication Operator
+gfx::Vector4 gfx::operator*(const gfx::Matrix4& lhs, const gfx::Vector4& rhs)
+{
+    std::array<float, 4> vector_values{ };
+    for (int row = 0; row < 4; ++row) {
+        vector_values[row] =
+                lhs[row, 0] * rhs.x() +
+                lhs[row, 1] * rhs.y() +
+                lhs[row, 2] * rhs.z() +
+                lhs[row, 3] * rhs.w();
+    }
+
+    return gfx::Vector4{ vector_values };
+}
