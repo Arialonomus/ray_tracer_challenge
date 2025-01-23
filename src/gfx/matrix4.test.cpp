@@ -204,7 +204,7 @@ TEST(GraphicsMatrix4, Transpose)
             0.0, 9.0, 3.0, 0.0,
             9.0, 8.0, 0.0, 8.0,
             1.0, 8.0, 5.0, 3.0,
-            0.0, 8.0, 3.0, 8.0
+            0.0, 0.0, 5.0, 8.0
     };
     const gfx::Matrix4 matrix_expected{
             0.0, 9.0, 1.0, 0.0,
