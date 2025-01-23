@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
-
 #include "matrix4.hpp"
+
+#include "matrix3.hpp"
 
 // Tests the default constructor
 TEST(GraphicsMatrix4, DefaultConstructor)
@@ -216,4 +217,24 @@ TEST(GraphicsMatrix4, Transpose)
     const gfx::Matrix4 matrix_transposed = matrix_initial.transpose();
 
     EXPECT_TRUE(matrix_transposed == matrix_expected);
+}
+
+// Tests generating 3x3 submatrix
+TEST(GraphicsMatrix4, Submatrix)
+{
+    const gfx::Matrix4 matrix{
+            -6.0, 1.0, 1.0, -6.0,
+            -8.0, 5.0, 8.0, 6.0,
+            -1.0, 0.0, 8.0, 2.0,
+            0.0, 0.0, 5.0, 8.0
+    };
+    const gfx::Matrix3 submatrix_expected{
+            -6.0, 1.0, 6.0,
+            -8.0, 8.0, 6.0,
+            -7.0, 1.0, 7.0
+    };
+
+    const gfx::Matrix3 submatrix_actual = matrix.submatrix(2, 1);
+
+    EXPECT_TRUE(submatrix_actual == submatrix_expected);
 }
