@@ -170,3 +170,29 @@ TEST(GraphicsMatrix4, VectorMultiplicationOperator)
 
     EXPECT_TRUE(vector_b == vector_expected);
 }
+
+// Tests matrix-matrix and matrix-vector multiplication by the identity matrix
+TEST(GraphicsMatrix4, IdentityMatrixMultiplication)
+{
+    const gfx::Matrix4 matrix_identity{
+            1.0, 0.0, 0.0, 0.0,
+            0.0, 1.0, 0.0, 0.0,
+            0.0, 0.0, 1.0, 0.0,
+            0.0, 0.0, 0.0, 1.0
+    };
+    const gfx::Matrix4 matrix_a{
+            0.0, 1.0, 2.0, 4.0,
+            1.0, 2.0, 4.0, 4.0,
+            2.0, 4.0, 8.0, 16.0,
+            4.0, 8.0, 16.0, 32.0
+    };
+    const gfx::Vector4 vector_a{ 1.0, 2.0, 3.0, 4.0 };
+
+    const gfx::Matrix4 matrix_b = matrix_a * matrix_identity;
+
+    EXPECT_TRUE(matrix_b == matrix_a);
+
+    const gfx::Vector4 vector_b = matrix_identity * vector_a;
+
+    EXPECT_TRUE(vector_b == vector_a);
+}
