@@ -89,3 +89,33 @@ TEST(GraphicsMatrix3, AssignmentOperator)
             ASSERT_FLOAT_EQ(value, matrix_values[row * 3 + col]);
         }
 }
+
+// Tests the equality operator
+TEST(GraphicsMatrix3, EqualityOperator)
+{
+    const gfx::Matrix3 matrix_a{
+            1.0, 2.0, 3.0,
+            4.0, 5.0, 6.0,
+            7.0, 8.0, 9.0
+    };
+    const gfx::Matrix3 matrix_b{
+            1.0, 2.0, 3.0,
+            4.0, 5.0, 6.0,
+            7.0, 8.0, 9.0
+    };
+
+    ASSERT_TRUE(matrix_a == matrix_b);
+}
+
+// Tests the inequality operator
+TEST(GraphicsMatrix3, InequalityOperator)
+{
+    const gfx::Matrix3 matrix_a{
+            1.0, 2.0, 3.0,
+            4.0, 5.0, 6.0,
+            7.0, 8.0, 9.0
+    };
+    const gfx::Matrix3 matrix_b{ };
+
+    ASSERT_TRUE(matrix_a != matrix_b);
+}

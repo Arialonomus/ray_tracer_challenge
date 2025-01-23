@@ -85,6 +85,33 @@ TEST(GraphicsMatrix2, AssignmentOperator)
         }
 }
 
+// Tests the equality operator
+TEST(GraphicsMatrix2, EqualityOperator)
+{
+    const gfx::Matrix2 matrix_a{
+            1.0, 5.0,
+            -3.0, 2.0,
+    };
+    const gfx::Matrix2 matrix_b{
+            1.0, 5.0,
+            -3.0, 2.0,
+    };
+
+    ASSERT_TRUE(matrix_a == matrix_b);
+}
+
+// Tests the inequality operator
+TEST(GraphicsMatrix2, InequalityOperator)
+{
+    const gfx::Matrix2 matrix_a{
+            1.0, 5.0,
+            -3.0, 2.0,
+    };
+    const gfx::Matrix2 matrix_b{ };
+
+    ASSERT_TRUE(matrix_a != matrix_b);
+}
+
 // Tests the determinant function
 TEST(GraphicsMatrix2, Determinant)
 {
