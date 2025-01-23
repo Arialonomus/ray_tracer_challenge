@@ -1,4 +1,6 @@
 #include "gtest/gtest.h"
+
+#include <array>
 #include <cmath>
 
 #include "vector4.hpp"
@@ -14,10 +16,22 @@ TEST(GraphicsVector4, DefaultConstructor)
     ASSERT_FLOAT_EQ(vec.w(), 0.0);
 }
 
-// Tests the standard constructor
-TEST(GraphicsVector4, StandardConstructor)
+// Tests the float list constructor
+TEST(GraphicsVector4, FloatListConstructor)
 {
     const gfx::Vector4 vec{ 4.0, -4.0, 3.0, 0.5 };
+
+    ASSERT_FLOAT_EQ(vec.x(), 4.0);
+    ASSERT_FLOAT_EQ(vec.y(), -4.0);
+    ASSERT_FLOAT_EQ(vec.z(), 3.0);
+    ASSERT_FLOAT_EQ(vec.w(), 0.5);
+}
+
+// Tests the span-based constructor
+TEST(GraphicsVector4, SpanConstructor)
+{
+    const std::array<float, 4> vec_values{ 4.0, -4.0, 3.0, 0.5 };
+    const gfx::Vector4 vec{ vec_values };
 
     ASSERT_FLOAT_EQ(vec.x(), 4.0);
     ASSERT_FLOAT_EQ(vec.y(), -4.0);
