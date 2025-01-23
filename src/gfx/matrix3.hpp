@@ -51,12 +51,6 @@ namespace gfx {
         // Returns the 2x2 submatrix formed by removing the passed in row & column
         [[nodiscard]] Matrix2 submatrix(size_t row_to_remove, size_t col_to_remove) const;
 
-        // Returns the minor of the element at a passed in row & column
-        [[nodiscard]] float minor(size_t row, size_t col) const;
-
-        // Returns the cofactor of the element at a passed in row & column
-        [[nodiscard]] float cofactor(size_t row, size_t col) const;
-
         // Returns the determinant of this matrix
         [[nodiscard]] float determinant() const;
 

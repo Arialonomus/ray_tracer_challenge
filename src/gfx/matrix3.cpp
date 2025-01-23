@@ -37,29 +37,16 @@ gfx::Matrix2 gfx::Matrix3::submatrix(const size_t row_to_remove, const size_t co
     return return_matrix;
 }
 
-// Matrix Minor at a Given Element
-float gfx::Matrix3::minor(const size_t row, const size_t col) const
-{
-    return this->submatrix(row, col).determinant();
-}
-
-// Matrix Cofactor at a Given Element
-float gfx::Matrix3::cofactor(const size_t row, const size_t col) const
-{
-    float minor = this->minor(row, col);
-    if (row + col % 2 == 0) {
-        return minor;
-    } else {
-        return -minor;
-    }
-}
-
 // Matrix Determinant
 float gfx::Matrix3::determinant() const
 {
-    return
-        (*this)[0, 0] * this->cofactor(0, 0) +
-        (*this)[0, 1] * this->cofactor(0, 1) +
-        (*this)[0, 2] * this->cofactor(0, 2);
+    // Calculate the cofactor for each element in the first row
+    float determinant = 0;
+    for (int col = 0; col < 3; ++col) {
+        float minor = this->submatrix(0, col).determinant();
+        determinant += m_data[col] * (0 + col % 2 == 0 ? minor : -minor);
+    }
+
+    return determinant;
 }
 

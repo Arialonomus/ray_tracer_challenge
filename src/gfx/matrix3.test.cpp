@@ -139,39 +139,6 @@ TEST(GraphicsMatrix3, Submatrix)
     EXPECT_TRUE(submatrix_actual == submatrix_expected);
 }
 
-// Tests calculating the minor of an element at a given row & column
-TEST(GraphicsMatrix3, Minor)
-{
-    const gfx::Matrix3 matrix{
-            3.0, 5.0, 0.0,
-            2.0, -1.0, -7.0,
-            6.0, -1.0, 5.0
-    };
-    constexpr size_t row{ 1 };
-    constexpr size_t col{ 0 };
-
-    EXPECT_FLOAT_EQ(matrix.minor(row, col), 25.0);
-}
-
-// Tests calculating the cofactor of an element at a given row & column
-TEST(GraphicsMatrix3, Cofactor)
-{
-    const gfx::Matrix3 matrix{
-            3.0, 5.0, 0.0,
-            2.0, -1.0, -7.0,
-            6.0, -1.0, 5.0
-    };
-    constexpr size_t row_a{ 1 };
-    constexpr size_t col_a{ 0 };
-
-    EXPECT_FLOAT_EQ(matrix.cofactor(row_a, col_a), -25.0);
-
-    constexpr size_t row_b{ 0 };
-    constexpr size_t col_b{ 0 };
-
-    EXPECT_FLOAT_EQ(matrix.cofactor(row_b, col_b), -12.0);
-}
-
 // Tests calculating the determinant of a 3x3 matrix
 TEST(GraphicsMatrix3, Determinant)
 {
