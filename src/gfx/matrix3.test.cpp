@@ -138,3 +138,17 @@ TEST(GraphicsMatrix3, Submatrix)
 
     EXPECT_TRUE(submatrix_actual == submatrix_expected);
 }
+
+// Tests calculating the minor of an element at a given row & column
+TEST(GraphicsMatrix3, Minor)
+{
+    const gfx::Matrix3 matrix{
+            3.0, 5.0, 0.0,
+            2.0, -1.0, 0.0,
+            6.0, -1.0, 5.0
+    };
+    constexpr size_t row{ 0 };
+    constexpr size_t col{ 0 };
+
+    EXPECT_FLOAT_EQ(matrix.minor(row, col), 25.0);
+}
