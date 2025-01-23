@@ -23,7 +23,7 @@ gfx::Matrix3::Matrix3(std::span<const float, 9> values)
     std::copy(values.begin(), values.end(), m_data.begin());
 }
 
-// Submatrix Function
+// Submatrix Generator
 gfx::Matrix2 gfx::Matrix3::submatrix(const size_t row_to_remove, const size_t col_to_remove) const
 {
     gfx::Matrix2 return_matrix{ };
@@ -35,5 +35,11 @@ gfx::Matrix2 gfx::Matrix3::submatrix(const size_t row_to_remove, const size_t co
         }
 
     return return_matrix;
+}
+
+// Matrix Minor
+float gfx::Matrix3::minor(const size_t row, const size_t col) const
+{
+    return this->submatrix(row, col).determinant();
 }
 
