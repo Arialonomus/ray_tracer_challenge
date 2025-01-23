@@ -324,3 +324,46 @@ TEST(GraphicsMatrix4, InvertMatrix)
 
     EXPECT_TRUE(matrix_c_inverse_actual == matrix_c_inverse_expected);
 }
+
+// Tests multiplying a matrix by its inverse to get the identity matrix
+TEST(GraphicsMatrix4, MultiplyByInverse)
+{
+    const gfx::Matrix4 matrix_a{
+            8.0, -5.0, 9.0, 2.0,
+            7.0, 5.0, 6.0, 1.0,
+            -6.0, 0.0, 9.0, 6.0,
+            -3.0, 0.0, -9.0, -4.0
+    };
+    const gfx::Matrix4 matrix_identity{
+            1.0, 0.0, 0.0, 0.0,
+            0.0, 1.0, 0.0, 0.0,
+            0.0, 0.0, 1.0, 0.0,
+            0.0, 0.0, 0.0, 1.0
+    };
+
+    const gfx::Matrix4 matrix_b = matrix_a * matrix_a.inverse();
+
+    EXPECT_TRUE(matrix_b == matrix_identity);
+}
+
+// Tests multiplying a matrix product by a matrix inverse to get one of the factor matrices back
+TEST(GraphicsMatrix4, MultiplyProductByFactorInverse)
+{
+    const gfx::Matrix4 matrix_a{
+            3.0, -9.0, 7.0, 3.0,
+            3.0, -8.0, 2.0, -9.0,
+            -4.0, 4.0, 4.0, 1.0,
+            -6.0, 5.0, -1.0, 1.0
+    };
+    const gfx::Matrix4 matrix_b{
+            8.0, 2.0, 2.0, 2.0,
+            3.0, -1.0, 7.0, 0.0,
+            7.0, 0.0, 5.0, 4.0,
+            6.0, -2.0, 0.0, 5.0
+    };
+
+    const gfx::Matrix4 matrix_c = matrix_a * matrix_b;
+    const gfx::Matrix4 matrix_d = matrix_c * matrix_b.inverse();
+
+    EXPECT_TRUE(matrix_d == matrix_a);
+}
