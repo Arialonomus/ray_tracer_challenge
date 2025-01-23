@@ -1,17 +1,15 @@
 #pragma once
 
 #include <cmath>
-#include <limits>
 
 namespace utils
 {
-    // Uses relative comparison for two floating point numbers to determine if they are equal
-    template<typename T>
-    bool areEqual(T f1, T f2)
-    {
-        return std::fabs(f1 - f2) <= std::numeric_limits<T>::epsilon() * std::fmax(std::fabs(f1), std::fabs(f2));
-    }
+    constexpr float EPSILON = 1e-6f;    // Tolerance value for relative float comparison
 
+    // Uses relative comparison for two floating point numbers to determine if they are equal
+    bool areEqual(float f1, float f2);
+
+    // Scales a value relative to some maximum, clamping any values higher or lower than the bounds
     template<typename I, typename O>
     O clampedScale(I input, O min, O max)
     {
