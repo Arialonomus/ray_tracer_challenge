@@ -30,7 +30,6 @@ namespace gfx {
         [[nodiscard]] float y() const { return m_data[1]; }
         [[nodiscard]] float z() const { return m_data[2]; }
         [[nodiscard]] float w() const { return m_data[3]; }
-        [[nodiscard]] float operator[](const size_t i) const { return m_data.at(i); }
 
         /* Comparison Operator Overloads */
 
