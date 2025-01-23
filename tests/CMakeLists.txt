@@ -13,6 +13,7 @@ set(UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/matrix2.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/matrix3.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/matrix4.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/transform.test.cpp
 )
 
 # Gather all test sources into single variable
