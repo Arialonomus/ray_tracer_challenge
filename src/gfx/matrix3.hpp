@@ -57,6 +57,8 @@ namespace gfx {
         // Returns the cofactor of the element at a passed in row & column
         [[nodiscard]] float cofactor(size_t row, size_t col) const;
 
+        // Returns the determinant of this matrix
+        [[nodiscard]] float determinant() const;
 
     private:
         /* Data Members */

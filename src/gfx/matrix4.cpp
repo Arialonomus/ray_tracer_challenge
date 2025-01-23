@@ -80,3 +80,16 @@ gfx::Matrix3 gfx::Matrix4::submatrix(size_t row_to_remove, size_t col_to_remove)
     return return_matrix;
 }
 
+// Matrix Determinant
+float gfx::Matrix4::determinant() const
+{
+    // Calculate the cofactor for each element in the first row
+    float determinant = 0;
+    for (int col = 0; col < 4; ++col) {
+        float minor = this->submatrix(0, col).determinant();
+        determinant += m_data[col] * (0 + col % 2 == 0 ? minor : -minor);
+    }
+
+    return determinant;
+}
+
