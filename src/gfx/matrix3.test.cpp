@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
-
 #include "matrix3.hpp"
+
+#include "matrix2.hpp"
 
 // Tests the default constructor
 TEST(GraphicsMatrix3, DefaultConstructor)
@@ -118,4 +119,22 @@ TEST(GraphicsMatrix3, InequalityOperator)
     const gfx::Matrix3 matrix_b{ };
 
     ASSERT_TRUE(matrix_a != matrix_b);
+}
+
+// Tests the submatrix function
+TEST(GraphicsMatrix3, Submatrix)
+{
+    const gfx::Matrix3 matrix{
+            1.0, 2.0, 3.0,
+            4.0, 5.0, 6.0,
+            7.0, 8.0, 9.0
+    };
+    const gfx::Matrix2 submatrix_expected{
+        -3.0, 2.0,
+        0.0, 6.0
+    };
+
+    const gfx::Matrix2 submatrix_actual = matrix.submatrix(0, 2);
+
+    EXPECT_TRUE(submatrix_actual == submatrix_expected);
 }
