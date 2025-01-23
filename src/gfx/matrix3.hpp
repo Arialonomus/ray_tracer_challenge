@@ -12,12 +12,12 @@ namespace gfx {
         /* Constructors */
 
         Matrix3() = default;
-        Matrix3(const float a, const float b, const float c,
-                const float d, const float e, const float f,
-                const float g, const float h, const float i)
-                : m_data{ a, b, c,
-                          d, e, f,
-                          g, h, i }
+        Matrix3(const float e00, const float e01, const float e02,
+                const float e10, const float e11, const float e12,
+                const float e20, const float e21, const float e22)
+                : m_data{ e00, e01, e02,
+                          e10, e11, e12,
+                          e20, e21, e22 }
         {}
         explicit Matrix3(std::span<const float, 9> values);
         Matrix3(const Matrix3&) = default;

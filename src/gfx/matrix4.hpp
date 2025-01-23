@@ -12,14 +12,14 @@ namespace gfx {
     public:
         /* Constructors */
         Matrix4() = default;
-        Matrix4(const float a, const float b, const float c, const float d,
-                const float e, const float f, const float g, const float h,
-                const float i, const float j, const float k, const float l,
-                const float m, const float n, const float o, const float p)
-                : m_data{ a, b, c, d,
-                          e, f, g, h,
-                          i, j, k, l,
-                          m, n, o, p }
+        Matrix4(const float e00, const float e01, const float e02, const float e03,
+                const float e10, const float e11, const float e12, const float e13,
+                const float e20, const float e21, const float e22, const float e23,
+                const float e30, const float e31, const float e32, const float e33)
+                : m_data{ e00, e01, e02, e03,
+                          e10, e11, e12, e13,
+                          e20, e21, e22, e23,
+                          e30, e31, e32, e33 }
         {}
         explicit Matrix4(std::span<const float, 16> values);
         Matrix4(const Matrix4&) = default;
