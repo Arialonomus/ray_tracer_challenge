@@ -10,8 +10,10 @@ namespace gfx {
         /* Constructors */
 
         Matrix2() = default;
-        Matrix2(const float a, const float b, const float c, const float d)
-                : m_data{ a, b, c, d }
+        Matrix2(const float a, const float b,
+                const float c, const float d)
+                : m_data{ a, b,
+                          c, d }
         {}
         explicit Matrix2(std::span<const float, 4> values);
         Matrix2(const Matrix2&) = default;
