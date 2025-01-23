@@ -3,6 +3,8 @@
 #include <array>
 #include <span>
 
+#include "matrix2.hpp"
+
 namespace gfx {
     class Matrix3
     {
@@ -43,6 +45,11 @@ namespace gfx {
         /* Comparison Operators */
 
         [[nodiscard]] bool operator==(const Matrix3& rhs) const;
+
+        /* Matrix Operations */
+
+        // Returns the 2x2 submatrix formed by removing the passed in row & column
+        [[nodiscard]] Matrix2 submatrix(size_t row_to_remove, size_t col_to_remove) const;
 
     private:
         /* Data Members */
