@@ -121,13 +121,13 @@ TEST(GraphicsMatrix3, InequalityOperator)
     ASSERT_TRUE(matrix_a != matrix_b);
 }
 
-// Tests the submatrix function
+// Tests generating a 2x2 submatrix
 TEST(GraphicsMatrix3, Submatrix)
 {
     const gfx::Matrix3 matrix{
-            1.0, 2.0, 3.0,
-            4.0, 5.0, 6.0,
-            7.0, 8.0, 9.0
+            1.0, 5.0, 0.0,
+            -3.0, 2.0, 7.0,
+            0.0, 6.0, -3.0
     };
     const gfx::Matrix2 submatrix_expected{
         -3.0, 2.0,
