@@ -14,24 +14,6 @@ TEST(GraphicsMatrix4, DefaultConstructor)
         }
 }
 
-// Tests the span-based constructor
-TEST(GraphicsMatrix4, SpanConstructor)
-{
-    std::array<const float, 16> matrix_values{
-            1.0, 2.0, 3.0, 4.0,
-            5.0, 6.0, 7.0, 8.0,
-            9.0, 10.0, 11.0, 12.0,
-            13.0, 14.0, 15.0, 16.0
-    };
-    const gfx::Matrix4 matrix{ matrix_values };
-
-    for (int row = 0; row < 4; ++row)
-        for (int col = 0; col < 4; ++col) {
-            const float value = matrix[row, col];
-            ASSERT_FLOAT_EQ(value, matrix_values[row * 4 + col]);
-        }
-}
-
 // Tests the float list constructor
 TEST(GraphicsMatrix4, FloatListConstructor)
 {
@@ -47,6 +29,24 @@ TEST(GraphicsMatrix4, FloatListConstructor)
             9.0, 10.0, 11.0, 12.0,
             13.0, 14.0, 15.0, 16.0
     };
+
+    for (int row = 0; row < 4; ++row)
+        for (int col = 0; col < 4; ++col) {
+            const float value = matrix[row, col];
+            ASSERT_FLOAT_EQ(value, matrix_values[row * 4 + col]);
+        }
+}
+
+// Tests the span-based constructor
+TEST(GraphicsMatrix4, SpanConstructor)
+{
+    std::array<const float, 16> matrix_values{
+            1.0, 2.0, 3.0, 4.0,
+            5.0, 6.0, 7.0, 8.0,
+            9.0, 10.0, 11.0, 12.0,
+            13.0, 14.0, 15.0, 16.0
+    };
+    const gfx::Matrix4 matrix{ matrix_values };
 
     for (int row = 0; row < 4; ++row)
         for (int col = 0; col < 4; ++col) {
@@ -152,4 +152,21 @@ TEST(GraphicsMatrix4, MatrixMultiplicationOperator)
     const gfx::Matrix4 matrix_c = matrix_a * matrix_b;
 
     EXPECT_TRUE(matrix_c == matrix_expected);
+}
+
+// Tests matrix-vector multiplication using the multiplication operator
+TEST(GraphicsMatrix4, VectorMultiplicationOperator)
+{
+    const gfx::Matrix4 matrix{
+            1.0, 2.0, 3.0, 4.0,
+            2.0, 4.0, 4.0, 2.0,
+            8.0, 6.0, 4.0, 1.0,
+            0.0, 0.0, 0.0, 1.0
+    };
+    const gfx::Vector4 vector_a{ 1.0, 2.0, 3.0, 1.0 };
+    const gfx::Vector4 vector_expected{ 18.0, 24.0, 33.0, 1.0 };
+
+    const gfx::Vector4 vector_b = matrix * vector_a;
+
+    EXPECT_TRUE(vector_b == vector_expected);
 }
