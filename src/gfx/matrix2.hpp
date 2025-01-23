@@ -36,6 +36,11 @@ namespace gfx {
         [[nodiscard]] float& operator[](const size_t row, const size_t col)
         { return m_data[row * 2 + col]; }
 
+        /* Matrix Operations */
+
+        // Returns the determinant of this matrix
+        [[nodiscard]] float determinant() const { return m_data[0] * m_data[3] - m_data[1] * m_data[2]; }
+
     private:
         /* Data Members */
 
