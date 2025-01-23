@@ -238,3 +238,16 @@ TEST(GraphicsMatrix4, Submatrix)
 
     EXPECT_TRUE(submatrix_actual == submatrix_expected);
 }
+
+// Tests calculating the determinant of a 4x4 matrix
+TEST(GraphicsMatrix4, Determinant)
+{
+    const gfx::Matrix4 matrix{
+            -2.0, -8.0, 3.0, 5.0,
+            -3.0, 1.0, 7.0, 3.0,
+            1.0, 2.0, -9.0, 6.0,
+            -6.0, 7.0, 7.0, -9.0
+    };
+
+    EXPECT_FLOAT_EQ(matrix.determinant(), -4071.0);
+}

@@ -171,3 +171,15 @@ TEST(GraphicsMatrix3, Cofactor)
 
     EXPECT_FLOAT_EQ(matrix.cofactor(row_b, col_b), -12.0);
 }
+
+// Tests calculating the determinant of a 3x3 matrix
+TEST(GraphicsMatrix3, Determinant)
+{
+    const gfx::Matrix3 matrix{
+            1.0, 2.0, 6.0,
+            -5.0, 8.0, -4.0,
+            2.0, 6.0, 4.0
+    };
+
+    EXPECT_FLOAT_EQ(matrix.determinant(), -196.0);
+}
