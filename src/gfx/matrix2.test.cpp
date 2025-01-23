@@ -18,10 +18,12 @@ TEST(GraphicsMatrix2, DefaultConstructor)
 TEST(GraphicsMatrix2, FloatListConstructor)
 {
     std::array<const float, 4> matrix_values{
-            1.0, 2.0, 3.0, 4.0,
+            1.0, 2.0,
+            3.0, 4.0,
     };
     const gfx::Matrix2 matrix{
-            1.0, 2.0, 3.0, 4.0,
+            1.0, 2.0,
+            3.0, 4.0,
     };
 
     for (int row = 0; row < 2; ++row)
@@ -35,7 +37,8 @@ TEST(GraphicsMatrix2, FloatListConstructor)
 TEST(GraphicsMatrix2, SpanConstructor)
 {
     std::array<const float, 4> matrix_values{
-            1.0, 2.0, 3.0, 4.0
+            1.0, 2.0,
+            3.0, 4.0
     };
     const gfx::Matrix2 matrix{ matrix_values };
 
@@ -50,7 +53,8 @@ TEST(GraphicsMatrix2, SpanConstructor)
 TEST(GraphicsMatrix2, CopyConstructor)
 {
     std::array<const float, 4> matrix_values{
-            1.0, 2.0, 3.0, 4.0
+            1.0, 2.0,
+            3.0, 4.0
     };
     const gfx::Matrix2 matrix_a{ matrix_values} ;
     const gfx::Matrix2 matrix_b{ matrix_a };
@@ -66,7 +70,8 @@ TEST(GraphicsMatrix2, CopyConstructor)
 TEST(GraphicsMatrix2, AssignmentOperator)
 {
     std::array<const float, 4> matrix_values{
-            1.0, 2.0, 3.0, 4.0,
+            1.0, 2.0,
+            3.0, 4.0,
     };
     const gfx::Matrix2 matrix_a{ matrix_values };
     gfx::Matrix2 matrix_b{ };
@@ -80,4 +85,16 @@ TEST(GraphicsMatrix2, AssignmentOperator)
         }
 }
 
+// Tests the determinant function
+TEST(GraphicsMatrix2, Determinant)
+{
+    const gfx::Matrix2 matrix{
+            1.0, 5.0,
+            -3.0, 2.0,
+    };
+
+    const float determinant = matrix.determinant();
+
+    EXPECT_FLOAT_EQ(determinant, 17.0);
+}
 
