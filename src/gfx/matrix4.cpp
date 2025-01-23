@@ -55,3 +55,14 @@ gfx::Vector4 gfx::operator*(const gfx::Matrix4& lhs, const gfx::Vector4& rhs)
     return gfx::Vector4{ vector_values };
 }
 
+// Matrix Transposition
+gfx::Matrix4 gfx::Matrix4::transpose() const
+{
+    return gfx::Matrix4{
+            (*this)[0, 0], (*this)[1, 0], (*this)[2, 0], (*this)[3, 0],
+            (*this)[0, 1], (*this)[1, 1], (*this)[2, 1], (*this)[3, 1],
+            (*this)[0, 2], (*this)[1, 2], (*this)[2, 2], (*this)[3, 2],
+            (*this)[0, 3], (*this)[1, 3], (*this)[2, 3], (*this)[3, 3]
+    };
+}
+

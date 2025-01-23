@@ -11,7 +11,6 @@ namespace gfx {
     public:
         /* Constructors */
         Matrix4() = default;
-        Matrix4(std::span<const float, 16> values);
         Matrix4(const float a, const float b, const float c, const float d,
                 const float e, const float f, const float g, const float h,
                 const float i, const float j, const float k, const float l,
@@ -21,6 +20,7 @@ namespace gfx {
                           i, j, k, l,
                           m, n, o, p }
         {}
+        explicit Matrix4(std::span<const float, 16> values);
         Matrix4(const Matrix4&) = default;
         Matrix4(const Matrix4&&) = default;
 
@@ -46,6 +46,11 @@ namespace gfx {
         // Returns a reference to the float stored in a given position using row-major ordering
         [[nodiscard]] float& operator[](const size_t row, const size_t col)
         { return m_data[row * 4 + col]; }
+
+        /* Matrix Operations */
+
+        // Returns the transpose of this matrix
+        [[nodiscard]] Matrix4 transpose() const;
 
     private:
         std::array<float, 16> m_data{};
