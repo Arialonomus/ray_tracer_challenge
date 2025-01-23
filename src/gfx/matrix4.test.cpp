@@ -242,12 +242,85 @@ TEST(GraphicsMatrix4, Submatrix)
 // Tests calculating the determinant of a 4x4 matrix
 TEST(GraphicsMatrix4, Determinant)
 {
-    const gfx::Matrix4 matrix{
+    const gfx::Matrix4 matrix_a{
             -2.0, -8.0, 3.0, 5.0,
             -3.0, 1.0, 7.0, 3.0,
             1.0, 2.0, -9.0, 6.0,
             -6.0, 7.0, 7.0, -9.0
     };
 
-    EXPECT_FLOAT_EQ(matrix.determinant(), -4071.0);
+    EXPECT_FLOAT_EQ(matrix_a.determinant(), -4071.0);
+
+    const gfx::Matrix4 matrix_b{
+            6.0, 4.0, 4.0, 4.0,
+            5.0, 5.0, 7.0, 6.0,
+            4.0, -9.0, 3.0, -7.0,
+            9.0, 1.0, 7.0, -6.0
+    };
+
+    EXPECT_FLOAT_EQ(matrix_b.determinant(), -2120.0);
+
+    const gfx::Matrix4 matrix_c{
+            -4.0, 2.0, -2.0, -3.0,
+            9.0, 6.0, 2.0, 6.0,
+            0.0, -5.0, 1.0, -5.0,
+            0.0, 0.0, 0.0, 0.0
+    };
+
+    EXPECT_FLOAT_EQ(matrix_c.determinant(), 0.0);
+}
+
+// Tests matrix inversion
+TEST(GraphicsMatrix4, InvertMatrix)
+{
+    const gfx::Matrix4 matrix_a{
+            -5.0, 2.0, 6.0, -8.0,
+            1.0, -5.0, 1.0, 8.0,
+            7.0, 7.0, -6.0, -7.0,
+            1.0, -3.0, 7.0, 4.0
+    };
+    const gfx::Matrix4 matrix_a_inverse_expected{
+            0.218045115, 0.451127827, 0.24060151, -0.0451127812,
+            -0.808270693, -1.45676696, -0.443609029, 0.520676672,
+            -0.0789473653, -0.223684207, -0.0526315793, 0.197368428,
+            -0.522556365, -0.813909769, -0.300751865, 0.306390971
+    };
+
+    const gfx::Matrix4 matrix_a_inverse_actual = matrix_a.inverse();
+
+    EXPECT_TRUE(matrix_a_inverse_actual == matrix_a_inverse_expected);
+
+    const gfx::Matrix4 matrix_b{
+            8.0, -5.0, 9.0, 2.0,
+            7.0, 5.0, 6.0, 1.0,
+            -6.0, 0.0, 9.0, 6.0,
+            -3.0, 0.0, -9.0, -4.0
+    };
+    const gfx::Matrix4 matrix_b_inverse_expected{
+            -0.15384616, -0.15384616, -0.282051295, -0.538461566,
+            -0.0769230798, 0.123076923, 0.025641026, 0.0307692308,
+            0.358974367, 0.358974367, 0.43589744, 0.923076928,
+            -0.692307711, -0.692307711, -0.769230783, -1.92307687
+    };
+
+    const gfx::Matrix4 matrix_b_inverse_actual = matrix_b.inverse();
+
+    EXPECT_TRUE(matrix_b_inverse_actual == matrix_b_inverse_expected);
+
+    const gfx::Matrix4 matrix_c{
+            9.0, 3.0, 0.0, 9.0,
+            -5.0, -2.0, -6.0, -3.0,
+            -4.0, 9.0, 6.0, 4.0,
+            -7.0, 6.0, 6.0, 2.0
+    };
+    const gfx::Matrix4 matrix_c_inverse_expected{
+            -0.0407407396, -0.0777777806, 0.144444451, -0.222222224,
+            -0.0777777806, 0.0333333351, 0.366666675, -0.333333343,
+            -0.0290123448, -0.146296293, -0.109259263, 0.129629627,
+            0.177777782, 0.0666666701, -0.266666681, 0.333333343
+    };
+
+    const gfx::Matrix4 matrix_c_inverse_actual = matrix_c.inverse();
+
+    EXPECT_TRUE(matrix_c_inverse_actual == matrix_c_inverse_expected);
 }
