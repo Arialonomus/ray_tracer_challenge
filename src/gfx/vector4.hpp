@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 namespace gfx {
     class Vector4
     {
@@ -7,7 +9,7 @@ namespace gfx {
         /* Constructors */
 
         Vector4() = default;
-        Vector4(const float x, const float y, const float z, const float w) : m_x{ x }, m_y{ y }, m_z{ z }, m_w{ w } {}
+        Vector4(const float x, const float y, const float z, const float w) : m_data{ x, y, z ,w } {}
         Vector4(const Vector4&) = default;
         Vector4(Vector4&&) = default;
 
@@ -22,10 +24,11 @@ namespace gfx {
 
         /* Accessors */
 
-        [[nodiscard]] float x() const { return m_x; }
-        [[nodiscard]] float y() const { return m_y; }
-        [[nodiscard]] float z() const { return m_z; }
-        [[nodiscard]] float w() const { return m_w; }
+        [[nodiscard]] float x() const { return m_data[0]; }
+        [[nodiscard]] float y() const { return m_data[1]; }
+        [[nodiscard]] float z() const { return m_data[2]; }
+        [[nodiscard]] float w() const { return m_data[3]; }
+        [[nodiscard]] float operator[](const size_t i) const { return m_data.at(i); }
 
         /* Comparison Operator Overloads */
 
@@ -49,10 +52,7 @@ namespace gfx {
         [[nodiscard]] Vector4 crossProduct(const Vector4& rhs) const;
 
     private:
-        float m_x{ 0.0 };
-        float m_y{ 0.0 };
-        float m_z{ 0.0 };
-        float m_w{ 0.0 };
+        std::array<float, 4> m_data{ 0.0, 0.0, 0.0, 0.0 };
     };
 
     /* Factory Functions */

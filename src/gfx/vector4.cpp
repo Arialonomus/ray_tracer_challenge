@@ -8,10 +8,10 @@
 // Comparison Operator
 bool gfx::Vector4::operator==(const Vector4& rhs) const
 {
-    return utils::areEqual(m_x, rhs.x())
-        && utils::areEqual(m_y, rhs.y())
-        && utils::areEqual(m_z, rhs.z())
-        && utils::areEqual(m_w, rhs.w());
+    return utils::areEqual(m_data[0], rhs.x())
+        && utils::areEqual(m_data[1], rhs.y())
+        && utils::areEqual(m_data[2], rhs.z())
+        && utils::areEqual(m_data[3], rhs.w());
 }
 
 // Scalar Division Operator
@@ -21,22 +21,22 @@ gfx::Vector4 gfx::Vector4::operator/(const float scalar) const
     {
         throw std::invalid_argument{ "Divide by zero." };
     }
-    return Vector4{ m_x / scalar, m_y / scalar, m_z / scalar, m_w / scalar };
+    return Vector4{ m_data[0] / scalar, m_data[1] / scalar, m_data[2] / scalar, m_data[3] / scalar };
 }
 
 // Unary Negation Operator
 gfx::Vector4 gfx::Vector4::operator-() const
 {
-    return Vector4{ -m_x, -m_y, -m_z, -m_w };
+    return Vector4{ -m_data[0], -m_data[1], -m_data[2], -m_data[3] };
 }
 
 // Vector Addition Shorthand Operator
 gfx::Vector4& gfx::Vector4::operator+=(const Vector4& rhs)
 {
-    m_x += rhs.x();
-    m_y += rhs.y();
-    m_z += rhs.z();
-    m_w += rhs.w();
+    m_data[0] += rhs.x();
+    m_data[1] += rhs.y();
+    m_data[2] += rhs.z();
+    m_data[3] += rhs.w();
 
     return *this;
 }
@@ -44,10 +44,10 @@ gfx::Vector4& gfx::Vector4::operator+=(const Vector4& rhs)
 // Vector Subtraction Shorthand Operator
 gfx::Vector4& gfx::Vector4::operator-=(const Vector4& rhs)
 {
-    m_x -= rhs.x();
-    m_y -= rhs.y();
-    m_z -= rhs.z();
-    m_w -= rhs.w();
+    m_data[0] -= rhs.x();
+    m_data[1] -= rhs.y();
+    m_data[2] -= rhs.z();
+    m_data[3] -= rhs.w();
 
     return *this;
 }
@@ -55,10 +55,10 @@ gfx::Vector4& gfx::Vector4::operator-=(const Vector4& rhs)
 // Scalar Multiplication Shorthand Operator
 gfx::Vector4& gfx::Vector4::operator*=(const float scalar)
 {
-    m_x *= scalar;
-    m_y *= scalar;
-    m_z *= scalar;
-    m_w *= scalar;
+    m_data[0] *= scalar;
+    m_data[1] *= scalar;
+    m_data[2] *= scalar;
+    m_data[3] *= scalar;
 
     return *this;
 }
@@ -71,10 +71,10 @@ gfx::Vector4& gfx::Vector4::operator/=(const float scalar)
         throw std::invalid_argument{ "Divide by zero." };
     }
 
-    m_x /= scalar;
-    m_y /= scalar;
-    m_z /= scalar;
-    m_w /= scalar;
+    m_data[0] /= scalar;
+    m_data[1] /= scalar;
+    m_data[2] /= scalar;
+    m_data[3] /= scalar;
 
     return *this;
 }
@@ -82,13 +82,13 @@ gfx::Vector4& gfx::Vector4::operator/=(const float scalar)
 // Vector Magnitude
 float gfx::Vector4::magnitude() const
 {
-    return std::sqrt(std::pow(m_x, 2) + std::pow(m_y, 2) + std::pow(m_z, 2) + std::pow(m_w, 2));
+    return std::sqrt(std::pow(m_data[0], 2) + std::pow(m_data[1], 2) + std::pow(m_data[2], 2) + std::pow(m_data[3], 2));
 }
 
 // Vector Cross Product
 gfx::Vector4 gfx::Vector4::crossProduct(const Vector4& rhs) const
 {
-    return Vector4{ m_y * rhs.z() - m_z * rhs.y(), m_z * rhs.x() - m_x * rhs.z(), m_x * rhs.y() - m_y * rhs.x(), 0.0 };
+    return Vector4{ m_data[1] * rhs.z() - m_data[2] * rhs.y(), m_data[2] * rhs.x() - m_data[0] * rhs.z(), m_data[0] * rhs.y() - m_data[1] * rhs.x(), 0.0 };
 }
 
 // Vector Factory Function
