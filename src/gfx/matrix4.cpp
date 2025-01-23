@@ -6,6 +6,7 @@
 
 // Standard Constructor
 gfx::Matrix4::Matrix4(std::span<const float, 16> values)
+        : m_data { }
 {
     std::copy(values.begin(), values.end(), m_data.begin());
 }
@@ -42,6 +43,15 @@ gfx::Matrix4 gfx::operator*(const Matrix4& lhs, const gfx::Matrix4& rhs)
 // Matrix-Vector Multiplication Operator
 gfx::Vector4 gfx::operator*(const gfx::Matrix4& lhs, const gfx::Vector4& rhs)
 {
-    return Vector4 { };
+    std::array<float, 4> vector_values{ };
+    for (int row = 0; row < 4; ++row) {
+        vector_values[row] =
+                lhs[row, 0] * rhs.x() +
+                lhs[row, 1] * rhs.y() +
+                lhs[row, 2] * rhs.z() +
+                lhs[row, 3] * rhs.w();
+    }
+
+    return gfx::Vector4{ vector_values };
 }
 
