@@ -4,6 +4,7 @@
 #include <span>
 
 #include "vector4.hpp"
+#include "matrix3.hpp"
 
 namespace gfx {
     class Matrix4
@@ -52,7 +53,12 @@ namespace gfx {
         // Returns the transpose of this matrix
         [[nodiscard]] Matrix4 transpose() const;
 
+        // Returns the 3x3 submatrix formed by removing the passed in row & column
+        [[nodiscard]] Matrix3 submatrix(size_t row_to_remove, size_t col_to_remove) const;
+
     private:
+        /* Data Members */
+
         std::array<float, 16> m_data{};
     };
 

@@ -4,7 +4,7 @@
 
 #include "util_functions.hpp"
 
-// Standard Constructor
+// Span-Based Constructor
 gfx::Matrix4::Matrix4(std::span<const float, 16> values)
         : m_data { }
 {
@@ -64,5 +64,19 @@ gfx::Matrix4 gfx::Matrix4::transpose() const
             (*this)[0, 2], (*this)[1, 2], (*this)[2, 2], (*this)[3, 2],
             (*this)[0, 3], (*this)[1, 3], (*this)[2, 3], (*this)[3, 3]
     };
+}
+
+// Submatrix Generator
+gfx::Matrix3 gfx::Matrix4::submatrix(size_t row_to_remove, size_t col_to_remove) const
+{
+    gfx::Matrix3 return_matrix{ };
+
+    for (int row = 0; row < 3; ++row)
+        for (int col = 0; col < 3; ++col) {
+            return_matrix[row, col] = m_data[(row + (row >= row_to_remove ? 1 : 0)) * 4 +
+                                             (col + (col >= col_to_remove ? 1 : 0))];
+        }
+
+    return return_matrix;
 }
 
