@@ -196,3 +196,24 @@ TEST(GraphicsMatrix4, IdentityMatrixMultiplication)
 
     EXPECT_TRUE(vector_b == vector_a);
 }
+
+// Tests matrix transposition
+TEST(GraphicsMatrix4, Transpose)
+{
+    const gfx::Matrix4 matrix_initial{
+            0.0, 9.0, 3.0, 0.0,
+            9.0, 8.0, 0.0, 8.0,
+            1.0, 8.0, 5.0, 3.0,
+            0.0, 8.0, 3.0, 8.0
+    };
+    const gfx::Matrix4 matrix_expected{
+            0.0, 9.0, 1.0, 0.0,
+            9.0, 8.0, 8.0, 0.0,
+            3.0, 0.0, 5.0, 5.0,
+            0.0, 8.0, 3.0, 8.0
+    };
+
+    const gfx::Matrix4 matrix_transposed = matrix_initial.transpose();
+
+    EXPECT_TRUE(matrix_transposed == matrix_expected);
+}
