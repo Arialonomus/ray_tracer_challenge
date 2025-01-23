@@ -2,6 +2,8 @@
 
 #include <ranges>
 
+#include "util_functions.hpp"
+
 // Standard Constructor
 gfx::Matrix4::Matrix4(std::span<const float, 16> values)
 {
@@ -11,7 +13,14 @@ gfx::Matrix4::Matrix4(std::span<const float, 16> values)
 // Equality Operator
 bool gfx::Matrix4::operator==(const gfx::Matrix4& rhs) const
 {
-    return m_data == rhs.m_data;
+    for (int row = 0; row < 4; ++row)
+        for (int col = 0; col < 4; ++col) {
+            if (!utils::areEqual(m_data[row * 4 + col], rhs[row, col])) {
+                return false;
+            }
+        }
+
+    return true;
 }
 
 // Matrix Multiplication Operator
