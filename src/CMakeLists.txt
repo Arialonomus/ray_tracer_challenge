@@ -6,6 +6,8 @@ target_sources(gfx PRIVATE
         gfx/vector4.cpp
         gfx/color.cpp
         gfx/canvas.cpp
+        gfx/matrix2.cpp
+        gfx/matrix3.cpp
         gfx/matrix4.cpp
 )
 
