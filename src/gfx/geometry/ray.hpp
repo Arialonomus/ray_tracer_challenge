@@ -60,7 +60,7 @@ namespace gfx {
         /* Ray-Tracing Operations */
 
         // Returns a vector of floats representing the t-values at which ray intersects a passed-in sphere
-        [[nodiscard]] std::vector<float> getIntersections(const Sphere& sphere) const;
+        [[nodiscard]] std::vector<Intersection> getIntersections(const Sphere& sphere) const;
 
     private:
         Vector4 m_origin{ 0.0, 0.0, 0.0, 1.0 };

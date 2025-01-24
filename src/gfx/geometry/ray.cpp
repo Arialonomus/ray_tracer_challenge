@@ -12,7 +12,7 @@ namespace gfx {
     }
 
     // Ray-Sphere Intersection Calculator
-    std::vector<float> Ray::getIntersections(const Sphere& sphere) const
+    std::vector<Intersection> Ray::getIntersections(const Sphere& sphere) const
     {
         // Get the distance from the origin to the center of the sphere
         const Vector4 sphere_center{ createPoint(0, 0, 0) };
@@ -26,17 +26,21 @@ namespace gfx {
 
         // No Solutions, return empty vector
         if (discriminant < 0) {
-            return std::vector<float> { };
+            return std::vector<Intersection> { };
         }
         // One Solution, return vector with intersection distance listed twice
         else if (discriminant == 0) {
-            const float intersection{ -b / (2 * a) };
-            return std::vector<float>{ intersection, intersection };
+            const Intersection intersection{ -b / (2 * a),
+                                             sphere };
+            return std::vector<Intersection>{ intersection, intersection };
         }
         // Two Solutions, return vector with intersection distances
         else {
-            return std::vector<float>{ (-b - std::sqrt(discriminant)) / (2 * a),
-                                       (-b + std::sqrt(discriminant)) / (2 * a) };
+            const Intersection intersection_a{ (-b - std::sqrt(discriminant)) / (2 * a),
+                                               sphere };
+            const Intersection intersection_b{ (-b + std::sqrt(discriminant)) / (2 * a),
+                                               sphere };
+            return std::vector<Intersection>{ intersection_a, intersection_b };
         }
     }
 }
