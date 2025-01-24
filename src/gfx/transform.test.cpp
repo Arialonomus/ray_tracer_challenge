@@ -69,7 +69,6 @@ TEST(GraphicsMatrixTransformations, CreateScalingMatrix)
     ASSERT_TRUE(scale_matrix_vector == scale_expected);
 }
 
-
 // Tests scaling of points and vectors by vector-matrix multiplication
 TEST(GraphicsMatrixTransformations, Scaling)
 {
@@ -203,4 +202,20 @@ TEST(GraphicsMatrixTransformations, ZAxisRotation)
     const gfx::Vector4 point_full_quarter_actual{ z_rotation_matrix_full_quarter * point_initial  };
 
     EXPECT_TRUE(point_full_quarter_actual == point_full_quarter_expected);
+}
+
+// Test creation of skew/shearing matrices
+TEST(GraphicsMatrixTransformations, CreateSkewMatrix)
+{
+    const gfx::Matrix4 skew_matrix_expected{
+            1.0, 1.0, 2.0, 0.0,
+            3.0, 1.0, 4.0, 0.0,
+            5.0, 6.0, 1.0, 0.0,
+            0.0, 0.0, 0.0, 1.0
+    };
+    const gfx::Matrix4 skew_matrix_actual{ gfx::createSkewMatrix(1.0, 2.0,
+                                                                 3.0, 4.0,
+                                                                 5.0, 6.0) };
+
+    ASSERT_TRUE(skew_matrix_actual == skew_matrix_expected);
 }
