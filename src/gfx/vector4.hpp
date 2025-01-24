@@ -45,6 +45,7 @@ namespace gfx {
         Vector4& operator-=(const Vector4& rhs);
         Vector4& operator*=(float scalar);
         Vector4& operator/=(float scalar);
+        Vector4& operator*=(const Matrix4& rhs);
 
         /* Vector Operations */
 

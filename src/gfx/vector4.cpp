@@ -85,6 +85,24 @@ gfx::Vector4& gfx::Vector4::operator/=(const float scalar)
     return *this;
 }
 
+// Matrix-Vector Multiplication Shorthand Operator
+gfx::Vector4& gfx::Vector4::operator*=(const gfx::Matrix4& rhs)
+{
+    // Populate the array with the dot product of each row with the vector
+    std::array<float, 4> vector_values{ };
+    for (int row = 0; row < 4; ++row) {
+        vector_values[row] =
+                        m_data[0] * rhs[row, 0] +
+                        m_data[1] * rhs[row, 1] +
+                        m_data[2] * rhs[row, 2] +
+                        m_data[3] * rhs[row, 3];
+    }
+
+    // Assign the new values and return
+    m_data = vector_values;
+    return *this;
+}
+
 // Vector Magnitude
 float gfx::Vector4::magnitude() const
 {
