@@ -2,6 +2,7 @@
 
 #include <array>
 #include <span>
+#include <format>
 
 #include "matrix4.hpp"
 
@@ -85,4 +86,22 @@ namespace gfx {
 
     // Returns the dot product of this vector with the input vector
     [[nodiscard]] float dotProduct(const Vector4& lhs, const Vector4& rhs);
+
+
 }
+/* Template Specializations */
+
+// Specialization of std::formatter for Vector4
+template<>
+struct std::formatter<gfx::Vector4> : std::formatter<std::string>
+{
+    auto format(const gfx::Vector4& vec, auto& ctx) const
+    {
+        return std::formatter<std::string>::format(
+                std::format("({}, {}, {}, {})",
+                            vec.x(), vec.y(), vec.z(), vec.w()),
+                            ctx);
+    }
+};
+
+
