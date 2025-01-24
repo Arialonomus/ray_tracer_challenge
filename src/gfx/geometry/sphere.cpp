@@ -1,7 +1,9 @@
 #include "sphere.hpp"
 
+namespace gfx {
 // Equality Operator
-bool gfx::Sphere::operator==(const Sphere& rhs) const
-{
-    return m_transform == rhs.getTransform();
+    bool Sphere::operator==(const Sphere& rhs) const
+    {
+        return m_transform == rhs.getTransform();
+    }
 }
