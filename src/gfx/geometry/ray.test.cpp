@@ -71,3 +71,22 @@ TEST(GraphicsRay, InequalityOperator)
 
     ASSERT_TRUE(ray_a != ray_b);
 }
+
+// Tests the position function
+TEST(GraphicsRay, Position)
+{
+    const gfx::Ray ray{ gfx::createPoint(2, 3, 4),
+                        gfx::createVector(1, 0, 0) };
+
+    const gfx::Vector4 position_a_expected{ gfx::createPoint(2, 3, 4) };
+    EXPECT_EQ(ray.position(0), position_a_expected);
+
+    const gfx::Vector4 position_b_expected{ gfx::createPoint(3, 3, 4) };
+    EXPECT_EQ(ray.position(1), position_b_expected);
+
+    const gfx::Vector4 position_c_expected{ gfx::createPoint(1, 3, 4) };
+    EXPECT_EQ(ray.position(-1), position_c_expected);
+
+    const gfx::Vector4 position_d_expected{ gfx::createPoint(4.5, 3, 4) };
+    EXPECT_EQ(ray.position(2.5), position_d_expected);
+}
