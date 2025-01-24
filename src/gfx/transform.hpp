@@ -41,6 +41,17 @@ namespace gfx {
         };
     }
 
+    // Returns a matrix representing a uniform scaling by a factor of the passed-in scalar value
+    [[nodiscard]] Matrix4 createScalingMatrix(const float scalar)
+    {
+        return Matrix4{
+                scalar, 0.0, 0.0, 0.0,
+                0.0, scalar, 0.0, 0.0,
+                0.0, 0.0, scalar, 0.0,
+                0.0, 0.0, 0.0, 1.0
+        };
+    }
+
     // Returns a matrix representing a scaling by a factor of the passed-in vector
     [[nodiscard]] Matrix4 createScalingMatrix(const Vector4& vec)
     {
