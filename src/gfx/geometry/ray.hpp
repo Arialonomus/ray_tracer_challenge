@@ -1,16 +1,25 @@
 #pragma once
 
+#include <vector>
+
 #include "vector4.hpp"
+#include "sphere.hpp"
 
 namespace gfx {
     class Ray
     {
     public:
         /* Constructors */
-        
+
         Ray() = default;
+
         Ray(const Vector4& origin, const Vector4& direction)
                 : m_origin{ origin }, m_direction{ direction }
+        {}
+        Ray(const float origin_x, const float origin_y, const float origin_z,
+            const float direction_x, const float direction_y, const float direction_z)
+                : m_origin{ origin_x, origin_y, origin_z, 1.0 },
+                  m_direction{ direction_x, direction_y, direction_z, 0.0 }
         {}
         Ray(const Ray&) = default;
         Ray(const Ray&&) = default;
