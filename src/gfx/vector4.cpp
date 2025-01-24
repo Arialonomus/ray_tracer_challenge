@@ -45,6 +45,10 @@ gfx::Vector4& gfx::Vector4::operator+=(const Vector4& rhs)
     m_data[2] += rhs.z();
     m_data[3] += rhs.w();
 
+    if (m_data[3] > 1) {
+        throw std::invalid_argument{ "Cannot add two points" };
+    }
+
     return *this;
 }
 
@@ -131,7 +135,12 @@ gfx::Vector4 gfx::createPoint(const float x, const float y, const float z)
 // Addition Operator
 gfx::Vector4 gfx::operator+(const Vector4& lhs, const Vector4& rhs)
 {
-    return Vector4{ lhs.x() + rhs.x(), lhs.y() + rhs.y(), lhs.z() + rhs.z(), lhs.w() + rhs.w() };
+    const float w_sum = lhs.w() + rhs.w();
+    if (w_sum > 1) {
+        throw std::invalid_argument{ "Cannot add two points" };
+    }
+
+    return Vector4{ lhs.x() + rhs.x(), lhs.y() + rhs.y(), lhs.z() + rhs.z(), w_sum };
 }
 
 // Subtraction Operator
