@@ -17,7 +17,7 @@ namespace gfx {
         };
     }
 
-    // Returns a matrix representing a translation along a passed-in vector
+    // Returns a matrix representing a translation along the passed-in vector
     [[nodiscard]] Matrix4 getTranslationMatrix(const Vector4& vec)
     {
         return Matrix4{
@@ -25,6 +25,29 @@ namespace gfx {
                 0.0, 1.0, 0.0, vec.y(),
                 0.0, 0.0, 1.0, vec.z(),
                 0.0, 0.0, 0.0, 1.0
+        };
+    }
+
+    // Returns a matrix representing a scaling by a factor of the vector formed by passed-in coordinates
+    [[nodiscard]] Matrix4 getScalingMatrix(const float x, const float y, const float z)
+    {
+        return Matrix4{
+                x, 0.0, 0.0, 0.0,
+                0.0, y, 0.0, 0.0,
+                0.0, 0.0, z, 0.0,
+                0.0, 0.0, 0.0, 1.0
+        };
+    }
+
+    // Returns a matrix representing a scaling by a factor of the passed-in vector
+    [[nodiscard]] Matrix4 getScalingMatrix(const Vector4& vec)
+    {
+        return Matrix4{
+                vec.x(), 0.0, 0.0, 0.0,
+                0.0, vec.y(), 0.0, 0.0,
+                0.0, 0.0, vec.z(), 0.0,
+                0.0, 0.0, 0.0, 1.0
+
         };
     }
 }
