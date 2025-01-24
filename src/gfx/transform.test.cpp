@@ -59,14 +59,28 @@ TEST(GraphicsMatrixTransformations, CreateScalingMatrix)
             0.0, 0.0, 4.0, 0.0,
             0.0, 0.0, 0.0, 1.0
     };
+
+    // Test construction via list of floats
     const gfx::Matrix4 scale_matrix_float{ gfx::createScalingMatrix(2.0, 3.0, 4.0) };
 
     ASSERT_TRUE(scale_matrix_float == scale_expected);
 
+    // Test construction via vector
     const gfx::Vector4 scale_vector{ gfx::createVector(2.0, 3.0, 4.0) };
     const gfx::Matrix4 scale_matrix_vector{ gfx::createScalingMatrix(scale_vector) };
 
     ASSERT_TRUE(scale_matrix_vector == scale_expected);
+
+    // Test uniform scaling constructor via scalar value
+    const gfx::Matrix4 uniform_scale_expected{
+            5.0, 0.0, 0.0, 0.0,
+            0.0, 5.0, 0.0, 0.0,
+            0.0, 0.0, 5.0, 0.0,
+            0.0, 0.0, 0.0, 1.0
+    };
+    const gfx::Matrix4 uniform_scale_matrix{ gfx::createScalingMatrix(5.0) };
+
+    ASSERT_TRUE(uniform_scale_matrix == uniform_scale_expected);
 }
 
 // Tests scaling of points and vectors by vector-matrix multiplication
