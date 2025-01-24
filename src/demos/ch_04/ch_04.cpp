@@ -36,7 +36,7 @@ int main(int argc, char** argv)
                                                                                std::round(CANVAS_DIMENSION / 2),
                                                                                0.0) };
     const gfx::Matrix4 radius_scaling_matrix{ gfx::createScalingMatrix(RADIUS) };
-    gfx::Matrix4 clock_rotation_matrix{ gfx::createZRotationMatrix(-M_PI / 6) };
+    const gfx::Matrix4 clock_rotation_matrix{ gfx::createZRotationMatrix(-M_PI / 6) };  // Negate angle for clockwise rotation
 
     // Draw the clock face to the canvas
     gfx::Color white{ 1, 1, 1 };
