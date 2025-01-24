@@ -279,3 +279,27 @@ TEST(GraphicsMatrixTransformations, Skew)
 
     EXPECT_TRUE(point_z_y_actual == point_z_y_expected);
 }
+
+// Tests chaining of transformations sequentially and as a single transform matrix
+TEST(GraphicsMatrixTransformations, ChainedTransformations)
+{
+    // Test sequential transformations
+    const gfx::Vector4 point_initial{ gfx::createPoint(1.0, 0.0, 1.0) };
+    const gfx::Matrix4 x_rotation_matrix{ gfx::createXRotationMatrix(M_PI_2) };
+    const gfx::Matrix4 scale_matrix{ gfx::createScalingMatrix(5.0, 5.0, 5.0) };
+    const gfx::Matrix4 translation_matrix{ gfx::createTranslationMatrix(10.0, 5.0, 7.0) };
+
+    const gfx::Vector4 point_expected{ gfx::createPoint(15.0, 0.0, 7.0) };
+
+    gfx::Vector4 point_sequential_actual{ x_rotation_matrix * point_initial };
+    point_sequential_actual *= scale_matrix;
+    point_sequential_actual *= translation_matrix;
+
+    EXPECT_TRUE(point_sequential_actual == point_expected);
+
+    // Test building a chained transformation matrix
+    const gfx::Matrix4 transformation_matrix{ translation_matrix * scale_matrix * x_rotation_matrix };
+    gfx::Vector4 point_combined_transform_actual{ transformation_matrix * point_initial };
+
+    EXPECT_TRUE(point_combined_transform_actual == point_expected);
+}
