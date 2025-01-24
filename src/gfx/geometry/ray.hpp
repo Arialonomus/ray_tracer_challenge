@@ -48,8 +48,13 @@ namespace gfx {
         { return m_direction; }
 
         // Returns the position along the ray at a distance t from the origin
-        [[nodiscard]] const Vector4 position(const float t) const
+        [[nodiscard]] Vector4 position(const float t) const
         { return m_origin + (m_direction * t); }
+
+        /* Ray-Tracing Operations */
+
+        // Returns a vector of floats representing the t-values at which ray intersects a passed-in sphere
+        [[nodiscard]] std::vector<float> getIntersections(const Sphere& sphere) const;
 
     private:
         Vector4 m_origin{ 0.0, 0.0, 0.0, 1.0 };
