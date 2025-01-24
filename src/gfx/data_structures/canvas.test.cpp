@@ -1,10 +1,10 @@
 #include "gtest/gtest.h"
-
 #include "canvas.hpp"
-#include "color.hpp"
 
 #include <string>
 #include <sstream>
+
+#include "color.hpp"
 
 // Tests the standard constructor (initialized to black)
 TEST(GraphicsCanvas, Constructor)

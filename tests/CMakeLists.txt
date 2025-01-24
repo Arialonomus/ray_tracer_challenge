@@ -7,13 +7,13 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 # Gather unit test source files
 set(UNIT_TESTS
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/vector4.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/color.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/canvas.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/matrix2.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/matrix3.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/matrix4.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/transform.test.cpp
+        ../src/gfx/data_structures/vector4.test.cpp
+        ../src/gfx/data_structures/color.test.cpp
+        ../src/gfx/data_structures/canvas.test.cpp
+        ../src/gfx/data_structures/matrix2.test.cpp
+        ../src/gfx/data_structures/matrix3.test.cpp
+        ../src/gfx/data_structures/matrix4.test.cpp
+        ../src/gfx/functions/transform.test.cpp
 )
 
 # Gather all test sources into single variable
@@ -30,7 +30,6 @@ target_link_libraries(Google_Tests_run PRIVATE gtest gtest_main gfx)
 # Ensure the correct include directories are set for tests
 target_include_directories(Google_Tests_run PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/utils
 )
 
 # Ensure Google Test headers are visible globally

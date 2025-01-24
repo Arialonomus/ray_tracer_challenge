@@ -1,6 +1,6 @@
 #include "color.hpp"
 
-#include "../utils/util_functions.hpp"
+#include "util_functions.hpp"
 
 // Equality Operator
 bool gfx::Color::operator==(const Color& rhs) const

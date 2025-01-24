@@ -3,19 +3,20 @@ add_library(gfx)
 
 # Set source files for the gfx library
 target_sources(gfx PRIVATE
-        utils/util_functions.cpp
-        gfx/vector4.cpp
-        gfx/color.cpp
-        gfx/canvas.cpp
-        gfx/matrix2.cpp
-        gfx/matrix3.cpp
-        gfx/matrix4.cpp
+        gfx/utils/util_functions.cpp
+        gfx/data_structures/vector4.cpp
+        gfx/data_structures/color.cpp
+        gfx/data_structures/canvas.cpp
+        gfx/data_structures/matrix2.cpp
+        gfx/data_structures/matrix3.cpp
+        gfx/data_structures/matrix4.cpp
 )
 
 # Include the directories for the gfx library
 target_include_directories(gfx PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/gfx
-        ${CMAKE_CURRENT_SOURCE_DIR}/utils
+        ${CMAKE_CURRENT_SOURCE_DIR}/gfx/data_structures
+        ${CMAKE_CURRENT_SOURCE_DIR}/gfx/functions
+        ${CMAKE_CURRENT_SOURCE_DIR}/gfx/utils
 )
 
 # Set C++ standard for the gfx library
@@ -42,6 +43,10 @@ set(DEMO_TARGETS
 # Apply common configurations for all demo executables
 foreach(DEMO_TARGET ${DEMO_TARGETS})
     target_link_libraries(${DEMO_TARGET} PRIVATE gfx)
-    target_include_directories(${DEMO_TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/gfx)
+    target_include_directories(${DEMO_TARGET} PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/gfx/data_structures
+            ${CMAKE_CURRENT_SOURCE_DIR}/gfx/functions
+            ${CMAKE_CURRENT_SOURCE_DIR}/gfx/utils
+    )
 endforeach()
 
