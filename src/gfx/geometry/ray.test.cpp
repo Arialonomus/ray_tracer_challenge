@@ -102,3 +102,71 @@ TEST(GraphicsRay, Position)
     const gfx::Vector4 position_d_expected{ gfx::createPoint(4.5, 3, 4) };
     EXPECT_EQ(ray.position(2.5), position_d_expected);
 }
+
+// Tests a ray intersecting a sphere at two points
+TEST(GraphicsRay, RaySphereFullIntersection)
+{
+    const gfx::Ray ray{ 0, 0, -5,
+                        0, 0, 1 };
+    const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
+
+    std::vector<float> intersections{ ray.getIntersections(sphere) };
+
+    EXPECT_EQ(intersections.size(), 2);
+    EXPECT_FLOAT_EQ(intersections.at(0), 4.0);
+    EXPECT_FLOAT_EQ(intersections.at(1), 6.0);
+}
+
+// Tests a ray intersecting a sphere at one point (ray is tangent to the sphere)
+TEST(GraphicsRay, RaySphereTangentIntersection)
+{
+    const gfx::Ray ray{ 0, 1, -5,
+                        0, 0, 1 };
+    const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
+
+    std::vector<float> intersections{ ray.getIntersections(sphere) };
+
+    EXPECT_EQ(intersections.size(), 2);
+    EXPECT_FLOAT_EQ(intersections.at(0), 5.0);
+    EXPECT_FLOAT_EQ(intersections.at(1), 5.0);
+}
+
+// Tests a ray missing a sphere
+TEST(GraphicsRay, RaySphereMiss)
+{
+    const gfx::Ray ray{ 0, 2, -5,
+                        0, 0, 1 };
+    const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
+
+    std::vector<float> intersections{ ray.getIntersections(sphere) };
+
+    EXPECT_EQ(intersections.size(), 0);
+}
+
+// Tests a ray originating inside a sphere
+TEST(GraphicsRay, RayIntersectionOriginInSphere)
+{
+    const gfx::Ray ray{ 0, 0, 0,
+                        0, 0, 1 };
+    const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
+
+    std::vector<float> intersections{ ray.getIntersections(sphere) };
+
+    EXPECT_EQ(intersections.size(), 2);
+    EXPECT_FLOAT_EQ(intersections.at(0), -1.0);
+    EXPECT_FLOAT_EQ(intersections.at(1), 1.0);
+}
+
+// Tests a ray originating beyond a sphere
+TEST(GraphicsRay, RayIntersectionOriginBeyondSphere)
+{
+    const gfx::Ray ray{ 0, 0, 5,
+                        0, 0, 1 };
+    const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
+
+    std::vector<float> intersections{ ray.getIntersections(sphere) };
+
+    EXPECT_EQ(intersections.size(), 2);
+    EXPECT_FLOAT_EQ(intersections.at(0), -6.0);
+    EXPECT_FLOAT_EQ(intersections.at(1), 4.0);
+}
