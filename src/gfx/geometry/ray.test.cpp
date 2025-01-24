@@ -110,11 +110,11 @@ TEST(GraphicsRay, RaySphereFullIntersection)
                         0, 0, 1 };
     const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
 
-    std::vector<float> intersections{ ray.getIntersections(sphere) };
+    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
 
     EXPECT_EQ(intersections.size(), 2);
-    EXPECT_FLOAT_EQ(intersections.at(0), 4.0);
-    EXPECT_FLOAT_EQ(intersections.at(1), 6.0);
+    EXPECT_FLOAT_EQ(intersections.at(0).t, 4.0);
+    EXPECT_FLOAT_EQ(intersections.at(1).t, 6.0);
 }
 
 // Tests a ray intersecting a sphere at one point (ray is tangent to the sphere)
@@ -124,11 +124,11 @@ TEST(GraphicsRay, RaySphereTangentIntersection)
                         0, 0, 1 };
     const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
 
-    std::vector<float> intersections{ ray.getIntersections(sphere) };
+    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
 
     EXPECT_EQ(intersections.size(), 2);
-    EXPECT_FLOAT_EQ(intersections.at(0), 5.0);
-    EXPECT_FLOAT_EQ(intersections.at(1), 5.0);
+    EXPECT_FLOAT_EQ(intersections.at(0).t, 5.0);
+    EXPECT_FLOAT_EQ(intersections.at(1).t, 5.0);
 }
 
 // Tests a ray missing a sphere
@@ -138,7 +138,7 @@ TEST(GraphicsRay, RaySphereMiss)
                         0, 0, 1 };
     const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
 
-    std::vector<float> intersections{ ray.getIntersections(sphere) };
+    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
 
     EXPECT_EQ(intersections.size(), 0);
 }
@@ -150,11 +150,11 @@ TEST(GraphicsRay, RayIntersectionOriginInSphere)
                         0, 0, 1 };
     const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
 
-    std::vector<float> intersections{ ray.getIntersections(sphere) };
+    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
 
     EXPECT_EQ(intersections.size(), 2);
-    EXPECT_FLOAT_EQ(intersections.at(0), -1.0);
-    EXPECT_FLOAT_EQ(intersections.at(1), 1.0);
+    EXPECT_FLOAT_EQ(intersections.at(0).t, -1.0);
+    EXPECT_FLOAT_EQ(intersections.at(1).t, 1.0);
 }
 
 // Tests a ray originating beyond a sphere
@@ -164,9 +164,9 @@ TEST(GraphicsRay, RayIntersectionOriginBeyondSphere)
                         0, 0, 1 };
     const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
 
-    std::vector<float> intersections{ ray.getIntersections(sphere) };
+    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
 
     EXPECT_EQ(intersections.size(), 2);
-    EXPECT_FLOAT_EQ(intersections.at(0), -6.0);
-    EXPECT_FLOAT_EQ(intersections.at(1), -4.0);
+    EXPECT_FLOAT_EQ(intersections.at(0).t, -6.0);
+    EXPECT_FLOAT_EQ(intersections.at(1).t, -4.0);
 }
