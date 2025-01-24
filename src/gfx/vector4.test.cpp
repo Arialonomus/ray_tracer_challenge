@@ -112,28 +112,45 @@ TEST(GraphicsVector4, InequalityOperator)
 TEST(GraphicsVector4, AdditionOperator)
 {
     const gfx::Vector4 vec_a{ 1.0, 2.0, -3.0, 0.0 };
-    const gfx::Vector4 vec_b{ 5.0, -4.5, 7.1, 1.6 };
+    const gfx::Vector4 vec_b{ 5.0, -4.5, 7.1, 0.0 };
 
     const gfx::Vector4 vec_c = vec_a + vec_b;
 
     EXPECT_FLOAT_EQ(vec_c.x(), 6.0);
     EXPECT_FLOAT_EQ(vec_c.y(), -2.5);
     EXPECT_FLOAT_EQ(vec_c.z(), 4.1);
-    EXPECT_FLOAT_EQ(vec_c.w(), 1.6);
+    EXPECT_FLOAT_EQ(vec_c.w(), 0.0);
 }
 
 // Tests vector-vector addition with the shorthand addition operator
 TEST(GraphicsVector4, AdditionShorthandOperator)
 {
     gfx::Vector4 vec_a{ 1.0, 2.0, -3.0, 0.0 };
-    const gfx::Vector4 vec_b{ 5.0, -4.5, 7.1, 1.6 };
+    const gfx::Vector4 vec_b{ 5.0, -4.5, 7.1, 0.0 };
 
     vec_a += vec_b;
 
     EXPECT_FLOAT_EQ(vec_a.x(), 6.0);
     EXPECT_FLOAT_EQ(vec_a.y(), -2.5);
     EXPECT_FLOAT_EQ(vec_a.z(), 4.1);
-    EXPECT_FLOAT_EQ(vec_a.w(), 1.6);
+    EXPECT_FLOAT_EQ(vec_a.w(), 0.0);
+}
+
+// Tests that adding two points throws an invalid_argument exception
+TEST(GraphicsVector4, PointAdditionException)
+{
+    gfx::Vector4 point_a{ 1.0, 2.0, -3.0, 1.0 };
+    const gfx::Vector4 point_b{ 5.0, -4.5, 7.1, 1.0 };
+
+    // Test throwing with normal addition operator
+    EXPECT_THROW({
+        const gfx::Vector4 point_c{ point_a + point_b };
+        }, std::invalid_argument);
+
+    // Test throwing with addition shorthand operator
+    EXPECT_THROW({
+        point_a += point_b;
+        }, std::invalid_argument);
 }
 
 // Tests the subtraction operator
