@@ -51,18 +51,18 @@ TEST(GraphicsMatrixTransformations, Translation)
 // Test creation of translation matrices
 TEST(GraphicsMatrixTransformations, CreateScalingMatrix)
 {
-    const gfx::Matrix4 translate_expected{
+    const gfx::Matrix4 scale_expected{
             2.0, 0.0, 0.0, 0.0,
             0.0, 3.0, 0.0, 0.0,
             0.0, 0.0, 4.0, 0.0,
             0.0, 0.0, 0.0, 1.0
     };
-    const gfx::Matrix4 translate_matrix_float{ gfx::createScalingMatrix(2.0, 3.0, 4.0) };
+    const gfx::Matrix4 scale_matrix_float{ gfx::createScalingMatrix(2.0, 3.0, 4.0) };
 
-    ASSERT_TRUE(translate_matrix_float == translate_expected);
+    ASSERT_TRUE(scale_matrix_float == scale_expected);
 
-    const gfx::Vector4 translate_vector{ gfx::createVector(2.0, 3.0, 4.0) };
-    const gfx::Matrix4 translate_matrix_vector{ gfx::createScalingMatrix(translate_vector) };
+    const gfx::Vector4 scale_vector{ gfx::createVector(2.0, 3.0, 4.0) };
+    const gfx::Matrix4 scale_matrix_vector{ gfx::createScalingMatrix(scale_vector) };
 
-    ASSERT_TRUE(translate_matrix_vector == translate_expected);
+    ASSERT_TRUE(scale_matrix_vector == scale_expected);
 }
