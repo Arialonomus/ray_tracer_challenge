@@ -3,6 +3,8 @@
 
 #include <array>
 #include <cmath>
+#include <string>
+#include <format>
 
 #include "matrix4.hpp"
 
@@ -368,4 +370,15 @@ TEST(GraphicsVector4, CrossProduct)
     EXPECT_FLOAT_EQ(cross_b.y(), -2.0);
     EXPECT_FLOAT_EQ(cross_b.z(), 1.0);
     EXPECT_FLOAT_EQ(cross_b.w(), 0.0);
+}
+
+// Tests the formatter specialization
+TEST(GraphicsVector4, FormatterSpecialization)
+{
+    const gfx::Vector4 vec{ 1.515, 2.31607, 3.2, 4 };
+    const std::string str_expected{ "(1.515, 2.31607, 3.2, 4)"};
+
+    const std::string str_actual{ std::format("{}", vec) };
+
+    EXPECT_TRUE(str_actual == str_expected);
 }
