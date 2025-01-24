@@ -45,7 +45,15 @@ int main(int argc, char** argv)
         const gfx::Vector4 canvas_draw_pos{ (center_translation_matrix * radius_scaling_matrix) * current_clock_point };
         size_t x_pos = std::round(canvas_draw_pos.x());
         size_t y_pos = CANVAS_DIMENSION - std::round(canvas_draw_pos.y());
+
+        // Plot 5 points in a diamond configuration to make the points more visible
         canvas[x_pos, y_pos] = white;
+        canvas[x_pos, y_pos + 1] = white;
+        canvas[x_pos + 1, y_pos] = white;
+        canvas[x_pos, y_pos - 1] = white;
+        canvas[x_pos - 1, y_pos] = white;
+
+        // Get the next position in the clock space
         current_clock_point *= clock_rotation_matrix;
     }
 
