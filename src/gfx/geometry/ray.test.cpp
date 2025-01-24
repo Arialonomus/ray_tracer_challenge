@@ -103,6 +103,20 @@ TEST(GraphicsRay, Position)
     EXPECT_EQ(ray.position(2.5), position_d_expected);
 }
 
+// Tests that Intersection structs correctly refer to the intersected object
+TEST(GraphicsRay, IntersectionStruct)
+{
+    const gfx::Ray ray{ 0, 0, -5,
+                        0, 0, 1 };
+    const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
+
+    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
+
+    EXPECT_EQ(intersections.size(), 2);
+    EXPECT_EQ(&intersections.at(0).object, &sphere);
+    EXPECT_EQ(&intersections.at(1).object, &sphere);
+}
+
 // Tests a ray intersecting a sphere at two points
 TEST(GraphicsRay, RaySphereFullIntersection)
 {
