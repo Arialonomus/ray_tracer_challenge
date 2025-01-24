@@ -129,6 +129,20 @@ TEST(GraphicsMatrix4, InequalityOperator)
     ASSERT_TRUE(matrix_a != matrix_b);
 }
 
+// Tests the identity matrix factory function
+TEST(GraphicsMatrix4, CreateIdentityMatrix)
+{
+    const gfx::Matrix4 matrix_expected{
+            1.0, 0.0, 0.0, 0.0,
+            0.0, 1.0, 0.0, 0.0,
+            0.0, 0.0, 1.0, 0.0,
+            0.0, 0.0, 0.0, 1.0
+    };
+    const gfx::Matrix4 matrix_actual{ gfx::createIdentityMatrix() };
+
+    ASSERT_TRUE(matrix_actual == matrix_expected);
+}
+
 // Tests matrix multiplication using the multiplication operator
 TEST(GraphicsMatrix4, MatrixMultiplicationOperator)
 {
@@ -159,12 +173,7 @@ TEST(GraphicsMatrix4, MatrixMultiplicationOperator)
 // Tests matrix-matrix and matrix-vector multiplication by the identity matrix
 TEST(GraphicsMatrix4, IdentityMatrixMultiplication)
 {
-    const gfx::Matrix4 matrix_identity{
-            1.0, 0.0, 0.0, 0.0,
-            0.0, 1.0, 0.0, 0.0,
-            0.0, 0.0, 1.0, 0.0,
-            0.0, 0.0, 0.0, 1.0
-    };
+    const gfx::Matrix4 matrix_identity{ gfx::createIdentityMatrix() };
     const gfx::Matrix4 matrix_a{
             0.0, 1.0, 2.0, 4.0,
             1.0, 2.0, 4.0, 4.0,
