@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 #include "transform.hpp"
 
+#include <cmath>
+
 #include "matrix4.hpp"
 #include "vector4.hpp"
 
@@ -104,5 +106,41 @@ TEST(GraphicsMatrixTransformations, Reflection)
     const gfx::Vector4 point_reflected_actual{ reflection_matrix * point_initial };
 
     EXPECT_TRUE(point_reflected_actual == point_expected);
+}
 
+// Test creation of rotation matrices
+TEST(GraphicsMatrixTransformations, CreateRotationMatrices)
+{
+    // Test creation of x-axis rotation matrix
+    const gfx::Matrix4 x_rotation_matrix_expected{
+            1.0, 0.0, 0.0, 0.0,
+            0.0, std::sqrt(2.0f) / 2.0f, -std::sqrt(2.0f) / 2.0f, 0.0,
+            0.0, std::sqrt(2.0f) / 2.0f, std::sqrt(2.0f) / 2.0f, 0.0,
+            0.0, 0.0, 0.0, 1.0
+    };
+    const gfx::Matrix4 x_rotation_matrix_actual{ gfx::createXRotationMatrix(M_PI_4) };
+
+    ASSERT_TRUE(x_rotation_matrix_actual == x_rotation_matrix_expected);
+
+    // Test creation of y-axis rotation matrix
+    const gfx::Matrix4 y_rotation_matrix_expected{
+            std::sqrt(2.0f) / 2.0f, 0.0, std::sqrt(2.0f) / 2.0f, 0.0,
+            0.0, 1.0, 0.0, 0.0,
+            -std::sqrt(2.0f) / 2.0f, 0.0, std::sqrt(2.0f) / 2.0f, 0.0,
+            0.0, 0.0, 0.0, 1.0
+    };
+    const gfx::Matrix4 y_rotation_matrix_actual{ gfx::createYRotationMatrix(M_PI_4) };
+
+    ASSERT_TRUE(y_rotation_matrix_actual == y_rotation_matrix_expected);
+
+    // Test creation of z-axis rotation matrix
+    const gfx::Matrix4 z_rotation_matrix_expected{
+            std::sqrt(2.0f) / 2.0f, -std::sqrt(2.0f) / 2.0f, 0.0, 0.0,
+            std::sqrt(2.0f) / 2.0f, std::sqrt(2.0f) / 2.0f, 0.0, 0.0,
+            0.0, 0.0, 1.0, 0.0,
+            0.0, 0.0, 0.0, 1.0
+    };
+    const gfx::Matrix4 z_rotation_matrix_actual{ gfx::createZRotationMatrix(M_PI_4) };
+
+    ASSERT_TRUE(z_rotation_matrix_actual == z_rotation_matrix_expected);
 }
