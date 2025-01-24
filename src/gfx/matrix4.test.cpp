@@ -2,6 +2,7 @@
 #include "matrix4.hpp"
 
 #include "matrix3.hpp"
+#include "vector4.hpp"
 
 // Tests the default constructor
 TEST(GraphicsMatrix4, DefaultConstructor)
@@ -153,23 +154,6 @@ TEST(GraphicsMatrix4, MatrixMultiplicationOperator)
     const gfx::Matrix4 matrix_c = matrix_a * matrix_b;
 
     EXPECT_TRUE(matrix_c == matrix_expected);
-}
-
-// Tests matrix-vector multiplication using the multiplication operator
-TEST(GraphicsMatrix4, VectorMultiplicationOperator)
-{
-    const gfx::Matrix4 matrix{
-            1.0, 2.0, 3.0, 4.0,
-            2.0, 4.0, 4.0, 2.0,
-            8.0, 6.0, 4.0, 1.0,
-            0.0, 0.0, 0.0, 1.0
-    };
-    const gfx::Vector4 vector_a{ 1.0, 2.0, 3.0, 1.0 };
-    const gfx::Vector4 vector_expected{ 18.0, 24.0, 33.0, 1.0 };
-
-    const gfx::Vector4 vector_b = matrix * vector_a;
-
-    EXPECT_TRUE(vector_b == vector_expected);
 }
 
 // Tests matrix-matrix and matrix-vector multiplication by the identity matrix

@@ -1,9 +1,10 @@
 #include "gtest/gtest.h"
+#include "vector4.hpp"
 
 #include <array>
 #include <cmath>
 
-#include "vector4.hpp"
+#include "matrix4.hpp"
 
 // Tests the default constructor
 TEST(GraphicsVector4, DefaultConstructor)
@@ -263,6 +264,23 @@ TEST(GraphicsVector4, ScalarDivisionShorthand)
     EXPECT_FLOAT_EQ(vec.y(), -1.0);
     EXPECT_FLOAT_EQ(vec.z(), 1.5);
     EXPECT_FLOAT_EQ(vec.w(), -2.0);
+}
+
+// Tests matrix-vector multiplication using the multiplication operator
+TEST(GraphicsVector4, MatrixMultiplicationOperator)
+{
+    const gfx::Matrix4 matrix{
+            1.0, 2.0, 3.0, 4.0,
+            2.0, 4.0, 4.0, 2.0,
+            8.0, 6.0, 4.0, 1.0,
+            0.0, 0.0, 0.0, 1.0
+    };
+    const gfx::Vector4 vector_a{ 1.0, 2.0, 3.0, 1.0 };
+    const gfx::Vector4 vector_expected{ 18.0, 24.0, 33.0, 1.0 };
+
+    const gfx::Vector4 vector_b = matrix * vector_a;
+
+    EXPECT_TRUE(vector_b == vector_expected);
 }
 
 // Tests the magnitude member function
