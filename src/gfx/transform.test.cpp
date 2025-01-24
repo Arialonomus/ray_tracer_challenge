@@ -66,3 +66,43 @@ TEST(GraphicsMatrixTransformations, CreateScalingMatrix)
 
     ASSERT_TRUE(scale_matrix_vector == scale_expected);
 }
+
+
+// Tests scaling of points and vectors by vector-matrix multiplication
+TEST(GraphicsMatrixTransformations, Scaling)
+{
+    const gfx::Matrix4 scale_matrix{ gfx::createScalingMatrix(2.0, 3.0, 4.0) };
+    const gfx::Vector4 point_initial{ gfx::createPoint(-4.0, 6.0, 8.0) };
+
+    // Test scaling a point
+    const gfx::Vector4 point_expected{ gfx::createPoint(-8.0, 18.0, 32.0) };
+    const gfx::Vector4 point_scaled_actual{ scale_matrix * point_initial };
+
+    EXPECT_TRUE(point_scaled_actual == point_expected);
+
+    // Test scaling a vector
+    const gfx::Vector4 vector_initial{ gfx::createVector(-4.0, 6.0, 8.0) };
+    const gfx::Vector4 vector_expected_a{ gfx::createVector(-8.0, 18.0, 32.0) };
+    const gfx::Vector4 vector_scaled_actual_a{ scale_matrix * vector_initial };
+
+    EXPECT_TRUE(vector_scaled_actual_a == vector_expected_a);
+
+    // Test reverse scaling of a vector via multiplying by scaling matrix inverse
+    const gfx::Vector4 vector_expected_b{ gfx::createVector(-2.0, 2.0, 2.0) };
+    const gfx::Vector4 vector_scaled_actual_b{ scale_matrix.inverse() * vector_initial };
+
+    EXPECT_TRUE(vector_scaled_actual_b == vector_expected_b);
+}
+
+// Tests reflection of a point by vector-matrix multiplication using negative scaling matrix values
+TEST(GraphicsMatrixTransformations, Reflection)
+{
+    const gfx::Matrix4 reflection_matrix{ gfx::createScalingMatrix(-1.0, 1.0, 1.0) };
+    const gfx::Vector4 point_initial{ gfx::createPoint(2.0, 3.0, 4.0) };
+
+    const gfx::Vector4 point_expected{ gfx::createPoint(-2.0, 3.0, 4.0) };
+    const gfx::Vector4 point_reflected_actual{ reflection_matrix * point_initial };
+
+    EXPECT_TRUE(point_reflected_actual == point_expected);
+
+}
