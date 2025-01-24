@@ -134,6 +134,21 @@ gfx::Vector4 gfx::operator*(const float lhs, const Vector4& rhs)
     return rhs * lhs;
 }
 
+// Matrix-Vector Multiplication Operator
+gfx::Vector4 gfx::operator*(const gfx::Matrix4& lhs, const gfx::Vector4& rhs)
+{
+    std::array<float, 4> vector_values{ };
+    for (int row = 0; row < 4; ++row) {
+        vector_values[row] =
+                lhs[row, 0] * rhs.x() +
+                lhs[row, 1] * rhs.y() +
+                lhs[row, 2] * rhs.z() +
+                lhs[row, 3] * rhs.w();
+    }
+
+    return gfx::Vector4{ vector_values };
+}
+
 // Normalize Vector
 gfx::Vector4 gfx::normalize(const Vector4& src)
 {

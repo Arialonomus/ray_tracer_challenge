@@ -3,7 +3,6 @@
 #include <array>
 #include <span>
 
-#include "vector4.hpp"
 #include "matrix3.hpp"
 
 namespace gfx {
@@ -71,5 +70,4 @@ namespace gfx {
     /* Global Arithmetic Operator Overloads */
 
     [[nodiscard]] Matrix4 operator*(const Matrix4& lhs, const Matrix4& rhs);
-    [[nodiscard]] Vector4 operator*(const Matrix4& lhs, const Vector4& rhs);
 };

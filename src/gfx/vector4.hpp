@@ -3,6 +3,8 @@
 #include <array>
 #include <span>
 
+#include "matrix4.hpp"
+
 namespace gfx {
     class Vector4
     {
@@ -53,6 +55,8 @@ namespace gfx {
         [[nodiscard]] Vector4 crossProduct(const Vector4& rhs) const;
 
     private:
+        /* Data Members */
+
         std::array<float, 4> m_data{ 0.0, 0.0, 0.0, 0.0 };
     };
 
@@ -70,6 +74,7 @@ namespace gfx {
     [[nodiscard]] Vector4 operator-(const Vector4& lhs, const Vector4& rhs);
     [[nodiscard]] Vector4 operator*(const Vector4& lhs, float rhs);
     [[nodiscard]] Vector4 operator*(float lhs, const Vector4& rhs);
+    [[nodiscard]] Vector4 operator*(const Matrix4& lhs, const Vector4& rhs);
 
     /* Global Vector Operations */
 
