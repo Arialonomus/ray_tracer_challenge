@@ -318,6 +318,15 @@ TEST(GraphicsMatrix4, InvertMatrix)
     EXPECT_TRUE(matrix_c_inverse_actual == matrix_c_inverse_expected);
 }
 
+// Tests inversion of the identity matrix
+TEST(GraphicsMatrix4, InvertIdentityMatrix)
+{
+    const gfx::Matrix4 matrix_identity{ gfx::createIdentityMatrix() };
+    const gfx::Matrix4 matrix_inverse{ matrix_identity.inverse() };
+
+    EXPECT_EQ(matrix_inverse, matrix_identity);
+}
+
 // Tests multiplying a matrix by its inverse to get the identity matrix
 TEST(GraphicsMatrix4, MultiplyByInverse)
 {
