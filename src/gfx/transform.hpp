@@ -85,4 +85,18 @@ namespace gfx {
                 0.0, 0.0, 0.0, 1.0
         };
     }
+
+    // Returns a matrix representing a shearing/skew of each component in proportion to the other components
+    [[nodiscard]] Matrix4 createSkewMatrix(
+            const float x_y, const float x_z,
+            const float y_x, const float y_z,
+            const float z_x, const float z_y)
+    {
+        return Matrix4{
+                1.0, x_y, x_z, 0.0,
+                y_x, 1.0, y_z, 0.0,
+                z_x, z_y, 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0
+        };
+    }
 }
