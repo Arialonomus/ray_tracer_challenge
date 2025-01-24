@@ -168,5 +168,5 @@ TEST(GraphicsRay, RayIntersectionOriginBeyondSphere)
 
     EXPECT_EQ(intersections.size(), 2);
     EXPECT_FLOAT_EQ(intersections.at(0), -6.0);
-    EXPECT_FLOAT_EQ(intersections.at(1), 4.0);
+    EXPECT_FLOAT_EQ(intersections.at(1), -4.0);
 }
