@@ -99,13 +99,13 @@ gfx::Vector4 gfx::Vector4::crossProduct(const Vector4& rhs) const
 }
 
 // Vector Factory Function
-gfx::Vector4 gfx::vector(const float x, const float y, const float z)
+gfx::Vector4 gfx::createVector(const float x, const float y, const float z)
 {
     return Vector4{ x, y, z, 0.0 };
 }
 
 // Point Factory Function
-gfx::Vector4 gfx::point(const float x, const float y, const float z)
+gfx::Vector4 gfx::createPoint(const float x, const float y, const float z)
 {
     return Vector4{ x, y, z, 1.0 };
 }

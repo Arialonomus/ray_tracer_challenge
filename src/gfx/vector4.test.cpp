@@ -54,7 +54,7 @@ TEST(GraphicsVector4, CopyConstructor)
 // Tests the assignment operator
 TEST(GraphicsVector4, AssignmentOperator)
 {
-    gfx::Vector4 vec_a{ 1.0, 2.0, 3.0, 2.0 };
+    gfx::Vector4 vec_a{ };
     const gfx::Vector4 vec_b{ 17.0, -3.5, 1.2, 3.7 };
 
     vec_a = vec_b;
@@ -68,7 +68,7 @@ TEST(GraphicsVector4, AssignmentOperator)
 // Tests the vector factory function
 TEST(GraphicsVector4, VectorFactory)
 {
-    const gfx::Vector4 vec = gfx::vector(4.0, -4.0, 3.0);
+    const gfx::Vector4 vec = gfx::createVector(4.0, -4.0, 3.0);
 
     ASSERT_FLOAT_EQ(vec.x(), 4.0);
     ASSERT_FLOAT_EQ(vec.y(), -4.0);
@@ -79,7 +79,7 @@ TEST(GraphicsVector4, VectorFactory)
 // Tests the point factory function
 TEST(GraphicsVector4, PointFactory)
 {
-    const gfx::Vector4 vec = gfx::point(4.0, -4.0, 3.0);
+    const gfx::Vector4 vec = gfx::createPoint(4.0, -4.0, 3.0);
 
     ASSERT_FLOAT_EQ(vec.x(), 4.0);
     ASSERT_FLOAT_EQ(vec.y(), -4.0);

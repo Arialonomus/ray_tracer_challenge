@@ -59,10 +59,10 @@ namespace gfx {
     /* Factory Functions */
 
     // Returns a Vector4 representing a vector in space
-    [[nodiscard]] Vector4 vector(float x, float y, float z);
+    [[nodiscard]] Vector4 createVector(float x, float y, float z);
 
     // Returns a Vector4 representing a point in space
-    [[nodiscard]] Vector4 point(float x, float y, float z);
+    [[nodiscard]] Vector4 createPoint(float x, float y, float z);
 
     /* Global Arithmetic Operator Overloads */
 

@@ -44,28 +44,28 @@ int main(int argc, char** argv)
     file >> x;
     file >> y;
     file >> z;
-    gfx::Vector4 initial_position = gfx::point(x, y, z);
+    gfx::Vector4 initial_position = gfx::createPoint(x, y, z);
 
     // Read in the projectile velocity data
     file >> x;
     file >> y;
     file >> z;
-    gfx::Vector4 initial_velocity = gfx::vector(x, y, z);
+    gfx::Vector4 initial_velocity = gfx::createVector(x, y, z);
 
     // Read in wind_speed data (if present)
-    gfx::Vector4 wind_speed = gfx::vector(0.0, 0.0, 0.0);
+    gfx::Vector4 wind_speed = gfx::createVector(0.0, 0.0, 0.0);
     if (!file.eof()) {
         file >> x;
         file >> y;
         file >> z;
-        wind_speed = gfx::vector(x, y, z);
+        wind_speed = gfx::createVector(x, y, z);
     }
 
     // Read in gravity data (if present)
-    gfx::Vector4 gravity = gfx::vector(0.0, -9.8, 0.0);
+    gfx::Vector4 gravity = gfx::createVector(0.0, -9.8, 0.0);
     if (!file.eof()) {
         file >> y;
-        gravity = gfx::vector(0.0, y, 0.0);
+        gravity = gfx::createVector(0.0, y, 0.0);
     }
 
     // Initialize the data
