@@ -84,6 +84,18 @@ gfx::Matrix4 gfx::Matrix4::inverse() const
     return inverted_matrix;
 }
 
+// Identity Matrix Factory Function
+gfx::Matrix4 gfx::createIdentityMatrix()
+{
+    return Matrix4{
+            1.0, 0.0, 0.0, 0.0,
+            0.0, 1.0, 0.0, 0.0,
+            0.0, 0.0, 1.0, 0.0,
+            0.0, 0.0, 0.0, 1.0
+    };
+}
+
+
 // Matrix Multiplication Operator
 gfx::Matrix4 gfx::operator*(const Matrix4& lhs, const gfx::Matrix4& rhs)
 {

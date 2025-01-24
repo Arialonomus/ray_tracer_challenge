@@ -67,6 +67,11 @@ namespace gfx {
         std::array<float, 16> m_data{};
     };
 
+    /* Matrix Factory Functions */
+
+    // Returns a 4x4 matrix representing the identity matrix
+    [[nodiscard]] Matrix4 createIdentityMatrix();
+
     /* Global Arithmetic Operator Overloads */
 
     [[nodiscard]] Matrix4 operator*(const Matrix4& lhs, const Matrix4& rhs);
