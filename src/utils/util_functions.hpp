@@ -4,7 +4,7 @@
 
 namespace utils
 {
-    constexpr float EPSILON = 1e-6f;    // Tolerance value for relative float comparison
+    constexpr float EPSILON{ 1e-6f };    // Tolerance value for relative float comparison
 
     // Uses relative comparison for two floating point numbers to determine if they are equal
     bool areEqual(float f1, float f2);
