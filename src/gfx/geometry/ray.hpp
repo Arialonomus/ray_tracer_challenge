@@ -60,4 +60,9 @@ namespace gfx {
         Vector4 m_origin{ 0.0, 0.0, 0.0, 1.0 };
         Vector4 m_direction{ 0.0, 0.0, 0.0, 0.0 };
     };
+
+    struct Intersection {
+        float t;
+        Sphere& object;
+    };
 }
