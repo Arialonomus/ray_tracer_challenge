@@ -283,6 +283,24 @@ TEST(GraphicsVector4, MatrixMultiplicationOperator)
     EXPECT_TRUE(vector_b == vector_expected);
 }
 
+// Tests matrix-vector multiplication using the multiplication shorthand operator
+TEST(GraphicsVector4, MatrixMultiplicationShorthandOperator)
+{
+    const gfx::Matrix4 matrix{
+            1.0, 2.0, 3.0, 4.0,
+            2.0, 4.0, 4.0, 2.0,
+            8.0, 6.0, 4.0, 1.0,
+            0.0, 0.0, 0.0, 1.0
+    };
+    const gfx::Vector4 vector_expected{ 18.0, 24.0, 33.0, 1.0 };
+
+    gfx::Vector4 vector_actual{ 1.0, 2.0, 3.0, 1.0 };
+
+    vector_actual *= matrix;
+
+    EXPECT_TRUE(vector_actual == vector_expected);
+}
+
 // Tests the magnitude member function
 TEST(GraphicsVector4, Magnitude)
 {
