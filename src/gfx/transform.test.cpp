@@ -144,3 +144,63 @@ TEST(GraphicsMatrixTransformations, CreateRotationMatrices)
 
     ASSERT_TRUE(z_rotation_matrix_actual == z_rotation_matrix_expected);
 }
+
+// Tests rotating points around the x-axis
+TEST(GraphicsMatrixTransformations, XAxisRotation)
+{
+    const gfx::Vector4 point_initial{ gfx::createPoint(0.0, 1.0, 0.0) };
+    const gfx::Matrix4 x_rotation_matrix_half_quarter{ gfx::createXRotationMatrix(M_PI_4) };
+    const gfx::Matrix4 x_rotation_matrix_full_quarter{ gfx::createXRotationMatrix(M_PI_2) };
+
+    const gfx::Vector4 point_half_quarter_expected{ gfx::createPoint(0.0,
+                                                                     std::sqrt(2.0f) / 2.0f,
+                                                                     std::sqrt(2.0f) / 2.0f) };
+    const gfx::Vector4 point_half_quarter_actual{ x_rotation_matrix_half_quarter * point_initial  };
+
+    EXPECT_TRUE(point_half_quarter_actual == point_half_quarter_expected);
+
+    const gfx::Vector4 point_full_quarter_expected{ gfx::createPoint(0.0, 0.0, 1.0) };
+    const gfx::Vector4 point_full_quarter_actual{ x_rotation_matrix_full_quarter * point_initial  };
+
+    EXPECT_TRUE(point_full_quarter_actual == point_full_quarter_expected);
+}
+
+// Tests rotating points around the y-axis
+TEST(GraphicsMatrixTransformations, YAxisRotation)
+{
+    const gfx::Vector4 point_initial{ gfx::createPoint(0.0, 0.0, 1.0) };
+    const gfx::Matrix4 y_rotation_matrix_half_quarter{ gfx::createYRotationMatrix(M_PI_4) };
+    const gfx::Matrix4 y_rotation_matrix_full_quarter{ gfx::createYRotationMatrix(M_PI_2) };
+
+    const gfx::Vector4 point_half_quarter_expected{ gfx::createPoint(std::sqrt(2.0f) / 2.0f,
+                                                                     0.0,
+                                                                     std::sqrt(2.0f) / 2.0f) };
+    const gfx::Vector4 point_half_quarter_actual{ y_rotation_matrix_half_quarter * point_initial  };
+
+    EXPECT_TRUE(point_half_quarter_actual == point_half_quarter_expected);
+
+    const gfx::Vector4 point_full_quarter_expected{ gfx::createPoint(1.0, 0.0, 0.0) };
+    const gfx::Vector4 point_full_quarter_actual{ y_rotation_matrix_full_quarter * point_initial  };
+
+    EXPECT_TRUE(point_full_quarter_actual == point_full_quarter_expected);
+}
+
+// Tests rotating points around the z-axis
+TEST(GraphicsMatrixTransformations, ZAxisRotation)
+{
+    const gfx::Vector4 point_initial{ gfx::createPoint(0.0, 1.0, 0.0) };
+    const gfx::Matrix4 z_rotation_matrix_half_quarter{ gfx::createZRotationMatrix(M_PI_4) };
+    const gfx::Matrix4 z_rotation_matrix_full_quarter{ gfx::createZRotationMatrix(M_PI_2) };
+
+    const gfx::Vector4 point_half_quarter_expected{ gfx::createPoint(-std::sqrt(2.0f) / 2.0f,
+                                                                     std::sqrt(2.0f) / 2.0f,
+                                                                     0.0) };
+    const gfx::Vector4 point_half_quarter_actual{ z_rotation_matrix_half_quarter * point_initial  };
+
+    EXPECT_TRUE(point_half_quarter_actual == point_half_quarter_expected);
+
+    const gfx::Vector4 point_full_quarter_expected{ gfx::createPoint(-1.0, 0.0, 0.0) };
+    const gfx::Vector4 point_full_quarter_actual{ z_rotation_matrix_full_quarter * point_initial  };
+
+    EXPECT_TRUE(point_full_quarter_actual == point_full_quarter_expected);
+}
