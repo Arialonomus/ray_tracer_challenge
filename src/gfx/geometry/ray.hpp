@@ -38,6 +38,10 @@ namespace gfx {
         [[nodiscard]] const Vector4& getDirection() const
         { return m_direction; }
 
+        // Returns the position along the ray at a distance t from the origin
+        [[nodiscard]] const Vector4 position(const float t) const
+        { return m_origin + (m_direction * t); }
+
     private:
         Vector4 m_origin{ 0.0, 0.0, 0.0, 1.0 };
         Vector4 m_direction{ 0.0, 0.0, 0.0, 0.0 };
