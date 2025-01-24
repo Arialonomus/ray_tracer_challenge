@@ -219,3 +219,63 @@ TEST(GraphicsMatrixTransformations, CreateSkewMatrix)
 
     ASSERT_TRUE(skew_matrix_actual == skew_matrix_expected);
 }
+
+// Tests skewing/shearing of points by vector-matrix multiplication
+TEST(GraphicsMatrixTransformations, Skew)
+{
+    // Test moving x in proportion to y
+    const gfx::Vector4 point_initial{ gfx::createPoint(2.0, 3.0, 4.0) };
+
+    const gfx::Matrix4 skew_matrix_x_y{ gfx::createSkewMatrix(1.0, 0.0,
+                                                              0.0, 0.0,
+                                                              0.0, 0.0) };
+    const gfx::Vector4 point_x_y_expected{ gfx::createPoint(5.0, 3.0, 4.0) };
+    const gfx::Vector4 point_x_y_actual{ skew_matrix_x_y * point_initial };
+
+    EXPECT_TRUE(point_x_y_actual == point_x_y_expected);
+
+    // Test moving x in proportion to z
+    const gfx::Matrix4 skew_matrix_x_z{ gfx::createSkewMatrix(0.0, 1.0,
+                                                              0.0, 0.0,
+                                                              0.0, 0.0) };
+    const gfx::Vector4 point_x_z_expected{ gfx::createPoint(6.0, 3.0, 4.0) };
+    const gfx::Vector4 point_x_z_actual{ skew_matrix_x_z * point_initial };
+
+    EXPECT_TRUE(point_x_z_actual == point_x_z_expected);
+
+    // Test moving y in proportion to x
+    const gfx::Matrix4 skew_matrix_y_x{ gfx::createSkewMatrix(0.0, 0.0,
+                                                              1.0, 0.0,
+                                                              0.0, 0.0) };
+    const gfx::Vector4 point_y_x_expected{ gfx::createPoint(2.0, 5.0, 4.0) };
+    const gfx::Vector4 point_y_x_actual{ skew_matrix_y_x * point_initial };
+
+    EXPECT_TRUE(point_y_x_actual == point_y_x_expected);
+
+    // Test moving y in proportion to z
+    const gfx::Matrix4 skew_matrix_y_z{ gfx::createSkewMatrix(0.0, 0.0,
+                                                              0.0, 1.0,
+                                                              0.0, 0.0) };
+    const gfx::Vector4 point_y_z_expected{ gfx::createPoint(2.0, 7.0, 4.0) };
+    const gfx::Vector4 point_y_z_actual{ skew_matrix_y_z * point_initial };
+
+    EXPECT_TRUE(point_y_z_actual == point_y_z_expected);
+
+    // Test moving z in proportion to x
+    const gfx::Matrix4 skew_matrix_z_x{ gfx::createSkewMatrix(0.0, 0.0,
+                                                              0.0, 0.0,
+                                                              1.0, 0.0) };
+    const gfx::Vector4 point_z_x_expected{ gfx::createPoint(2.0, 3.0, 6.0) };
+    const gfx::Vector4 point_z_x_actual{ skew_matrix_z_x * point_initial };
+
+    EXPECT_TRUE(point_z_x_actual == point_z_x_expected);
+
+    // Test moving x in proportion to y
+    const gfx::Matrix4 skew_matrix_z_y{ gfx::createSkewMatrix(0.0, 0.0,
+                                                              0.0, 0.0,
+                                                              0.0, 1.0) };
+    const gfx::Vector4 point_z_y_expected{ gfx::createPoint(2.0, 3.0, 7.0) };
+    const gfx::Vector4 point_z_y_actual{ skew_matrix_z_y * point_initial };
+
+    EXPECT_TRUE(point_z_y_actual == point_z_y_expected);
+}
