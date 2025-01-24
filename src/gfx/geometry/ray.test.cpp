@@ -14,12 +14,24 @@ TEST(GraphicsRay, DefaultConstructor)
     ASSERT_EQ(ray.getDirection(), direction_expected);
 }
 
-// Tests the standard constructor
-TEST(GraphicsRay, StandardConstructor)
+// Tests the vector list constructor
+TEST(GraphicsRay, VectorListConstructor)
 {
     const gfx::Vector4 origin_expected{ 3.0, 2.0, 1.0, 1.0 };
     const gfx::Vector4 direction_expected{ 1.0, -1.0, 0.0, 0.0 };
     const gfx::Ray ray{ origin_expected, direction_expected };
+
+    ASSERT_EQ(ray.getOrigin(), origin_expected);
+    ASSERT_EQ(ray.getDirection(), direction_expected);
+}
+
+// Tests the float list constructor
+TEST(GraphicsRay, FloatListConstructor)
+{
+    const gfx::Vector4 origin_expected{ 3.0, 2.0, 1.0, 1.0 };
+    const gfx::Vector4 direction_expected{ 1.0, -1.0, 0.0, 0.0 };
+    const gfx::Ray ray{ 3, 2, 1,
+                        1, -1, 0 };
 
     ASSERT_EQ(ray.getOrigin(), origin_expected);
     ASSERT_EQ(ray.getDirection(), direction_expected);
