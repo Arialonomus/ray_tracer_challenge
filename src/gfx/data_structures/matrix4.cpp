@@ -66,6 +66,11 @@ float gfx::Matrix4::determinant() const
 // Matrix Inverse
 gfx::Matrix4 gfx::Matrix4::inverse() const
 {
+    // Return early if this matrix is the identity matrix
+    if (*this == gfx::createIdentityMatrix()) {
+        return *this;
+    }
+
     // Determine if matrix is invertible
     const float determinant = this->determinant();
     if (determinant == 0) {
