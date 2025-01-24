@@ -50,3 +50,24 @@ TEST(GraphicsRay, AssignmentOperator)
     ASSERT_EQ(ray_a.getOrigin(), origin_expected);
     ASSERT_EQ(ray_a.getDirection(), direction_expected);
 }
+
+// Tests the equality operator
+TEST(GraphicsRay, EqualityOperator)
+{
+    const gfx::Ray ray_a{ gfx::createPoint(1, 2, 3),
+                          gfx::createVector(0, 1, -1) };
+    const gfx::Ray ray_b{ gfx::createPoint(1, 2, 3),
+                          gfx::createVector(0, 1, -1) };
+
+    ASSERT_TRUE(ray_a == ray_b);
+}
+
+// Tests the inequality operator
+TEST(GraphicsRay, InequalityOperator)
+{
+    const gfx::Ray ray_a{ gfx::createPoint(1, 2, 3),
+                          gfx::createVector(0, 1, -1) };
+    const gfx::Ray ray_b{ };
+
+    ASSERT_TRUE(ray_a != ray_b);
+}
