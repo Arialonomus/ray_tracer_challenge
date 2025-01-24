@@ -46,5 +46,23 @@ TEST(GraphicsMatrixTransformations, Translation)
     const gfx::Vector4 vector_translate_result{ translate_matrix * vector };
 
     EXPECT_TRUE(vector_translate_result == vector);
+}
 
+// Test creation of translation matrices
+TEST(GraphicsMatrixTransformations, CreateScalingMatrix)
+{
+    const gfx::Matrix4 translate_expected{
+            2.0, 0.0, 0.0, 0.0,
+            0.0, 3.0, 0.0, 0.0,
+            0.0, 0.0, 4.0, 0.0,
+            0.0, 0.0, 0.0, 1.0
+    };
+    const gfx::Matrix4 translate_matrix_float{ gfx::getScalingMatrix(2.0, 3.0, 4.0) };
+
+    ASSERT_TRUE(translate_matrix_float == translate_expected);
+
+    const gfx::Vector4 translate_vector{ gfx::vector(2.0, 3.0, 4.0) };
+    const gfx::Matrix4 translate_matrix_vector{ gfx::getScalingMatrix(translate_vector) };
+
+    ASSERT_TRUE(translate_matrix_vector == translate_expected);
 }
