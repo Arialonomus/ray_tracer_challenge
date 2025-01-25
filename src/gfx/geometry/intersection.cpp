@@ -10,7 +10,7 @@ namespace gfx {
         return utils::areEqual(m_t, rhs.getT()) && m_object == rhs.getObject();
     }
 
-    const std::optional<Intersection> getHit(std::vector<Intersection> intersections)
+    std::optional<Intersection> getHit(std::vector<Intersection> intersections)
     {
         std::sort(intersections.begin(), intersections.end());
         auto hit_iter = std::lower_bound(

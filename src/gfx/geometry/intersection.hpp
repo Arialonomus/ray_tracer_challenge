@@ -37,7 +37,7 @@ namespace gfx {
 
         /* Accessors */
 
-        [[nodiscard]] const float getT() const
+        [[nodiscard]] float getT() const
         { return m_t; }
         [[nodiscard]] const Sphere& getObject() const
         { return m_object; }
@@ -48,5 +48,5 @@ namespace gfx {
     };
 
     // Returns the first ray-object intersection with a non-negative t-value, representing a hit
-    [[nodiscard]] const std::optional<Intersection> getHit(std::vector<Intersection> intersections);
+    [[nodiscard]] std::optional<Intersection> getHit(std::vector<Intersection> intersections);
 }
