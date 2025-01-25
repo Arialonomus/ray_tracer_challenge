@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 #include "sphere.hpp"
 
+#include <cmath>
+
 #include "transform.hpp"
 
 // Tests the default constructor
@@ -71,4 +73,42 @@ TEST(GraphicsSphere, SetTransform)
     sphere.setTransform(translate_matrix);
 
     ASSERT_EQ(sphere.getTransform(), translate_matrix);
+}
+
+// Tests getting the surface normal at various points
+TEST(GraphicsSphere, GetSurfaceNormal)
+{
+    const gfx::Sphere sphere{ };
+
+    // Test the normal on a sphere at a point on the x-axis
+    const gfx::Vector4 normal_x_expected{ 1, 0, 0, 0 };
+    const gfx::Vector4 normal_x_actual{ sphere.getSurfaceNormal(gfx::createPoint(1, 0, 0)) };
+
+    EXPECT_EQ(normal_x_actual, normal_x_expected);
+
+    // Test the normal on a sphere at a point on the y-axis
+    const gfx::Vector4 normal_y_expected{ 0, 1, 0, 0 };
+    const gfx::Vector4 normal_y_actual{ sphere.getSurfaceNormal(gfx::createPoint(0, 1, 0)) };
+
+    EXPECT_EQ(normal_y_actual, normal_y_expected);
+
+    // Test the normal on a sphere at a point on the z-axis
+    const gfx::Vector4 normal_z_expected{ 0, 0, 1, 0 };
+    const gfx::Vector4 normal_z_actual{ sphere.getSurfaceNormal(gfx::createPoint(0, 0, 1)) };
+
+    EXPECT_EQ(normal_z_actual, normal_z_expected);
+
+    // Test the normal on a sphere at a non_axial point
+    const gfx::Vector4 normal_nonaxial_expected{ std::sqrtf(3) / 3,
+                                                 std::sqrtf(3) / 3,
+                                                 std::sqrtf(3) / 3,
+                                                 0 };
+    const gfx::Vector4 normal_nonaxial_actual{ sphere.getSurfaceNormal(gfx::createPoint(std::sqrtf(3) / 3,
+                                                                                        std::sqrtf(3) / 3,
+                                                                                        std::sqrtf(3) / 3)) };
+
+    EXPECT_EQ(normal_nonaxial_actual, normal_nonaxial_expected);
+
+    // Test that the surface normal is a normalized vector
+    EXPECT_EQ(normalize(normal_nonaxial_actual), normal_nonaxial_expected);
 }
