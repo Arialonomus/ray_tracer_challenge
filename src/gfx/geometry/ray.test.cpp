@@ -113,8 +113,8 @@ TEST(GraphicsRay, IntersectionStruct)
     std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
 
     EXPECT_EQ(intersections.size(), 2);
-    EXPECT_EQ(&intersections.at(0).object, &sphere);
-    EXPECT_EQ(&intersections.at(1).object, &sphere);
+    EXPECT_EQ(&intersections.at(0).getObject(), &sphere);
+    EXPECT_EQ(&intersections.at(1).getObject(), &sphere);
 }
 
 // Tests a ray intersecting a sphere at two points
@@ -127,8 +127,8 @@ TEST(GraphicsRay, RaySphereFullIntersection)
     std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
 
     EXPECT_EQ(intersections.size(), 2);
-    EXPECT_FLOAT_EQ(intersections.at(0).t, 4.0);
-    EXPECT_FLOAT_EQ(intersections.at(1).t, 6.0);
+    EXPECT_FLOAT_EQ(intersections.at(0).getT(), 4.0);
+    EXPECT_FLOAT_EQ(intersections.at(1).getT(), 6.0);
 }
 
 // Tests a ray intersecting a sphere at one point (ray is tangent to the sphere)
@@ -141,8 +141,8 @@ TEST(GraphicsRay, RaySphereTangentIntersection)
     std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
 
     EXPECT_EQ(intersections.size(), 2);
-    EXPECT_FLOAT_EQ(intersections.at(0).t, 5.0);
-    EXPECT_FLOAT_EQ(intersections.at(1).t, 5.0);
+    EXPECT_FLOAT_EQ(intersections.at(0).getT(), 5.0);
+    EXPECT_FLOAT_EQ(intersections.at(1).getT(), 5.0);
 }
 
 // Tests a ray missing a sphere
@@ -167,8 +167,8 @@ TEST(GraphicsRay, RayIntersectionOriginInSphere)
     std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
 
     EXPECT_EQ(intersections.size(), 2);
-    EXPECT_FLOAT_EQ(intersections.at(0).t, -1.0);
-    EXPECT_FLOAT_EQ(intersections.at(1).t, 1.0);
+    EXPECT_FLOAT_EQ(intersections.at(0).getT(), -1.0);
+    EXPECT_FLOAT_EQ(intersections.at(1).getT(), 1.0);
 }
 
 // Tests a ray originating beyond a sphere
@@ -181,6 +181,6 @@ TEST(GraphicsRay, RayIntersectionOriginBeyondSphere)
     std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
 
     EXPECT_EQ(intersections.size(), 2);
-    EXPECT_FLOAT_EQ(intersections.at(0).t, -6.0);
-    EXPECT_FLOAT_EQ(intersections.at(1).t, -4.0);
+    EXPECT_FLOAT_EQ(intersections.at(0).getT(), -6.0);
+    EXPECT_FLOAT_EQ(intersections.at(1).getT(), -4.0);
 }
