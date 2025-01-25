@@ -58,3 +58,64 @@ TEST(GraphicsIntersection, InequalityOperator)
 
     ASSERT_TRUE(intersection_a != intersection_b);
 }
+
+// Tests the getHit functionality for 2-intersection groups when all intersections have positive t values
+TEST(GraphicsIntersection, GetHitAllPositiveT)
+{
+    const gfx::Sphere sphere{ };
+
+    const gfx::Intersection intersection_a{ 1, sphere };
+    const gfx::Intersection intersection_b{ 2, sphere };
+    std::vector<gfx::Intersection> intersections{ intersection_a, intersection_b };
+
+    const std::optional<gfx::Intersection> hit_actual{ gfx::getHit(intersections) };
+
+    EXPECT_TRUE(hit_actual.has_value());
+    EXPECT_EQ(hit_actual.value(), intersection_a);
+}
+
+// Tests the getHit functionality for 2-intersection groups when one intersection has a negative t value
+TEST(GraphicsIntersection, GetHitSomePositiveT)
+{
+    const gfx::Sphere sphere{ };
+
+    const gfx::Intersection intersection_a{ -1, sphere };
+    const gfx::Intersection intersection_b{ 1, sphere };
+    std::vector<gfx::Intersection> intersections{ intersection_a, intersection_b };
+
+    const std::optional<gfx::Intersection> hit_actual{ gfx::getHit(intersections) };
+
+    EXPECT_TRUE(hit_actual.has_value());
+    EXPECT_EQ(hit_actual.value(), intersection_b);
+}
+
+// Tests the getHit functionality for 2-intersection groups when all intersections have positive t values
+TEST(GraphicsIntersection, GetHitAllNegativeT)
+{
+    const gfx::Sphere sphere{ };
+
+    const gfx::Intersection intersection_a{ -2, sphere };
+    const gfx::Intersection intersection_b{ -1, sphere };
+    std::vector<gfx::Intersection> intersections{ intersection_a, intersection_b };
+
+    const std::optional<gfx::Intersection> hit_actual{ gfx::getHit(intersections) };
+
+    EXPECT_FALSE(hit_actual.has_value());
+}
+
+// Tests the getHit functionality for intersection groups with multiple positive t values
+TEST(GraphicsIntersection, GetHitMultiplePositiveT)
+{
+    const gfx::Sphere sphere{ };
+
+    const gfx::Intersection intersection_a{ 5, sphere };
+    const gfx::Intersection intersection_b{ 7, sphere };
+    const gfx::Intersection intersection_c{ -3, sphere };
+    const gfx::Intersection intersection_d{ 2, sphere };
+    std::vector<gfx::Intersection> intersections{ intersection_a, intersection_b, intersection_c, intersection_d };
+
+    const std::optional<gfx::Intersection> hit_actual{ gfx::getHit(intersections) };
+
+    EXPECT_TRUE(hit_actual.has_value());
+    EXPECT_EQ(hit_actual.value(), intersection_d);
+}
