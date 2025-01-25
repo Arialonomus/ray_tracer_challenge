@@ -15,6 +15,8 @@ set(UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/data_structures/matrix4.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/functions/transform.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/geometry/ray.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/geometry/sphere.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/geometry/intersection.test.cpp
 )
 
 # Gather all test sources into single variable

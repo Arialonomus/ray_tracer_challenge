@@ -10,12 +10,17 @@ target_sources(gfx PRIVATE
         gfx/data_structures/matrix2.cpp
         gfx/data_structures/matrix3.cpp
         gfx/data_structures/matrix4.cpp
+        gfx/functions/transform.cpp
+        gfx/geometry/ray.cpp
+        gfx/geometry/sphere.cpp
+        gfx/geometry/intersection.cpp
 )
 
 # Include the directories for the gfx library
 target_include_directories(gfx PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/gfx/data_structures
         ${CMAKE_CURRENT_SOURCE_DIR}/gfx/functions
+        ${CMAKE_CURRENT_SOURCE_DIR}/gfx/geometry
         ${CMAKE_CURRENT_SOURCE_DIR}/gfx/utils
 )
 
