@@ -34,6 +34,12 @@ namespace gfx {
         [[nodiscard]] const Matrix4& getTransform() const
         { return m_transform; }
 
+        /* Mutators */
+
+        // Sets the transform of the sphere to equal that of the passed in transform matrix
+        void setTransform(const Matrix4& transform_matrix)
+        { m_transform = transform_matrix; }
+
     private:
         Matrix4 m_transform{ gfx::createIdentityMatrix() };
     };
