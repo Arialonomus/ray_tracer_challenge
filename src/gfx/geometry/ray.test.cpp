@@ -215,3 +215,29 @@ TEST(GraphicsRay, RayTransformScale)
 
     EXPECT_EQ(ray_transformed, ray_expected);
 }
+
+// Tests ray-sphere intersection with a scaled sphere
+TEST(GraphicsRay, RayScaledSphereIntersection)
+{
+    const gfx::Ray ray{ 0, 0, -5,
+                        0, 0, 1 };
+    const gfx::Sphere sphere_scaled{ gfx::createScalingMatrix(2) };
+
+    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere_scaled) };
+
+    EXPECT_EQ(intersections.size(), 2);
+    EXPECT_FLOAT_EQ(intersections.at(0).getT(), 3);
+    EXPECT_FLOAT_EQ(intersections.at(1).getT(), 7);
+}
+
+// Tests ray-sphere intersection with a translated sphere
+TEST(GraphicsRay, RayTranslatedSphereIntersection)
+{
+    const gfx::Ray ray{ 0, 0, -5,
+                        0, 0, 1 };
+    const gfx::Sphere sphere_scaled{ gfx::createTranslationMatrix(5, 0, 0) };
+
+    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere_scaled) };
+
+    EXPECT_EQ(intersections.size(), 0);
+}
