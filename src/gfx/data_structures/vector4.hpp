@@ -27,6 +27,10 @@ namespace gfx {
         Vector4& operator=(const Vector4&) = default;
         Vector4& operator=(Vector4&&) = default;
 
+        /* Comparison Operator Overloads */
+
+        [[nodiscard]] bool operator==(const Vector4& rhs) const;
+
         /* Accessors */
 
         [[nodiscard]] float x() const { return m_data[0]; }
@@ -34,9 +38,11 @@ namespace gfx {
         [[nodiscard]] float z() const { return m_data[2]; }
         [[nodiscard]] float w() const { return m_data[3]; }
 
-        /* Comparison Operator Overloads */
+        /* Mutators */
 
-        [[nodiscard]] bool operator==(const Vector4& rhs) const;
+        // Resets the w-value to 0, for use when it might get altered in surface normal calculations
+        void resetW()
+        { m_data[3] = 0.0f; }
 
         /* Arithmetic Operator Overloads */
 
