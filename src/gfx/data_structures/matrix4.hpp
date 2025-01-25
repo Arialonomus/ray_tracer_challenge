@@ -49,6 +49,9 @@ namespace gfx {
 
         /* Matrix Operations */
 
+        // Returns true if this matrix is the identity matrix
+        [[nodiscard]] bool isIdentityMatrix() const;
+
         // Returns the transpose of this matrix
         [[nodiscard]] Matrix4 transpose() const;
 
@@ -75,4 +78,4 @@ namespace gfx {
     /* Global Arithmetic Operator Overloads */
 
     [[nodiscard]] Matrix4 operator*(const Matrix4& lhs, const Matrix4& rhs);
-};
+}

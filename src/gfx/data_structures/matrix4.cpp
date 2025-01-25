@@ -25,7 +25,22 @@ namespace gfx {
     
         return true;
     }
-    
+
+    // Identity matrix identifier
+    bool Matrix4::isIdentityMatrix() const
+    {
+        std::array<float, 16> identity_values{ 1.0, 0.0, 0.0, 0.0,
+                                               0.0, 1.0, 0.0, 0.0,
+                                               0.0, 0.0, 1.0, 0.0,
+                                               0.0, 0.0, 0.0, 1.0 };
+        for (int i = 0; i < 16; ++i) {
+            if (!utils::areEqual(m_data[i], identity_values[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // Matrix Transposition
     Matrix4 Matrix4::transpose() const
     {
@@ -89,7 +104,7 @@ namespace gfx {
     
         return inverted_matrix;
     }
-    
+
     // Identity Matrix Factory Function
     Matrix4 createIdentityMatrix()
     {
@@ -100,8 +115,7 @@ namespace gfx {
                 0.0, 0.0, 0.0, 1.0
         };
     }
-    
-    
+
     // Matrix Multiplication Operator
     Matrix4 operator*(const Matrix4& lhs, const Matrix4& rhs)
     {
