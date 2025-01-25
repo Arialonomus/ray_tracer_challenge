@@ -61,3 +61,14 @@ TEST(GraphicsSphere, InequalityOperator)
 
     ASSERT_TRUE(sphere_a != sphere_b);
 }
+
+// Test setting the transform of a sphere
+TEST(GraphicsSphere, SetTransform)
+{
+    gfx::Sphere sphere{ };
+    const gfx::Matrix4 translate_matrix{ gfx::createTranslationMatrix(2, 3, 4) };
+
+    sphere.setTransform(translate_matrix);
+
+    ASSERT_EQ(sphere.getTransform(), translate_matrix);
+}
