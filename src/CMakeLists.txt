@@ -37,12 +37,16 @@ add_executable(
 add_executable(
         ch_04 demos/ch_04/ch_04.cpp
 )
+add_executable(
+        ch_05 demos/ch_05/ch_05.cpp
+)
 
 # List the demo targets
 set(DEMO_TARGETS
         ch_01
         ch_02
         ch_04
+        ch_05
 )
 
 # Apply common configurations for all demo executables
