@@ -121,6 +121,22 @@ TEST(GraphicsSphere, SetTransform)
     ASSERT_EQ(sphere.getTransform(), translate_matrix);
 }
 
+// Test setting the material of a sphere
+TEST(GraphicsSphere, SetMaterial)
+{
+    gfx::Sphere sphere{ };
+    const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
+    const gfx::Material material{ color_expected, 0.5, 0.5, 0.5, 50 };
+
+    sphere.setMaterial(material);
+
+    ASSERT_EQ(sphere.getMaterial().color, color_expected);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().ambient, 0.5);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().diffuse, 0.5);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().specular, 0.5);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().shininess, 50);
+}
+
 // Tests getting the surface normal at various points
 TEST(GraphicsSphere, GetSurfaceNormal)
 {
