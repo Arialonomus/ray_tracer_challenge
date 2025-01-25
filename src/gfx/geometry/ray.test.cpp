@@ -2,6 +2,9 @@
 #include "ray.hpp"
 
 #include "vector4.hpp"
+#include "sphere.hpp"
+#include "intersection.hpp"
+#include "transform.hpp"
 
 // Tests the default constructor
 TEST(GraphicsRay, DefaultConstructor)
@@ -103,8 +106,8 @@ TEST(GraphicsRay, Position)
     EXPECT_EQ(ray.position(2.5), position_d_expected);
 }
 
-// Tests that Intersection structs correctly refer to the intersected object
-TEST(GraphicsRay, IntersectionStruct)
+// Tests that Intersections returned from getIntersections correctly refer to the intersected object
+TEST(GraphicsRay, GetIntersectionsCorrectReference)
 {
     const gfx::Ray ray{ 0, 0, -5,
                         0, 0, 1 };
@@ -183,4 +186,32 @@ TEST(GraphicsRay, RayIntersectionOriginBeyondSphere)
     EXPECT_EQ(intersections.size(), 2);
     EXPECT_FLOAT_EQ(intersections.at(0).getT(), -6.0);
     EXPECT_FLOAT_EQ(intersections.at(1).getT(), -4.0);
+}
+
+// Tests translating a ray using the transform method
+TEST(GraphicsRay, RayTransformTranslate)
+{
+    const gfx::Ray ray_initial{ 1, 2, 3,
+                        0, 1, 0 };
+    const gfx::Matrix4 translate_matrix{ gfx::createTranslationMatrix(3, 4, 5) };
+
+    const gfx::Ray ray_transformed{ ray_initial.transform(translate_matrix) };
+    const gfx::Ray ray_expected{ 4, 6, 8,
+                                 0, 1, 0 };
+
+    EXPECT_EQ(ray_transformed, ray_expected);
+}
+
+// Tests scaling a ray using the transform method
+TEST(GraphicsRay, RayTransformScale)
+{
+    const gfx::Ray ray_initial{ 1, 2, 3,
+                                0, 1, 0 };
+    const gfx::Matrix4 scale_matrix{ gfx::createScalingMatrix(2, 3, 4) };
+
+    const gfx::Ray ray_transformed{ ray_initial.transform(scale_matrix) };
+    const gfx::Ray ray_expected{ 2, 6, 12,
+                                 0, 3, 0 };
+
+    EXPECT_EQ(ray_transformed, ray_expected);
 }
