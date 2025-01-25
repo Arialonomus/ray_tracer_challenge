@@ -3,15 +3,10 @@
 #include <vector>
 
 #include "vector4.hpp"
+#include "intersection.hpp"
 #include "sphere.hpp"
 
 namespace gfx {
-
-    struct Intersection {
-        const float t;
-        const Sphere& object;
-    };
-
     class Ray
     {
     public:
