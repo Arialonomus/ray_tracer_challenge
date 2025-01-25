@@ -400,6 +400,26 @@ TEST(GraphicsVector4, CrossProduct)
     EXPECT_FLOAT_EQ(cross_b.w(), 0.0);
 }
 
+// Tests vector reflection
+TEST(GraphicsVector4, Reflection)
+{
+    // Test reflecting a vector approaching at a 45-degree angle
+    const gfx::Vector4 vec_initial_a{ 1, -1, 0, 0 };
+    const gfx::Vector4 vec_normal_a{ 0, 1, 0, 0 };
+    const gfx::Vector4 vec_reflected_a_expected{ 1, 1, 0, 0 };
+    const gfx::Vector4 vec_reflected_a_actual{ vec_initial_a.reflect(vec_normal_a) };
+
+    EXPECT_EQ(vec_reflected_a_actual, vec_reflected_a_expected);
+
+    // Test reflecting a vector off a slanted surface
+    const gfx::Vector4 vec_initial_b{ 0, -1, 0, 0 };
+    const gfx::Vector4 vec_normal_b{ M_SQRT2f / 2, M_SQRT2f / 2, 0, 0 };
+    const gfx::Vector4 vec_reflected_b_expected{ 1, 0, 0, 0 };
+    const gfx::Vector4 vec_reflected_b_actual{ vec_initial_b.reflect(vec_normal_b) };
+
+    EXPECT_EQ(vec_reflected_b_actual, vec_reflected_b_expected);
+}
+
 // Tests the formatter specialization
 TEST(GraphicsVector4, FormatterSpecialization)
 {
