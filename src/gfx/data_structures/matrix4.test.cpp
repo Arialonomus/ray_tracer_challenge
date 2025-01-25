@@ -143,6 +143,18 @@ TEST(GraphicsMatrix4, CreateIdentityMatrix)
     ASSERT_TRUE(matrix_actual == matrix_expected);
 }
 
+// Tests the isIdentityMatrix function
+TEST(GraphicsMatrix4, IsIdentityMatrix)
+{
+    const gfx::Matrix4 identity_matrix{ gfx::createIdentityMatrix() };
+
+    EXPECT_TRUE(identity_matrix.isIdentityMatrix());
+
+    const gfx::Matrix4 matrix_default{ };
+
+    EXPECT_FALSE(matrix_default.isIdentityMatrix());
+}
+
 // Tests matrix multiplication using the multiplication operator
 TEST(GraphicsMatrix4, MatrixMultiplicationOperator)
 {
