@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <optional>
 
 #include "sphere.hpp"
 
@@ -28,8 +29,11 @@ namespace gfx {
 
         /* Comparison Operator Overloads */
 
+        [[nodiscard]] bool operator==(const Intersection& rhs) const;
         [[nodiscard]] bool operator<(const Intersection& rhs) const
         { return m_t < rhs.getT(); }
+        [[nodiscard]] bool operator<(const float rhs) const
+        { return m_t < rhs; }
 
         /* Accessors */
 
