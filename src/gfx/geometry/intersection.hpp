@@ -46,4 +46,7 @@ namespace gfx {
         float m_t;
         std::reference_wrapper<const Sphere> m_object;
     };
+
+    // Returns the first ray-object intersection with a non-negative t-value, representing a hit
+    [[nodiscard]] const std::optional<Intersection> getHit(std::vector<Intersection> intersections);
 }
