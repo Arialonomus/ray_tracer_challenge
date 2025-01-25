@@ -3,6 +3,8 @@
 
 #include <cmath>
 
+#include "matrix4.hpp"
+#include "material.hpp"
 #include "transform.hpp"
 
 // Tests the default constructor
@@ -10,17 +12,61 @@ TEST(GraphicsSphere, DefaultConstructor)
 {
     const gfx::Sphere sphere{ };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
+    const gfx::Color color_expected{ 1, 1, 1 };
 
     ASSERT_EQ(sphere.getTransform(), transform_expected);
+    ASSERT_EQ(sphere.getMaterial().color, color_expected);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().ambient, 0.1);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().diffuse, 0.9);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().specular, 0.9);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().shininess, 200);
 }
 
 // Tests the standard constructor
 TEST(GraphicsSphere, StandardConstructor)
 {
-    const gfx::Sphere sphere{ gfx::createScalingMatrix(5) };
+    const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
+    const gfx::Material material{ color_expected, 0.5, 0.5, 0.5, 50 };
+    const gfx::Sphere sphere{ gfx::createScalingMatrix(5), material };
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
 
     ASSERT_EQ(sphere.getTransform(), transform_expected);
+    ASSERT_EQ(sphere.getMaterial().color, color_expected);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().ambient, 0.5);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().diffuse, 0.5);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().specular, 0.5);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().shininess, 50);
+}
+
+// Tests the standard constructor (with default material)
+TEST(GraphicsSphere, StandardConstructorDefaultMaterial)
+{
+    const gfx::Sphere sphere{ gfx::createScalingMatrix(5) };
+    const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
+    const gfx::Color color_expected{ 1, 1, 1 };
+
+    ASSERT_EQ(sphere.getTransform(), transform_expected);
+    ASSERT_EQ(sphere.getMaterial().color, color_expected);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().ambient, 0.1);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().diffuse, 0.9);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().specular, 0.9);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().shininess, 200);
+}
+
+// Tests the standard constructor (with default transform)
+TEST(GraphicsSphere, StandardConstructorDefaultTransform)
+{
+    const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
+    const gfx::Material material{ color_expected, 0.5, 0.5, 0.5, 50 };
+    const gfx::Sphere sphere{ material };
+    const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
+
+    ASSERT_EQ(sphere.getTransform(), transform_expected);
+    ASSERT_EQ(sphere.getMaterial().color, color_expected);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().ambient, 0.5);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().diffuse, 0.5);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().specular, 0.5);
+    ASSERT_FLOAT_EQ(sphere.getMaterial().shininess, 50);
 }
 
 // Tests the copy constructor
