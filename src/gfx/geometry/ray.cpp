@@ -43,4 +43,11 @@ namespace gfx {
             return std::vector<Intersection>{ intersection_a, intersection_b };
         }
     }
+
+    // Transform Ray
+    Ray Ray::transform(const Matrix4& transform_matrix) const
+    {
+        return Ray{ transform_matrix * m_origin,
+                    transform_matrix * m_direction };
+    }
 }

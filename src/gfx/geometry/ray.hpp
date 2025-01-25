@@ -13,7 +13,6 @@ namespace gfx {
         /* Constructors */
 
         Ray() = default;
-
         Ray(const Vector4& origin, const Vector4& direction)
                 : m_origin{ origin }, m_direction{ direction }
         {}
@@ -56,6 +55,9 @@ namespace gfx {
 
         // Returns a vector of floats representing the t-values at which ray intersects a passed-in sphere
         [[nodiscard]] std::vector<Intersection> getIntersections(const Sphere& sphere) const;
+
+        // Returns a ray transformed by multiplying it with a passed-in transformation matrix
+        [[nodiscard]] Ray transform(const Matrix4& transform_matrix) const;
 
     private:
         Vector4 m_origin{ 0.0, 0.0, 0.0, 1.0 };
