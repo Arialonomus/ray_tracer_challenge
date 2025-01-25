@@ -112,3 +112,24 @@ TEST(GraphicsSphere, GetSurfaceNormal)
     // Test that the surface normal is a normalized vector
     EXPECT_EQ(normalize(normal_nonaxial_actual), normal_nonaxial_expected);
 }
+
+// Tests getting the surface normal at various points on a transformed sphere
+TEST(GraphicsSphere, GetSurfaceNormaTransformed)
+{
+    // Test the normal at a point on a translated sphere
+    const gfx::Sphere sphere_translated{ gfx::createTranslationMatrix(0, 1, 0)};
+    const gfx::Vector4 normal_translate_expected{ 0, 0.70711, -0.70711, 0 };
+    const gfx::Vector4 normal_translate_actual{
+        sphere_translated.getSurfaceNormal(gfx::createPoint(0, 1.70711, -0.70711)) };
+
+    EXPECT_EQ(normal_translate_actual, normal_translate_expected);
+
+    // Test the normal at a point on a scaled and rotated sphere
+    const gfx::Sphere sphere_transformed{
+        gfx::createScalingMatrix(1, 0.5, 1) * gfx::createZRotationMatrix(M_PI / 5) };
+    const gfx::Vector4 normal_transformed_expected{ 0, 0.97014, -0.24254, 0 };
+    const gfx::Vector4 normal_transformed_actual{
+        sphere_transformed.getSurfaceNormal(gfx::createPoint(0, M_PI_2f, -M_PI_2f)) };
+
+    EXPECT_EQ(normal_transformed_actual, normal_transformed_expected);
+}
