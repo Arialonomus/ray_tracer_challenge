@@ -83,7 +83,7 @@ namespace gfx {
     Matrix4 Matrix4::inverse() const
     {
         // Return early if this matrix is the identity matrix
-        if (*this == createIdentityMatrix()) {
+        if (this->isIdentityMatrix()) {
             return *this;
         }
     
