@@ -1,6 +1,7 @@
 #pragma once
 
 #include "matrix4.hpp"
+#include "vector4.hpp"
 
 namespace gfx {
     class Sphere
@@ -9,7 +10,7 @@ namespace gfx {
         /* Constructors */
 
         Sphere() = default;
-        Sphere(const Matrix4& transform)
+        explicit Sphere(const Matrix4& transform)
                 : m_transform{ transform }
         {}
         Sphere(const Sphere&) = default;
@@ -39,6 +40,11 @@ namespace gfx {
         // Sets the transform of the sphere to equal that of the passed in transform matrix
         void setTransform(const Matrix4& transform_matrix)
         { m_transform = transform_matrix; }
+
+        /* Geometric Operations */
+
+        // Returns the surface normal vector at a passed-in point
+        [[nodiscard]] Vector4 getSurfaceNormal(const Vector4& point) const;
 
     private:
         Matrix4 m_transform{ gfx::createIdentityMatrix() };
