@@ -122,6 +122,12 @@ namespace gfx {
                         m_data[0] * rhs.y() - m_data[1] * rhs.x(), 0.0 };
     }
 
+    // Vector Reflection
+    Vector4 Vector4::reflect(const Vector4& axis) const
+    {
+        return *this - axis * 2 * dotProduct(*this, axis);
+    }
+
     // Vector Factory Function
     Vector4 createVector(const float x, const float y, const float z)
     {

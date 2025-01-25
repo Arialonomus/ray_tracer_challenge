@@ -62,6 +62,9 @@ namespace gfx {
         // Returns a vector representing the cross product of this vector and the input vector
         [[nodiscard]] Vector4 crossProduct(const Vector4& rhs) const;
 
+        // Returns a vector representing the reflection of this vector around an axis defined by a passed-in vector
+        [[nodiscard]] Vector4 reflect(const Vector4& axis) const;
+
     private:
         /* Data Members */
 
@@ -92,9 +95,8 @@ namespace gfx {
 
     // Returns the dot product of this vector with the input vector
     [[nodiscard]] float dotProduct(const Vector4& lhs, const Vector4& rhs);
-
-
 }
+
 /* Template Specializations */
 
 // Specialization of std::formatter for Vector4
