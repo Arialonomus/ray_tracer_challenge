@@ -108,6 +108,17 @@ TEST(GraphicsVector4, InequalityOperator)
     EXPECT_TRUE(vec_a != vec_b);
 }
 
+// Tests the w-value reset method
+TEST(GraphicsVector4, ResetW)
+{
+    const gfx::Vector4 vec_expected{ 4.0, -4.0, 3.0, 0.0 };
+    gfx::Vector4 vec_actual{ 4.0, -4.0, 3.0, 10.0 };
+
+    vec_actual.resetW();
+
+    EXPECT_EQ(vec_actual, vec_expected);
+}
+
 // Tests vector-vector addition with the addition operator
 TEST(GraphicsVector4, AdditionOperator)
 {
