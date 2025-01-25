@@ -2,6 +2,7 @@
 
 #include "matrix4.hpp"
 #include "vector4.hpp"
+#include "material.hpp"
 
 namespace gfx {
     class Sphere
@@ -10,8 +11,14 @@ namespace gfx {
         /* Constructors */
 
         Sphere() = default;
-        explicit Sphere(const Matrix4& transform)
-                : m_transform{ transform }
+        Sphere(const Matrix4& transform, const Material& material)
+                : m_transform{ transform }, m_material{ material }
+        {}
+        Sphere(const Matrix4& transform)
+                : m_transform{ transform }, m_material{ }
+        {}
+        Sphere(const Material& material)
+                : m_transform{ gfx::createIdentityMatrix() }, m_material{ material }
         {}
         Sphere(const Sphere&) = default;
         Sphere(const Sphere&&) = default;
@@ -31,15 +38,17 @@ namespace gfx {
 
         /* Accessors */
 
-        // Returns the current transform matrix for this sphere
         [[nodiscard]] const Matrix4& getTransform() const
         { return m_transform; }
+        [[nodiscard]] const Material& getMaterial() const
+        { return m_material; }
 
         /* Mutators */
 
-        // Sets the transform of the sphere to equal that of the passed in transform matrix
         void setTransform(const Matrix4& transform_matrix)
         { m_transform = transform_matrix; }
+        void setMaterial(const Material& material)
+        { m_material = material; }
 
         /* Geometric Operations */
 
@@ -48,5 +57,6 @@ namespace gfx {
 
     private:
         Matrix4 m_transform{ gfx::createIdentityMatrix() };
+        Material m_material{ };
     };
 }
