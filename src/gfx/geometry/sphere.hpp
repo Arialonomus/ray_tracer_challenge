@@ -43,8 +43,8 @@ namespace gfx {
 
         /* Geometric Operations */
 
-        // Returns the surface normal vector at a passed-in point
-        [[nodiscard]] Vector4 getSurfaceNormal(const Vector4& point) const;
+        // Returns the surface normal vector at a passed-in world_point
+        [[nodiscard]] Vector4 getSurfaceNormal(const Vector4& world_point) const;
 
     private:
         Matrix4 m_transform{ gfx::createIdentityMatrix() };
