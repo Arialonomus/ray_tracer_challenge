@@ -13,7 +13,7 @@ namespace gfx {
         const Color effective_color{ material.color * light.intensity };
 
         // Calculate the direction to the light source
-        const Vector4 light_vector{ light.position - point_position };
+        const Vector4 light_vector{ normalize(light.position - point_position) };
 
         // Calculate the ambient component
         const Color ambient{ effective_color * material.ambient };
