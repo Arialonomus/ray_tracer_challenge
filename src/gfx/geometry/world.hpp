@@ -5,6 +5,8 @@
 #include "light.hpp"
 #include "vector4.hpp"
 #include "sphere.hpp"
+#include "ray.hpp"
+#include "intersection.hpp"
 
 namespace gfx {
     class World
@@ -45,6 +47,11 @@ namespace gfx {
 
         [[nodiscard]] const std::vector<std::reference_wrapper<Sphere>>& getObjectList() const
         { return m_objects; }
+
+        /* Ray-Tracing Operations */
+
+        // Returns a sorted list of all intersections with objects in this world with a passed-in Ray
+        [[nodiscard]] std::vector<Intersection> getIntersections(const Ray& ray) const;
 
     private:
         PointLight m_light_source{ Color{ 1, 1, 1 },
