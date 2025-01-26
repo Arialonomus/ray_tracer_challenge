@@ -4,8 +4,12 @@
 #include <optional>
 
 #include "sphere.hpp"
+#include "ray.hpp"
 
 namespace gfx {
+
+    class Ray;  // Forward declaration
+
     class Intersection
     {
     public:
@@ -20,7 +24,7 @@ namespace gfx {
 
         /* Destructor */
 
-        ~Intersection() = default;
+        virtual ~Intersection() = default;
 
         /* Assignment Operators */
 
@@ -46,6 +50,47 @@ namespace gfx {
         float m_t;
         std::reference_wrapper<const Sphere> m_object;
     };
+
+    // An extension of the intersection class containing pre-computed state information
+    // about the intersection at that point
+    class DetailedIntersection : public Intersection
+    {
+    public:
+        /* Constructors */
+
+        DetailedIntersection() = delete;
+        DetailedIntersection(const Intersection& intersection, const Ray& ray);
+        DetailedIntersection(const DetailedIntersection&) = default;
+        DetailedIntersection(DetailedIntersection&&) = default;
+
+        /* Destructor */
+
+        ~DetailedIntersection() override = default;
+
+        /* Assignment Operators */
+
+        DetailedIntersection& operator=(const DetailedIntersection&) = default;
+        DetailedIntersection& operator=(DetailedIntersection&&) = default;
+
+        /* Accessors */
+
+        [[nodiscard]] Vector4 getSurfacePosition() const
+        { return m_surface_position; }
+        [[nodiscard]] Vector4 getSurfaceNormal() const
+        { return m_surface_normal; }
+        [[nodiscard]] Vector4 getViewVector() const
+        { return m_view_vector; }
+        [[nodiscard]] bool isInsideObject() const
+        { return m_is_inside_object; }
+
+    private:
+        Vector4 m_surface_position{ };
+        Vector4 m_surface_normal{ };
+        Vector4 m_view_vector{ };
+        bool m_is_inside_object{ false };
+    };
+
+    /* Global-Ray Tracing Operations */
 
     // Returns the first ray-object intersection with a non-negative t-value, representing a hit
     [[nodiscard]] std::optional<Intersection> getHit(std::vector<Intersection> intersections);

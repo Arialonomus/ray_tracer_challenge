@@ -10,6 +10,19 @@ namespace gfx {
         return utils::areEqual(m_t, rhs.getT()) && m_object == rhs.getObject();
     }
 
+    DetailedIntersection::DetailedIntersection(const Intersection& intersection, const Ray& ray)
+            : Intersection(intersection),
+              m_surface_position{ ray.position(intersection.getT()) },
+              m_surface_normal{ intersection.getObject().getSurfaceNormal(m_surface_position) },
+              m_view_vector{ -ray.getDirection() },
+              m_is_inside_object{ false }
+    {
+        if (dotProduct(m_surface_normal, m_view_vector) < 0) {
+            m_is_inside_object = true;
+            m_surface_normal = -m_surface_normal;
+        }
+    }
+
     std::optional<Intersection> getHit(std::vector<Intersection> intersections)
     {
         std::sort(intersections.begin(), intersections.end());
