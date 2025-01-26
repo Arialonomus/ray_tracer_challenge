@@ -5,6 +5,9 @@
 
 #include "light.hpp"
 #include "sphere.hpp"
+#include "ray.hpp"
+#include "transform.hpp"
+#include "intersection.hpp"
 
 // Tests the default constructor
 TEST(GraphicsWorld, DefaultConstructor)
@@ -65,3 +68,21 @@ TEST(GraphicsWorld, StandardConstructor)
     ASSERT_EQ(&world.getObjectList().at(1).get(), &sphere_b);
 }
 
+// Test world intersections
+TEST(GraphicsWorld, WorldIntersections)
+{
+    gfx::Sphere sphere_a{ };
+    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere_a, sphere_b };
+    const gfx::World world{ object_list };
+    const gfx::Ray ray{ 0, 0, -5,
+                        0, 0, 1 };
+
+    const std::vector<gfx::Intersection> world_intersections{ world.getIntersections(ray) };
+
+    EXPECT_EQ(world_intersections.size(), 4);
+    EXPECT_FLOAT_EQ(world_intersections.at(0).getT(), 4);
+    EXPECT_FLOAT_EQ(world_intersections.at(1).getT(), 4.5);
+    EXPECT_FLOAT_EQ(world_intersections.at(2).getT(), 5.5);
+    EXPECT_FLOAT_EQ(world_intersections.at(3).getT(), 6);
+}
