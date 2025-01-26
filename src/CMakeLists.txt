@@ -1,3 +1,7 @@
+# # # # # # # #
+# GFX Library #
+# # # # # # # #
+
 # Create the gfx library
 add_library(gfx)
 
@@ -28,6 +32,20 @@ target_include_directories(gfx PUBLIC
 
 # Set C++ standard for the gfx library
 target_compile_features(gfx PUBLIC cxx_std_23)
+
+# # # # # # # #
+# Ray Tracer  #
+# # # # # # # #
+
+# Define the ray tracer executable and targets
+add_executable(
+        ray_tracer ray_tracer/ray_tracer.cpp
+)
+target_link_libraries(ray_tracer PRIVATE gfx)
+
+# # # # # # # # # # #
+# Chapter-End Demos #
+# # # # # # # # # # #
 
 # Manually define the demo executables
 add_executable(
@@ -60,4 +78,3 @@ foreach(DEMO_TARGET ${DEMO_TARGETS})
             ${CMAKE_CURRENT_SOURCE_DIR}/gfx/utils
     )
 endforeach()
-
