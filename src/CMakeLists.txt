@@ -14,6 +14,7 @@ target_sources(gfx PRIVATE
         gfx/geometry/ray.cpp
         gfx/geometry/sphere.cpp
         gfx/geometry/intersection.cpp
+        gfx/shading/shading_functions.cpp
 )
 
 # Include the directories for the gfx library
@@ -21,6 +22,7 @@ target_include_directories(gfx PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/gfx/data_structures
         ${CMAKE_CURRENT_SOURCE_DIR}/gfx/functions
         ${CMAKE_CURRENT_SOURCE_DIR}/gfx/geometry
+        ${CMAKE_CURRENT_SOURCE_DIR}/gfx/shading
         ${CMAKE_CURRENT_SOURCE_DIR}/gfx/utils
 )
 
