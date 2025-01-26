@@ -7,6 +7,9 @@
 #include "sphere.hpp"
 
 namespace gfx {
+
+    class Intersection;     // Forward declaration
+
     class Ray
     {
     public:
