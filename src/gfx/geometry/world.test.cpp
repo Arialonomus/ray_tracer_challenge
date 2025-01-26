@@ -68,7 +68,7 @@ TEST(GraphicsWorld, StandardConstructor)
     ASSERT_EQ(&world.getObjectList().at(1).get(), &sphere_b);
 }
 
-// Test world intersections
+// Tests calculating world intersections
 TEST(GraphicsWorld, WorldIntersections)
 {
     gfx::Sphere sphere_a{ };
@@ -85,4 +85,44 @@ TEST(GraphicsWorld, WorldIntersections)
     EXPECT_FLOAT_EQ(world_intersections.at(1).getT(), 4.5);
     EXPECT_FLOAT_EQ(world_intersections.at(2).getT(), 5.5);
     EXPECT_FLOAT_EQ(world_intersections.at(3).getT(), 6);
+}
+
+// Tests shading a world intersection originating outside the hit object
+TEST(GraphicsWorld, CalculatePixelColorOutside)
+{
+    gfx::Material material{ };
+    material.color = gfx::Color{ 0.8, 1.0, 0.6 };
+    material.diffuse = 0.7;
+    material.specular = 0.2;
+    gfx::Sphere sphere{ material };
+    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere };
+    const gfx::World world{ object_list };
+    const gfx::Ray ray{ 0, 0, -5,
+                        0, 0, 1 };
+    const gfx::Intersection base_intersection{ 4, sphere };
+    const gfx::DetailedIntersection detailed_intersection{ base_intersection, ray };
+
+    const gfx::Color pixel_color_expected{ 0.380661, 0.475827, 0.285496 };
+    const gfx::Color pixel_color_actual{ world.calculatePixelColor(detailed_intersection) };
+
+    EXPECT_EQ(pixel_color_actual, pixel_color_expected);
+}
+
+// Tests shading a world intersection originating inside the hit object
+TEST(GraphicsWorld, CalculatePixelColorInside)
+{
+    gfx::Sphere sphere{ gfx::createScalingMatrix(0.5) };
+    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere };
+    const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
+                                       gfx::createPoint(0, 0.25, 0) };
+    const gfx::World world{ point_light, object_list };
+    const gfx::Ray ray{ 0, 0, 0,
+                        0, 0, 1 };
+    const gfx::Intersection base_intersection{ 0.5, sphere };
+    const gfx::DetailedIntersection detailed_intersection{ base_intersection, ray };
+
+    const gfx::Color pixel_color_expected{ 0.904984, 0.904984, 0.904984 };
+    const gfx::Color pixel_color_actual{ world.calculatePixelColor(detailed_intersection) };
+
+    EXPECT_EQ(pixel_color_actual, pixel_color_expected);
 }
