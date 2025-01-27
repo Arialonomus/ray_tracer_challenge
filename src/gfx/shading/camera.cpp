@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "util_functions.hpp"
+#include "vector4.hpp"
 
 namespace gfx {
     bool Camera::operator==(const Camera& rhs) const
@@ -12,6 +13,28 @@ namespace gfx {
             m_viewport_height == rhs.getViewportHeight() &&
             utils::areEqual(m_field_of_view, rhs.getFieldOfView()) &&
             m_transform == rhs.getTransform();
+    }
+
+    const Ray Camera::castRay(const size_t pixel_x, const size_t pixel_y) const
+    {
+        // Calculate the offset from the edge of the viewport to the pixel's center
+        const float pixel_x_offset{ (static_cast<float>(pixel_x) + 0.5f) * m_pixel_size };
+        const float pixel_y_offset{ (static_cast<float>(pixel_y) + 0.5f) * m_pixel_size };
+
+        // Calculate the un-transformed world-space coordinates of the pixel
+        const float world_x{ m_half_width - pixel_x_offset };
+        const float world_y{ m_half_height - pixel_y_offset };
+
+        // Move the viewport pixel position and the world origin into camera space
+        const Matrix4 inverse_transform{ m_transform.inverse() };
+        const Vector4 pixel_camera_space_pos{
+            inverse_transform * createPoint(world_x, world_y, -1) // Viewport is always 1 unit away from camera origin
+        };
+        const Vector4 origin_camera_space_pos{ inverse_transform * createPoint(0, 0 , 0) };
+
+        // Calculate the ray direction and return the cast ray
+        const Vector4 ray_cast_direction{ normalize(pixel_camera_space_pos - origin_camera_space_pos) };
+        return Ray{ origin_camera_space_pos, ray_cast_direction };
     }
 
     /* Private Methods */

@@ -3,6 +3,7 @@
 #include <cstddef>
 
 #include "matrix4.hpp"
+#include "ray.hpp"
 
 namespace gfx {
     class Camera
@@ -94,6 +95,11 @@ namespace gfx {
         /* Comparison Operator Overloads */
 
         [[nodiscard]] bool operator==(const Camera& rhs) const;
+
+        /* Ray Tracing Operations */
+
+        // Returns a ray targeting a specific (x, y) coordinate in the viewport
+        [[nodiscard]] const Ray castRay(const size_t pixel_x, const size_t pixel_y) const;
 
     private:
         /* Data Members */
