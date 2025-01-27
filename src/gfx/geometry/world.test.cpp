@@ -86,3 +86,97 @@ TEST(GraphicsWorld, WorldIntersections)
     EXPECT_FLOAT_EQ(world_intersections.at(2).getT(), 5.5);
     EXPECT_FLOAT_EQ(world_intersections.at(3).getT(), 6);
 }
+
+// Test shading a color when a ray misses all objects in a world
+TEST(GraphicsWorld, CalculatePixelColorMiss)
+{
+    gfx::Material material{ };
+    material.color = gfx::Color{ 0.8, 1.0, 0.6 };
+    material.diffuse = 0.7;
+    material.specular = 0.2;
+
+    gfx::Sphere sphere_a{ material };
+    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere_a, sphere_b };
+
+    const gfx::World world{ object_list };
+    const gfx::Ray ray{ 0, 0, -5,
+                        0, 1, 0 };
+
+    const gfx::Color pixel_color_expected{ 0, 0, 0 };
+    const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
+
+    EXPECT_EQ(pixel_color_actual, pixel_color_expected);
+}
+
+// Test shading a color when a ray hits an object in world from the outside
+TEST(GraphicsWorld, CalculatePixelColorHitOutside)
+{
+    gfx::Material material{ };
+    material.color = gfx::Color{ 0.8, 1.0, 0.6 };
+    material.diffuse = 0.7;
+    material.specular = 0.2;
+
+    gfx::Sphere sphere_a{ material };
+    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere_a, sphere_b };
+
+    const gfx::World world{ object_list };
+    const gfx::Ray ray{ 0, 0, -5,
+                        0, 0, 1 };
+
+    const gfx::Color pixel_color_expected{ 0.380661, 0.475827, 0.285496  };
+    const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
+
+    EXPECT_EQ(pixel_color_actual, pixel_color_expected);
+}
+
+// Test shading a color when a ray hits an object in world from the inside
+TEST(GraphicsWorld, CalculatePixelColorHitInside)
+{
+    gfx::Material material{ };
+    material.color = gfx::Color{ 0.8, 1.0, 0.6 };
+    material.diffuse = 0.7;
+    material.specular = 0.2;
+
+    gfx::Sphere sphere_a{ material };
+    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere_a, sphere_b };
+    const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
+                                        gfx::createPoint( 0, 0.25, 0 )};
+    const gfx::World world{ light_source, object_list };
+    const gfx::Ray ray{ 0, 0, 0,
+                        0, 0, 1 };
+
+    const gfx::Color pixel_color_expected{ 0.904984, 0.904984, 0.904984  };
+    const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
+
+    EXPECT_EQ(pixel_color_actual, pixel_color_expected);
+}
+
+// Test shading a color when a ray intersection is behind the ray origin
+TEST(GraphicsWorld, CalculatePixelColorHitBehind)
+{
+    gfx::Material sphere_a_material{ };
+    sphere_a_material.color = gfx::Color{ 0.8, 1.0, 0.6 };
+    sphere_a_material.diffuse = 0.7;
+    sphere_a_material.specular = 0.2;
+    sphere_a_material.ambient = 1;
+
+    gfx::Material sphere_b_material{ };
+    sphere_b_material.ambient = 1;
+
+    gfx::Sphere sphere_a{ sphere_a_material };
+    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5), sphere_b_material };
+    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere_a, sphere_b };
+    const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
+                                        gfx::createPoint( 0, 0.25, 0 )};
+    const gfx::World world{ light_source, object_list };
+    const gfx::Ray ray{ 0, 0, 0.75,
+                        0, 0, -1 };
+
+    const gfx::Color pixel_color_expected{ sphere_b.getMaterial().color  };
+    const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
+
+    EXPECT_EQ(pixel_color_actual, pixel_color_expected);
+}
