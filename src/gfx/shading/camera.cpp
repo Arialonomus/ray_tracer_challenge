@@ -5,7 +5,6 @@
 #include "util_functions.hpp"
 
 namespace gfx {
-    // Equality Operator
     bool Camera::operator==(const Camera& rhs) const
     {
         return
@@ -15,20 +14,25 @@ namespace gfx {
             m_transform == rhs.getTransform();
     }
 
-    // Pixel Size Accessor
-    float Camera::getPixelSize() const
+    /* Private Methods */
+
+    void Camera::updateCachedState()
     {
         const float half_view{ std::tanf(m_field_of_view / 2) };
         const float aspect_ratio{ static_cast<float>(m_viewport_width) / static_cast<float>(m_viewport_height) };
-        float half_width{ }, half_height{ };
+
+        // Viewport has horizontal aspect
         if (aspect_ratio >= 1) {
-            half_width = half_view;
-            half_height = half_view / aspect_ratio;
-        } else {
-            half_width = half_view * aspect_ratio;
-            half_height = half_view;
+            m_half_width = half_view;
+            m_half_height = half_view / aspect_ratio;
+        }
+        // Viewport has vertical aspect
+        else {
+            m_half_width = half_view * aspect_ratio;
+            m_half_height = half_view;
         }
 
-        return (half_width * 2) / m_viewport_width;
+        // We assume a square pixel, so we only need to calculate one dimension
+        m_pixel_size = (m_half_width * 2) / m_viewport_width;
     }
 }
