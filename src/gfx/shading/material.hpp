@@ -69,12 +69,12 @@ namespace gfx {
 
         /* Mutators */
 
-        const void setColor(const Color& color) { m_color = color; }
-        const void setColor(const float r, const float g, const float b) { m_color.setValues(r, g, b); }
-        const void setAmbient(const float ambient) { m_ambient = ambient; }
-        const void setDiffuse(const float diffuse) { m_diffuse = diffuse; }
-        const void setSpecular(const float specular) { m_specular = specular; }
-        const void setShininess(const float shininess) { m_shininess = shininess; }
+        void setColor(const Color& color) { m_color = color; }
+        void setColor(const float r, const float g, const float b) { m_color.setValues(r, g, b); }
+        void setAmbient(const float ambient) { m_ambient = ambient; }
+        void setDiffuse(const float diffuse) { m_diffuse = diffuse; }
+        void setSpecular(const float specular) { m_specular = specular; }
+        void setShininess(const float shininess) { m_shininess = shininess; }
 
         /* Comparison Operator Overloads */
 
