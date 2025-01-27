@@ -15,6 +15,7 @@ option(BUILD_DEMOS "Build demo programs" TRUE)
 
 # Add subdirectories
 add_subdirectory(src)
+add_subdirectory(lib)
 if (BUILD_TESTS)
     add_subdirectory(tests)
 endif()
