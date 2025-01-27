@@ -318,8 +318,8 @@ TEST(GraphicsMatrixTransformations, ChainedTransformations)
     EXPECT_TRUE(point_combined_transform_actual == point_expected);
 }
 
-// Tests transforming a view using a view transformation matrix
-TEST(GraphicsMatrixTransformations, ViewTransform)
+// Tests creating view transformation matrix
+TEST(GraphicsMatrixTransformations, CreateViewTransformMatrix)
 {
     // Test generating a view transform matrix for the default orientation
     const gfx::Vector4 from_position_a{ gfx::createPoint(0, 0, 0) };
