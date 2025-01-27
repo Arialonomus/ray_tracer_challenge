@@ -1,5 +1,4 @@
 #include "gtest/gtest.h"
-
 #include "color.hpp"
 
 // Tests the default constructor
@@ -36,7 +35,7 @@ TEST(GraphicsColor, CopyConstructor)
 // Tests the assignment operator
 TEST(GraphicsColor, AssignmentOperator)
 {
-    gfx::Color clr_a{ 1.0, 2.0, 3.0 };
+    gfx::Color clr_a{ };
     const gfx::Color clr_b{ -0.5, 0.4, 1.7 };
 
     clr_a = clr_b;
@@ -62,6 +61,21 @@ TEST(GraphicsColor, InequalityOperator)
     const gfx::Color clr_b{ -0.5, 0.4, 1.7 };
 
     EXPECT_TRUE(clr_a != clr_b);
+}
+
+// Tests the color mutator
+TEST(GraphicsColor, Mutator)
+{
+    gfx::Color color{ };
+    const float r_expected{ 0.5 };
+    const float g_expected{ 0.5 };
+    const float b_expected{ 0.5 };
+
+    color.setValues(r_expected, g_expected, b_expected);
+
+    ASSERT_FLOAT_EQ(color.r(), r_expected);
+    ASSERT_FLOAT_EQ(color.g(), g_expected);
+    ASSERT_FLOAT_EQ(color.g(), b_expected);
 }
 
 // Tests color addition with the addition operator
