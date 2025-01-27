@@ -26,8 +26,16 @@ namespace gfx
                 : m_pixels{ width * height, color },
                   m_grid{ m_pixels.data(), width, height }
         {}
-        Canvas(Canvas&) = delete;
-        Canvas(Canvas&&) = delete;
+        Canvas(const Canvas& src)
+                : m_pixels{ src.m_pixels },
+                  m_grid{ m_pixels.data(), src.width(), src.height() }
+        {}
+        Canvas(Canvas&& src)
+                : m_pixels{ std::move(src.m_pixels) },
+                  m_grid{ m_pixels.data(), src.width(), src.height() }
+        {
+            src.m_grid = { };
+        }
 
         /* Destructor */
 
