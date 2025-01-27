@@ -103,4 +103,21 @@ namespace gfx {
                 0.0, 0.0, 0.0, 1.0
         };
     }
+
+    // View Transform Matrix Factory Function
+    Matrix4 createViewTransformMatrix(const Vector4& input_space, const Vector4& output_space, const Vector4& up_vector)
+    {
+        const Vector4 forward_vector{ normalize(output_space - input_space) };
+        const Vector4 left_vector{ forward_vector.crossProduct(normalize(up_vector)) };
+        const Vector4 true_up_vector{ left_vector.crossProduct(forward_vector) };
+
+        const Matrix4 orientation{
+            left_vector.x(), left_vector.y(), left_vector.z(), 0,
+            true_up_vector.x(), true_up_vector.y(), true_up_vector.z(), 0,
+            -forward_vector.x(), -forward_vector.y(), -forward_vector.z(), 0,
+            0, 0, 0, 1
+        };
+
+        return orientation * createTranslationMatrix(-input_space);
+    }
 }

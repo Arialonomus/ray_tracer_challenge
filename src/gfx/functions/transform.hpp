@@ -37,4 +37,10 @@ namespace gfx {
             float x_y, float x_z,
             float y_x, float y_z,
             float z_x, float z_y);
+
+    // Returns a view transformation matrix representing a change of base from the input vector space to the output space
+    [[nodiscard]] Matrix4 createViewTransformMatrix(
+            const Vector4& input_space,
+            const Vector4& output_space,
+            const Vector4& up_vector);
 }
