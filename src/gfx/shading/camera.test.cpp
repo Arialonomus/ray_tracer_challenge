@@ -152,3 +152,33 @@ TEST(GraphicsCamera, Mutators)
     camera.setTransform(transform_expected);
     ASSERT_EQ(camera.getTransform(), transform_expected);
 }
+
+// Tests casting a ray through various positions on the viewport
+TEST(GraphicsCamera, CastRay)
+{
+    const gfx::Camera camera_a{ 201, 101, M_PI_2f };
+
+    // Test casting a ray through the center of the viewport
+    const gfx::Ray ray_a_expected{ 0, 0, 0,
+                                   0, 0, -1 };
+    const gfx::Ray ray_a_actual{ camera_a.castRay(100, 50) };
+
+    EXPECT_EQ(ray_a_actual, ray_a_expected);
+
+    // Test casting a ray through a corner of the viewport
+    const gfx::Ray ray_b_expected{ 0, 0, 0,
+                                   0.665186, 0.332593, -0.668512 };
+    const gfx::Ray ray_b_actual{ camera_a.castRay(0, 0) };
+
+    EXPECT_EQ(ray_b_actual, ray_b_expected);
+
+    // Test casting a ray from a transformed camera through the center of the viewport
+    const gfx::Matrix4 transform_matrix{
+        gfx::createYRotationMatrix(M_PI_4f) * gfx::createTranslationMatrix(0, -2, 5) };
+    const gfx::Camera camera_b{ 201, 101, M_PI_2f, transform_matrix };
+    const gfx::Ray ray_c_expected{ 0, 2, -5,
+                                   M_SQRT2f / 2, 0, -M_SQRT2f / 2 };
+    const gfx::Ray ray_c_actual{ camera_b.castRay(100, 50) };
+
+    EXPECT_EQ(ray_c_actual, ray_c_expected);
+}
