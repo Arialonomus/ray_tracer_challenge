@@ -47,6 +47,9 @@ namespace gfx {
         [[nodiscard]] float getFieldOfView() const { return m_field_of_view; }
         [[nodiscard]] const Matrix4& getTransform() const { return m_transform; }
 
+        // Returns the world-space size of pixels in the viewport
+        [[nodiscard]] float getPixelSize() const;
+
         /* Mutators */
 
         void setViewport(const size_t width, const size_t height)
