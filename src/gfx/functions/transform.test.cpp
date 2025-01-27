@@ -317,3 +317,66 @@ TEST(GraphicsMatrixTransformations, ChainedTransformations)
 
     EXPECT_TRUE(point_combined_transform_actual == point_expected);
 }
+
+// Tests transforming a view using a view transformation matrix
+TEST(GraphicsMatrixTransformations, ViewTransform)
+{
+    // Test generating a view transform matrix for the default orientation
+    const gfx::Vector4 from_position_a{ gfx::createPoint(0, 0, 0) };
+    const gfx::Vector4 to_position_a{ gfx::createPoint(0, 0, -1) };
+    const gfx::Vector4 up_vector_a{ gfx::createVector(0, 1, 0) };
+
+    const gfx::Matrix4 view_transform_actual_a{
+        gfx::createViewTransformMatrix(
+                from_position_a,
+                to_position_a,
+                up_vector_a) };
+
+    EXPECT_EQ(view_transform_actual_a, gfx::createIdentityMatrix());
+
+    // Test generating a view transformation matrix looking towards the positive Z-direction
+    const gfx::Vector4 from_position_b{ gfx::createPoint(0, 0, 0) };
+    const gfx::Vector4 to_position_b{ gfx::createPoint(0, 0, 1) };
+    const gfx::Vector4 up_vector_b{ gfx::createVector(0, 1, 0) };
+
+    const gfx::Matrix4 view_transform_actual_b{
+            gfx::createViewTransformMatrix(
+                    from_position_b,
+                    to_position_b,
+                    up_vector_b) };
+
+    EXPECT_EQ(view_transform_actual_b, gfx::createScalingMatrix(-1, 1, -1));
+
+    // Test generating a view transformation matrix translating the viewpoint
+    const gfx::Vector4 from_position_c{ gfx::createPoint(0, 0, 8) };
+    const gfx::Vector4 to_position_c{ gfx::createPoint(0, 0, 0) };
+    const gfx::Vector4 up_vector_c{ gfx::createVector(0, 1, 0) };
+
+    const gfx::Matrix4 view_transform_actual_c{
+            gfx::createViewTransformMatrix(
+                    from_position_c,
+                    to_position_c,
+                    up_vector_c) };
+
+    EXPECT_EQ(view_transform_actual_c, gfx::createTranslationMatrix(0, 0, -8));
+
+    // Test generating a view matrix moving the viewpoint in an arbitrary direction
+    const gfx::Vector4 from_position_d{ gfx::createPoint(1, 3, 2) };
+    const gfx::Vector4 to_position_d{ gfx::createPoint(4, -2, 8) };
+    const gfx::Vector4 up_vector_d{ gfx::createVector(1, 1, 0) };
+
+    const gfx::Matrix4 view_transform_expected_d{
+            -0.507093, 0.507093, 0.676123, -2.366432,
+            0.767716, 0.606091, 0.121218, -2.828427,
+            -0.358568, 0.597614, -0.717137, 0,
+            0, 0, 0, 1
+    };
+
+    const gfx::Matrix4 view_transform_actual_d{
+            gfx::createViewTransformMatrix(
+                    from_position_d,
+                    to_position_d,
+                    up_vector_d) };
+
+    EXPECT_EQ(view_transform_actual_d, view_transform_expected_d);
+}
