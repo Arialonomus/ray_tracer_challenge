@@ -9,7 +9,6 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 set(UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/data_structures/vector4.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/data_structures/color.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/data_structures/canvas.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/data_structures/matrix2.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/data_structures/matrix3.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/data_structures/matrix4.test.cpp
@@ -17,7 +16,11 @@ set(UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/geometry/ray.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/geometry/sphere.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/geometry/intersection.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/shading/shading.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/geometry/world.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/rendering/canvas.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/rendering/material.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/rendering/camera.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/rendering/rendering.test.cpp
 )
 
 # Gather all test sources into single variable

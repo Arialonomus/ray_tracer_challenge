@@ -10,7 +10,6 @@ target_sources(gfx PRIVATE
         gfx/utils/util_functions.cpp
         gfx/data_structures/vector4.cpp
         gfx/data_structures/color.cpp
-        gfx/data_structures/canvas.cpp
         gfx/data_structures/matrix2.cpp
         gfx/data_structures/matrix3.cpp
         gfx/data_structures/matrix4.cpp
@@ -18,7 +17,11 @@ target_sources(gfx PRIVATE
         gfx/geometry/ray.cpp
         gfx/geometry/sphere.cpp
         gfx/geometry/intersection.cpp
-        gfx/shading/shading_functions.cpp
+        gfx/geometry/world.cpp
+        gfx/rendering/canvas.cpp
+        gfx/rendering/material.cpp
+        gfx/rendering/camera.cpp
+        gfx/rendering/rendering_functions.cpp
 )
 
 # Include the directories for the gfx library
@@ -26,7 +29,7 @@ target_include_directories(gfx PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/gfx/data_structures
         ${CMAKE_CURRENT_SOURCE_DIR}/gfx/functions
         ${CMAKE_CURRENT_SOURCE_DIR}/gfx/geometry
-        ${CMAKE_CURRENT_SOURCE_DIR}/gfx/shading
+        ${CMAKE_CURRENT_SOURCE_DIR}/gfx/rendering
         ${CMAKE_CURRENT_SOURCE_DIR}/gfx/utils
 )
 
