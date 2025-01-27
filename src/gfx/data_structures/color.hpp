@@ -27,6 +27,14 @@ namespace gfx
         [[nodiscard]] float g() const { return m_g; }
         [[nodiscard]] float b() const { return m_b; }
 
+        /* Mutators */
+        void setValues(const float r, const float g, const float b)
+        {
+            m_r = r;
+            m_g = g;
+            m_b = b;
+        }
+
         /* Comparison Operator Overloads */
 
         [[nodiscard]] bool operator==(const Color& rhs) const;
