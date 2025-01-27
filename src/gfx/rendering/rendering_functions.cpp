@@ -40,4 +40,17 @@ namespace gfx {
         // Sum the three components of the model and return
         return ambient + diffuse + specular;
     }
+
+    const Canvas render(const World& world, const Camera& camera)
+    {
+        Canvas image{ camera.getViewportWidth(), camera.getViewportHeight() };
+
+        // Cast a ray to determine the color for each pixel in the viewport
+        for (int y = 0; y < camera.getViewportHeight(); ++y)
+            for (int x = 0; x < camera.getViewportWidth(); ++x) {
+                image[x, y] = world.calculatePixelColor(camera.castRay(x, y));
+            }
+
+        return image;
+    }
 }
