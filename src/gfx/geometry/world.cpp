@@ -23,12 +23,24 @@ namespace gfx {
         return world_intersections;
     }
 
-    Color World::calculatePixelColor(const DetailedIntersection& intersection) const
+    Color World::calculatePixelColor(const Ray& ray) const
     {
-        return calculateSurfaceColor(intersection.getObject().getMaterial(),
-                                     m_light_source,
-                                     intersection.getSurfacePosition(),
-                                     intersection.getSurfaceNormal(),
-                                     intersection.getViewVector());
+        // Get the list of intersections for the ray and check for a hit
+        const std::vector<Intersection> world_intersections{ this->getIntersections(ray) };
+        auto possible_hit{ getHit(world_intersections) };
+
+        // Hit found calculate the color at that position
+        if (possible_hit) {
+            const DetailedIntersection detailed_hit{ possible_hit.value(), ray };
+            return calculateSurfaceColor(detailed_hit.getObject().getMaterial(),
+                                         m_light_source,
+                                         detailed_hit.getSurfacePosition(),
+                                         detailed_hit.getSurfaceNormal(),
+                                         detailed_hit.getViewVector());
+        }
+        // No hit found, return black
+        else {
+            return Color{ 0, 0, 0 };
+        }
     }
 }

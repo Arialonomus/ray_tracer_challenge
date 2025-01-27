@@ -54,7 +54,7 @@ namespace gfx {
         [[nodiscard]] std::vector<Intersection> getIntersections(const Ray& ray) const;
 
         // Returns the pixel color for the ray hit using pre-computed vector data for that point in world space
-        [[nodiscard]] Color calculatePixelColor(const DetailedIntersection& intersection) const;
+        [[nodiscard]] Color calculatePixelColor(const Ray& ray) const;
 
     private:
         PointLight m_light_source{ Color{ 1, 1, 1 },
