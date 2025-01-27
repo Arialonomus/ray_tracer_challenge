@@ -44,7 +44,10 @@ target_compile_features(gfx PUBLIC cxx_std_23)
 add_executable(
         ray_tracer ray_tracer/ray_tracer.cpp
 )
-target_link_libraries(ray_tracer PRIVATE gfx)
+target_link_libraries(ray_tracer PRIVATE
+        gfx
+        nlohmann_json::nlohmann_json
+)
 
 # # # # # # # # # # #
 # Chapter-End Demos #
