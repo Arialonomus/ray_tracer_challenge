@@ -33,15 +33,28 @@ TEST(GraphicsWorld, PointLightConstructor)
     ASSERT_TRUE(world.getObjectList().empty());
 }
 
-// Tests the object list constructor
-TEST(GraphicsWorld, ObjectListConstructor)
+// Tests the object list constructor (single object)
+TEST(GraphicsWorld, ObjectListConstructorSingleObject)
 {
     const gfx::PointLight light_source_expected{ gfx::Color{ 1, 1, 1 },
                                            gfx::createPoint(-10, 10, -10) };
     gfx::Sphere sphere_a{ };
+    const gfx::World world{ sphere_a };
+
+    ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
+    ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
+    ASSERT_EQ(world.getObjectList().size(), 1);
+    ASSERT_EQ(&world.getObjectList().at(0).get(), &sphere_a);
+}
+
+// Tests the object list constructor (multiple objects)
+TEST(GraphicsWorld, ObjectListConstructorMultipleObjects)
+{
+    const gfx::PointLight light_source_expected{ gfx::Color{ 1, 1, 1 },
+                                                 gfx::createPoint(-10, 10, -10) };
+    gfx::Sphere sphere_a{ };
     gfx::Sphere sphere_b{ };
-    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere_a, sphere_b };
-    const gfx::World world{ object_list };
+    const gfx::World world{ sphere_a, sphere_b };
 
     ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
     ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
@@ -58,8 +71,7 @@ TEST(GraphicsWorld, StandardConstructor)
                                                  gfx::createPoint(-5, 5, -5) };
     gfx::Sphere sphere_a{ };
     gfx::Sphere sphere_b{ };
-    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere_a, sphere_b };
-    const gfx::World world{ light_source_expected, object_list };
+    const gfx::World world{ light_source_expected, sphere_a, sphere_b };
 
     ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
     ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
@@ -73,8 +85,7 @@ TEST(GraphicsWorld, WorldIntersections)
 {
     gfx::Sphere sphere_a{ };
     gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
-    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere_a, sphere_b };
-    const gfx::World world{ object_list };
+    const gfx::World world{ sphere_a, sphere_b };
     const gfx::Ray ray{ 0, 0, -5,
                         0, 0, 1 };
 
@@ -97,9 +108,8 @@ TEST(GraphicsWorld, CalculatePixelColorMiss)
 
     gfx::Sphere sphere_a{ material };
     gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
-    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere_a, sphere_b };
 
-    const gfx::World world{ object_list };
+    const gfx::World world{ sphere_a, sphere_b };
     const gfx::Ray ray{ 0, 0, -5,
                         0, 1, 0 };
 
@@ -119,9 +129,8 @@ TEST(GraphicsWorld, CalculatePixelColorHitOutside)
 
     gfx::Sphere sphere_a{ material };
     gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
-    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere_a, sphere_b };
 
-    const gfx::World world{ object_list };
+    const gfx::World world{ sphere_a, sphere_b };
     const gfx::Ray ray{ 0, 0, -5,
                         0, 0, 1 };
 
@@ -141,10 +150,9 @@ TEST(GraphicsWorld, CalculatePixelColorHitInside)
 
     gfx::Sphere sphere_a{ material };
     gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
-    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere_a, sphere_b };
     const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
                                         gfx::createPoint( 0, 0.25, 0 )};
-    const gfx::World world{ light_source, object_list };
+    const gfx::World world{ light_source, sphere_a, sphere_b };
     const gfx::Ray ray{ 0, 0, 0,
                         0, 0, 1 };
 
@@ -168,10 +176,9 @@ TEST(GraphicsWorld, CalculatePixelColorHitBehind)
 
     gfx::Sphere sphere_a{ sphere_a_material };
     gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5), sphere_b_material };
-    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere_a, sphere_b };
     const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
                                         gfx::createPoint( 0, 0.25, 0 )};
-    const gfx::World world{ light_source, object_list };
+    const gfx::World world{ light_source, sphere_a, sphere_b };
     const gfx::Ray ray{ 0, 0, 0.75,
                         0, 0, -1 };
 

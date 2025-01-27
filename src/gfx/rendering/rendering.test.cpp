@@ -121,8 +121,7 @@ TEST(GraphicsRendering, RenderWorld)
 
     gfx::Sphere sphere_a{ material };
     gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
-    const std::vector<std::reference_wrapper<gfx::Sphere>> object_list{ sphere_a, sphere_b };
-    const gfx::World world{ object_list };
+    const gfx::World world{ sphere_a, sphere_b };
 
     const gfx::Vector4 from_position{ gfx::createPoint(0, 0, -5) };
     const gfx::Vector4 to_position{ gfx::createPoint(0, 0, 0) };
