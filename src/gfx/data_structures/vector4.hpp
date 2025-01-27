@@ -16,7 +16,6 @@ namespace gfx {
         Vector4(const float x, const float y, const float z, const float w) : m_data{ x, y, z ,w } {}
         explicit Vector4(std::span<const float, 4> values);
         Vector4(const Vector4&) = default;
-        Vector4(Vector4&&) = default;
 
         /* Destructor */
 
@@ -25,7 +24,6 @@ namespace gfx {
         /* Assignment Operators */
 
         Vector4& operator=(const Vector4&) = default;
-        Vector4& operator=(Vector4&&) = default;
 
         /* Comparison Operator Overloads */
 

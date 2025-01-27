@@ -21,7 +21,6 @@ namespace gfx {
         {}
         explicit Matrix3(std::span<const float, 9> values);
         Matrix3(const Matrix3&) = default;
-        Matrix3(const Matrix3&&) = default;
 
         /* Destructor */
 
@@ -30,7 +29,6 @@ namespace gfx {
         /* Assignment Operators */
 
         Matrix3& operator=(const Matrix3&) = default;
-        Matrix3& operator=(Matrix3&&) = default;
 
         /* Accessors */
 

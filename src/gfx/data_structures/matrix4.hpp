@@ -22,7 +22,6 @@ namespace gfx {
         {}
         explicit Matrix4(std::span<const float, 16> values);
         Matrix4(const Matrix4&) = default;
-        Matrix4(const Matrix4&&) = default;
 
         /* Destructor */
 
@@ -31,7 +30,6 @@ namespace gfx {
         /* Assignment Operators */
 
         Matrix4& operator=(const Matrix4&) = default;
-        Matrix4& operator=(Matrix4&&) = default;
 
         /* Comparison Operators */
 

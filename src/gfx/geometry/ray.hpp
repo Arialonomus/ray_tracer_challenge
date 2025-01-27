@@ -25,7 +25,6 @@ namespace gfx {
                   m_direction{ direction_x, direction_y, direction_z, 0.0 }
         {}
         Ray(const Ray&) = default;
-        Ray(const Ray&&) = default;
 
         /* Destructor */
 
@@ -34,7 +33,6 @@ namespace gfx {
         /* Assignment Operators */
 
         Ray& operator=(const Ray&) = default;
-        Ray& operator=(Ray&&) = default;
 
         /* Comparison Operator Overloads */
 

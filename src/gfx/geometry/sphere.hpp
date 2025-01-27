@@ -21,7 +21,6 @@ namespace gfx {
                 : m_transform{ gfx::createIdentityMatrix() }, m_material{ material }
         {}
         Sphere(const Sphere&) = default;
-        Sphere(const Sphere&&) = default;
 
         /* Destructor */
 
@@ -30,7 +29,6 @@ namespace gfx {
         /* Assignment Operators */
 
         Sphere& operator=(const Sphere&) = default;
-        Sphere& operator=(Sphere&&) = default;
 
         /* Comparison Operator Overloads */
 
