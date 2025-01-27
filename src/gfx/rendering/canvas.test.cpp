@@ -44,6 +44,26 @@ TEST(GraphicsCanvas, ConstructorInitializedColor)
         }
 }
 
+// Tests the standard constructor (initialized to black)
+TEST(GraphicsCanvas, CopyConstructor)
+{
+    constexpr size_t width_expected = 10;
+    constexpr size_t height_expected = 20;
+    const gfx::Color red{ 1.0,0.0,0.0 };
+
+    const gfx::Canvas canvas_a{ width_expected, height_expected, red };
+    const gfx::Canvas canvas_b{ canvas_a };
+
+    ASSERT_EQ(canvas_b.width(), width_expected);
+    ASSERT_EQ(canvas_b.height(), height_expected);
+
+    for (int col = 0; col < width_expected; ++col)
+        for (int row = 0; row < height_expected; ++row) {
+            gfx::Color pixel = canvas_b[col, row];
+            ASSERT_TRUE(pixel == red);
+        }
+}
+
 // Tests writing a pixel at a given coordinate
 TEST(GraphicsCanvas, WritePixelColor)
 {
