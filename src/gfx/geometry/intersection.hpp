@@ -31,6 +31,13 @@ namespace gfx {
         Intersection& operator=(const Intersection&) = default;
         Intersection& operator=(Intersection&&) = default;
 
+        /* Accessors */
+
+        [[nodiscard]] float getT() const
+        { return m_t; }
+        [[nodiscard]] const Sphere& getObject() const
+        { return m_object; }
+
         /* Comparison Operator Overloads */
 
         [[nodiscard]] bool operator==(const Intersection& rhs) const;
@@ -39,14 +46,9 @@ namespace gfx {
         [[nodiscard]] bool operator<(const float rhs) const
         { return m_t < rhs; }
 
-        /* Accessors */
-
-        [[nodiscard]] float getT() const
-        { return m_t; }
-        [[nodiscard]] const Sphere& getObject() const
-        { return m_object; }
-
     private:
+        /* Data Members */
+
         float m_t;
         std::reference_wrapper<const Sphere> m_object;
     };
@@ -84,6 +86,8 @@ namespace gfx {
         { return m_is_inside_object; }
 
     private:
+        /* Data Members */
+
         Vector4 m_surface_position{ };
         Vector4 m_surface_normal{ };
         Vector4 m_view_vector{ };
