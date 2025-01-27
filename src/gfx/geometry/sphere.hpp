@@ -14,10 +14,10 @@ namespace gfx {
         Sphere(const Matrix4& transform, const Material& material)
                 : m_transform{ transform }, m_material{ material }
         {}
-        Sphere(const Matrix4& transform)
+        explicit Sphere(const Matrix4& transform)
                 : m_transform{ transform }, m_material{ }
         {}
-        Sphere(const Material& material)
+        explicit Sphere(const Material& material)
                 : m_transform{ gfx::createIdentityMatrix() }, m_material{ material }
         {}
         Sphere(const Sphere&) = default;
