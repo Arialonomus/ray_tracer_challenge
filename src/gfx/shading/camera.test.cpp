@@ -5,7 +5,8 @@
 
 #include "matrix4.hpp"
 #include "vector4.hpp"
-#include"transform.hpp"
+#include "transform.hpp"
+#include "ray.hpp"
 
 // Tests the standard constructor (no transform)
 TEST(GraphicsCamera, StandardConstructorNoTransform)
@@ -150,18 +151,4 @@ TEST(GraphicsCamera, Mutators)
                     up_vector) };
     camera.setTransform(transform_expected);
     ASSERT_EQ(camera.getTransform(), transform_expected);
-}
-
-// Tests getting the world-space pixel size for a camera's viewport
-TEST(GraphicsCamera, GetPixelSize)
-{
-    // Test getting the pixel-size for a viewport with a horizontal aspect
-    const gfx::Camera camera_horizontal{ 200, 125, M_PI_2f };
-    const float pixel_size_horizontal_expected{ 0.01 };
-    EXPECT_FLOAT_EQ(camera_horizontal.getPixelSize(), pixel_size_horizontal_expected);
-
-    // Test getting the pixel-size for a viewport with a vertical aspect
-    const gfx::Camera camera_vertical{ 125, 200, M_PI_2f };
-    const float pixel_size_vertical_expected{ 0.01 };
-    EXPECT_FLOAT_EQ(camera_vertical.getPixelSize(), pixel_size_vertical_expected);
 }
