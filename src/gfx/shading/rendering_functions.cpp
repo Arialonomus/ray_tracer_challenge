@@ -1,4 +1,4 @@
-#include "shading_functions.hpp"
+#include "rendering_functions.hpp"
 
 #include <cmath>
 

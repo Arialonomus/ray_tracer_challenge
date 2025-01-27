@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "shading_functions.hpp"
+#include "rendering_functions.hpp"
 
 namespace gfx {
     // World Intersection Calculator

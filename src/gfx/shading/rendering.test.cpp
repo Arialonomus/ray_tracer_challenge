@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "shading_functions.hpp"
+#include "rendering_functions.hpp"
 
 #include <cmath>
 
@@ -9,7 +9,7 @@
 #include "vector4.hpp"
 
 // Tests calculating surface color with the view origin between the light and the surface
-TEST(GraphicsShading, ViewBetweenLightAndSurface)
+TEST(GraphicsRendering, ViewBetweenLightAndSurface)
 {
     const gfx::Material material{ };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
@@ -30,7 +30,7 @@ TEST(GraphicsShading, ViewBetweenLightAndSurface)
 
 // Tests calculating surface color with the view origin between the light
 // and the surface and the light offset 45 degrees
-TEST(GraphicsShading, ViewBetweenLightAndSurfaceViewOffset45Degrees)
+TEST(GraphicsRendering, ViewBetweenLightAndSurfaceViewOffset45Degrees)
 {
     const gfx::Material material{ };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
@@ -51,7 +51,7 @@ TEST(GraphicsShading, ViewBetweenLightAndSurfaceViewOffset45Degrees)
 
 // Tests calculating surface color with the view origin opposite the surface
 // and the light offset 45 degrees
-TEST(GraphicsShading, ViewOppositeSurfaceLightOffset45Degrees)
+TEST(GraphicsRendering, ViewOppositeSurfaceLightOffset45Degrees)
 {
     const gfx::Material material{ };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
@@ -71,7 +71,7 @@ TEST(GraphicsShading, ViewOppositeSurfaceLightOffset45Degrees)
 }
 
 // Tests calculating surface color with the view origin in the path of the light reflection vector
-TEST(GraphicsShading, ViewInPathOfReflectionVector)
+TEST(GraphicsRendering, ViewInPathOfReflectionVector)
 {
     const gfx::Material material{ };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
@@ -91,7 +91,7 @@ TEST(GraphicsShading, ViewInPathOfReflectionVector)
 }
 
 // Tests calculating surface color with the surface between the view and the light
-TEST(GraphicsShading, SurfaceBetweenViewAndLight)
+TEST(GraphicsRendering, SurfaceBetweenViewAndLight)
 {
     const gfx::Material material{ };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },

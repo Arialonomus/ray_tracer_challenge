@@ -20,7 +20,7 @@
 #include "ray.hpp"
 #include "material.hpp"
 #include "light.hpp"
-#include "shading_functions.hpp"
+#include "rendering_functions.hpp"
 
 constexpr size_t CANVAS_DIMENSION{ 500 };
 constexpr float BACKDROP_Z{ 10 };
