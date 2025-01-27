@@ -12,30 +12,22 @@ TEST(GraphicsSphere, DefaultConstructor)
 {
     const gfx::Sphere sphere{ };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
-    const gfx::Color color_expected{ 1, 1, 1 };
+    const gfx::Material material_expected{ };
 
     ASSERT_EQ(sphere.getTransform(), transform_expected);
-    ASSERT_EQ(sphere.getMaterial().color, color_expected);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().ambient, 0.1);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().diffuse, 0.9);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().specular, 0.9);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().shininess, 200);
+    ASSERT_EQ(sphere.getMaterial(), material_expected);
 }
 
 // Tests the standard constructor
 TEST(GraphicsSphere, StandardConstructor)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material{ color_expected, 0.5, 0.5, 0.5, 50 };
-    const gfx::Sphere sphere{ gfx::createScalingMatrix(5), material };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50 };
+    const gfx::Sphere sphere{ gfx::createScalingMatrix(5), material_expected };
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
 
     ASSERT_EQ(sphere.getTransform(), transform_expected);
-    ASSERT_EQ(sphere.getMaterial().color, color_expected);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().ambient, 0.5);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().diffuse, 0.5);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().specular, 0.5);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().shininess, 50);
+    ASSERT_EQ(sphere.getMaterial(), material_expected);
 }
 
 // Tests the standard constructor (with default material)
@@ -43,40 +35,35 @@ TEST(GraphicsSphere, StandardConstructorDefaultMaterial)
 {
     const gfx::Sphere sphere{ gfx::createScalingMatrix(5) };
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
-    const gfx::Color color_expected{ 1, 1, 1 };
+    const gfx::Material material_expected{ };
 
     ASSERT_EQ(sphere.getTransform(), transform_expected);
-    ASSERT_EQ(sphere.getMaterial().color, color_expected);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().ambient, 0.1);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().diffuse, 0.9);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().specular, 0.9);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().shininess, 200);
+    ASSERT_EQ(sphere.getMaterial(), material_expected);
 }
 
 // Tests the standard constructor (with default transform)
 TEST(GraphicsSphere, StandardConstructorDefaultTransform)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material{ color_expected, 0.5, 0.5, 0.5, 50 };
-    const gfx::Sphere sphere{ material };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50 };
+    const gfx::Sphere sphere{ material_expected };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
 
     ASSERT_EQ(sphere.getTransform(), transform_expected);
-    ASSERT_EQ(sphere.getMaterial().color, color_expected);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().ambient, 0.5);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().diffuse, 0.5);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().specular, 0.5);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().shininess, 50);
+    ASSERT_EQ(sphere.getMaterial(), material_expected);
 }
 
 // Tests the copy constructor
 TEST(GraphicsSphere, CopyConstructor)
 {
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
-    const gfx::Sphere sphere_src{ transform_expected };
+    const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50 };
+    const gfx::Sphere sphere_src{ transform_expected, material_expected };
     const gfx::Sphere sphere_cpy{ sphere_src };
 
     ASSERT_EQ(sphere_cpy.getTransform(), transform_expected);
+    ASSERT_EQ(sphere_cpy.getMaterial(), material_expected);
 }
 
 // Tests the assignment operator
@@ -84,12 +71,15 @@ TEST(GraphicsSphere, AssignmentOperator)
 {
 
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
-    const gfx::Sphere sphere_a{ transform_expected };
+    const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50 };
+    const gfx::Sphere sphere_a{ transform_expected, material_expected };
     gfx::Sphere sphere_b{ };
 
     sphere_b = sphere_a;
 
     ASSERT_EQ(sphere_b.getTransform(), transform_expected);
+    ASSERT_EQ(sphere_b.getMaterial(), material_expected);
 }
 
 // Tests the equality operator
@@ -126,15 +116,11 @@ TEST(GraphicsSphere, SetMaterial)
 {
     gfx::Sphere sphere{ };
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material{ color_expected, 0.5, 0.5, 0.5, 50 };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50 };
 
-    sphere.setMaterial(material);
+    sphere.setMaterial(material_expected);
 
-    ASSERT_EQ(sphere.getMaterial().color, color_expected);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().ambient, 0.5);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().diffuse, 0.5);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().specular, 0.5);
-    ASSERT_FLOAT_EQ(sphere.getMaterial().shininess, 50);
+    ASSERT_EQ(sphere.getMaterial(), material_expected);
 }
 
 // Tests getting the surface normal at various points

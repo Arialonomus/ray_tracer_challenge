@@ -91,9 +91,9 @@ TEST(GraphicsWorld, WorldIntersections)
 TEST(GraphicsWorld, CalculatePixelColorMiss)
 {
     gfx::Material material{ };
-    material.color = gfx::Color{ 0.8, 1.0, 0.6 };
-    material.diffuse = 0.7;
-    material.specular = 0.2;
+    material.setColor(0.8, 1.0, 0.6);
+    material.setDiffuse(0.7);
+    material.setSpecular(0.2);
 
     gfx::Sphere sphere_a{ material };
     gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
@@ -113,9 +113,9 @@ TEST(GraphicsWorld, CalculatePixelColorMiss)
 TEST(GraphicsWorld, CalculatePixelColorHitOutside)
 {
     gfx::Material material{ };
-    material.color = gfx::Color{ 0.8, 1.0, 0.6 };
-    material.diffuse = 0.7;
-    material.specular = 0.2;
+    material.setColor(0.8, 1.0, 0.6);
+    material.setDiffuse(0.7);
+    material.setSpecular(0.2);
 
     gfx::Sphere sphere_a{ material };
     gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
@@ -135,9 +135,9 @@ TEST(GraphicsWorld, CalculatePixelColorHitOutside)
 TEST(GraphicsWorld, CalculatePixelColorHitInside)
 {
     gfx::Material material{ };
-    material.color = gfx::Color{ 0.8, 1.0, 0.6 };
-    material.diffuse = 0.7;
-    material.specular = 0.2;
+    material.setColor(0.8, 1.0, 0.6);
+    material.setDiffuse(0.7);
+    material.setSpecular(0.2);
 
     gfx::Sphere sphere_a{ material };
     gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
@@ -158,13 +158,13 @@ TEST(GraphicsWorld, CalculatePixelColorHitInside)
 TEST(GraphicsWorld, CalculatePixelColorHitBehind)
 {
     gfx::Material sphere_a_material{ };
-    sphere_a_material.color = gfx::Color{ 0.8, 1.0, 0.6 };
-    sphere_a_material.diffuse = 0.7;
-    sphere_a_material.specular = 0.2;
-    sphere_a_material.ambient = 1;
+    sphere_a_material.setAmbient(1);
+    sphere_a_material.setColor(0.8, 1.0, 0.6);
+    sphere_a_material.setDiffuse(0.7);
+    sphere_a_material.setSpecular(0.2);
 
     gfx::Material sphere_b_material{ };
-    sphere_b_material.ambient = 1;
+    sphere_b_material.setAmbient(1);
 
     gfx::Sphere sphere_a{ sphere_a_material };
     gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5), sphere_b_material };
@@ -175,7 +175,7 @@ TEST(GraphicsWorld, CalculatePixelColorHitBehind)
     const gfx::Ray ray{ 0, 0, 0.75,
                         0, 0, -1 };
 
-    const gfx::Color pixel_color_expected{ sphere_b.getMaterial().color  };
+    const gfx::Color pixel_color_expected{ sphere_b.getMaterial().getColor() };
     const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
 
     EXPECT_EQ(pixel_color_actual, pixel_color_expected);

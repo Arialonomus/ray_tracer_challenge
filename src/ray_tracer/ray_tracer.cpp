@@ -40,8 +40,7 @@ int main(int argc, char** argv)
     const gfx::Canvas canvas{ CANVAS_DIMENSION, CANVAS_DIMENSION };
 
     // Initialize the scene
-    gfx::Material material;
-    material.color = gfx::Color{ 1, 0.2, 1 };
+    gfx::Material material{ 1, 0.2, 1 };
     const gfx::Sphere shape{ material };
 
     const gfx::PointLight light{ gfx::Color{ 1, 1, 1 },

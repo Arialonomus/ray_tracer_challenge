@@ -10,13 +10,13 @@ namespace gfx {
                                       const Vector4& view_vector)
     {
         // Calculate the base color as affected cast by the light's color/intensity
-        const Color effective_color{ material.color * light.intensity };
+        const Color effective_color{ material.getColor() * light.intensity };
 
         // Calculate the direction to the light source
         const Vector4 light_vector{ normalize(light.position - point_position) };
 
         // Calculate the ambient component
-        const Color ambient{ effective_color * material.ambient };
+        const Color ambient{ effective_color * material.getAmbient() };
 
         // Check if the light is on the same side of the surface as the viewpoint
         Color diffuse{ 0, 0, 0 };
@@ -25,15 +25,15 @@ namespace gfx {
         if (light_normal_cosine >= 0)
         {
             // Compute the diffuse component
-            diffuse = effective_color * material.diffuse * light_normal_cosine;
+            diffuse = effective_color * material.getDiffuse() * light_normal_cosine;
 
             // Check if the light reflects toward the viewpoint
             const Vector4 reflection_vector{ -light_vector.reflect(surface_normal) };
             const float light_view_cosine{ dotProduct(reflection_vector, view_vector) };
             if (light_view_cosine >= 0) {
                 // Calculate the specular component
-                const float specular_exponent{ std::powf(light_view_cosine, material.shininess) };
-                specular = light.intensity * material.specular * specular_exponent;
+                const float specular_exponent{ std::powf(light_view_cosine, material.getShininess()) };
+                specular = light.intensity * material.getSpecular() * specular_exponent;
             }
         }
 

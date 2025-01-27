@@ -4,7 +4,7 @@ namespace gfx {
     // Equality Operator
     bool Sphere::operator==(const Sphere& rhs) const
     {
-        return m_transform == rhs.getTransform();
+        return m_transform == rhs.getTransform() && m_material == rhs.getMaterial();
     }
 
     // Surface Normal at a Point
