@@ -5,6 +5,8 @@
 namespace gfx {
     class Material {
     public:
+        /* Constructors */
+
         Material() = default;
         Material(const Color& color,
                  const float ambient,
@@ -81,6 +83,8 @@ namespace gfx {
         [[nodiscard]] bool operator==(const Material& rhs) const;
 
     private:
+        /* Data Members */
+
         Color m_color{ 1, 1, 1 };
         float m_ambient{ 0.1 };
         float m_diffuse{ 0.9 };
