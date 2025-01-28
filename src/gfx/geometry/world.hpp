@@ -20,14 +20,14 @@ namespace gfx {
                   m_objects{}
         {}
         template<typename... ObjectRefs>
-        explicit World(Sphere& first_object, ObjectRefs&... remaining_objects)
+        explicit World(const Sphere& first_object, const ObjectRefs&... remaining_objects)
                 : m_light_source{ Color{ 1, 1, 1 },
                                   createPoint(-10, 10, -10) },
                   m_objects{ first_object, remaining_objects... }
         {}
         template<typename... ObjectRefs>
-        World(const PointLight& light_source, Sphere& first_object,
-              ObjectRefs&... remaining_objects)
+        World(const PointLight& light_source, const Sphere& first_object,
+              const ObjectRefs&... remaining_objects)
                 : m_light_source{ light_source },
                   m_objects{ first_object, remaining_objects... }
         {}
