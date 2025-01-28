@@ -51,8 +51,11 @@ namespace gfx {
         [[nodiscard]] size_t getObjectCount() const
         { return m_objects.size(); }
 
-        [[nodiscard]] const std::vector<Sphere>& getObjectList() const
-        { return m_objects; }
+        [[nodiscard]] bool isEmpty() const
+        { return m_objects.empty(); }
+
+        [[nodiscard]] const Sphere& getObjectAt(const size_t index) const
+        { return m_objects.at(index); }
 
         /* Mutators */
 
