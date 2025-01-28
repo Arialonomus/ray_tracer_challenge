@@ -63,7 +63,6 @@ TEST(GraphicsWorld, ObjectListConstructorMultipleObjects)
     ASSERT_EQ(world.getObjectList().at(1), sphere_b);
 }
 
-
 // Tests the standard constructor
 TEST(GraphicsWorld, StandardConstructor)
 {
@@ -78,6 +77,35 @@ TEST(GraphicsWorld, StandardConstructor)
     ASSERT_EQ(world.getObjectList().size(), 2);
     ASSERT_EQ(world.getObjectList().at(0), sphere_a);
     ASSERT_EQ(world.getObjectList().at(1), sphere_b);
+}
+
+// Tests getting the number of objects in the world
+TEST(GraphicsWorld, GetObjectCount)
+{
+    // Test the object count of an empty world
+    const gfx::World world_a{ };
+
+    ASSERT_EQ(world_a.getObjectCount(), 0);
+
+    // Test the object count of a populated world
+    const gfx::Sphere sphere_a{ };
+    const gfx::Sphere sphere_b{ };
+    const gfx::Sphere sphere_c{ };
+    const gfx::World world_b{ sphere_a, sphere_b, sphere_c };
+
+    ASSERT_EQ(world_b.getObjectCount(), 3);
+}
+
+// Tests adding an object to the world
+TEST(GraphicsWorld, AddObject)
+{
+    gfx::World world{ };
+    const gfx::Sphere sphere_a{ };
+
+    world.addObject(sphere_a);
+
+    ASSERT_EQ(world.getObjectCount(), 1);
+    ASSERT_EQ(world.getObjectList().at(0), sphere_a);
 }
 
 // Tests calculating world intersections
