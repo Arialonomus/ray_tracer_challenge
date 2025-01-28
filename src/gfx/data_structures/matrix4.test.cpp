@@ -182,6 +182,34 @@ TEST(GraphicsMatrix4, MatrixMultiplicationOperator)
     EXPECT_TRUE(matrix_c == matrix_expected);
 }
 
+// Tests matrix multiplication with the multiplication shorthand operator
+// Tests matrix multiplication using the multiplication operator
+TEST(GraphicsMatrix4, MatrixMultiplicationShorthandOperator)
+{
+    gfx::Matrix4 matrix_a{
+            1.0, 2.0, 3.0, 4.0,
+            5.0, 6.0, 7.0, 8.0,
+            9.0, 8.0, 7.0, 6.0,
+            5.0, 4.0, 3.0, 2.0
+    };
+    const gfx::Matrix4 matrix_b{
+            -2.0, 1.0, 2.0, 3.0,
+            3.0, 2.0, 1.0, -1.0,
+            4.0, 3.0, 6.0, 5.0,
+            1.0, 2.0, 7.0, 8.0
+    };
+    const gfx::Matrix4 matrix_expected{
+            20.0, 22.0, 50.0, 48.0,
+            44.0, 54.0, 114.0, 108.0,
+            40.0, 58.0, 110.0, 102.0,
+            16.0, 26.0, 46.0, 42.0
+    };
+
+    matrix_a *= matrix_b;
+
+    EXPECT_TRUE(matrix_a == matrix_expected);
+}
+
 // Tests matrix-matrix and matrix-vector multiplication by the identity matrix
 TEST(GraphicsMatrix4, IdentityMatrixMultiplication)
 {
