@@ -7,30 +7,28 @@ add_library(gfx)
 
 # Set source files for the gfx library
 target_sources(gfx PRIVATE
-        gfx/utils/util_functions.cpp
-        gfx/data_structures/vector4.cpp
-        gfx/data_structures/color.cpp
-        gfx/data_structures/matrix2.cpp
-        gfx/data_structures/matrix3.cpp
-        gfx/data_structures/matrix4.cpp
-        gfx/functions/transform.cpp
-        gfx/geometry/ray.cpp
-        gfx/geometry/sphere.cpp
-        gfx/geometry/intersection.cpp
-        gfx/geometry/world.cpp
-        gfx/rendering/canvas.cpp
-        gfx/rendering/material.cpp
-        gfx/rendering/camera.cpp
-        gfx/rendering/rendering_functions.cpp
+        graphics/utils/util_functions.cpp
+        graphics/data_structures/vector4.cpp
+        graphics/data_structures/color.cpp
+        graphics/data_structures/matrix2.cpp
+        graphics/data_structures/matrix3.cpp
+        graphics/data_structures/matrix4.cpp
+        graphics/functions/transform.cpp
+        graphics/geometry/ray.cpp
+        graphics/geometry/sphere.cpp
+        graphics/geometry/intersection.cpp
+        graphics/geometry/world.cpp
+        graphics/shading/material.cpp
+        graphics/shading/shading_functions.cpp
 )
 
 # Include the directories for the gfx library
 target_include_directories(gfx PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/gfx/data_structures
-        ${CMAKE_CURRENT_SOURCE_DIR}/gfx/functions
-        ${CMAKE_CURRENT_SOURCE_DIR}/gfx/geometry
-        ${CMAKE_CURRENT_SOURCE_DIR}/gfx/rendering
-        ${CMAKE_CURRENT_SOURCE_DIR}/gfx/utils
+        graphics/data_structures
+        graphics/functions
+        graphics/geometry
+        graphics/shading
+        graphics/utils
 )
 
 # Set C++ standard for the gfx library
@@ -40,13 +38,31 @@ target_compile_features(gfx PUBLIC cxx_std_23)
 # Ray Tracer  #
 # # # # # # # #
 
-# Define the ray tracer executable and targets
-add_executable(
-        ray_tracer ray_tracer/ray_tracer.cpp
+# Define the library for ray tracer functions
+add_library(rt)
+
+# Set source files for the raytracer library
+target_sources(rt PRIVATE
+        ray_tracer/rendering/canvas.cpp
+        ray_tracer/rendering/camera.cpp
+        ray_tracer/rendering/rendering_functions.cpp
 )
-target_link_libraries(ray_tracer PRIVATE
+target_link_libraries(rt PUBLIC
         gfx
         nlohmann_json::nlohmann_json
+)
+
+# Include the directories for the rt library
+target_include_directories(rt PUBLIC
+        ray_tracer/rendering
+)
+
+# Define the ray tracer executable and targets
+add_executable(ray_tracer
+        main.cpp
+)
+target_link_libraries(ray_tracer PRIVATE
+        rt
 )
 
 # # # # # # # # # # #
@@ -79,8 +95,8 @@ set(DEMO_TARGETS
 foreach(DEMO_TARGET ${DEMO_TARGETS})
     target_link_libraries(${DEMO_TARGET} PRIVATE gfx)
     target_include_directories(${DEMO_TARGET} PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/gfx/data_structures
-            ${CMAKE_CURRENT_SOURCE_DIR}/gfx/functions
-            ${CMAKE_CURRENT_SOURCE_DIR}/gfx/utils
+            ${CMAKE_CURRENT_SOURCE_DIR}/graphics/data_structures
+            ${CMAKE_CURRENT_SOURCE_DIR}/graphics/functions
+            ${CMAKE_CURRENT_SOURCE_DIR}/graphics/utils
     )
 endforeach()

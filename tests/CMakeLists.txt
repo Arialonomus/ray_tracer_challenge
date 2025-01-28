@@ -6,37 +6,47 @@ add_subdirectory(lib)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 # Gather unit test source files
-set(UNIT_TESTS
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/data_structures/vector4.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/data_structures/color.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/data_structures/matrix2.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/data_structures/matrix3.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/data_structures/matrix4.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/functions/transform.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/geometry/ray.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/geometry/sphere.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/geometry/intersection.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/geometry/world.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/rendering/canvas.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/rendering/material.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/rendering/camera.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx/rendering/rendering.test.cpp
+set(GFX_UNIT_TESTS
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/vector4.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/color.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/matrix2.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/matrix3.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/matrix4.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/functions/transform.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/ray.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/sphere.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/intersection.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/world.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/material.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/shading.test.cpp
+
+)
+set(RAY_TRACER_UNIT_TESTS
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ray_tracer/rendering/canvas.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ray_tracer/rendering/camera.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ray_tracer/rendering/rendering.test.cpp
 )
 
 # Gather all test sources into single variable
 set(TEST_SOURCES
-        ${UNIT_TESTS}
+        ${GFX_UNIT_TESTS}
+        ${RAY_TRACER_UNIT_TESTS}
 )
 
 # Create the test executable
 add_executable(Google_Tests_run ${TEST_SOURCES})
 
-# Link Google Test and the gfx library to the test executable
-target_link_libraries(Google_Tests_run PRIVATE gtest gtest_main gfx)
+# Link Google Test and program libraries to the test executable
+target_link_libraries(Google_Tests_run PRIVATE
+        gtest
+        gtest_main
+        rt
+)
 
 # Ensure the correct include directories are set for tests
 target_include_directories(Google_Tests_run PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/gfx
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ray_tracer
 )
 
 # Ensure Google Test headers are visible globally
