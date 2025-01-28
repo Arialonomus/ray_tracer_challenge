@@ -26,6 +26,23 @@ namespace gfx {
         return true;
     }
 
+    // Matrix Multiplication Shorthand Operator
+    Matrix4& Matrix4::operator*=(const Matrix4& rhs)
+    {
+        std::array<float, 16> matrix_product_vals{};
+        for (int row = 0; row < 4; ++row)
+            for (int col = 0; col < 4; ++col) {
+                matrix_product_vals[row * 4 + col] =
+                        m_data[row * 4 + 0] * rhs[0, col] +
+                        m_data[row * 4 + 1] * rhs[1, col] +
+                        m_data[row * 4 + 2] * rhs[2, col] +
+                        m_data[row * 4 + 3] * rhs[3, col];
+            }
+
+        m_data = matrix_product_vals;
+        return *this;
+    }
+
     // Identity matrix identifier
     bool Matrix4::isIdentityMatrix() const
     {

@@ -31,10 +31,6 @@ namespace gfx {
 
         Matrix4& operator=(const Matrix4&) = default;
 
-        /* Comparison Operators */
-
-        [[nodiscard]] bool operator==(const Matrix4& rhs) const;
-
         /* Accessors */
 
         // Returns a copy of the float stored in a given position using row-major ordering
@@ -44,6 +40,14 @@ namespace gfx {
         // Returns a reference to the float stored in a given position using row-major ordering
         [[nodiscard]] float& operator[](const size_t row, const size_t col)
         { return m_data[row * 4 + col]; }
+
+        /* Comparison Operator Overloads */
+
+        [[nodiscard]] bool operator==(const Matrix4& rhs) const;
+
+        /* Arithmetic Operator Overloads */
+
+        Matrix4& operator*=(const Matrix4& rhs);
 
         /* Matrix Operations */
 
