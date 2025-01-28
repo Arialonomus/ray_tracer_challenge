@@ -44,7 +44,7 @@ TEST(GraphicsWorld, ObjectListConstructorSingleObject)
     ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
     ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
     ASSERT_EQ(world.getObjectList().size(), 1);
-    ASSERT_EQ(&world.getObjectList().at(0).get(), &sphere_a);
+    ASSERT_EQ(world.getObjectList().at(0), sphere_a);
 }
 
 // Tests the object list constructor (multiple objects)
@@ -59,8 +59,8 @@ TEST(GraphicsWorld, ObjectListConstructorMultipleObjects)
     ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
     ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
     ASSERT_EQ(world.getObjectList().size(), 2);
-    ASSERT_EQ(&world.getObjectList().at(0).get(), &sphere_a);
-    ASSERT_EQ(&world.getObjectList().at(1).get(), &sphere_b);
+    ASSERT_EQ(world.getObjectList().at(0), sphere_a);
+    ASSERT_EQ(world.getObjectList().at(1), sphere_b);
 }
 
 
@@ -76,8 +76,8 @@ TEST(GraphicsWorld, StandardConstructor)
     ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
     ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
     ASSERT_EQ(world.getObjectList().size(), 2);
-    ASSERT_EQ(&world.getObjectList().at(0).get(), &sphere_a);
-    ASSERT_EQ(&world.getObjectList().at(1).get(), &sphere_b);
+    ASSERT_EQ(world.getObjectList().at(0), sphere_a);
+    ASSERT_EQ(world.getObjectList().at(1), sphere_b);
 }
 
 // Tests calculating world intersections
