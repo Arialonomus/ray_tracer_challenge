@@ -48,8 +48,16 @@ namespace gfx {
         [[nodiscard]] const PointLight& getLightSource() const
         { return m_light_source; }
 
+        [[nodiscard]] size_t getObjectCount() const
+        { return m_objects.size(); }
+
         [[nodiscard]] const std::vector<Sphere>& getObjectList() const
         { return m_objects; }
+
+        /* Mutators */
+
+        void addObject(const Sphere& object)
+        { m_objects.push_back(object); }
 
         /* Ray-Tracing Operations */
 
