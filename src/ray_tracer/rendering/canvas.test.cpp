@@ -7,11 +7,11 @@
 #include "color.hpp"
 
 // Tests the standard constructor (initialized to black)
-TEST(GraphicsCanvas, Constructor)
+TEST(RayTracerCanvas, Constructor)
 {
     constexpr size_t width = 10;
     constexpr size_t height = 20;
-    const gfx::Canvas canvas{ width, height };
+    const rt::Canvas canvas{ width, height };
 
     ASSERT_EQ(canvas.width(), width);
     ASSERT_EQ(canvas.height(), height);
@@ -26,13 +26,13 @@ TEST(GraphicsCanvas, Constructor)
 }
 
 // Tests initializing the canvas to a specific color
-TEST(GraphicsCanvas, ConstructorInitializedColor)
+TEST(RayTracerCanvas, ConstructorInitializedColor)
 {
     constexpr size_t width = 10;
     constexpr size_t height = 20;
     const gfx::Color red{ 1.0,0.0,0.0 };
 
-    const gfx::Canvas canvas{ width, height, red };
+    const rt::Canvas canvas{ width, height, red };
 
     ASSERT_EQ(canvas.width(), width);
     ASSERT_EQ(canvas.height(), height);
@@ -45,14 +45,14 @@ TEST(GraphicsCanvas, ConstructorInitializedColor)
 }
 
 // Tests the standard constructor (initialized to black)
-TEST(GraphicsCanvas, CopyConstructor)
+TEST(RayTracerCanvas, CopyConstructor)
 {
     constexpr size_t width_expected = 10;
     constexpr size_t height_expected = 20;
     const gfx::Color red{ 1.0,0.0,0.0 };
 
-    const gfx::Canvas canvas_a{ width_expected, height_expected, red };
-    const gfx::Canvas canvas_b{ canvas_a };
+    const rt::Canvas canvas_a{ width_expected, height_expected, red };
+    const rt::Canvas canvas_b{ canvas_a };
 
     ASSERT_EQ(canvas_b.width(), width_expected);
     ASSERT_EQ(canvas_b.height(), height_expected);
@@ -65,11 +65,11 @@ TEST(GraphicsCanvas, CopyConstructor)
 }
 
 // Tests writing a pixel at a given coordinate
-TEST(GraphicsCanvas, WritePixelColor)
+TEST(RayTracerCanvas, WritePixelColor)
 {
     constexpr size_t width = 10;
     constexpr size_t height = 20;
-    const gfx::Canvas canvas{ width, height };
+    const rt::Canvas canvas{ width, height };
     const gfx::Color red{ 1.0,0.0,0.0 };
 
     canvas[2, 3] = red;
@@ -78,18 +78,18 @@ TEST(GraphicsCanvas, WritePixelColor)
 }
 
 // Tests exporting a small canvas (no line wrapping) to the PPM format
-TEST(GraphicsCanvas, ExportPPMSmallCanvas)
+TEST(RayTracerCanvas, ExportPPMSmallCanvas)
 {
     constexpr size_t width = 5;
     constexpr size_t height = 3;
-    const gfx::Canvas canvas{ width, height };
+    const rt::Canvas canvas{ width, height };
 
     // Set the test colors
     canvas[0, 0] = gfx::Color{ 1.5, 0, 0 };
     canvas[2, 1] = gfx::Color{ 0, 0.5, 0 };
     canvas[4, 2] = gfx::Color{ -0.5, 0, 1 };
 
-    const std::string ppm_string = gfx::exportAsPPM(canvas);
+    const std::string ppm_string = rt::exportAsPPM(canvas);
     std::istringstream ppm_stream{ ppm_string };
 
     // Test that the header is correctly output
@@ -131,15 +131,15 @@ TEST(GraphicsCanvas, ExportPPMSmallCanvas)
 }
 
 // Tests exporting a larger canvas (with line wrapping) to the PPM format
-TEST(GraphicsCanvas, ExportPPMLargerCanvas)
+TEST(RayTracerCanvas, ExportPPMLargerCanvas)
 {
     constexpr size_t width = 10;
     constexpr size_t height = 2;
     const gfx::Color initial_color{ 1, 0.8, 0.6 };
 
-    const gfx::Canvas canvas{ width, height, initial_color };
+    const rt::Canvas canvas{ width, height, initial_color };
 
-    const std::string ppm_string = gfx::exportAsPPM(canvas);
+    const std::string ppm_string = rt::exportAsPPM(canvas);
     std::istringstream ppm_stream{ ppm_string };
 
     // Test that the header is correctly output

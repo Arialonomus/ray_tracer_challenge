@@ -5,7 +5,7 @@
 #include "matrix4.hpp"
 #include "ray.hpp"
 
-namespace gfx {
+namespace rt {
     class Camera
     {
     public:
@@ -18,7 +18,7 @@ namespace gfx {
                 : m_viewport_width{ viewport_width },
                   m_viewport_height{ viewport_height },
                   m_field_of_view{ field_of_view },
-                  m_transform{ createIdentityMatrix() },
+                  m_transform{ gfx::createIdentityMatrix() },
                   m_pixel_size{},
                   m_half_width{},
                   m_half_height{}
@@ -28,7 +28,7 @@ namespace gfx {
         Camera(const size_t viewport_width,
                const size_t viewport_height,
                const float field_of_view,
-               const Matrix4& transform_matrix)
+               const gfx::Matrix4& transform_matrix)
                 : m_viewport_width{ viewport_width },
                   m_viewport_height{ viewport_height },
                   m_field_of_view{ field_of_view },
@@ -62,7 +62,7 @@ namespace gfx {
         [[nodiscard]] float getFieldOfView() const
         { return m_field_of_view; }
 
-        [[nodiscard]] const Matrix4& getTransform() const
+        [[nodiscard]] const gfx::Matrix4& getTransform() const
         { return m_transform; }
 
         /* Mutators */
@@ -89,7 +89,7 @@ namespace gfx {
         void setFieldOfView(const float field_of_view)
         { m_field_of_view = field_of_view; }
 
-        void setTransform(const Matrix4& transform_matrix)
+        void setTransform(const gfx::Matrix4& transform_matrix)
         { m_transform = transform_matrix; }
 
         /* Comparison Operator Overloads */
@@ -99,7 +99,7 @@ namespace gfx {
         /* Ray Tracing Operations */
 
         // Returns a ray targeting a specific (x, y) coordinate in the viewport
-        [[nodiscard]] const Ray castRay(const size_t pixel_x, const size_t pixel_y) const;
+        [[nodiscard]] const gfx::Ray castRay(size_t pixel_x, size_t pixel_y) const;
 
     private:
         /* Data Members */
@@ -107,7 +107,7 @@ namespace gfx {
         size_t m_viewport_width;
         size_t m_viewport_height;
         float m_field_of_view;
-        Matrix4 m_transform;
+        gfx::Matrix4 m_transform;
 
         /* Cached State */
         // These variables are dependent on the viewport dimensions. However, because they are used in

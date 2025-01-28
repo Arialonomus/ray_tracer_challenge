@@ -9,14 +9,14 @@
 #include "ray.hpp"
 
 // Tests the standard constructor (no transform)
-TEST(GraphicsCamera, StandardConstructorNoTransform)
+TEST(RayTracerCamera, StandardConstructorNoTransform)
 {
     const size_t viewport_width_expected{ 160 };
     const size_t viewport_height_expected{ 120 };
     const float field_of_view_expected{ M_PI_2f };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
 
-    const gfx::Camera camera{ viewport_width_expected,
+    const rt::Camera camera{ viewport_width_expected,
                               viewport_height_expected,
                               field_of_view_expected };
 
@@ -27,7 +27,7 @@ TEST(GraphicsCamera, StandardConstructorNoTransform)
 }
 
 // Tests the standard constructor
-TEST(GraphicsCamera, StandardConstructor)
+TEST(RayTracerCamera, StandardConstructor)
 {
     const size_t viewport_width_expected{ 160 };
     const size_t viewport_height_expected{ 120 };
@@ -42,7 +42,7 @@ TEST(GraphicsCamera, StandardConstructor)
                     to_position,
                     up_vector) };
 
-    const gfx::Camera camera{ viewport_width_expected,
+    const rt::Camera camera{ viewport_width_expected,
                               viewport_height_expected,
                               field_of_view_expected,
                               transform_expected};
@@ -55,18 +55,18 @@ TEST(GraphicsCamera, StandardConstructor)
 }
 
 // Tests the copy constructor
-TEST(GraphicsCamera, CopyConstructor)
+TEST(RayTracerCamera, CopyConstructor)
 {
     const size_t viewport_width_expected{ 160 };
     const size_t viewport_height_expected{ 120 };
     const float field_of_view_expected{ M_PI_2f };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
 
-    const gfx::Camera camera_src{ viewport_width_expected,
+    const rt::Camera camera_src{ viewport_width_expected,
                                   viewport_height_expected,
                                   field_of_view_expected };
 
-    const gfx::Camera camera_cpy{ camera_src };
+    const rt::Camera camera_cpy{ camera_src };
 
     ASSERT_EQ(camera_cpy.getViewportWidth(), viewport_width_expected);
     ASSERT_EQ(camera_cpy.getViewportHeight(), viewport_height_expected);
@@ -75,18 +75,18 @@ TEST(GraphicsCamera, CopyConstructor)
 }
 
 // Tests the assignment operator
-TEST(GraphicsCamera, AssignmentOperator)
+TEST(RayTracerCamera, AssignmentOperator)
 {
     const size_t viewport_width_expected{ 160 };
     const size_t viewport_height_expected{ 120 };
     const float field_of_view_expected{ M_PI_2f };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
 
-    const gfx::Camera camera_a{ viewport_width_expected,
+    const rt::Camera camera_a{ viewport_width_expected,
                                   viewport_height_expected,
                                   field_of_view_expected };
 
-    gfx::Camera camera_b{ 100, 100, 0 };
+    rt::Camera camera_b{ 100, 100, 0 };
     camera_b = camera_a;
 
     ASSERT_EQ(camera_b.getViewportWidth(), viewport_width_expected);
@@ -96,27 +96,27 @@ TEST(GraphicsCamera, AssignmentOperator)
 }
 
 // Tests the equality operator
-TEST(GraphicsCamera, EqualityOperator)
+TEST(RayTracerCamera, EqualityOperator)
 {
-    const gfx::Camera camera_a{ 160, 120, M_PI_2f };
-    const gfx::Camera camera_b{ 160, 120, M_PI_2f };
+    const rt::Camera camera_a{ 160, 120, M_PI_2f };
+    const rt::Camera camera_b{ 160, 120, M_PI_2f };
 
     ASSERT_TRUE(camera_a == camera_b);
 }
 
 // Tests the inequality operator
-TEST(GraphicsCamera, InequalityOperator)
+TEST(RayTracerCamera, InequalityOperator)
 {
-    const gfx::Camera camera_a{ 160, 120, M_PI_2f };
-    const gfx::Camera camera_b{ 100, 100, 0 };
+    const rt::Camera camera_a{ 160, 120, M_PI_2f };
+    const rt::Camera camera_b{ 100, 100, 0 };
 
     ASSERT_TRUE(camera_a != camera_b);
 }
 
 // Tests mutator methods
-TEST(GraphicsCamera, Mutators)
+TEST(RayTracerCamera, Mutators)
 {
-    gfx::Camera camera{ 160, 120, M_PI_2f };
+    rt::Camera camera{ 160, 120, M_PI_2f };
 
     // Test setViewport()
     const size_t viewport_width_expected_a{ 100 };
@@ -154,9 +154,9 @@ TEST(GraphicsCamera, Mutators)
 }
 
 // Tests casting a ray through various positions on the viewport
-TEST(GraphicsCamera, CastRay)
+TEST(RayTracerCamera, CastRay)
 {
-    const gfx::Camera camera_a{ 201, 101, M_PI_2f };
+    const rt::Camera camera_a{ 201, 101, M_PI_2f };
 
     // Test casting a ray through the center of the viewport
     const gfx::Ray ray_a_expected{ 0, 0, 0,
@@ -175,7 +175,7 @@ TEST(GraphicsCamera, CastRay)
     // Test casting a ray from a transformed camera through the center of the viewport
     const gfx::Matrix4 transform_matrix{
         gfx::createYRotationMatrix(M_PI_4f) * gfx::createTranslationMatrix(0, -2, 5) };
-    const gfx::Camera camera_b{ 201, 101, M_PI_2f, transform_matrix };
+    const rt::Camera camera_b{ 201, 101, M_PI_2f, transform_matrix };
     const gfx::Ray ray_c_expected{ 0, 2, -5,
                                    M_SQRT2f / 2, 0, -M_SQRT2f / 2 };
     const gfx::Ray ray_c_actual{ camera_b.castRay(100, 50) };

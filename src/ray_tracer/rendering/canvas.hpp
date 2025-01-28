@@ -6,7 +6,7 @@
 
 #include "color.hpp"
 
-namespace gfx
+namespace rt
 {
     constexpr std::string_view PPM_IDENTIFIER{ "P3" };
     constexpr int PPM_MAX_COLOR_VALUE{ 255 };
@@ -22,7 +22,7 @@ namespace gfx
                 : m_pixels{ width * height },
                   m_grid{ m_pixels.data(), width, height }
         {}
-        Canvas(const size_t width, const size_t height, const Color& color)
+        Canvas(const size_t width, const size_t height, const gfx::Color& color)
                 : m_pixels{ width * height, color },
                   m_grid{ m_pixels.data(), width, height }
         {}
@@ -30,7 +30,7 @@ namespace gfx
                 : m_pixels{ src.m_pixels },
                   m_grid{ m_pixels.data(), src.width(), src.height() }
         {}
-        Canvas(Canvas&& src)
+        Canvas(Canvas&& src) noexcept
                 : m_pixels{ std::move(src.m_pixels) },
                   m_grid{ m_pixels.data(), src.width(), src.height() }
         {
@@ -57,12 +57,16 @@ namespace gfx
         { return m_grid.extents().extent(1); }
 
         // Returns a reference to the color of the pixel at a given coordinate, in column-major order
-        [[nodiscard]] Color& operator[](const size_t col, const size_t row) const
+        [[nodiscard]] gfx::Color& operator[](const size_t col, const size_t row) const
         { return m_grid[col, row]; }
 
     private:
-        std::vector<Color> m_pixels;
-        std::mdspan<Color, std::extents<size_t, std::dynamic_extent, std::dynamic_extent>, std::layout_left> m_grid;
+        std::vector<gfx::Color> m_pixels;
+        std::mdspan<
+            gfx::Color,
+            std::extents<size_t, std::dynamic_extent, std::dynamic_extent>,
+            std::layout_left
+        > m_grid;
     };
 
     /* Canvas Export Methods */

@@ -31,8 +31,8 @@ namespace gfx {
                 : m_light_source{ light_source },
                   m_objects{ first_object, remaining_objects... }
         {}
-        World(World&) = delete;
-        World(World&&) = delete;
+        World(World&) = default;
+        World(World&&) = default;
 
         /* Destructor */
 
@@ -40,8 +40,8 @@ namespace gfx {
 
         /* Assignment Operators */
 
-        World& operator=(const World&) = delete;
-        World& operator=(World&&) = delete;
+        World& operator=(const World&) = default;
+        World& operator=(World&&) = default;
 
         /* Accessors */
 
