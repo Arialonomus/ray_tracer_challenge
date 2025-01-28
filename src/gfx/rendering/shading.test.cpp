@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "rendering_functions.hpp"
+#include "shading_functions.hpp"
 
 #include <cmath>
 
