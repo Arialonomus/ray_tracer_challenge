@@ -18,7 +18,7 @@ TEST(GraphicsWorld, DefaultConstructor)
 
     ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
     ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
-    ASSERT_TRUE(world.getObjectList().empty());
+    ASSERT_TRUE(world.isEmpty());
 }
 
 // Tests the point light constructor
@@ -30,7 +30,7 @@ TEST(GraphicsWorld, PointLightConstructor)
 
     ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
     ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
-    ASSERT_TRUE(world.getObjectList().empty());
+    ASSERT_TRUE(world.isEmpty());
 }
 
 // Tests the object list constructor (single object)
@@ -43,8 +43,8 @@ TEST(GraphicsWorld, ObjectListConstructorSingleObject)
 
     ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
     ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
-    ASSERT_EQ(world.getObjectList().size(), 1);
-    ASSERT_EQ(world.getObjectList().at(0), sphere_a);
+    ASSERT_EQ(world.getObjectCount(), 1);
+    ASSERT_EQ(world.getObjectAt(0), sphere_a);
 }
 
 // Tests the object list constructor (multiple objects)
@@ -58,9 +58,9 @@ TEST(GraphicsWorld, ObjectListConstructorMultipleObjects)
 
     ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
     ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
-    ASSERT_EQ(world.getObjectList().size(), 2);
-    ASSERT_EQ(world.getObjectList().at(0), sphere_a);
-    ASSERT_EQ(world.getObjectList().at(1), sphere_b);
+    ASSERT_EQ(world.getObjectCount(), 2);
+    ASSERT_EQ(world.getObjectAt(0), sphere_a);
+    ASSERT_EQ(world.getObjectAt(1), sphere_b);
 }
 
 // Tests the standard constructor
@@ -74,9 +74,9 @@ TEST(GraphicsWorld, StandardConstructor)
 
     ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
     ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
-    ASSERT_EQ(world.getObjectList().size(), 2);
-    ASSERT_EQ(world.getObjectList().at(0), sphere_a);
-    ASSERT_EQ(world.getObjectList().at(1), sphere_b);
+    ASSERT_EQ(world.getObjectCount(), 2);
+    ASSERT_EQ(world.getObjectAt(0), sphere_a);
+    ASSERT_EQ(world.getObjectAt(1), sphere_b);
 }
 
 // Tests getting the number of objects in the world
@@ -86,6 +86,7 @@ TEST(GraphicsWorld, GetObjectCount)
     const gfx::World world_a{ };
 
     ASSERT_EQ(world_a.getObjectCount(), 0);
+    ASSERT_TRUE(world_a.isEmpty());
 
     // Test the object count of a populated world
     const gfx::Sphere sphere_a{ };
@@ -105,7 +106,7 @@ TEST(GraphicsWorld, AddObject)
     world.addObject(sphere_a);
 
     ASSERT_EQ(world.getObjectCount(), 1);
-    ASSERT_EQ(world.getObjectList().at(0), sphere_a);
+    ASSERT_EQ(world.getObjectAt(0), sphere_a);
 }
 
 // Tests calculating world intersections
