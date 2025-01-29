@@ -44,9 +44,9 @@ TEST(GraphicsMaterial, StandardConstructor)
 // Tests the standard constructor (double list)
 TEST(GraphicsMaterial, StandardFloatListConstructor)
 {
-    const float color_r{ 0.5 };
-    const float color_g{ 0.5 };
-    const float color_b{ 0.5 };
+    const double color_r{ 0.5 };
+    const double color_g{ 0.5 };
+    const double color_b{ 0.5 };
     const gfx::Color color_expected{ color_r, color_g, color_b };
     const double ambient_expected{ 0.5 };
     const double diffuse_expected{ 0.5 };

@@ -19,9 +19,9 @@ namespace gfx {
                 m_specular{ specular },
                 m_shininess{ shininess }
         {}
-        Material(const float color_r,
-                 const float color_g,
-                 const float color_b,
+        Material(const double color_r,
+                 const double color_g,
+                 const double color_b,
                  const double ambient,
                  const double diffuse,
                  const double specular,
@@ -72,7 +72,7 @@ namespace gfx {
         /* Mutators */
 
         void setColor(const Color& color) { m_color = color; }
-        void setColor(const float r, const float g, const float b) { m_color.setValues(r, g, b); }
+        void setColor(const double r, const double g, const double b) { m_color.setValues(r, g, b); }
         void setAmbient(const double ambient) { m_ambient = ambient; }
         void setDiffuse(const double diffuse) { m_diffuse = diffuse; }
         void setSpecular(const double specular) { m_specular = specular; }

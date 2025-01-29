@@ -8,7 +8,7 @@ namespace gfx
         /* Constructors */
 
         Color() = default;
-        Color(const float r, const float g, const float b) : m_r{ r }, m_g{ g }, m_b{ b } {}
+        Color(const double r, const double g, const double b) : m_r{ r }, m_g{ g }, m_b{ b } {}
         Color(const Color&) = default;
         Color(Color&&) = default;
 
@@ -23,12 +23,12 @@ namespace gfx
 
         /* Accessors */
 
-        [[nodiscard]] float r() const { return m_r; }
-        [[nodiscard]] float g() const { return m_g; }
-        [[nodiscard]] float b() const { return m_b; }
+        [[nodiscard]] double r() const { return m_r; }
+        [[nodiscard]] double g() const { return m_g; }
+        [[nodiscard]] double b() const { return m_b; }
 
         /* Mutators */
-        void setValues(const float r, const float g, const float b)
+        void setValues(const double r, const double g, const double b)
         {
             m_r = r;
             m_g = g;
@@ -44,12 +44,12 @@ namespace gfx
         Color& operator+=(const Color& rhs);
         Color& operator-=(const Color& rhs);
         Color& operator*=(const Color& rhs);
-        Color& operator*=(float scalar);
+        Color& operator*=(double scalar);
 
     private:
-        float m_r{ 0.0 };
-        float m_g{ 0.0 };
-        float m_b{ 0.0 };
+        double m_r{ 0.0 };
+        double m_g{ 0.0 };
+        double m_b{ 0.0 };
     };
 
     /* Global Arithmetic Operator Overloads */
@@ -57,8 +57,8 @@ namespace gfx
     [[nodiscard]] Color operator+(const Color& lhs, const Color& rhs);
     [[nodiscard]] Color operator-(const Color& lhs, const Color& rhs);
     [[nodiscard]] Color operator*(const Color& lhs, const Color& rhs);
-    [[nodiscard]] Color operator*(const Color& lhs, float rhs);
-    [[nodiscard]] Color operator*(float lhs, const Color& rhs);
+    [[nodiscard]] Color operator*(const Color& lhs, double rhs);
+    [[nodiscard]] Color operator*(double lhs, const Color& rhs);
 
 
 }

@@ -67,9 +67,9 @@ TEST(GraphicsColor, InequalityOperator)
 TEST(GraphicsColor, Mutator)
 {
     gfx::Color color{ };
-    const float r_expected{ 0.5 };
-    const float g_expected{ 0.5 };
-    const float b_expected{ 0.5 };
+    const double r_expected{ 0.5 };
+    const double g_expected{ 0.5 };
+    const double b_expected{ 0.5 };
 
     color.setValues(r_expected, g_expected, b_expected);
 
@@ -134,7 +134,7 @@ TEST(GraphicsColor, SubtractionShorthandOperator)
 TEST(GraphicsColor, ScalarMultiplicationOperator)
 {
     const gfx::Color clr{ 0.2, 0.3, 0.4 };
-    constexpr float scalar = 2.0;
+    constexpr double scalar = 2.0;
 
     const gfx::Color clr_scaled_l = clr * scalar;
 
@@ -153,7 +153,7 @@ TEST(GraphicsColor, ScalarMultiplicationOperator)
 TEST(GraphicsColor, ScalarMultiplicationShorthandOperator)
 {
     gfx::Color clr{ 0.2, 0.3, 0.4 };
-    constexpr float scalar = 2.0;
+    constexpr double scalar = 2.0;
 
     clr *= scalar;
 

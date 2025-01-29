@@ -42,7 +42,7 @@ namespace gfx {
     }
     
     // Scalar Multiplication Shorthand Operator
-    Color& Color::operator*=(const float scalar)
+    Color& Color::operator*=(const double scalar)
     {
         m_r *= scalar;
         m_g *= scalar;
@@ -70,13 +70,13 @@ namespace gfx {
     }
     
     // Scalar Multiplication Operator (Color Left-Hand Operand)
-    Color operator*(const Color& lhs, const float rhs)
+    Color operator*(const Color& lhs, const double rhs)
     {
         return Color{ lhs.r() * rhs, lhs.g() * rhs, lhs.b() * rhs };
     }
     
     // Scalar Multiplication Operator (Color Right-Hand Operand)
-    Color operator*(const float lhs, const Color& rhs)
+    Color operator*(const double lhs, const Color& rhs)
     {
         return Color{ rhs.r() * lhs, rhs.g() * lhs, rhs.b() * lhs };
     }

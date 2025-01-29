@@ -10,8 +10,8 @@ namespace data{
     {
         // Get the light source data
         const json& light_source_data{ scene_data["world"]["light_source"] };
-        const std::vector<float> intensity_vals{
-            light_source_data["intensity"].get<std::vector<float>>() };
+        const std::vector<double> intensity_vals{
+            light_source_data["intensity"].get<std::vector<double>>() };
         const std::vector<double> position_vals{
             light_source_data["position"].get<std::vector<double>>() };
         const gfx::PointLight light_source {
@@ -29,8 +29,8 @@ namespace data{
 
             // Extract the material data
             const json& material_data{ object_data["material"] };
-            const std::vector<float> color_vals{
-                material_data["color"].get<std::vector<float>>() };
+            const std::vector<double> color_vals{
+                material_data["color"].get<std::vector<double>>() };
             const gfx::Material material{
                 gfx::Color{ color_vals[0], color_vals[1], color_vals[2] },
                 material_data["ambient"],
