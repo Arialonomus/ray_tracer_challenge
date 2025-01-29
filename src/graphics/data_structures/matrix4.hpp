@@ -57,12 +57,6 @@ namespace gfx {
         // Returns the transpose of this matrix
         [[nodiscard]] Matrix4 transpose() const;
 
-        // Returns the 3x3 submatrix formed by removing the passed in row & column
-        [[nodiscard]] Matrix3 submatrix(size_t row_to_remove, size_t col_to_remove) const;
-
-        // Returns the determinant of this matrix
-        [[nodiscard]] float determinant() const;
-
         // Returns the inverse of this matrix
         [[nodiscard]] Matrix4 inverse() const;
 
@@ -70,6 +64,14 @@ namespace gfx {
         /* Data Members */
 
         std::array<float, 16> m_data{};
+
+        /* Helper Methods */
+
+        // Returns the 3x3 submatrix formed by removing the passed in row & column
+        [[nodiscard]] Matrix3 submatrix(size_t row_to_remove, size_t col_to_remove) const;
+
+        // Returns the determinant of this matrix
+        [[nodiscard]] float determinant() const;
     };
 
     /* Matrix Factory Functions */
