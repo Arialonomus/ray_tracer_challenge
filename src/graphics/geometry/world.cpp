@@ -23,6 +23,24 @@ namespace gfx {
         return world_intersections;
     }
 
+
+    bool World::isShadowed(const Vector4& point) const
+    {
+        // Get the direction vector to the light source
+        const Vector4 light_source_displacement{ m_light_source.position - point };
+
+        // Cast a ray towards the light source to see if it intersects with any other object
+        const Ray shadow_ray( point, normalize(light_source_displacement));
+        const auto possible_hit{ getHit(this->getIntersections(shadow_ray)) };
+
+        // If the intersection occurs closer than the distance to the vector, the point is shadowed
+        if (possible_hit && possible_hit.value().getT() < light_source_displacement.magnitude()) {
+            return true;
+        }
+
+        return false;
+    }
+
     Color World::calculatePixelColor(const Ray& ray) const
     {
         // Get the list of intersections for the ray and check for a hit
