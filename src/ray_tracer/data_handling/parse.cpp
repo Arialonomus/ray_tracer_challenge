@@ -6,6 +6,67 @@
 #include "transform.hpp"
 
 namespace data{
+    Scene parseSceneData(const json& scene_data)
+    {
+        // Get the light source data
+        const json& light_source_data{ scene_data["world"]["light_source"] };
+        const std::vector<float> intensity_vals{
+            light_source_data["intensity"].get<std::vector<float>>() };
+        const std::vector<float> position_vals{
+            light_source_data["position"].get<std::vector<float>>() };
+        const gfx::PointLight light_source {
+            gfx::Color{ intensity_vals[0], intensity_vals[1], intensity_vals[2] },
+            gfx::createPoint(position_vals[0], position_vals[1], position_vals[2]) };
+
+        // Create the world with the light source
+        gfx::World world{ light_source };
+
+        // Get the object data
+        const json& object_data_list{ scene_data["world"]["objects"] };
+        for (const auto& object_data : object_data_list) {
+            // Build the transform matrix
+            gfx::Matrix4 transform_matrix{ buildChainedTransformMatrix(object_data["transform"]) };
+
+            // Extract the material data
+            const json& material_data{ object_data["material"] };
+            const std::vector<float> color_vals{
+                material_data["color"].get<std::vector<float>>() };
+            const gfx::Material material{
+                gfx::Color{ color_vals[0], color_vals[1], color_vals[2] },
+                material_data["ambient"],
+                material_data["diffuse"],
+                material_data["specular"],
+                material_data["shininess"]
+            };
+
+            // Create the object and add to the object list
+            const gfx::Sphere object{ transform_matrix, material };
+            world.addObject(object);
+        }
+
+        // Get the camera data
+        const json& camera_data{ scene_data["camera"] };
+        const std::vector<float> input_base_vals{ camera_data["transform"]["input_base"].get<std::vector<float>>() };
+        const std::vector<float> output_base_vals{ camera_data["transform"]["output_base"].get<std::vector<float>>() };
+        const std::vector<float> up_vector_vals{ camera_data["transform"]["up_vector"].get<std::vector<float>>() };
+
+        // Build the view transform matrix
+        const gfx::Matrix4 view_transform_matrix{ gfx::createViewTransformMatrix(
+                gfx::createPoint(input_base_vals[0], input_base_vals[1], input_base_vals[2]),
+                gfx::createPoint(output_base_vals[0], output_base_vals[1], output_base_vals[2]),
+                gfx::createVector(up_vector_vals[0], up_vector_vals[1], up_vector_vals[2])
+                )
+        };
+        const rt::Camera camera{
+            camera_data["viewport_width"],
+            camera_data["viewport_height"],
+            camera_data["field_of_view"],
+            view_transform_matrix
+        };
+
+        return Scene{ world, camera };
+    }
+
     gfx::Matrix4 buildChainedTransformMatrix(const json& transform_data_list)
     {
         gfx::Matrix4 transform_matrix{ gfx::createIdentityMatrix() };
