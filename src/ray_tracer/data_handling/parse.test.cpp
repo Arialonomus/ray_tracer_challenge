@@ -7,7 +7,6 @@
 
 #include "matrix4.hpp"
 #include "transform.hpp"
-#include "vector4.hpp"
 
 using json = nlohmann::json;
 
@@ -192,17 +191,20 @@ TEST(RayTracerParse, ParseMatrixInvalidJSON)
 TEST(RayTracerParse, BuildChainedTransformMatrix)
 {
     const json transform_data_list{ json::array({
-                {{ "type", "translate" }, { "values", json::array({ 10, 5, 7 }) }},
-                {{ "type", "scale" }, { "values", json::array({ 5 }) }},
-                {{ "type", "rotate_x" }, { "values", json::array({ M_PI_2f }) }}
+                {{ "type", "translate" }, { "values", json::array({ 0, 0, 5 }) }},
+                {{ "type", "rotate_y" }, { "values", json::array({ -M_PI_4f }) }},
+                {{ "type", "rotate_x" }, { "values", json::array({ M_PI_2f }) }},
+                {{ "type", "scale" }, { "values", json::array({ 10, 0.01, 10 }) }}
         })
     };
 
+    const gfx::Matrix4 transform_matrix_expected{
+        gfx::createTranslationMatrix(0, 0, 5) *
+        gfx::createYRotationMatrix(-M_PI_4f) *
+        gfx::createXRotationMatrix(M_PI_2f) *
+        gfx::createScalingMatrix(10, 0.01, 10)
+    };
     const gfx::Matrix4 transform_matrix_actual{ data::buildChainedTransformMatrix(transform_data_list) };
-    const gfx::Vector4 point_initial{ gfx::createPoint(1, 0, 1) };
-    const gfx::Vector4 point_expected{ gfx::createPoint(15, 0, 7) };
 
-    const gfx::Vector4 point_actual{ transform_matrix_actual * point_initial };
-
-    EXPECT_EQ(point_actual, point_expected);
+    EXPECT_EQ(transform_matrix_actual, transform_matrix_expected);
 }
