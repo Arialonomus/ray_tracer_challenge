@@ -35,7 +35,7 @@ namespace rt {
                         ppm_data << '\n';
                         row_char_count = 0;
                     }
-                        // Otherwise put a space (unless data is first value in row)
+                    // Otherwise put a space (unless data is first value in row)
                     else if (row_char_count > 0) {
                         ppm_data << ' ';
                         ++row_char_count;

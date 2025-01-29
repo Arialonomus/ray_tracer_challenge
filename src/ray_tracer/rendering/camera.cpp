@@ -18,8 +18,8 @@ namespace rt {
     const gfx::Ray Camera::castRay(const size_t pixel_x, const size_t pixel_y) const
     {
         // Calculate the offset from the edge of the viewport to the pixel's center
-        const double pixel_x_offset{ (static_cast<double>(pixel_x) + 0.5f) * m_pixel_size };
-        const double pixel_y_offset{ (static_cast<double>(pixel_y) + 0.5f) * m_pixel_size };
+        const double pixel_x_offset{ (static_cast<double>(pixel_x) + 0.5) * m_pixel_size };
+        const double pixel_y_offset{ (static_cast<double>(pixel_y) + 0.5) * m_pixel_size };
 
         // Calculate the un-transformed world-space coordinates of the pixel
         const double world_x{ m_half_width - pixel_x_offset };
@@ -41,11 +41,11 @@ namespace rt {
 
     void Camera::updateCachedState()
     {
-        const double half_view{ std::tanf(m_field_of_view / 2) };
+        const double half_view{ std::tan(m_field_of_view / 2.0) };
         const double aspect_ratio{ static_cast<double>(m_viewport_width) / static_cast<double>(m_viewport_height) };
 
         // Viewport has horizontal aspect
-        if (aspect_ratio >= 1) {
+        if (utils::isGreaterOrEqual(aspect_ratio, 1.0)) {
             m_half_width = half_view;
             m_half_height = half_view / aspect_ratio;
         }
