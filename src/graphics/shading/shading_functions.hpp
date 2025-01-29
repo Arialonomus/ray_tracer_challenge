@@ -11,5 +11,6 @@ namespace gfx {
                                               const PointLight& light,
                                               const Vector4& point_position,
                                               const Vector4& surface_normal,
-                                              const Vector4& view_vector);
+                                              const Vector4& view_vector,
+                                              bool is_shadowed = false);
 }
