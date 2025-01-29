@@ -19,7 +19,7 @@ TEST(GraphicsVector4, DefaultConstructor)
     ASSERT_FLOAT_EQ(vec.w(), 0.0);
 }
 
-// Tests the float list constructor
+// Tests the double list constructor
 TEST(GraphicsVector4, FloatListConstructor)
 {
     const gfx::Vector4 vec{ 4.0, -4.0, 3.0, 0.5 };
@@ -33,7 +33,7 @@ TEST(GraphicsVector4, FloatListConstructor)
 // Tests the span-based constructor
 TEST(GraphicsVector4, SpanConstructor)
 {
-    const std::array<float, 4> vec_values{ 4.0, -4.0, 3.0, 0.5 };
+    const std::array<double, 4> vec_values{ 4.0, -4.0, 3.0, 0.5 };
     const gfx::Vector4 vec{ vec_values };
 
     ASSERT_FLOAT_EQ(vec.x(), 4.0);
@@ -223,7 +223,7 @@ TEST(GraphicsVector4, NegationOperator)
 TEST(GraphicsVector4, ScalarMultplication)
 {
     const gfx::Vector4 vec{ 1.0, -2.0, 3.0, -4.0 };
-    constexpr float scalar = 3.5;
+    constexpr double scalar = 3.5;
 
     const gfx::Vector4 vec_scaled_l = vec * scalar;
 
@@ -244,7 +244,7 @@ TEST(GraphicsVector4, ScalarMultplication)
 TEST(GraphicsVector4, ScalarMultplicationShorthand)
 {
     gfx::Vector4 vec{ 1.0, -2.0, 3.0, -4.0 };
-    constexpr float scalar = 3.5;
+    constexpr double scalar = 3.5;
 
     vec *= scalar;
 
@@ -258,7 +258,7 @@ TEST(GraphicsVector4, ScalarMultplicationShorthand)
 TEST(GraphicsVector4, ScalarMultplicationFraction)
 {
     const gfx::Vector4 vec{ 1.0, -2.0, 3.0, -4.0 };
-    constexpr float scalar = 0.5;
+    constexpr double scalar = 0.5;
 
     const gfx::Vector4 vec_scaled = vec * scalar;
 
@@ -272,7 +272,7 @@ TEST(GraphicsVector4, ScalarMultplicationFraction)
 TEST(GraphicsVector4, ScalarDivision)
 {
     const gfx::Vector4 vec{ 1.0, -2.0, 3.0, -4.0 };
-    constexpr float scalar = 2.0;
+    constexpr double scalar = 2.0;
 
     const gfx::Vector4 vec_scaled = vec / scalar;
 
@@ -286,7 +286,7 @@ TEST(GraphicsVector4, ScalarDivision)
 TEST(GraphicsVector4, ScalarDivisionShorthand)
 {
     gfx::Vector4 vec{ 1.0, -2.0, 3.0, -4.0 };
-    constexpr float scalar = 2.0;
+    constexpr double scalar = 2.0;
 
     vec /= scalar;
 
@@ -372,8 +372,8 @@ TEST(GraphicsVector4, DotProduct)
     const gfx::Vector4 vec_a{ 1.0, 2.0, 3.0, 0.0 };
     const gfx::Vector4 vec_b{ 2.0, 3.0, 4.0, 0.0 };
 
-    const float dot_l = dotProduct(vec_a, vec_b);
-    const float dot_r = dotProduct(vec_b, vec_a);
+    const double dot_l = dotProduct(vec_a, vec_b);
+    const double dot_r = dotProduct(vec_b, vec_a);
 
     EXPECT_FLOAT_EQ(dot_l, 20.0);
     EXPECT_FLOAT_EQ(dot_r, 20.0);
@@ -413,7 +413,7 @@ TEST(GraphicsVector4, Reflection)
 
     // Test reflecting a vector off a slanted surface
     const gfx::Vector4 vec_initial_b{ 0, -1, 0, 0 };
-    const gfx::Vector4 vec_normal_b{ M_SQRT2f / 2, M_SQRT2f / 2, 0, 0 };
+    const gfx::Vector4 vec_normal_b{ M_SQRT2 / 2, M_SQRT2 / 2, 0, 0 };
     const gfx::Vector4 vec_reflected_b_expected{ 1, 0, 0, 0 };
     const gfx::Vector4 vec_reflected_b_actual{ vec_initial_b.reflect(vec_normal_b) };
 

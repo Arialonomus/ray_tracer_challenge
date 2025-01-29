@@ -12,8 +12,8 @@ namespace data{
         const json& light_source_data{ scene_data["world"]["light_source"] };
         const std::vector<float> intensity_vals{
             light_source_data["intensity"].get<std::vector<float>>() };
-        const std::vector<float> position_vals{
-            light_source_data["position"].get<std::vector<float>>() };
+        const std::vector<double> position_vals{
+            light_source_data["position"].get<std::vector<double>>() };
         const gfx::PointLight light_source {
             gfx::Color{ intensity_vals[0], intensity_vals[1], intensity_vals[2] },
             gfx::createPoint(position_vals[0], position_vals[1], position_vals[2]) };
@@ -46,9 +46,9 @@ namespace data{
 
         // Get the camera data
         const json& camera_data{ scene_data["camera"] };
-        const std::vector<float> input_base_vals{ camera_data["transform"]["input_base"].get<std::vector<float>>() };
-        const std::vector<float> output_base_vals{ camera_data["transform"]["output_base"].get<std::vector<float>>() };
-        const std::vector<float> up_vector_vals{ camera_data["transform"]["up_vector"].get<std::vector<float>>() };
+        const std::vector<double> input_base_vals{ camera_data["transform"]["input_base"].get<std::vector<double>>() };
+        const std::vector<double> output_base_vals{ camera_data["transform"]["output_base"].get<std::vector<double>>() };
+        const std::vector<double> up_vector_vals{ camera_data["transform"]["up_vector"].get<std::vector<double>>() };
 
         // Build the view transform matrix
         const gfx::Matrix4 view_transform_matrix{ gfx::createViewTransformMatrix(
@@ -99,7 +99,7 @@ namespace data{
         }
 
         // Return the appropriate matrix based on the matrix type
-        const std::vector<float> transform_vals{ transform_data["values"].get<std::vector<float>>() };
+        const std::vector<double> transform_vals{ transform_data["values"].get<std::vector<double>>() };
         switch (matrix_type) {
             case Cases::Translation:
                 if (transform_vals.size() == 3) {

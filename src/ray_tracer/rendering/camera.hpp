@@ -14,7 +14,7 @@ namespace rt {
         Camera() = delete;
         Camera(const size_t viewport_width,
                const size_t viewport_height,
-               const float field_of_view)
+               const double field_of_view)
                 : m_viewport_width{ viewport_width },
                   m_viewport_height{ viewport_height },
                   m_field_of_view{ field_of_view },
@@ -27,7 +27,7 @@ namespace rt {
         }
         Camera(const size_t viewport_width,
                const size_t viewport_height,
-               const float field_of_view,
+               const double field_of_view,
                const gfx::Matrix4& transform_matrix)
                 : m_viewport_width{ viewport_width },
                   m_viewport_height{ viewport_height },
@@ -59,7 +59,7 @@ namespace rt {
         [[nodiscard]] size_t getViewportHeight() const
         { return m_viewport_height; }
 
-        [[nodiscard]] float getFieldOfView() const
+        [[nodiscard]] double getFieldOfView() const
         { return m_field_of_view; }
 
         [[nodiscard]] const gfx::Matrix4& getTransform() const
@@ -86,7 +86,7 @@ namespace rt {
             updateCachedState();
         }
 
-        void setFieldOfView(const float field_of_view)
+        void setFieldOfView(const double field_of_view)
         { m_field_of_view = field_of_view; }
 
         void setTransform(const gfx::Matrix4& transform_matrix)
@@ -106,7 +106,7 @@ namespace rt {
 
         size_t m_viewport_width;
         size_t m_viewport_height;
-        float m_field_of_view;
+        double m_field_of_view;
         gfx::Matrix4 m_transform;
 
         /* Cached State */
@@ -115,9 +115,9 @@ namespace rt {
         // millions of times for large viewport resolutions. Therefore, we cache these values and
         // update them upon changes to the camera viewport.
 
-        float m_pixel_size;
-        float m_half_width;
-        float m_half_height;
+        double m_pixel_size;
+        double m_half_width;
+        double m_half_height;
 
         /* Helper Methods */
 

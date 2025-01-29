@@ -3,13 +3,13 @@
 #include "cmath"
 
 namespace gfx{
-    std::vector<float> getSubmatrix(const std::vector<float>& matrix_values,
+    std::vector<double> getSubmatrix(const std::vector<double>& matrix_values,
                                     size_t row_to_remove,
                                     size_t col_to_remove)
     {
         const size_t matrix_dimension{ static_cast<size_t>(std::sqrt(matrix_values.size())) };
         const size_t submatrix_dimension{ matrix_dimension - 1 };
-        std::vector<float> submatrix_values(submatrix_dimension * submatrix_dimension);
+        std::vector<double> submatrix_values(submatrix_dimension * submatrix_dimension);
 
         for (int row = 0; row < submatrix_dimension; ++row)
             for (int col = 0; col < submatrix_dimension; ++col) {
@@ -21,7 +21,7 @@ namespace gfx{
         return submatrix_values;
     }
 
-    float calculateDeterminant(const std::vector<float>& matrix_values)
+    double calculateDeterminant(const std::vector<double>& matrix_values)
     {
         const size_t matrix_dimension{ static_cast<size_t>(std::sqrt(matrix_values.size())) };
 
@@ -32,9 +32,9 @@ namespace gfx{
 
         // Recursive Case: Calculate the determinant of the submatrix
         else {
-            float determinant = 0;
+            double determinant = 0;
             for (int col = 0; col < matrix_dimension; ++col) {
-                const float minor = calculateDeterminant(getSubmatrix(matrix_values, 0, col));
+                const double minor = calculateDeterminant(getSubmatrix(matrix_values, 0, col));
                 determinant += matrix_values[col] * (0 + col % 2 == 0 ? minor : -minor);
             }
             return determinant;

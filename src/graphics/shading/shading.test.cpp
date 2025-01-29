@@ -37,7 +37,7 @@ TEST(GraphicsShading, ViewBetweenLightAndSurfaceViewOffset45Degrees)
                                        gfx::createPoint(0, 0, -10) };
     const gfx::Vector4 surface_position{ 0, 0, 0, 1 };
     const gfx::Vector4 surface_normal{ 0, 0, -1, 0 };
-    const gfx::Vector4 view_vector{  0, M_SQRT2f / 2, -M_SQRT2f / 2, 0 };
+    const gfx::Vector4 view_vector{  0, M_SQRT2 / 2, -M_SQRT2 / 2, 0 };
 
     const gfx::Color color_expected{ 1.0, 1.0, 1.0 };
     const gfx::Color color_actual{ gfx::calculateSurfaceColor(material,
@@ -78,9 +78,9 @@ TEST(GraphicsShading, ViewInPathOfReflectionVector)
                                        gfx::createPoint(0, 10, -10) };
     const gfx::Vector4 surface_position{ 0, 0, 0, 1 };
     const gfx::Vector4 surface_normal{ 0, 0, -1, 0 };
-    const gfx::Vector4 view_vector{ 0, -M_SQRT2f / 2, -M_SQRT2f / 2, 0 };
+    const gfx::Vector4 view_vector{ 0, -M_SQRT2 / 2, -M_SQRT2 / 2, 0 };
 
-    const gfx::Color color_expected{ 1.636385, 1.636385, 1.636385 };
+    const gfx::Color color_expected{ 1.636396, 1.636396, 1.636396 };
     const gfx::Color color_actual{ gfx::calculateSurfaceColor(material,
                                                               point_light,
                                                               surface_position,

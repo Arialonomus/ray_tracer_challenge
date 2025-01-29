@@ -177,7 +177,7 @@ TEST(GraphicsSphere, GetSurfaceNormaTransformed)
         gfx::createScalingMatrix(1, 0.5, 1) * gfx::createZRotationMatrix(M_PI / 5) };
     const gfx::Vector4 normal_transformed_expected{ 0, 0.970143, -0.242536, 0 };
     const gfx::Vector4 normal_transformed_actual{
-        sphere_transformed.getSurfaceNormal(gfx::createPoint(0, M_PI_2f, -M_PI_2f)) };
+        sphere_transformed.getSurfaceNormal(gfx::createPoint(0, M_PI_2, -M_PI_2)) };
 
     EXPECT_EQ(normal_transformed_actual, normal_transformed_expected);
 }

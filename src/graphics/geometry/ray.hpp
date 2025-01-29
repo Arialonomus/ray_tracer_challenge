@@ -19,8 +19,8 @@ namespace gfx {
         Ray(const Vector4& origin, const Vector4& direction)
                 : m_origin{ origin }, m_direction{ direction }
         {}
-        Ray(const float origin_x, const float origin_y, const float origin_z,
-            const float direction_x, const float direction_y, const float direction_z)
+        Ray(const double origin_x, const double origin_y, const double origin_z,
+            const double direction_x, const double direction_y, const double direction_z)
                 : m_origin{ origin_x, origin_y, origin_z, 1.0 },
                   m_direction{ direction_x, direction_y, direction_z, 0.0 }
         {}
@@ -49,7 +49,7 @@ namespace gfx {
         { return m_direction; }
 
         // Returns the position along the ray at a distance t from the origin
-        [[nodiscard]] Vector4 position(const float t) const
+        [[nodiscard]] Vector4 position(const double t) const
         { return m_origin + (m_direction * t); }
 
         /* Ray-Tracing Operations */

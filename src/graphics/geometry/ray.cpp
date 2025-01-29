@@ -22,10 +22,10 @@ namespace gfx {
         const Vector4 sphere_center_distance{ transformed_ray.getOrigin() - sphere_center };
 
         // Calculate the discriminant of the polynomial whose solutions are the intersections with the sphere
-        const float a{ dotProduct(transformed_ray.getDirection(), transformed_ray.getDirection()) };
-        const float b{ 2 * dotProduct(transformed_ray.getDirection(), sphere_center_distance) };
-        const float c{ dotProduct(sphere_center_distance, sphere_center_distance) - 1 };
-        const float discriminant{ std::powf(b, 2) - 4 * a * c };
+        const double a{ dotProduct(transformed_ray.getDirection(), transformed_ray.getDirection()) };
+        const double b{ 2 * dotProduct(transformed_ray.getDirection(), sphere_center_distance) };
+        const double c{ dotProduct(sphere_center_distance, sphere_center_distance) - 1 };
+        const double discriminant{ std::powf(b, 2) - 4 * a * c };
 
         // No Solutions, return empty vector
         if (discriminant < 0) {

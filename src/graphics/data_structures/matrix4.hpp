@@ -10,16 +10,16 @@ namespace gfx {
     public:
         /* Constructors */
         Matrix4() = default;
-        Matrix4(const float e00, const float e01, const float e02, const float e03,
-                const float e10, const float e11, const float e12, const float e13,
-                const float e20, const float e21, const float e22, const float e23,
-                const float e30, const float e31, const float e32, const float e33)
+        Matrix4(const double e00, const double e01, const double e02, const double e03,
+                const double e10, const double e11, const double e12, const double e13,
+                const double e20, const double e21, const double e22, const double e23,
+                const double e30, const double e31, const double e32, const double e33)
                 : m_data{ e00, e01, e02, e03,
                           e10, e11, e12, e13,
                           e20, e21, e22, e23,
                           e30, e31, e32, e33 }
         {}
-        explicit Matrix4(std::span<const float, 16> values);
+        explicit Matrix4(std::span<const double, 16> values);
         Matrix4(const Matrix4&) = default;
 
         /* Destructor */
@@ -32,12 +32,12 @@ namespace gfx {
 
         /* Accessors */
 
-        // Returns a copy of the float stored in a given position using row-major ordering
-        [[nodiscard]] float operator[](const size_t row, const size_t col) const
+        // Returns a copy of the double stored in a given position using row-major ordering
+        [[nodiscard]] double operator[](const size_t row, const size_t col) const
         { return m_data[row * 4 + col]; }
 
-        // Returns a reference to the float stored in a given position using row-major ordering
-        [[nodiscard]] float& operator[](const size_t row, const size_t col)
+        // Returns a reference to the double stored in a given position using row-major ordering
+        [[nodiscard]] double& operator[](const size_t row, const size_t col)
         { return m_data[row * 4 + col]; }
 
         /* Comparison Operator Overloads */
@@ -62,15 +62,15 @@ namespace gfx {
     private:
         /* Data Members */
 
-        std::array<float, 16> m_data{};
+        std::array<double, 16> m_data{};
 
         /* Helper Methods */
 
         // Returns the 3x3 submatrix formed by removing the passed in row & column
-        [[nodiscard]] std::vector<float> submatrix(size_t row_to_remove, size_t col_to_remove) const;
+        [[nodiscard]] std::vector<double> submatrix(size_t row_to_remove, size_t col_to_remove) const;
 
         // Returns the determinant of this matrix
-        [[nodiscard]] float determinant() const;
+        [[nodiscard]] double determinant() const;
     };
 
     /* Matrix Factory Functions */

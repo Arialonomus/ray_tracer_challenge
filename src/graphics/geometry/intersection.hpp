@@ -16,7 +16,7 @@ namespace gfx {
         /* Constructors */
 
         Intersection() = delete;
-        Intersection(const float t, const Sphere& object)
+        Intersection(const double t, const Sphere& object)
         : m_t{ t }, m_object{ object }
         {}
         Intersection(const Intersection&) = default;
@@ -33,7 +33,7 @@ namespace gfx {
 
         /* Accessors */
 
-        [[nodiscard]] float getT() const
+        [[nodiscard]] double getT() const
         { return m_t; }
         [[nodiscard]] const Sphere& getObject() const
         { return m_object; }
@@ -43,13 +43,13 @@ namespace gfx {
         [[nodiscard]] bool operator==(const Intersection& rhs) const;
         [[nodiscard]] bool operator<(const Intersection& rhs) const
         { return m_t < rhs.getT(); }
-        [[nodiscard]] bool operator<(const float rhs) const
+        [[nodiscard]] bool operator<(const double rhs) const
         { return m_t < rhs; }
 
     private:
         /* Data Members */
 
-        float m_t;
+        double m_t;
         std::reference_wrapper<const Sphere> m_object;
     };
 

@@ -13,8 +13,8 @@ namespace gfx {
         /* Constructors */
 
         Vector4() = default;
-        Vector4(const float x, const float y, const float z, const float w) : m_data{ x, y, z ,w } {}
-        explicit Vector4(std::span<const float, 4> values);
+        Vector4(const double x, const double y, const double z, const double w) : m_data{ x, y, z ,w } {}
+        explicit Vector4(std::span<const double, 4> values);
         Vector4(const Vector4&) = default;
 
         /* Destructor */
@@ -31,10 +31,10 @@ namespace gfx {
 
         /* Accessors */
 
-        [[nodiscard]] float x() const { return m_data[0]; }
-        [[nodiscard]] float y() const { return m_data[1]; }
-        [[nodiscard]] float z() const { return m_data[2]; }
-        [[nodiscard]] float w() const { return m_data[3]; }
+        [[nodiscard]] double x() const { return m_data[0]; }
+        [[nodiscard]] double y() const { return m_data[1]; }
+        [[nodiscard]] double z() const { return m_data[2]; }
+        [[nodiscard]] double w() const { return m_data[3]; }
 
         /* Mutators */
 
@@ -44,18 +44,18 @@ namespace gfx {
 
         /* Arithmetic Operator Overloads */
 
-        [[nodiscard]] Vector4 operator/(float scalar) const;
+        [[nodiscard]] Vector4 operator/(double scalar) const;
         [[nodiscard]] Vector4 operator-() const;
         Vector4& operator+=(const Vector4& rhs);
         Vector4& operator-=(const Vector4& rhs);
-        Vector4& operator*=(float scalar);
-        Vector4& operator/=(float scalar);
+        Vector4& operator*=(double scalar);
+        Vector4& operator/=(double scalar);
         Vector4& operator*=(const Matrix4& rhs);
 
         /* Vector Operations */
 
-        // Returns a float representing the magnitude of the vector
-        [[nodiscard]] float magnitude() const;
+        // Returns a double representing the magnitude of the vector
+        [[nodiscard]] double magnitude() const;
 
         // Returns a vector representing the cross product of this vector and the input vector
         [[nodiscard]] Vector4 crossProduct(const Vector4& rhs) const;
@@ -66,23 +66,23 @@ namespace gfx {
     private:
         /* Data Members */
 
-        std::array<float, 4> m_data{ 0.0, 0.0, 0.0, 0.0 };
+        std::array<double, 4> m_data{ 0.0, 0.0, 0.0, 0.0 };
     };
 
     /* Factory Functions */
 
     // Returns a Vector4 representing a vector in space
-    [[nodiscard]] Vector4 createVector(float x, float y, float z);
+    [[nodiscard]] Vector4 createVector(double x, double y, double z);
 
     // Returns a Vector4 representing a point in space
-    [[nodiscard]] Vector4 createPoint(float x, float y, float z);
+    [[nodiscard]] Vector4 createPoint(double x, double y, double z);
 
     /* Global Arithmetic Operator Overloads */
 
     [[nodiscard]] Vector4 operator+(const Vector4& lhs, const Vector4& rhs);
     [[nodiscard]] Vector4 operator-(const Vector4& lhs, const Vector4& rhs);
-    [[nodiscard]] Vector4 operator*(const Vector4& lhs, float rhs);
-    [[nodiscard]] Vector4 operator*(float lhs, const Vector4& rhs);
+    [[nodiscard]] Vector4 operator*(const Vector4& lhs, double rhs);
+    [[nodiscard]] Vector4 operator*(double lhs, const Vector4& rhs);
     [[nodiscard]] Vector4 operator*(const Matrix4& lhs, const Vector4& rhs);
 
     /* Global Vector Operations */
@@ -92,7 +92,7 @@ namespace gfx {
     [[nodiscard]] Vector4 normalize(const Vector4& src);
 
     // Returns the dot product of this vector with the input vector
-    [[nodiscard]] float dotProduct(const Vector4& lhs, const Vector4& rhs);
+    [[nodiscard]] double dotProduct(const Vector4& lhs, const Vector4& rhs);
 }
 
 /* Template Specializations */

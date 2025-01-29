@@ -8,7 +8,7 @@
 
 namespace gfx {
     // Span Constructor
-    Vector4::Vector4(std::span<const float, 4> values)
+    Vector4::Vector4(std::span<const double, 4> values)
             : m_data{}
     {
         std::copy(values.begin(), values.end(), m_data.begin());
@@ -24,7 +24,7 @@ namespace gfx {
     }
 
     // Scalar Division Operator
-    Vector4 Vector4::operator/(const float scalar) const
+    Vector4 Vector4::operator/(const double scalar) const
     {
         if (scalar == 0.0) {
             throw std::invalid_argument{ "Divide by zero." };
@@ -65,7 +65,7 @@ namespace gfx {
     }
 
     // Scalar Multiplication Shorthand Operator
-    Vector4& Vector4::operator*=(const float scalar)
+    Vector4& Vector4::operator*=(const double scalar)
     {
         m_data[0] *= scalar;
         m_data[1] *= scalar;
@@ -76,7 +76,7 @@ namespace gfx {
     }
 
     // Scalar Division Shorthand Operator
-    Vector4& Vector4::operator/=(const float scalar)
+    Vector4& Vector4::operator/=(const double scalar)
     {
         if (scalar == 0.0) {
             throw std::invalid_argument{ "Divide by zero." };
@@ -94,7 +94,7 @@ namespace gfx {
     Vector4& Vector4::operator*=(const Matrix4& rhs)
     {
         // Populate the array with the dot product of each row with the vector
-        std::array<float, 4> vector_values{};
+        std::array<double, 4> vector_values{};
         for (int row = 0; row < 4; ++row) {
             vector_values[row] =
                     m_data[0] * rhs[row, 0] +
@@ -109,7 +109,7 @@ namespace gfx {
     }
 
     // Vector Magnitude
-    float Vector4::magnitude() const
+    double Vector4::magnitude() const
     {
         return std::sqrt(
                 std::pow(m_data[0], 2) + std::pow(m_data[1], 2) + std::pow(m_data[2], 2) + std::pow(m_data[3], 2));
@@ -129,13 +129,13 @@ namespace gfx {
     }
 
     // Vector Factory Function
-    Vector4 createVector(const float x, const float y, const float z)
+    Vector4 createVector(const double x, const double y, const double z)
     {
         return Vector4{ x, y, z, 0.0 };
     }
 
     // Point Factory Function
-    Vector4 createPoint(const float x, const float y, const float z)
+    Vector4 createPoint(const double x, const double y, const double z)
     {
         return Vector4{ x, y, z, 1.0 };
     }
@@ -143,7 +143,7 @@ namespace gfx {
     // Addition Operator
     Vector4 operator+(const Vector4& lhs, const Vector4& rhs)
     {
-        const float w_sum = lhs.w() + rhs.w();
+        const double w_sum = lhs.w() + rhs.w();
         if (w_sum > 1) {
             throw std::invalid_argument{ "Cannot add two points" };
         }
@@ -158,13 +158,13 @@ namespace gfx {
     }
 
     // Scalar Multiplication Operator (Vector Left-Hand)
-    Vector4 operator*(const Vector4& lhs, const float rhs)
+    Vector4 operator*(const Vector4& lhs, const double rhs)
     {
         return Vector4{ lhs.x() * rhs, lhs.y() * rhs, lhs.z() * rhs, lhs.w() * rhs };
     }
 
     // Scalar Multiplication Operator (Vector Right-Hand)
-    Vector4 operator*(const float lhs, const Vector4& rhs)
+    Vector4 operator*(const double lhs, const Vector4& rhs)
     {
         return rhs * lhs;
     }
@@ -172,7 +172,7 @@ namespace gfx {
     // Matrix-Vector Multiplication Operator
     Vector4 operator*(const Matrix4& lhs, const Vector4& rhs)
     {
-        std::array<float, 4> vector_values{};
+        std::array<double, 4> vector_values{};
         for (int row = 0; row < 4; ++row) {
             vector_values[row] =
                     lhs[row, 0] * rhs.x() +
@@ -187,12 +187,12 @@ namespace gfx {
     // Normalize Vector
     Vector4 normalize(const Vector4& src)
     {
-        const float magnitude = src.magnitude();
+        const double magnitude = src.magnitude();
         return Vector4{ src.x() / magnitude, src.y() / magnitude, src.z() / magnitude, src.w() / magnitude };
     }
 
     // Vector Dot Product
-    float dotProduct(const Vector4& lhs, const Vector4& rhs)
+    double dotProduct(const Vector4& lhs, const Vector4& rhs)
     {
         return lhs.x() * rhs.x() + lhs.y() * rhs.y() + lhs.z() * rhs.z() + lhs.w() * rhs.w();
     }

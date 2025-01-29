@@ -13,7 +13,7 @@ TEST(RayTracerCamera, StandardConstructorNoTransform)
 {
     const size_t viewport_width_expected{ 160 };
     const size_t viewport_height_expected{ 120 };
-    const float field_of_view_expected{ M_PI_2f };
+    const double field_of_view_expected{ M_PI_2 };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
 
     const rt::Camera camera{ viewport_width_expected,
@@ -31,7 +31,7 @@ TEST(RayTracerCamera, StandardConstructor)
 {
     const size_t viewport_width_expected{ 160 };
     const size_t viewport_height_expected{ 120 };
-    const float field_of_view_expected{ M_PI_2f };
+    const double field_of_view_expected{ M_PI_2 };
 
     const gfx::Vector4 from_position{ gfx::createPoint(0, 0, 8) };
     const gfx::Vector4 to_position{ gfx::createPoint(0, 0, 0) };
@@ -59,7 +59,7 @@ TEST(RayTracerCamera, CopyConstructor)
 {
     const size_t viewport_width_expected{ 160 };
     const size_t viewport_height_expected{ 120 };
-    const float field_of_view_expected{ M_PI_2f };
+    const double field_of_view_expected{ M_PI_2 };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
 
     const rt::Camera camera_src{ viewport_width_expected,
@@ -79,7 +79,7 @@ TEST(RayTracerCamera, AssignmentOperator)
 {
     const size_t viewport_width_expected{ 160 };
     const size_t viewport_height_expected{ 120 };
-    const float field_of_view_expected{ M_PI_2f };
+    const double field_of_view_expected{ M_PI_2 };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
 
     const rt::Camera camera_a{ viewport_width_expected,
@@ -98,8 +98,8 @@ TEST(RayTracerCamera, AssignmentOperator)
 // Tests the equality operator
 TEST(RayTracerCamera, EqualityOperator)
 {
-    const rt::Camera camera_a{ 160, 120, M_PI_2f };
-    const rt::Camera camera_b{ 160, 120, M_PI_2f };
+    const rt::Camera camera_a{ 160, 120, M_PI_2 };
+    const rt::Camera camera_b{ 160, 120, M_PI_2 };
 
     ASSERT_TRUE(camera_a == camera_b);
 }
@@ -107,7 +107,7 @@ TEST(RayTracerCamera, EqualityOperator)
 // Tests the inequality operator
 TEST(RayTracerCamera, InequalityOperator)
 {
-    const rt::Camera camera_a{ 160, 120, M_PI_2f };
+    const rt::Camera camera_a{ 160, 120, M_PI_2 };
     const rt::Camera camera_b{ 100, 100, 0 };
 
     ASSERT_TRUE(camera_a != camera_b);
@@ -116,7 +116,7 @@ TEST(RayTracerCamera, InequalityOperator)
 // Tests mutator methods
 TEST(RayTracerCamera, Mutators)
 {
-    rt::Camera camera{ 160, 120, M_PI_2f };
+    rt::Camera camera{ 160, 120, M_PI_2 };
 
     // Test setViewport()
     const size_t viewport_width_expected_a{ 100 };
@@ -136,7 +136,7 @@ TEST(RayTracerCamera, Mutators)
     ASSERT_EQ(camera.getViewportHeight(), viewport_height_expected_b);
 
     // Test setFieldOfView()
-    const float field_of_view_expected{ M_PI_4f };
+    const double field_of_view_expected{ M_PI_4 };
     camera.setFieldOfView(field_of_view_expected);
     ASSERT_FLOAT_EQ(camera.getFieldOfView(), field_of_view_expected);
 
@@ -156,7 +156,7 @@ TEST(RayTracerCamera, Mutators)
 // Tests casting a ray through various positions on the viewport
 TEST(RayTracerCamera, CastRay)
 {
-    const rt::Camera camera_a{ 201, 101, M_PI_2f };
+    const rt::Camera camera_a{ 201, 101, M_PI_2 };
 
     // Test casting a ray through the center of the viewport
     const gfx::Ray ray_a_expected{ 0, 0, 0,
@@ -174,10 +174,10 @@ TEST(RayTracerCamera, CastRay)
 
     // Test casting a ray from a transformed camera through the center of the viewport
     const gfx::Matrix4 transform_matrix{
-        gfx::createYRotationMatrix(M_PI_4f) * gfx::createTranslationMatrix(0, -2, 5) };
-    const rt::Camera camera_b{ 201, 101, M_PI_2f, transform_matrix };
+        gfx::createYRotationMatrix(M_PI_4) * gfx::createTranslationMatrix(0, -2, 5) };
+    const rt::Camera camera_b{ 201, 101, M_PI_2, transform_matrix };
     const gfx::Ray ray_c_expected{ 0, 2, -5,
-                                   M_SQRT2f / 2, 0, -M_SQRT2f / 2 };
+                                   M_SQRT2 / 2, 0, -M_SQRT2 / 2 };
     const gfx::Ray ray_c_actual{ camera_b.castRay(100, 50) };
 
     EXPECT_EQ(ray_c_actual, ray_c_expected);

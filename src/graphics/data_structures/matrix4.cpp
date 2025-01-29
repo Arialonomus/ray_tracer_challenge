@@ -8,7 +8,7 @@
 
 namespace gfx {
     // Span-Based Constructor
-    Matrix4::Matrix4(std::span<const float, 16> values)
+    Matrix4::Matrix4(std::span<const double, 16> values)
             : m_data{}
     {
         std::copy(values.begin(), values.end(), m_data.begin());
@@ -30,7 +30,7 @@ namespace gfx {
     // Matrix Multiplication Shorthand Operator
     Matrix4& Matrix4::operator*=(const Matrix4& rhs)
     {
-        std::array<float, 16> matrix_product_vals{};
+        std::array<double, 16> matrix_product_vals{};
         for (int row = 0; row < 4; ++row)
             for (int col = 0; col < 4; ++col) {
                 matrix_product_vals[row * 4 + col] =
@@ -47,7 +47,7 @@ namespace gfx {
     // Identity matrix identifier
     bool Matrix4::isIdentityMatrix() const
     {
-        std::array<float, 16> identity_values{ 1.0, 0.0, 0.0, 0.0,
+        std::array<double, 16> identity_values{ 1.0, 0.0, 0.0, 0.0,
                                                0.0, 1.0, 0.0, 0.0,
                                                0.0, 0.0, 1.0, 0.0,
                                                0.0, 0.0, 0.0, 1.0 };
@@ -71,17 +71,17 @@ namespace gfx {
     }
 
     // Submatrix Generator
-    std::vector<float> Matrix4::submatrix(size_t row_to_remove, size_t col_to_remove) const
+    std::vector<double> Matrix4::submatrix(size_t row_to_remove, size_t col_to_remove) const
     {
-        return getSubmatrix(std::vector<float>{ m_data.begin(), m_data.end() },
+        return getSubmatrix(std::vector<double>{ m_data.begin(), m_data.end() },
                             row_to_remove,
                             col_to_remove);
     }
     
     // Matrix Determinant
-    float Matrix4::determinant() const
+    double Matrix4::determinant() const
     {
-        return calculateDeterminant(std::vector<float>{ m_data.begin(), m_data.end() });
+        return calculateDeterminant(std::vector<double>{ m_data.begin(), m_data.end() });
     }
     
     // Matrix Inverse
@@ -93,7 +93,7 @@ namespace gfx {
         }
     
         // Determine if matrix is invertible
-        const float determinant = this->determinant();
+        const double determinant = this->determinant();
         if (determinant == 0) {
             throw std::invalid_argument{ "Matrix determinant cannot be zero." };
         }
@@ -102,8 +102,8 @@ namespace gfx {
         Matrix4 inverted_matrix{};
         for (int row = 0; row < 4; ++row)
             for (int col = 0; col < 4; ++col) {
-                const float minor = calculateDeterminant(this->submatrix(row, col));
-                const float cofactor = (row + col) % 2 == 0 ? minor : -minor;
+                const double minor = calculateDeterminant(this->submatrix(row, col));
+                const double cofactor = (row + col) % 2 == 0 ? minor : -minor;
                 inverted_matrix[col, row] = cofactor / determinant;
             }
     

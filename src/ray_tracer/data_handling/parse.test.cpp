@@ -58,9 +58,9 @@ TEST(RayTracerParse, ParseRotationMatrixData)
     // Test parsing an x-axis rotation matrix
     const json x_rotation_matrix_data{
             {"type", "rotate_x"},
-            {"values", json::array({M_PI_2f})}
+            {"values", json::array({M_PI_2})}
     };
-    const gfx::Matrix4 x_rotation_matrix_expected{ gfx::createXRotationMatrix(M_PI_2f) };
+    const gfx::Matrix4 x_rotation_matrix_expected{ gfx::createXRotationMatrix(M_PI_2) };
     const gfx::Matrix4 x_rotation_matrix_actual{
             data::parseTransformMatrixData(x_rotation_matrix_data)
     };
@@ -70,9 +70,9 @@ TEST(RayTracerParse, ParseRotationMatrixData)
     // Test parsing a y-axis rotation matrix
     const json y_rotation_matrix_data{
             {"type", "rotate_y"},
-            {"values", json::array({M_PI_2f})}
+            {"values", json::array({M_PI_2})}
     };
-    const gfx::Matrix4 y_rotation_matrix_expected{ gfx::createYRotationMatrix(M_PI_2f) };
+    const gfx::Matrix4 y_rotation_matrix_expected{ gfx::createYRotationMatrix(M_PI_2) };
     const gfx::Matrix4 y_rotation_matrix_actual{
             data::parseTransformMatrixData(y_rotation_matrix_data)
     };
@@ -82,9 +82,9 @@ TEST(RayTracerParse, ParseRotationMatrixData)
     // Test parsing a z-axis rotation matrix
     const json z_rotation_matrix_data{
             {"type", "rotate_z"},
-            {"values", json::array({M_PI_2f})}
+            {"values", json::array({M_PI_2})}
     };
-    const gfx::Matrix4 z_rotation_matrix_expected{ gfx::createZRotationMatrix(M_PI_2f) };
+    const gfx::Matrix4 z_rotation_matrix_expected{ gfx::createZRotationMatrix(M_PI_2) };
     const gfx::Matrix4 z_rotation_matrix_actual{
         data::parseTransformMatrixData(z_rotation_matrix_data)
     };
@@ -112,7 +112,7 @@ TEST(RayTracerParse, ParseMatrixInvalidJSON)
     // Test invalid transform matrix type
     const json error_rotation_matrix_data{
             {"type", "rotate"},
-            {"values", json::array({M_PI_2f})}
+            {"values", json::array({M_PI_2})}
     };
 
     EXPECT_THROW({
@@ -192,16 +192,16 @@ TEST(RayTracerParse, BuildChainedTransformMatrix)
 {
     const json transform_data_list{ json::array({
                 {{ "type", "translate" }, { "values", json::array({ 0, 0, 5 }) }},
-                {{ "type", "rotate_y" }, { "values", json::array({ -M_PI_4f }) }},
-                {{ "type", "rotate_x" }, { "values", json::array({ M_PI_2f }) }},
+                {{ "type", "rotate_y" }, { "values", json::array({ -M_PI_4 }) }},
+                {{ "type", "rotate_x" }, { "values", json::array({ M_PI_2 }) }},
                 {{ "type", "scale" }, { "values", json::array({ 10, 0.01, 10 }) }}
         })
     };
 
     const gfx::Matrix4 transform_matrix_expected{
         gfx::createTranslationMatrix(0, 0, 5) *
-        gfx::createYRotationMatrix(-M_PI_4f) *
-        gfx::createXRotationMatrix(M_PI_2f) *
+        gfx::createYRotationMatrix(-M_PI_4) *
+        gfx::createXRotationMatrix(M_PI_2) *
         gfx::createScalingMatrix(10, 0.01, 10)
     };
     const gfx::Matrix4 transform_matrix_actual{ data::buildChainedTransformMatrix(transform_data_list) };

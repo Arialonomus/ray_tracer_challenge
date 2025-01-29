@@ -8,10 +8,10 @@ TEST(GraphicsMaterial, DefaultConstructor)
 {
     const gfx::Material material{ };
     const gfx::Color color_expected{ 1, 1, 1 };
-    const float ambient_expected{ 0.1 };
-    const float diffuse_expected{ 0.9 };
-    const float specular_expected{ 0.9 };
-    const float shininess_expected{ 200 };
+    const double ambient_expected{ 0.1 };
+    const double diffuse_expected{ 0.9 };
+    const double specular_expected{ 0.9 };
+    const double shininess_expected{ 200 };
 
     ASSERT_EQ(material.getColor(), color_expected);
     ASSERT_FLOAT_EQ(material.getAmbient(), ambient_expected);
@@ -20,14 +20,14 @@ TEST(GraphicsMaterial, DefaultConstructor)
     ASSERT_FLOAT_EQ(material.getShininess(), shininess_expected);
 }
 
-// Tests the standard constructor (color object & float list)
+// Tests the standard constructor (color object & double list)
 TEST(GraphicsMaterial, StandardConstructor)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const float ambient_expected{ 0.5 };
-    const float diffuse_expected{ 0.5 };
-    const float specular_expected{ 0.5 };
-    const float shininess_expected{ 50 };
+    const double ambient_expected{ 0.5 };
+    const double diffuse_expected{ 0.5 };
+    const double specular_expected{ 0.5 };
+    const double shininess_expected{ 50 };
     const gfx::Material material{ color_expected,
                                   ambient_expected,
                                   diffuse_expected,
@@ -41,17 +41,17 @@ TEST(GraphicsMaterial, StandardConstructor)
     ASSERT_FLOAT_EQ(material.getShininess(), shininess_expected);
 }
 
-// Tests the standard constructor (float list)
+// Tests the standard constructor (double list)
 TEST(GraphicsMaterial, StandardFloatListConstructor)
 {
     const float color_r{ 0.5 };
     const float color_g{ 0.5 };
     const float color_b{ 0.5 };
     const gfx::Color color_expected{ color_r, color_g, color_b };
-    const float ambient_expected{ 0.5 };
-    const float diffuse_expected{ 0.5 };
-    const float specular_expected{ 0.5 };
-    const float shininess_expected{ 50 };
+    const double ambient_expected{ 0.5 };
+    const double diffuse_expected{ 0.5 };
+    const double specular_expected{ 0.5 };
+    const double shininess_expected{ 50 };
     const gfx::Material material{ color_r,
                                   color_g,
                                   color_b,
@@ -71,10 +71,10 @@ TEST(GraphicsMaterial, StandardFloatListConstructor)
 TEST(GraphicsMaterial, ColorConstructor)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const float ambient_expected{ 0.1 };
-    const float diffuse_expected{ 0.9 };
-    const float specular_expected{ 0.9 };
-    const float shininess_expected{ 200 };
+    const double ambient_expected{ 0.1 };
+    const double diffuse_expected{ 0.9 };
+    const double specular_expected{ 0.9 };
+    const double shininess_expected{ 200 };
     const gfx::Material material{ color_expected };
 
     ASSERT_EQ(material.getColor(), color_expected);
@@ -88,10 +88,10 @@ TEST(GraphicsMaterial, ColorConstructor)
 TEST(GraphicsMaterial, AttributeList)
 {
     const gfx::Color color_expected{ 1, 1, 1 };
-    const float ambient_expected{ 0.5 };
-    const float diffuse_expected{ 0.5 };
-    const float specular_expected{ 0.5 };
-    const float shininess_expected{ 50 };
+    const double ambient_expected{ 0.5 };
+    const double diffuse_expected{ 0.5 };
+    const double specular_expected{ 0.5 };
+    const double shininess_expected{ 50 };
     const gfx::Material material{ ambient_expected,
                                   diffuse_expected,
                                   specular_expected,
@@ -108,10 +108,10 @@ TEST(GraphicsMaterial, AttributeList)
 TEST(GraphicsMaterial, CopyConstructor)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const float ambient_expected{ 0.5 };
-    const float diffuse_expected{ 0.5 };
-    const float specular_expected{ 0.5 };
-    const float shininess_expected{ 50 };
+    const double ambient_expected{ 0.5 };
+    const double diffuse_expected{ 0.5 };
+    const double specular_expected{ 0.5 };
+    const double shininess_expected{ 50 };
     const gfx::Material material_src{ color_expected,
                                       ambient_expected,
                                       diffuse_expected,
@@ -131,10 +131,10 @@ TEST(GraphicsMaterial, CopyConstructor)
 TEST(GraphicsMaterial, AssignmentOperator)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const float ambient_expected{ 0.5 };
-    const float diffuse_expected{ 0.5 };
-    const float specular_expected{ 0.5 };
-    const float shininess_expected{ 50 };
+    const double ambient_expected{ 0.5 };
+    const double diffuse_expected{ 0.5 };
+    const double specular_expected{ 0.5 };
+    const double shininess_expected{ 50 };
 
     const gfx::Material material_a{ color_expected,
                                       ambient_expected,
@@ -165,10 +165,10 @@ ASSERT_TRUE(material_a == material_b);
 TEST(GraphicsMaterial, InequalityOperator)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const float ambient_expected{ 0.5 };
-    const float diffuse_expected{ 0.5 };
-    const float specular_expected{ 0.5 };
-    const float shininess_expected{ 50 };
+    const double ambient_expected{ 0.5 };
+    const double diffuse_expected{ 0.5 };
+    const double specular_expected{ 0.5 };
+    const double shininess_expected{ 50 };
 
     const gfx::Material material_a{ color_expected,
                                     ambient_expected,
@@ -189,19 +189,19 @@ TEST(GraphicsMaterial, Mutators)
     material.setColor(color_expected);
     ASSERT_EQ(material.getColor(), color_expected);
 
-    const float ambient_expected{ 0.5 };
+    const double ambient_expected{ 0.5 };
     material.setAmbient(ambient_expected);
     ASSERT_FLOAT_EQ(material.getAmbient(), ambient_expected);
 
-    const float diffuse_expected{ 0.5 };
+    const double diffuse_expected{ 0.5 };
     material.setDiffuse(diffuse_expected);
     ASSERT_FLOAT_EQ(material.getDiffuse(), diffuse_expected);
 
-    const float specular_expected{ 0.5 };
+    const double specular_expected{ 0.5 };
     material.setSpecular(specular_expected);
     ASSERT_FLOAT_EQ(material.getSpecular(), specular_expected);
 
-    const float shininess_expected{ 50 };
+    const double shininess_expected{ 50 };
     material.setShininess(shininess_expected);
     ASSERT_FLOAT_EQ(material.getShininess(), shininess_expected);
 }

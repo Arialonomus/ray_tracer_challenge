@@ -28,7 +28,7 @@ TEST(RayTracerRendering, RenderWorld)
                     from_position,
                     to_position,
                     up_vector) };
-    const rt::Camera camera{ 11, 11, M_PI_2f,view_transform_matrix };
+    const rt::Camera camera{ 11, 11, M_PI_2, view_transform_matrix };
 
     const rt::Canvas image{ rt::render(world, camera) };
 

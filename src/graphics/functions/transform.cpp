@@ -2,7 +2,7 @@
 
 namespace gfx {
     // Translation Matrix Factory Function (Float List Argument Overload)
-    Matrix4 createTranslationMatrix(const float x, const float y, const float z)
+    Matrix4 createTranslationMatrix(const double x, const double y, const double z)
     {
         return Matrix4{
                 1.0, 0.0, 0.0, x,
@@ -24,7 +24,7 @@ namespace gfx {
     }
     
     // Scaling Matrix Factory Function (Float List Argument Overload)
-    Matrix4 createScalingMatrix(const float x, const float y, const float z)
+    Matrix4 createScalingMatrix(const double x, const double y, const double z)
     {
         return Matrix4{
                 x, 0.0, 0.0, 0.0,
@@ -35,7 +35,7 @@ namespace gfx {
     }
     
     // Uniform Scaling Matrix Factory Function (Float Argument Overload)
-    Matrix4 createScalingMatrix(const float scalar)
+    Matrix4 createScalingMatrix(const double scalar)
     {
         return Matrix4{
                 scalar, 0.0, 0.0, 0.0,
@@ -58,7 +58,7 @@ namespace gfx {
     }
     
     // X-Axis Rotation Matrix Factory Function
-    Matrix4 createXRotationMatrix(const float angle)
+    Matrix4 createXRotationMatrix(const double angle)
     {
         return Matrix4{
                 1.0, 0.0, 0.0, 0.0,
@@ -69,7 +69,7 @@ namespace gfx {
     }
     
     // Y-Axis Rotation Matrix Factory Function
-    Matrix4 createYRotationMatrix(const float angle)
+    Matrix4 createYRotationMatrix(const double angle)
     {
         return Matrix4{
                 std::cos(angle), 0.0, sin(angle), 0.0,
@@ -80,7 +80,7 @@ namespace gfx {
     }
     
     // Z-Axis Rotation Matrix Factory Function
-    Matrix4 createZRotationMatrix(const float angle)
+    Matrix4 createZRotationMatrix(const double angle)
     {
         return Matrix4{
                 std::cos(angle), -sin(angle), 0.0, 0.0,
@@ -92,9 +92,9 @@ namespace gfx {
     
     // Skew Matrix Factory Function
     Matrix4 createSkewMatrix(
-            const float x_y, const float x_z,
-            const float y_x, const float y_z,
-            const float z_x, const float z_y)
+            const double x_y, const double x_z,
+            const double y_x, const double y_z,
+            const double z_x, const double z_y)
     {
         return Matrix4{
                 1.0, x_y, x_z, 0.0,

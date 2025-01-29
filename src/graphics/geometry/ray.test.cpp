@@ -28,7 +28,7 @@ TEST(GraphicsRay, VectorListConstructor)
     ASSERT_EQ(ray.getDirection(), direction_expected);
 }
 
-// Tests the float list constructor
+// Tests the double list constructor
 TEST(GraphicsRay, FloatListConstructor)
 {
     const gfx::Vector4 origin_expected{ 3.0, 2.0, 1.0, 1.0 };

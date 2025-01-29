@@ -4,11 +4,11 @@
 
 namespace gfx {
     Color calculateSurfaceColor(const Material& material,
-                                      const PointLight& light,
-                                      const Vector4& point_position,
-                                      const Vector4& surface_normal,
-                                      const Vector4& view_vector,
-                                      const bool is_shadowed)
+                                const PointLight& light,
+                                const Vector4& point_position,
+                                const Vector4& surface_normal,
+                                const Vector4& view_vector,
+                                const bool is_shadowed)
     {
         // The base surface color from direct light
         const Color effective_color{ material.getColor() * light.intensity };
@@ -22,7 +22,7 @@ namespace gfx {
         // Check if the light is on the same side of the surface as the viewpoint
         Color diffuse{ 0, 0, 0 };
         Color specular{ 0, 0, 0 };
-        const float light_normal_cosine{ dotProduct(light_vector, surface_normal) };
+        const double light_normal_cosine{ dotProduct(light_vector, surface_normal) };
         if (light_normal_cosine >= 0 && !is_shadowed)
         {
             // Diffuse term is calculated as a ratio in relation to the angle of the incoming light
@@ -30,10 +30,10 @@ namespace gfx {
 
             // Check if the light reflects toward the viewpoint
             const Vector4 reflection_vector{ -light_vector.reflect(surface_normal) };
-            const float light_view_cosine{ dotProduct(reflection_vector, view_vector) };
+            const double light_view_cosine{ dotProduct(reflection_vector, view_vector) };
             if (light_view_cosine >= 0) {
                 // Specular reflection is dependent on the specular exponent which is a factor of the shininess value
-                const float specular_exponent{ std::powf(light_view_cosine, material.getShininess()) };
+                const double specular_exponent{ std::powf(light_view_cosine, material.getShininess()) };
                 specular = light.intensity * material.getSpecular() * specular_exponent;
             }
         }
