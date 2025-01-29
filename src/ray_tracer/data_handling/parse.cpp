@@ -6,6 +6,16 @@
 #include "transform.hpp"
 
 namespace data{
+    gfx::Matrix4 buildChainedTransformMatrix(const json& transform_data_list)
+    {
+        gfx::Matrix4 transform_matrix{ gfx::createIdentityMatrix() };
+        for (const auto& transform_data : transform_data_list) {
+            transform_matrix *= parseTransformMatrixData(transform_data);
+        }
+
+        return transform_matrix;
+    }
+
     gfx::Matrix4 parseTransformMatrixData(const json& transform_data)
     {
         // Define string-to-case mapping for possible transform matrices
