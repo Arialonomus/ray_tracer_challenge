@@ -127,6 +127,32 @@ TEST(GraphicsWorld, WorldIntersections)
     EXPECT_FLOAT_EQ(world_intersections.at(3).getT(), 6);
 }
 
+// Tests calculating whether various points are in shadow
+TEST(GraphicsWorld, PointIsShadowed)
+{
+    gfx::Material material{ };
+    material.setColor(0.8, 1.0, 0.6);
+    material.setDiffuse(0.7);
+    material.setSpecular(0.2);
+
+    const gfx::Sphere sphere_a{ material };
+    const gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+
+    const gfx::World world{ sphere_a, sphere_b };
+
+    // Test a point where nothing is collinear with point and light source
+    ASSERT_FALSE(world.isShadowed(gfx::createPoint(0, 10, 0)));
+
+    // Test a point where an object is between the point and the light
+    ASSERT_TRUE(world.isShadowed(gfx::createPoint(10, -10, 10)));
+
+    // Test a point where the light source is between the point and an object
+    ASSERT_FALSE(world.isShadowed(gfx::createPoint(-20, 20, -20)));
+
+    // Test a point where the point is between an object and the light source
+    ASSERT_FALSE(world.isShadowed(gfx::createPoint(-2, 2, -2)));
+}
+
 // Test shading a color when a ray misses all objects in a world
 TEST(GraphicsWorld, CalculatePixelColorMiss)
 {
