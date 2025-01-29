@@ -55,7 +55,7 @@ namespace gfx {
 
             return calculateSurfaceColor(detailed_hit.getObject().getMaterial(),
                                          m_light_source,
-                                         detailed_hit.getIntersectionPosition(),
+                                         detailed_hit.getOverPoint(),
                                          detailed_hit.getSurfaceNormal(),
                                          detailed_hit.getViewVector(),
                                          is_shadowed);
