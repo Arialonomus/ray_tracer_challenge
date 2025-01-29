@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "util_functions.hpp"
+
 namespace gfx {
     // Equality Operator
     bool Ray::operator==(const Ray& rhs) const
