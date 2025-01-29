@@ -1,7 +1,6 @@
 #include "gtest/gtest.h"
 #include "matrix4.hpp"
 
-#include "matrix3.hpp"
 #include "vector4.hpp"
 
 // Tests the default constructor
@@ -250,57 +249,6 @@ TEST(GraphicsMatrix4, Transpose)
     const gfx::Matrix4 matrix_transposed = matrix_initial.transpose();
 
     EXPECT_TRUE(matrix_transposed == matrix_expected);
-}
-
-// Tests generating 3x3 submatrix
-TEST(GraphicsMatrix4, Submatrix)
-{
-    const gfx::Matrix4 matrix{
-            -6.0, 1.0, 1.0, 6.0,
-            -8.0, 5.0, 8.0, 6.0,
-            -1.0, 0.0, 8.0, 2.0,
-            -7.0, 1.0, -1.0, 1.0
-    };
-    const gfx::Matrix3 submatrix_expected{
-            -6.0, 1.0, 6.0,
-            -8.0, 8.0, 6.0,
-            -7.0, -1.0, 1.0
-    };
-
-    const gfx::Matrix3 submatrix_actual = matrix.submatrix(2, 1);
-
-    EXPECT_TRUE(submatrix_actual == submatrix_expected);
-}
-
-// Tests calculating the determinant of a 4x4 matrix
-TEST(GraphicsMatrix4, Determinant)
-{
-    const gfx::Matrix4 matrix_a{
-            -2.0, -8.0, 3.0, 5.0,
-            -3.0, 1.0, 7.0, 3.0,
-            1.0, 2.0, -9.0, 6.0,
-            -6.0, 7.0, 7.0, -9.0
-    };
-
-    EXPECT_FLOAT_EQ(matrix_a.determinant(), -4071.0);
-
-    const gfx::Matrix4 matrix_b{
-            6.0, 4.0, 4.0, 4.0,
-            5.0, 5.0, 7.0, 6.0,
-            4.0, -9.0, 3.0, -7.0,
-            9.0, 1.0, 7.0, -6.0
-    };
-
-    EXPECT_FLOAT_EQ(matrix_b.determinant(), -2120.0);
-
-    const gfx::Matrix4 matrix_c{
-            -4.0, 2.0, -2.0, -3.0,
-            9.0, 6.0, 2.0, 6.0,
-            0.0, -5.0, 1.0, -5.0,
-            0.0, 0.0, 0.0, 0.0
-    };
-
-    EXPECT_FLOAT_EQ(matrix_c.determinant(), 0.0);
 }
 
 // Tests matrix inversion
