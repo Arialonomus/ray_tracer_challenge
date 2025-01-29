@@ -4,6 +4,7 @@
 #include <stdexcept>
 
 #include "util_functions.hpp"
+#include "linear_algebra.hpp"
 
 namespace gfx {
     // Span-Based Constructor
@@ -86,14 +87,7 @@ namespace gfx {
     // Matrix Determinant
     float Matrix4::determinant() const
     {
-        // Calculate the cofactor for each element in the first row
-        float determinant = 0;
-        for (int col = 0; col < 4; ++col) {
-            float minor = this->submatrix(0, col).determinant();
-            determinant += m_data[col] * ((0 + col) % 2 == 0 ? minor : -minor);
-        }
-    
-        return determinant;
+        return calculateDeterminant(std::vector<float>{ m_data.begin(), m_data.end() });
     }
     
     // Matrix Inverse
