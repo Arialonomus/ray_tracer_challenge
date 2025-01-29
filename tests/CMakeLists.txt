@@ -25,6 +25,8 @@ set(RAY_TRACER_UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ray_tracer/rendering/canvas.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ray_tracer/rendering/camera.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ray_tracer/rendering/rendering.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ray_tracer/data_handling/parse.test.cpp
+
 )
 
 # Gather all test sources into single variable

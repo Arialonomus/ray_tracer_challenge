@@ -46,6 +46,7 @@ target_sources(rt PRIVATE
         ray_tracer/rendering/canvas.cpp
         ray_tracer/rendering/camera.cpp
         ray_tracer/rendering/rendering_functions.cpp
+        ray_tracer/data_handling/parse.cpp
 )
 target_link_libraries(rt PUBLIC
         gfx
@@ -55,6 +56,7 @@ target_link_libraries(rt PUBLIC
 # Include the directories for the rt library
 target_include_directories(rt PUBLIC
         ray_tracer/rendering
+        ray_tracer/data_handling
 )
 
 # Define the ray tracer executable and targets
