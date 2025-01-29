@@ -52,7 +52,7 @@ namespace gfx {
             const DetailedIntersection detailed_hit{ possible_hit.value(), ray };
             return calculateSurfaceColor(detailed_hit.getObject().getMaterial(),
                                          m_light_source,
-                                         detailed_hit.getSurfacePosition(),
+                                         detailed_hit.getIntersectionPosition(),
                                          detailed_hit.getSurfaceNormal(),
                                          detailed_hit.getViewVector());
         }

@@ -72,7 +72,7 @@ TEST(GraphicsIntersection, DetailedStandardConstructorOutside)
 
     ASSERT_FLOAT_EQ(detailed_intersection.getT(), 4);
     ASSERT_EQ(&detailed_intersection.getObject(), &sphere);
-    ASSERT_EQ(detailed_intersection.getSurfacePosition(), gfx::createPoint(0, 0, -1));
+    ASSERT_EQ(detailed_intersection.getIntersectionPosition(), gfx::createPoint(0, 0, -1));
     ASSERT_EQ(detailed_intersection.getSurfaceNormal(), gfx::createVector(0, 0, -1));
     ASSERT_EQ(detailed_intersection.getViewVector(), gfx::createVector(0, 0, -1));
     ASSERT_FALSE(detailed_intersection.isInsideObject());
@@ -89,7 +89,7 @@ TEST(GraphicsIntersection, DetailedStandardConstructorInside)
 
     ASSERT_FLOAT_EQ(detailed_intersection.getT(), 1);
     ASSERT_EQ(&detailed_intersection.getObject(), &sphere);
-    ASSERT_EQ(detailed_intersection.getSurfacePosition(), gfx::createPoint(0, 0, 1));
+    ASSERT_EQ(detailed_intersection.getIntersectionPosition(), gfx::createPoint(0, 0, 1));
     ASSERT_EQ(detailed_intersection.getSurfaceNormal(), gfx::createVector(0, 0, -1));
     ASSERT_EQ(detailed_intersection.getViewVector(), gfx::createVector(0, 0, -1));
     ASSERT_TRUE(detailed_intersection.isInsideObject());
@@ -107,7 +107,7 @@ TEST(GraphicsIntersection, DetailedCopyConstructor)
 
     ASSERT_FLOAT_EQ(detailed_intersection_cpy.getT(), 4);
     ASSERT_EQ(&detailed_intersection_cpy.getObject(), &sphere);
-    ASSERT_EQ(detailed_intersection_cpy.getSurfacePosition(), gfx::createPoint(0, 0, -1));
+    ASSERT_EQ(detailed_intersection_cpy.getIntersectionPosition(), gfx::createPoint(0, 0, -1));
     ASSERT_EQ(detailed_intersection_cpy.getSurfaceNormal(), gfx::createVector(0, 0, -1));
     ASSERT_EQ(detailed_intersection_cpy.getViewVector(), gfx::createVector(0, 0, -1));
     ASSERT_FALSE(detailed_intersection_cpy.isInsideObject());
@@ -131,7 +131,7 @@ TEST(GraphicsIntersection, DetailedAssignmentOperator)
 
     ASSERT_FLOAT_EQ(detailed_intersection_b.getT(), 4);
     ASSERT_EQ(&detailed_intersection_b.getObject(), &sphere_a);
-    ASSERT_EQ(detailed_intersection_b.getSurfacePosition(), gfx::createPoint(0, 0, -1));
+    ASSERT_EQ(detailed_intersection_b.getIntersectionPosition(), gfx::createPoint(0, 0, -1));
     ASSERT_EQ(detailed_intersection_b.getSurfaceNormal(), gfx::createVector(0, 0, -1));
     ASSERT_EQ(detailed_intersection_b.getViewVector(), gfx::createVector(0, 0, -1));
     ASSERT_FALSE(detailed_intersection_b.isInsideObject());
@@ -147,7 +147,7 @@ TEST(GraphicsIntersection, DetailedIntersectionOverPoint)
     const gfx::DetailedIntersection detailedIntersection{ intersection, ray };
 
     ASSERT_TRUE(detailedIntersection.getOverPoint().z() < -utils::EPSILON / 2);
-    ASSERT_TRUE(detailedIntersection.getSurfacePosition().z() > detailedIntersection.getOverPoint().z());
+    ASSERT_TRUE(detailedIntersection.getIntersectionPosition().z() > detailedIntersection.getOverPoint().z());
 }
 
 // Tests the getHit functionality for 2-intersection groups when all intersections have positive t values

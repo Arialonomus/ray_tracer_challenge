@@ -12,8 +12,8 @@ namespace gfx {
 
     DetailedIntersection::DetailedIntersection(const Intersection& intersection, const Ray& ray)
             : Intersection(intersection),
-              m_surface_position{ ray.position(intersection.getT()) },
-              m_surface_normal{ intersection.getObject().getSurfaceNormal(m_surface_position) },
+              m_intersection_position{ ray.position(intersection.getT()) },
+              m_surface_normal{ intersection.getObject().getSurfaceNormal(m_intersection_position) },
               m_view_vector{ -ray.getDirection() },
               m_over_point{ },
               m_is_inside_object{ false }
@@ -25,7 +25,7 @@ namespace gfx {
         }
 
         // Calculate a point slightly above the object surface for use in shadow calculations
-        m_over_point = m_surface_position + m_surface_normal * utils::EPSILON;
+        m_over_point = m_intersection_position + m_surface_normal * utils::EPSILON;
     }
 
     std::optional<Intersection> getHit(std::vector<Intersection> intersections)

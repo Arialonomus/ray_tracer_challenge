@@ -76,8 +76,8 @@ namespace gfx {
 
         /* Accessors */
 
-        [[nodiscard]] Vector4 getSurfacePosition() const
-        { return m_surface_position; }
+        [[nodiscard]] Vector4 getIntersectionPosition() const
+        { return m_intersection_position; }
         [[nodiscard]] Vector4 getSurfaceNormal() const
         { return m_surface_normal; }
         [[nodiscard]] Vector4 getViewVector() const
@@ -90,7 +90,7 @@ namespace gfx {
     private:
         /* Data Members */
 
-        Vector4 m_surface_position{ };
+        Vector4 m_intersection_position{ };
         Vector4 m_surface_normal{ };
         Vector4 m_view_vector{ };
         Vector4 m_over_point{ };
