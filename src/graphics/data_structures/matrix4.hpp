@@ -2,8 +2,7 @@
 
 #include <array>
 #include <span>
-
-#include "matrix3.hpp"
+#include <vector>
 
 namespace gfx {
     class Matrix4
@@ -68,7 +67,7 @@ namespace gfx {
         /* Helper Methods */
 
         // Returns the 3x3 submatrix formed by removing the passed in row & column
-        [[nodiscard]] Matrix3 submatrix(size_t row_to_remove, size_t col_to_remove) const;
+        [[nodiscard]] std::vector<float> submatrix(size_t row_to_remove, size_t col_to_remove) const;
 
         // Returns the determinant of this matrix
         [[nodiscard]] float determinant() const;

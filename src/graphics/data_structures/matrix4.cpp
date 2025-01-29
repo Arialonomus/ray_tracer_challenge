@@ -69,19 +69,13 @@ namespace gfx {
                 (*this)[0, 3], (*this)[1, 3], (*this)[2, 3], (*this)[3, 3]
         };
     }
-    
+
     // Submatrix Generator
-    Matrix3 Matrix4::submatrix(size_t row_to_remove, size_t col_to_remove) const
+    std::vector<float> Matrix4::submatrix(size_t row_to_remove, size_t col_to_remove) const
     {
-        Matrix3 return_matrix{};
-    
-        for (int row = 0; row < 3; ++row)
-            for (int col = 0; col < 3; ++col) {
-                return_matrix[row, col] = m_data[(row + (row >= row_to_remove ? 1 : 0)) * 4 +
-                                                 (col + (col >= col_to_remove ? 1 : 0))];
-            }
-    
-        return return_matrix;
+        return getSubmatrix(std::vector<float>{ m_data.begin(), m_data.end() },
+                            row_to_remove,
+                            col_to_remove);
     }
     
     // Matrix Determinant
@@ -108,7 +102,7 @@ namespace gfx {
         Matrix4 inverted_matrix{};
         for (int row = 0; row < 4; ++row)
             for (int col = 0; col < 4; ++col) {
-                const float minor = this->submatrix(row, col).determinant();
+                const float minor = calculateDeterminant(this->submatrix(row, col));
                 const float cofactor = (row + col) % 2 == 0 ? minor : -minor;
                 inverted_matrix[col, row] = cofactor / determinant;
             }
