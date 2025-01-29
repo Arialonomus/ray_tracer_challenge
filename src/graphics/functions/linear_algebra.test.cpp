@@ -16,7 +16,7 @@ TEST(GraphicsLinearAlgebra, Submatrix4x4)
         -7.0, -1.0, 1.0
     };
 
-    const std::vector<float> submatrix_vals_actual = gfx::submatrix(matrix_vals, 2, 1);
+    const std::vector<float> submatrix_vals_actual = gfx::getSubmatrix(matrix_vals, 2, 1);
 
     ASSERT_EQ(submatrix_vals_actual, submatrix_vals_expected);
 }
@@ -34,7 +34,7 @@ TEST(GraphicsLinearAlgebra, Submatrix3x3)
             0.0, 6.0
     };
 
-    const std::vector<float> submatrix_vals_actual = gfx::submatrix(matrix_vals, 0, 2);
+    const std::vector<float> submatrix_vals_actual = gfx::getSubmatrix(matrix_vals, 0, 2);
 
     ASSERT_EQ(submatrix_vals_actual, submatrix_vals_expected);
 }

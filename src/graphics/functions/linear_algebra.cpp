@@ -3,9 +3,9 @@
 #include "cmath"
 
 namespace gfx{
-    std::vector<float> submatrix(const std::vector<float>& matrix_values,
-                                 const size_t row_to_remove,
-                                 const size_t col_to_remove)
+    std::vector<float> getSubmatrix(const std::vector<float>& matrix_values,
+                                    size_t row_to_remove,
+                                    size_t col_to_remove)
     {
         const size_t matrix_dimension{ static_cast<size_t>(std::sqrt(matrix_values.size())) };
         const size_t submatrix_dimension{ matrix_dimension - 1 };
