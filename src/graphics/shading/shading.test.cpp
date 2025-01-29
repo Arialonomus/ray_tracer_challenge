@@ -109,3 +109,24 @@ TEST(GraphicsShading, SurfaceBetweenViewAndLight)
 
     EXPECT_EQ(color_actual, color_expected);
 }
+
+// Tests calculating surface color with the surface between the view and the light
+TEST(GraphicsShading, SurfaceInShadow)
+{
+    const gfx::Material material{ };
+    const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
+                                       gfx::createPoint(0, 0, -10) };
+    const gfx::Vector4 surface_position{ 0, 0, 0, 1 };
+    const gfx::Vector4 surface_normal{ 0, 0, -1, 0 };
+    const gfx::Vector4 view_vector{ 0, 0, -1, 0 };
+
+    const gfx::Color color_expected{ 0.1, 0.1, 0.1 };
+    const gfx::Color color_actual{ gfx::calculateSurfaceColor(material,
+                                                              point_light,
+                                                              surface_position,
+                                                              surface_normal,
+                                                              view_vector,
+                                                              true) };
+
+    EXPECT_EQ(color_actual, color_expected);
+}
