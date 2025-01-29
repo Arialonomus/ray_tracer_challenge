@@ -10,4 +10,8 @@ namespace gfx {
     [[nodiscard]] std::vector<float> getSubmatrix(const std::vector<float>& matrix_values,
                                                   size_t row_to_remove,
                                                   size_t col_to_remove);
+
+    // Recursively calculates the determinant of any square matrix from a vector representing
+    // their values stored in flattened, row-major order
+    [[nodiscard]] float calculateDeterminant(const std::vector<float>& matrix_values);
 }
