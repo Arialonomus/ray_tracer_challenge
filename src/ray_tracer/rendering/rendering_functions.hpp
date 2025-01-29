@@ -1,9 +1,5 @@
 #pragma once
 
-#include "color.hpp"
-#include "material.hpp"
-#include "light.hpp"
-#include "vector4.hpp"
 #include "canvas.hpp"
 #include "world.hpp"
 #include "camera.hpp"
