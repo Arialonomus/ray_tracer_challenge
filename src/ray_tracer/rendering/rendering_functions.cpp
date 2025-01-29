@@ -1,7 +1,7 @@
 #include "rendering_functions.hpp"
 
 namespace rt {
-    const rt::Canvas render(const gfx::World& world, const rt::Camera& camera)
+    rt::Canvas render(const gfx::World& world, const rt::Camera& camera)
     {
         rt::Canvas image{ camera.getViewportWidth(), camera.getViewportHeight() };
 

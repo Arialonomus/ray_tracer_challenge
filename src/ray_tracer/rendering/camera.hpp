@@ -99,7 +99,7 @@ namespace rt {
         /* Ray Tracing Operations */
 
         // Returns a ray targeting a specific (x, y) coordinate in the viewport
-        [[nodiscard]] const gfx::Ray castRay(size_t pixel_x, size_t pixel_y) const;
+        [[nodiscard]] gfx::Ray castRay(size_t pixel_x, size_t pixel_y) const;
 
     private:
         /* Data Members */

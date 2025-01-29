@@ -15,7 +15,7 @@ namespace rt {
             m_transform == rhs.getTransform();
     }
 
-    const gfx::Ray Camera::castRay(const size_t pixel_x, const size_t pixel_y) const
+    gfx::Ray Camera::castRay(const size_t pixel_x, const size_t pixel_y) const
     {
         // Calculate the offset from the edge of the viewport to the pixel's center
         const double pixel_x_offset{ (static_cast<double>(pixel_x) + 0.5) * m_pixel_size };
