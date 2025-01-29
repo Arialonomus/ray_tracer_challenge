@@ -82,6 +82,8 @@ namespace gfx {
         { return m_surface_normal; }
         [[nodiscard]] Vector4 getViewVector() const
         { return m_view_vector; }
+        [[nodiscard]] Vector4 getOverPoint() const
+        { return m_over_point; }
         [[nodiscard]] bool isInsideObject() const
         { return m_is_inside_object; }
 
@@ -91,6 +93,7 @@ namespace gfx {
         Vector4 m_surface_position{ };
         Vector4 m_surface_normal{ };
         Vector4 m_view_vector{ };
+        Vector4 m_over_point{ };
         bool m_is_inside_object{ false };
     };
 

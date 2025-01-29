@@ -15,12 +15,17 @@ namespace gfx {
               m_surface_position{ ray.position(intersection.getT()) },
               m_surface_normal{ intersection.getObject().getSurfaceNormal(m_surface_position) },
               m_view_vector{ -ray.getDirection() },
+              m_over_point{ },
               m_is_inside_object{ false }
     {
+        // Use the angle between the normal and the view vector to determine if origin is inside the object
         if (dotProduct(m_surface_normal, m_view_vector) < 0) {
             m_is_inside_object = true;
             m_surface_normal = -m_surface_normal;
         }
+
+        // Calculate a point slightly above the object surface for use in shadow calculations
+        m_over_point = m_surface_position + m_surface_normal * utils::EPSILON;
     }
 
     std::optional<Intersection> getHit(std::vector<Intersection> intersections)
