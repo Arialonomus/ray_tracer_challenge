@@ -10,8 +10,6 @@ target_sources(gfx PRIVATE
         graphics/utils/util_functions.cpp
         graphics/data_structures/vector4.cpp
         graphics/data_structures/color.cpp
-        graphics/data_structures/matrix2.cpp
-        graphics/data_structures/matrix3.cpp
         graphics/data_structures/matrix4.cpp
         graphics/functions/linear_algebra.cpp
         graphics/functions/transform.cpp

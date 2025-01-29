@@ -9,8 +9,6 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 set(GFX_UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/vector4.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/color.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/matrix2.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/matrix3.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/matrix4.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/functions/transform.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/functions/linear_algebra.test.cpp
