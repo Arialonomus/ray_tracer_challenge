@@ -242,3 +242,30 @@ TEST(GraphicsWorld, CalculatePixelColorHitBehind)
 
     EXPECT_EQ(pixel_color_actual, pixel_color_expected);
 }
+
+// Test shading a color when a ray intersection point is in shadow
+TEST(GraphicsWorld, CalculatePixelColorInShadow)
+{
+    gfx::Sphere sphere_a{ };
+    gfx::Sphere sphere_b{ gfx::createTranslationMatrix(0, 0, 10) };
+    const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
+                                        gfx::createPoint( 0, 0, -10 )};
+    const gfx::World world{ light_source, sphere_a, sphere_b };
+    const gfx::Ray ray{ 0, 0, 5,
+                        0, 0, 1 };
+
+    // Validate state is correctly initialized before repeating this calculation in calculatePixelColor()
+    const std::vector<gfx::Intersection> world_intersections{ world.getIntersections(ray) };
+    auto possible_hit{ getHit(world_intersections) };
+
+    ASSERT_TRUE(possible_hit);
+    const gfx::Intersection intersection_expected{ 4, sphere_b };
+    const gfx::Intersection& intersection_actual{ possible_hit.value() };
+
+    EXPECT_EQ(intersection_actual, intersection_expected);
+
+    const gfx::Color pixel_color_expected{ 0.1, 0.1, 0.1 };
+    const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
+
+    EXPECT_EQ(pixel_color_actual, pixel_color_expected);
+}
