@@ -2,6 +2,8 @@
 #include "intersection.hpp"
 
 #include "sphere.hpp"
+#include "transform.hpp"
+#include "util_functions.hpp"
 
 // Tests the standard constructor
 TEST(GraphicsIntersection, StandardConstructor)
@@ -133,6 +135,19 @@ TEST(GraphicsIntersection, DetailedAssignmentOperator)
     ASSERT_EQ(detailed_intersection_b.getSurfaceNormal(), gfx::createVector(0, 0, -1));
     ASSERT_EQ(detailed_intersection_b.getViewVector(), gfx::createVector(0, 0, -1));
     ASSERT_FALSE(detailed_intersection_b.isInsideObject());
+}
+
+// Tests that a detailed intersection properly calculates the over point when constructed
+TEST(GraphicsIntersection, DetailedIntersectionOverPoint)
+{
+    const gfx::Ray ray{ 0, 0, -5,
+                        0, 0, 1 };
+    const gfx::Sphere shape{ gfx::createTranslationMatrix(0, 0, 1) };
+    const gfx::Intersection intersection{ 5, shape };
+    const gfx::DetailedIntersection detailedIntersection{ intersection, ray };
+
+    ASSERT_TRUE(detailedIntersection.getOverPoint().z() < -utils::EPSILON / 2);
+    ASSERT_TRUE(detailedIntersection.getSurfacePosition().z() > detailedIntersection.getOverPoint().z());
 }
 
 // Tests the getHit functionality for 2-intersection groups when all intersections have positive t values
