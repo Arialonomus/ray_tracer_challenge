@@ -13,7 +13,7 @@ set(GFX_UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/functions/transform.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/functions/linear_algebra.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/ray.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/sphere.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/sphere.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/intersection.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/world.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/material.test.cpp

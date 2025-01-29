@@ -14,7 +14,8 @@ target_sources(gfx PRIVATE
         graphics/functions/linear_algebra.cpp
         graphics/functions/transform.cpp
         graphics/geometry/ray.cpp
-        graphics/geometry/sphere.cpp
+        graphics/geometry/shapes/shape.cpp
+        graphics/geometry/shapes/sphere.cpp
         graphics/geometry/intersection.cpp
         graphics/geometry/world.cpp
         graphics/shading/material.cpp
@@ -26,6 +27,7 @@ target_include_directories(gfx PUBLIC
         graphics/data_structures
         graphics/functions
         graphics/geometry
+        graphics/geometry/shapes
         graphics/shading
         graphics/utils
 )
