@@ -25,14 +25,14 @@ namespace gfx {
         const double a{ dotProduct(transformed_ray.getDirection(), transformed_ray.getDirection()) };
         const double b{ 2 * dotProduct(transformed_ray.getDirection(), sphere_center_distance) };
         const double c{ dotProduct(sphere_center_distance, sphere_center_distance) - 1 };
-        const double discriminant{ std::powf(b, 2) - 4 * a * c };
+        const double discriminant{ std::pow(b, 2) - 4 * a * c };
 
         // No Solutions, return empty vector
-        if (discriminant < 0) {
+        if (utils::isLess(discriminant, 0.0)) {
             return std::vector<Intersection> { };
         }
         // One Solution, return vector with intersection distance listed twice
-        else if (discriminant == 0) {
+        else if (utils::areEqual(discriminant, 0.0)) {
             const Intersection intersection{ -b / (2 * a),
                                              sphere };
             return std::vector<Intersection>{ intersection, intersection };

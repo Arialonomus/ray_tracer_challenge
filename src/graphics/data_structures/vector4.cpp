@@ -112,7 +112,11 @@ namespace gfx {
     double Vector4::magnitude() const
     {
         return std::sqrt(
-                std::pow(m_data[0], 2) + std::pow(m_data[1], 2) + std::pow(m_data[2], 2) + std::pow(m_data[3], 2));
+                    std::pow(m_data[0], 2) +
+                    std::pow(m_data[1], 2) +
+                    std::pow(m_data[2], 2) +
+                    std::pow(m_data[3], 2)
+        );
     }
 
     // Vector Cross Product

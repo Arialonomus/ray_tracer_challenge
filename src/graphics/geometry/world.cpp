@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+#include "util_functions.hpp"
 #include "shading_functions.hpp"
 
 namespace gfx {
@@ -23,7 +24,6 @@ namespace gfx {
         return world_intersections;
     }
 
-
     bool World::isShadowed(const Vector4& point) const
     {
         // Get the direction vector to the light source
@@ -34,7 +34,7 @@ namespace gfx {
         const auto possible_hit{ getHit(this->getIntersections(shadow_ray)) };
 
         // If the intersection occurs closer than the distance to the vector, the point is shadowed
-        if (possible_hit && possible_hit.value().getT() < light_source_displacement.magnitude()) {
+        if (possible_hit && utils::isLess(possible_hit.value().getT(), light_source_displacement.magnitude())) {
             return true;
         }
 

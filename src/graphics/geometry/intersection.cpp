@@ -19,7 +19,7 @@ namespace gfx {
               m_is_inside_object{ false }
     {
         // Use the angle between the normal and the view vector to determine if origin is inside the object
-        if (dotProduct(m_surface_normal, m_view_vector) < 0) {
+        if (utils::isLess(dotProduct(m_surface_normal, m_view_vector), 0.0)) {
             m_is_inside_object = true;
             m_surface_normal = -m_surface_normal;
         }
