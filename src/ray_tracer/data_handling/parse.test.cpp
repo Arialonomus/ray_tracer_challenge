@@ -7,6 +7,7 @@
 
 #include "matrix4.hpp"
 #include "transform.hpp"
+#include "vector4.hpp"
 
 using json = nlohmann::json;
 
@@ -185,4 +186,23 @@ TEST(RayTracerParse, ParseMatrixInvalidJSON)
          const gfx::Matrix4 error_skew_matrix_actual{
                  data::parseTransformMatrixData(error_skew_matrix_data) };
          }, std::invalid_argument);
+}
+
+// Test building a chained transformation matrix from parsed JSON data
+TEST(RayTracerParse, BuildChainedTransformMatrix)
+{
+    const json transform_data_list{ json::array({
+                {{ "type", "translate" }, { "values", json::array({ 10, 5, 7 }) }},
+                {{ "type", "scale" }, { "values", json::array({ 5 }) }},
+                {{ "type", "rotate_x" }, { "values", json::array({ M_PI_2f }) }}
+        })
+    };
+
+    const gfx::Matrix4 transform_matrix_actual{ data::buildChainedTransformMatrix(transform_data_list) };
+    const gfx::Vector4 point_initial{ gfx::createPoint(1, 0, 1) };
+    const gfx::Vector4 point_expected{ gfx::createPoint(15, 0, 7) };
+
+    const gfx::Vector4 point_actual{ transform_matrix_actual * point_initial };
+
+    EXPECT_EQ(point_actual, point_expected);
 }
