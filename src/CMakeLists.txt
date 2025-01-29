@@ -13,6 +13,7 @@ target_sources(gfx PRIVATE
         graphics/data_structures/matrix2.cpp
         graphics/data_structures/matrix3.cpp
         graphics/data_structures/matrix4.cpp
+        graphics/functions/linear_algebra.cpp
         graphics/functions/transform.cpp
         graphics/geometry/ray.cpp
         graphics/geometry/sphere.cpp
