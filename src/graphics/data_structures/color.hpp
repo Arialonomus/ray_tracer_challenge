@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 namespace gfx
 {
     class Color
@@ -8,7 +10,7 @@ namespace gfx
         /* Constructors */
 
         Color() = default;
-        Color(const double r, const double g, const double b) : m_r{ r }, m_g{ g }, m_b{ b } {}
+        Color(const double r, const double g, const double b) : m_data{ r, g, b } {}
         Color(const Color&) = default;
         Color(Color&&) = default;
 
@@ -23,16 +25,16 @@ namespace gfx
 
         /* Accessors */
 
-        [[nodiscard]] double r() const { return m_r; }
-        [[nodiscard]] double g() const { return m_g; }
-        [[nodiscard]] double b() const { return m_b; }
+        [[nodiscard]] double r() const { return m_data[0]; }
+        [[nodiscard]] double g() const { return m_data[1]; }
+        [[nodiscard]] double b() const { return m_data[2]; }
 
         /* Mutators */
         void setValues(const double r, const double g, const double b)
         {
-            m_r = r;
-            m_g = g;
-            m_b = b;
+            m_data[0] = r;
+            m_data[1] = g;
+            m_data[2] = b;
         }
 
         /* Comparison Operator Overloads */
@@ -47,9 +49,7 @@ namespace gfx
         Color& operator*=(double scalar);
 
     private:
-        double m_r{ 0.0 };
-        double m_g{ 0.0 };
-        double m_b{ 0.0 };
+        std::array<double, 3> m_data{ 0.0, 0.0, 0.0 };
     };
 
     /* Global Arithmetic Operator Overloads */

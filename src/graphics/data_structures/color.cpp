@@ -6,17 +6,17 @@ namespace gfx {
     // Equality Operator
     bool Color::operator==(const Color& rhs) const
     {
-        return utils::areEqual(m_r, rhs.r())
-               && utils::areEqual(m_g, rhs.g())
-               && utils::areEqual(m_b, rhs.b());
+        return utils::areEqual(m_data[0], rhs.r())
+               && utils::areEqual(m_data[1], rhs.g())
+               && utils::areEqual(m_data[2], rhs.b());
     }
     
     // Addition Shorthand Operator
     Color& Color::operator+=(const Color& rhs)
     {
-        m_r += rhs.r();
-        m_g += rhs.g();
-        m_b += rhs.b();
+        m_data[0] += rhs.r();
+        m_data[1] += rhs.g();
+        m_data[2] += rhs.b();
     
         return *this;
     }
@@ -24,9 +24,9 @@ namespace gfx {
     // Subtraction Shorthand Operator
     Color& Color::operator-=(const Color& rhs)
     {
-        m_r -= rhs.r();
-        m_g -= rhs.g();
-        m_b -= rhs.b();
+        m_data[0] -= rhs.r();
+        m_data[1] -= rhs.g();
+        m_data[2] -= rhs.b();
     
         return *this;
     }
@@ -34,9 +34,9 @@ namespace gfx {
     // Color Multiplication (Hadamard Product) Shorthand Operator
     Color& Color::operator*=(const Color& rhs)
     {
-        m_r *= rhs.r();
-        m_g *= rhs.g();
-        m_b *= rhs.b();
+        m_data[0] *= rhs.r();
+        m_data[1] *= rhs.g();
+        m_data[2] *= rhs.b();
     
         return *this;
     }
@@ -44,9 +44,9 @@ namespace gfx {
     // Scalar Multiplication Shorthand Operator
     Color& Color::operator*=(const double scalar)
     {
-        m_r *= scalar;
-        m_g *= scalar;
-        m_b *= scalar;
+        m_data[0] *= scalar;
+        m_data[1] *= scalar;
+        m_data[2] *= scalar;
     
         return *this;
     }
