@@ -49,12 +49,16 @@ namespace gfx {
 
         // Hit found calculate the color at that position
         if (possible_hit) {
+            // Pre-compute values to utilize in shadow and reflection calculations
             const DetailedIntersection detailed_hit{ possible_hit.value(), ray };
+            const bool is_shadowed{ this->isShadowed(detailed_hit.getOverPoint()) };
+
             return calculateSurfaceColor(detailed_hit.getObject().getMaterial(),
                                          m_light_source,
                                          detailed_hit.getIntersectionPosition(),
                                          detailed_hit.getSurfaceNormal(),
-                                         detailed_hit.getViewVector());
+                                         detailed_hit.getViewVector(),
+                                         is_shadowed);
         }
         // No hit found, return black
         else {
