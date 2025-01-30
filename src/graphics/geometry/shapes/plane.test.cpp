@@ -98,3 +98,19 @@ const gfx::Plane plane_b{ };
 
 ASSERT_TRUE(plane_a != plane_b);
 }
+
+// Tests that the normal of a plane is constant everywhere
+TEST(GraphicsPlane, NormalVectorIsConstant)
+{
+    const gfx::Plane plane{ };
+    const gfx::Vector4 normal_expected{ gfx::createVector(0, 1, 0)};
+
+    const gfx::Vector4 normal_a_actual{ plane.getSurfaceNormal(gfx::createPoint(0, 0, 0)) };
+    EXPECT_EQ(normal_a_actual, normal_expected);
+
+    const gfx::Vector4 normal_b_actual{ plane.getSurfaceNormal(gfx::createPoint(10, 0, -10)) };
+    EXPECT_EQ(normal_b_actual, normal_expected);
+
+    const gfx::Vector4 normal_c_actual{ plane.getSurfaceNormal(gfx::createPoint(-5, 0, 150)) };
+    EXPECT_EQ(normal_c_actual, normal_expected);
+}
