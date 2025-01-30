@@ -60,5 +60,14 @@ namespace gfx
     [[nodiscard]] Color operator*(const Color& lhs, double rhs);
     [[nodiscard]] Color operator*(double lhs, const Color& rhs);
 
+    /* Color Factory Functions */
 
+    [[nodiscard]] Color black() { return Color{ 0, 0, 0 }; }
+    [[nodiscard]] Color white() { return Color{ 1, 1, 1 }; }
+    [[nodiscard]] Color red() { return Color{ 1, 0, 0 }; }
+    [[nodiscard]] Color green() { return Color{ 0, 1, 0 }; }
+    [[nodiscard]] Color blue() { return Color{ 0, 0, 1 }; }
+    [[nodiscard]] Color yellow() { return Color{ 1, 1, 0 }; }
+    [[nodiscard]] Color cyan() { return Color{ 0, 1, 1 }; }
+    [[nodiscard]] Color magenta() { return Color{ 1, 0, 1 }; }
 }
