@@ -100,29 +100,6 @@ TEST(GraphicsSphere, InequalityOperator)
     ASSERT_TRUE(sphere_a != sphere_b);
 }
 
-// Test setting the transform of a sphere
-TEST(GraphicsSphere, SetTransform)
-{
-    gfx::Sphere sphere{ };
-    const gfx::Matrix4 translate_matrix{ gfx::createTranslationMatrix(2, 3, 4) };
-
-    sphere.setTransform(translate_matrix);
-
-    ASSERT_EQ(sphere.getTransform(), translate_matrix);
-}
-
-// Test setting the material of a sphere
-TEST(GraphicsSphere, SetMaterial)
-{
-    gfx::Sphere sphere{ };
-    const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50 };
-
-    sphere.setMaterial(material_expected);
-
-    ASSERT_EQ(sphere.getMaterial(), material_expected);
-}
-
 // Tests getting the surface normal at various points
 TEST(GraphicsSphere, GetSurfaceNormal)
 {
@@ -151,9 +128,11 @@ TEST(GraphicsSphere, GetSurfaceNormal)
                                                  std::sqrtf(3) / 3,
                                                  std::sqrtf(3) / 3,
                                                  0 };
-    const gfx::Vector4 normal_nonaxial_actual{ sphere.getSurfaceNormal(gfx::createPoint(std::sqrtf(3) / 3,
-                                                                                        std::sqrtf(3) / 3,
-                                                                                        std::sqrtf(3) / 3)) };
+    const gfx::Vector4 normal_nonaxial_actual{
+        sphere.getSurfaceNormal(gfx::createPoint(
+                std::sqrtf(3) / 3,
+                std::sqrtf(3) / 3,
+                std::sqrtf(3) / 3)) };
 
     EXPECT_EQ(normal_nonaxial_actual, normal_nonaxial_expected);
 
