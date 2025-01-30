@@ -114,3 +114,51 @@ TEST(GraphicsPlane, NormalVectorIsConstant)
     const gfx::Vector4 normal_c_actual{ plane.getSurfaceNormal(gfx::createPoint(-5, 0, 150)) };
     EXPECT_EQ(normal_c_actual, normal_expected);
 }
+
+// Tests calculating intersections with a ray parallel to the plane
+TEST(GraphicsPlane, RayPlaneIntersectionParallelRay)
+{
+    const gfx::Plane plane{ };
+    const gfx::Ray parallel_ray{ 0, 10, 0,
+                                 0, 0, 1} ;
+
+    auto intersections{ plane.getIntersections(parallel_ray) };
+    EXPECT_EQ(intersections.size(), 0);
+}
+
+// Tests calculating intersections with a ray coplanar to the plane
+TEST(GraphicsPlane, RayPlaneIntersectionCoplanarRay)
+{
+    const gfx::Plane plane{ };
+    const gfx::Ray coplanar_ray{ 0, 0, 0,
+                                 0, 0, 1} ;
+
+    auto intersections{ plane.getIntersections(coplanar_ray) };
+    EXPECT_EQ(intersections.size(), 0);
+}
+
+// Tests calculating intersections with a ray intersecting the plane from above
+TEST(GraphicsPlane, RayPlaneIntersectionRayOriginAbove)
+{
+    const gfx::Plane plane{ };
+    const gfx::Ray ray_origin_above{ 0, 1, 0,
+                                 0, -1, 0} ;
+
+    auto intersections{ plane.getIntersections(ray_origin_above) };
+    ASSERT_EQ(intersections.size(), 1);
+    EXPECT_FLOAT_EQ(intersections.at(0).getT(), 1);
+    EXPECT_EQ(&intersections.at(0).getObject(), &plane);
+}
+
+// Tests calculating intersections with a ray intersecting the plane from below
+TEST(GraphicsPlane, RayPlaneIntersectionRayOriginBelow)
+{
+    const gfx::Plane plane{ };
+    const gfx::Ray ray_origin_below{ 0, -1, 0,
+                                     0, 1, 0} ;
+
+    auto intersections{ plane.getIntersections(ray_origin_below) };
+    ASSERT_EQ(intersections.size(), 1);
+    EXPECT_FLOAT_EQ(intersections.at(0).getT(), 1);
+    EXPECT_EQ(&intersections.at(0).getObject(), &plane);
+}
