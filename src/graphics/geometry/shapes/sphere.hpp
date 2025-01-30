@@ -40,6 +40,10 @@ namespace gfx {
 
         [[nodiscard]] bool operator==(const Sphere& rhs) const;
 
+        // Creates a clone of this sphere to be stored in a world object list
+        [[nodiscard]] std::shared_ptr<Shape> clone() const override
+        { return std::make_shared<Sphere>(*this); }
+
     private:
         /* Helper Method Overrides */
 

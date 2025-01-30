@@ -25,6 +25,9 @@ public:
             : Shape{ transform, material }, m_transformed_ray{ }
     {}
 
+    [[nodiscard]] std::shared_ptr<Shape> clone() const override
+    { return std::make_shared<TestShape>(*this); }
+
     [[nodiscard]] gfx::Ray getTransformedRay() const
     { return m_transformed_ray; }
 private:
@@ -89,7 +92,7 @@ TEST(GraphicsShape, BaseClassStandardConstructor)
 // Tests setting the transform of a shape
 TEST(GraphicsShape, SetTransform)
 {
-    const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };;
+    const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     TestShape shape{ };
 
     shape.setTransform(transform_expected);

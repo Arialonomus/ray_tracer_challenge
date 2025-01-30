@@ -32,6 +32,12 @@ namespace gfx {
 
         [[nodiscard]] bool operator==(const Plane& rhs) const;
 
+        /* Object Operations */
+
+        // Creates a clone of this plane to be stored in a world object list
+        [[nodiscard]] std::shared_ptr<Shape> clone() const override
+        { return std::make_shared<Plane>(*this); }
+
     private:
         /* Helper Method Overrides */
 
