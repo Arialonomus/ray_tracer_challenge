@@ -259,7 +259,7 @@ TEST(GraphicsWorld, CalculatePixelColorInShadow)
     auto possible_hit{ getHit(world_intersections) };
 
     ASSERT_TRUE(possible_hit);
-    const gfx::Intersection intersection_expected{ 4, sphere_b };
+    const gfx::Intersection intersection_expected{ 4, &world.getObjectAt(1) };
     const gfx::Intersection& intersection_actual{ possible_hit.value() };
 
     EXPECT_EQ(intersection_actual, intersection_expected);
