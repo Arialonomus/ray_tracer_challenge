@@ -16,6 +16,7 @@ target_sources(gfx PRIVATE
         graphics/geometry/ray.cpp
         graphics/geometry/shapes/shape.cpp
         graphics/geometry/shapes/sphere.cpp
+        graphics/geometry/shapes/plane.cpp
         graphics/geometry/intersection.cpp
         graphics/geometry/world.cpp
         graphics/shading/material.cpp
