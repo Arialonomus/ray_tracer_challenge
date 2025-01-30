@@ -9,6 +9,11 @@
 #include "ray.hpp"
 
 namespace gfx {
+
+    // Forward Declarations
+    class Ray;
+    class Intersection;
+
     class Shape
     {
     public:
