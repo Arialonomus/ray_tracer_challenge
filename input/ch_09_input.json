@@ -1,0 +1,91 @@
+{
+  "world": {
+    "light_source": {
+      "intensity": [1, 1, 1],
+      "position": [-10, 10, -10]
+    },
+    "objects": [
+      {
+        "object_name": "floor",
+        "shape": "plane",
+        "transform": [],
+        "material": {
+          "color": [1, 0.9, 0.9],
+          "ambient": 0.1,
+          "diffuse": 0.9,
+          "specular": 0,
+          "shininess": 200
+        }
+      },
+      {
+        "object_name": "sphere_a",
+        "shape": "sphere",
+        "transform": [
+          {
+            "type": "translate",
+            "values": [-0.5, 1, 0.5]
+          }
+        ],
+        "material": {
+          "color": [0.1, 1, 0.5],
+          "ambient": 0.1,
+          "diffuse": 0.7,
+          "specular": 0.3,
+          "shininess": 200
+        }
+      },
+      {
+        "object_name": "sphere_b",
+        "shape": "sphere",
+        "transform": [
+          {
+            "type": "translate",
+            "values": [1.5, 0.5, -0.5]
+          },
+          {
+            "type": "scale",
+            "values": [0.5]
+          }
+        ],
+        "material": {
+          "color": [0.5, 1, 0.1],
+          "ambient": 0.1,
+          "diffuse": 0.7,
+          "specular": 0.3,
+          "shininess": 200
+        }
+      },
+      {
+        "object_name": "sphere_c",
+        "shape": "sphere",
+        "transform": [
+          {
+            "type": "translate",
+            "values": [-1.5, 0.33, -0.75]
+          },
+          {
+            "type": "scale",
+            "values": [0.33]
+          }
+        ],
+        "material": {
+          "color": [1, 0.8, 0.1],
+          "ambient": 0.1,
+          "diffuse": 0.7,
+          "specular": 0.3,
+          "shininess": 200
+        }
+      }
+    ]
+  },
+  "camera": {
+    "viewport_width": 400,
+    "viewport_height": 200,
+    "field_of_view": 1.0471975512,
+    "transform": {
+      "input_base": [0, 1.5, -5],
+      "output_base": [0, 1, 0],
+      "up_vector": [0, 1, 0]
+    }
+  }
+}
