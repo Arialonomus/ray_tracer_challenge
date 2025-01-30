@@ -44,7 +44,7 @@ TEST(GraphicsWorld, ObjectListConstructorSingleObject)
     ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
     ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
     ASSERT_EQ(world.getObjectCount(), 1);
-    ASSERT_EQ(world.getObjectAt(0), sphere_a);
+    ASSERT_EQ(dynamic_cast<const gfx::Sphere&>(world.getObjectAt(0)), sphere_a);
 }
 
 // Tests the object list constructor (multiple objects)
@@ -59,8 +59,8 @@ TEST(GraphicsWorld, ObjectListConstructorMultipleObjects)
     ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
     ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
     ASSERT_EQ(world.getObjectCount(), 2);
-    ASSERT_EQ(world.getObjectAt(0), sphere_a);
-    ASSERT_EQ(world.getObjectAt(1), sphere_b);
+    ASSERT_EQ(dynamic_cast<const gfx::Sphere&>(world.getObjectAt(0)), sphere_a);
+    ASSERT_EQ(dynamic_cast<const gfx::Sphere&>(world.getObjectAt(1)), sphere_b);
 }
 
 // Tests the standard constructor
@@ -75,8 +75,8 @@ TEST(GraphicsWorld, StandardConstructor)
     ASSERT_EQ(world.getLightSource().intensity, light_source_expected.intensity);
     ASSERT_EQ(world.getLightSource().position, light_source_expected.position);
     ASSERT_EQ(world.getObjectCount(), 2);
-    ASSERT_EQ(world.getObjectAt(0), sphere_a);
-    ASSERT_EQ(world.getObjectAt(1), sphere_b);
+    ASSERT_EQ(dynamic_cast<const gfx::Sphere&>(world.getObjectAt(0)), sphere_a);
+    ASSERT_EQ(dynamic_cast<const gfx::Sphere&>(world.getObjectAt(1)), sphere_b);
 }
 
 // Tests getting the number of objects in the world
@@ -106,7 +106,7 @@ TEST(GraphicsWorld, AddObject)
     world.addObject(sphere_a);
 
     ASSERT_EQ(world.getObjectCount(), 1);
-    ASSERT_EQ(world.getObjectAt(0), sphere_a);
+    ASSERT_EQ(dynamic_cast<const gfx::Sphere&>(world.getObjectAt(0)), sphere_a);
 }
 
 // Tests calculating world intersections
