@@ -4,6 +4,8 @@
 #include <unordered_map>
 
 #include "transform.hpp"
+#include "plane.hpp"
+#include "sphere.hpp"
 
 namespace data{
     Scene parseSceneData(const json& scene_data)
@@ -65,6 +67,47 @@ namespace data{
         };
 
         return Scene{ world, camera };
+    }
+
+    std::shared_ptr<gfx::Shape> parseObjectData(const json& object_data)
+    {
+        // Build the transform matrix
+        gfx::Matrix4 transform_matrix{ buildChainedTransformMatrix(object_data["transform"]) };
+
+        // Extract the material data
+        const json& material_data{ object_data["material"] };
+        const std::vector<double> color_vals{
+                material_data["color"].get<std::vector<double>>() };
+        const gfx::Material material{
+                gfx::Color{ color_vals[0], color_vals[1], color_vals[2] },
+                material_data["ambient"],
+                material_data["diffuse"],
+                material_data["specular"],
+                material_data["shininess"]
+        };
+
+        // Define string-to-case mapping for possible shape primitives
+        enum class Cases{ Plane, Sphere };
+        static const std::unordered_map<std::string_view, Cases> stringToCaseMap{
+                {"plane",     Cases::Plane},
+                {"sphere",    Cases::Sphere}
+        };
+
+        // Convert the string to a Case for use in the switch statement
+        std::string_view shape_type_str{ object_data["shape"].get<std::string_view>() };
+        auto it{ stringToCaseMap.find(shape_type_str) };
+        if (it == stringToCaseMap.end()) {
+            throw std::invalid_argument("Invalid shape type, check spelling in scene data input file");
+        }
+        Cases shape_type{ it->second };
+
+        // Create and return the object
+        switch (shape_type) {
+            case Cases::Plane:
+                return std::make_shared<gfx::Plane>(gfx::Plane{ transform_matrix, material });
+            case Cases::Sphere:
+                return std::make_shared<gfx::Sphere>(gfx::Sphere{ transform_matrix, material });
+        }
     }
 
     gfx::Matrix4 buildChainedTransformMatrix(const json& transform_data_list)
