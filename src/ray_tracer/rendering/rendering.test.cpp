@@ -5,6 +5,7 @@
 
 #include "color.hpp"
 #include "material.hpp"
+#include "sphere.hpp"
 #include "vector4.hpp"
 #include "transform.hpp"
 
