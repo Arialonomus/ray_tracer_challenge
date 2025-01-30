@@ -1,30 +1,36 @@
 #pragma once
 
+#include "shape.hpp"
+
+#include <vector>
+
 #include "matrix4.hpp"
 #include "vector4.hpp"
 #include "material.hpp"
+#include "intersection.hpp"
+#include "ray.hpp"
 
 namespace gfx {
-    class Sphere
+    class Sphere : public Shape
     {
     public:
         /* Constructors */
 
         Sphere() = default;
-        Sphere(const Matrix4& transform, const Material& material)
-                : m_transform{ transform }, m_material{ material }
-        {}
         explicit Sphere(const Matrix4& transform)
-                : m_transform{ transform }, m_material{ }
+                : Shape{ transform }
         {}
         explicit Sphere(const Material& material)
-                : m_transform{ gfx::createIdentityMatrix() }, m_material{ material }
+                : Shape{ material }
+        {}
+        Sphere(const Matrix4& transform, const Material& material)
+                : Shape{ transform, material }
         {}
         Sphere(const Sphere&) = default;
 
         /* Destructor */
 
-        ~Sphere() = default;
+        ~Sphere() override = default;
 
         /* Assignment Operators */
 
@@ -34,27 +40,10 @@ namespace gfx {
 
         [[nodiscard]] bool operator==(const Sphere& rhs) const;
 
-        /* Accessors */
-
-        [[nodiscard]] const Matrix4& getTransform() const
-        { return m_transform; }
-        [[nodiscard]] const Material& getMaterial() const
-        { return m_material; }
-
-        /* Mutators */
-
-        void setTransform(const Matrix4& transform_matrix)
-        { m_transform = transform_matrix; }
-        void setMaterial(const Material& material)
-        { m_material = material; }
-
-        /* Geometric Operations */
-
-        // Returns the surface normal vector at a passed-in world_point
-        [[nodiscard]] Vector4 getSurfaceNormal(const Vector4& world_point) const;
-
     private:
-        Matrix4 m_transform{ gfx::createIdentityMatrix() };
-        Material m_material{ };
+        /* Helper Method Overrides */
+
+        [[nodiscard]] Vector4 calculateSurfaceNormal(const Vector4& transformed_point) const override;
+        [[nodiscard]] std::vector<Intersection> calculateIntersections(const Ray& transformed_ray) const override;
     };
 }
