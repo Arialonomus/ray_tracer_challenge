@@ -12,8 +12,8 @@ namespace gfx {
         std::vector<Intersection> world_intersections{ };
 
         // Determine intersections for each object and aggregate into a single list
-        for (const Sphere& object : m_objects) {
-            std::vector<Intersection> object_intersections{ ray.getIntersections(object) };
+        for (const Shape& object : m_objects) {
+            std::vector<Intersection> object_intersections{ object.getIntersections(ray) };
             world_intersections.insert(world_intersections.end(),
                                        object_intersections.begin(),
                                        object_intersections.end());
