@@ -1,5 +1,9 @@
 #include "plane.hpp"
 
+#include <cmath>
+
+#include "util_functions.hpp"
+
 namespace gfx {
 // Equality Operator
     bool Plane::operator==(const Plane& rhs) const
@@ -16,6 +20,15 @@ namespace gfx {
     // Ray-Plane Intersection Calculator
     std::vector<Intersection> Plane::calculateIntersections(const Ray& transformed_ray) const
     {
-        return std::vector<Intersection>{ };
+        const double ray_y_direction = transformed_ray.getDirection().y();
+
+        // Ray is parallel or coplanar to the plane
+        if (std::abs(ray_y_direction) < utils::EPSILON) {
+            return std::vector<Intersection>{ };
+        }
+
+        // Ray intersects plane (assume plane is defined as xz-plane)
+        return std::vector<Intersection>{ Intersection{ -transformed_ray.getOrigin().y() / ray_y_direction,
+                                                        this } };
     }
 }
