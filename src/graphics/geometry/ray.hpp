@@ -3,13 +3,9 @@
 #include <vector>
 
 #include "vector4.hpp"
-#include "intersection.hpp"
-#include "sphere.hpp"
+#include "matrix4.hpp"
 
 namespace gfx {
-
-    class Intersection;     // Forward declaration
-
     class Ray
     {
     public:
@@ -54,13 +50,11 @@ namespace gfx {
 
         /* Ray-Tracing Operations */
 
-        // Returns a vector of floats representing the t-values at which ray intersects a passed-in sphere
-        [[nodiscard]] std::vector<Intersection> getIntersections(const Sphere& sphere) const;
-
         // Returns a ray transformed by multiplying it with a passed-in transformation matrix
         [[nodiscard]] Ray transform(const Matrix4& transform_matrix) const;
 
     private:
+        /* Data Members */
         Vector4 m_origin{ 0.0, 0.0, 0.0, 1.0 };
         Vector4 m_direction{ 0.0, 0.0, 0.0, 0.0 };
     };
