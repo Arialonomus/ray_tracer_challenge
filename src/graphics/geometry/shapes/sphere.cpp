@@ -1,26 +1,49 @@
 #include "sphere.hpp"
 
+#include <cmath>
+
+#include "util_functions.hpp"
+
 namespace gfx {
     // Equality Operator
     bool Sphere::operator==(const Sphere& rhs) const
     {
-        return m_transform == rhs.getTransform() && m_material == rhs.getMaterial();
+        return this->getTransform() == rhs.getTransform() && this->getMaterial() == rhs.getMaterial();
     }
 
-    // Surface Normal at a Point
-    Vector4 Sphere::getSurfaceNormal(const Vector4& world_point) const
+    // Surface Normal for a Sphere
+    Vector4 Sphere::calculateSurfaceNormal(const Vector4& transformed_point) const
     {
-        // Transform the point from world space to object space
-        const Matrix4 transform_inverse{ m_transform.inverse() };
-        const Vector4 object_point{ transform_inverse * world_point };
+        return Vector4{ transformed_point - createPoint(0, 0, 0) };
+    }
 
-        // Calculate the normal and transform the normal vector back to world space
-        const Vector4 object_normal{ object_point - createPoint(0, 0, 0) };
-        Vector4 world_normal{ transform_inverse.transpose() * object_normal };
+    // Ray-Sphere Intersection Calculator
+    std::vector<Intersection> Sphere::calculateIntersections(const Ray& transformed_ray) const
+    {
+        // Get the distance from the origin to the center of the sphere
+        const Vector4 sphere_center{ createPoint(0, 0, 0) };
+        const Vector4 sphere_center_distance{ transformed_ray.getOrigin() - sphere_center };
 
-        // Reset the w-value in case the shape's transformation matrix included a translation
-        world_normal.resetW();
+        // Calculate the discriminant of the polynomial whose solutions are the intersections with the sphere
+        const double a{ dotProduct(transformed_ray.getDirection(), transformed_ray.getDirection()) };
+        const double b{ 2 * dotProduct(transformed_ray.getDirection(), sphere_center_distance) };
+        const double c{ dotProduct(sphere_center_distance, sphere_center_distance) - 1 };
+        const double discriminant{ std::pow(b, 2) - 4 * a * c };
 
-        return normalize(world_normal);
+        // No Solutions, return empty vector
+        if (utils::isLess(discriminant, 0.0)) {
+            return std::vector<Intersection>{};
+        }
+        // One Solution, return vector with intersection distance listed twice
+        else if (utils::areEqual(discriminant, 0.0)) {
+            const Intersection intersection{ -b / (2 * a), this };
+            return std::vector<Intersection>{ intersection, intersection };
+        }
+        // Two Solutions, return vector with intersection distances
+        else {
+            const Intersection intersection_a{ (-b - std::sqrt(discriminant)) / (2 * a), this };
+            const Intersection intersection_b{ (-b + std::sqrt(discriminant)) / (2 * a), this };
+            return std::vector<Intersection>{ intersection_a, intersection_b };
+        }
     }
 }
