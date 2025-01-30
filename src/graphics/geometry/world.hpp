@@ -1,37 +1,64 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include "light.hpp"
 #include "vector4.hpp"
-#include "sphere.hpp"
 #include "ray.hpp"
 #include "intersection.hpp"
 
 namespace gfx {
+    class Shape;
+    class Intersection;
+
     class World
     {
     public:
         /* Constructors */
 
+        // Default Constructor
         World() = default;
-        explicit World(const PointLight& light_source)
-                : m_light_source{ light_source },
-                  m_objects{}
-        {}
-        template<typename... ObjectRefs>
-        explicit World(const Sphere& first_object, const ObjectRefs&... remaining_objects)
+
+        // Point Light Constructor
+        explicit World(const PointLight& light_source);
+
+        // Object List Constructors
+        template<typename... ShapePtrs>
+        explicit World(const std::shared_ptr<Shape>& first_object,
+                       const ShapePtrs&... remaining_objects)
                 : m_light_source{ Color{ 1, 1, 1 },
                                   createPoint(-10, 10, -10) },
-                  m_objects{ first_object, remaining_objects... }
+                m_objects { first_object, remaining_objects...  }
         {}
-        template<typename... ObjectRefs>
-        World(const PointLight& light_source, const Sphere& first_object,
-              const ObjectRefs&... remaining_objects)
+
+        template<typename... ShapeRefs>
+        explicit World(const Shape& first_object,
+                       const ShapeRefs&... remaining_objects)
+                : m_light_source{ Color{ 1, 1, 1 },
+                                  createPoint(-10, 10, -10) }
+        { addObjects(first_object, remaining_objects...); }
+
+        // Standard Constructors
+        template<typename... ShapePtrs>
+        World(const PointLight& light_source,
+              const std::shared_ptr<Shape>& first_object,
+              const ShapePtrs&... remaining_objects)
                 : m_light_source{ light_source },
-                  m_objects{ first_object, remaining_objects... }
+                m_objects { first_object, remaining_objects...  }
         {}
-        World(World&) = default;
+
+        template<typename... ShapeRefs>
+        World(const PointLight& light_source,
+              const Shape& first_object,
+              const ShapeRefs&... remaining_objects)
+                : m_light_source{ light_source }
+        { addObjects(first_object, remaining_objects...); }
+
+        // Copy Constructor
+        World(const World&) = default;
+
+        // Move Constructor
         World(World&&) = default;
 
         /* Destructor */
@@ -54,13 +81,14 @@ namespace gfx {
         [[nodiscard]] bool isEmpty() const
         { return m_objects.empty(); }
 
-        [[nodiscard]] const Sphere& getObjectAt(const size_t index) const
-        { return m_objects.at(index); }
+        [[nodiscard]] const Shape& getObjectAt(const size_t index) const
+        { return *m_objects.at(index); }
 
         /* Mutators */
 
-        void addObject(const Sphere& object)
-        { m_objects.push_back(object); }
+        // Adds a single object to the world
+        void addObject(const Shape& object);
+        void addObject(std::shared_ptr<Shape> object);
 
         /* Ray-Tracing Operations */
 
@@ -73,10 +101,21 @@ namespace gfx {
         // Returns the pixel color for the ray hit using pre-computed vector data for that point in world space
         [[nodiscard]] Color calculatePixelColor(const Ray& ray) const;
 
-
     private:
+        /* Data Members */
+
         PointLight m_light_source{ Color{ 1, 1, 1 },
                                    createPoint(-10, 10, -10) };
-        std::vector<Sphere> m_objects{ };
+        std::vector<std::shared_ptr<Shape>> m_objects{ };
+
+        /* Helper Methods */
+
+        // Add multiple objects passed in as references to the world
+        template<typename... ShapeRefs>
+        void addObjects(const Shape& first_object, const ShapeRefs&... remaining_objects) {
+            this->addObject(first_object);
+            addObjects(remaining_objects...);
+        }
+        void addObjects() {}    // Base case for recursion
     };
 }

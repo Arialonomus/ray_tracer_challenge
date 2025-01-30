@@ -2,18 +2,36 @@
 
 #include <algorithm>
 
+#include "shape.hpp"
 #include "util_functions.hpp"
 #include "shading_functions.hpp"
 
 namespace gfx {
+    // Point Light Constructor
+    World::World(const PointLight& light_source)
+            : m_light_source{ light_source }
+    {}
+
+    // Object Inserter (from object ref)
+    void World::addObject(const Shape& object)
+    {
+        m_objects.push_back(object.clone());
+    }
+
+    // Object Inserter (from pointer)
+    void World::addObject(std::shared_ptr<Shape> object)
+    {
+        m_objects.push_back(object);
+    }
+
     // World Intersection Calculator
     std::vector<Intersection> World::getIntersections(const Ray& ray) const
     {
         std::vector<Intersection> world_intersections{ };
 
         // Determine intersections for each object and aggregate into a single list
-        for (const Shape& object : m_objects) {
-            std::vector<Intersection> object_intersections{ object.getIntersections(ray) };
+        for (const auto& object : m_objects) {
+            std::vector<Intersection> object_intersections{ object->getIntersections(ray) };
             world_intersections.insert(world_intersections.end(),
                                        object_intersections.begin(),
                                        object_intersections.end());
