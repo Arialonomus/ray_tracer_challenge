@@ -23,27 +23,10 @@ namespace data{
         // Create the world with the light source
         gfx::World world{ light_source };
 
-        // Get the object data
+        // Add all the objects to the scene
         const json& object_data_list{ scene_data["world"]["objects"] };
         for (const auto& object_data : object_data_list) {
-            // Build the transform matrix
-            gfx::Matrix4 transform_matrix{ buildChainedTransformMatrix(object_data["transform"]) };
-
-            // Extract the material data
-            const json& material_data{ object_data["material"] };
-            const std::vector<double> color_vals{
-                material_data["color"].get<std::vector<double>>() };
-            const gfx::Material material{
-                gfx::Color{ color_vals[0], color_vals[1], color_vals[2] },
-                material_data["ambient"],
-                material_data["diffuse"],
-                material_data["specular"],
-                material_data["shininess"]
-            };
-
-            // Create the object and add to the object list
-            const gfx::Sphere object{ transform_matrix, material };
-            world.addObject(object);
+            world.addObject(parseObjectData(object_data));
         }
 
         // Get the camera data
@@ -59,6 +42,8 @@ namespace data{
                 gfx::createVector(up_vector_vals[0], up_vector_vals[1], up_vector_vals[2])
                 )
         };
+
+        // Create the camera
         const rt::Camera camera{
             camera_data["viewport_width"],
             camera_data["viewport_height"],
