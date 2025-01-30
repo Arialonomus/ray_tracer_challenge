@@ -106,93 +106,12 @@ TEST(GraphicsRay, Position)
     EXPECT_EQ(ray.position(2.5), position_d_expected);
 }
 
-// Tests that Intersections returned from getIntersections correctly refer to the intersected object
-TEST(GraphicsRay, GetIntersectionsCorrectReference)
-{
-    const gfx::Ray ray{ 0, 0, -5,
-                        0, 0, 1 };
-    const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
-
-    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
-
-    EXPECT_EQ(intersections.size(), 2);
-    EXPECT_EQ(&intersections.at(0).getObject(), &sphere);
-    EXPECT_EQ(&intersections.at(1).getObject(), &sphere);
-}
-
-// Tests a ray intersecting a sphere at two points
-TEST(GraphicsRay, RaySphereFullIntersection)
-{
-    const gfx::Ray ray{ 0, 0, -5,
-                        0, 0, 1 };
-    const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
-
-    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
-
-    EXPECT_EQ(intersections.size(), 2);
-    EXPECT_FLOAT_EQ(intersections.at(0).getT(), 4.0);
-    EXPECT_FLOAT_EQ(intersections.at(1).getT(), 6.0);
-}
-
-// Tests a ray intersecting a sphere at one point (ray is tangent to the sphere)
-TEST(GraphicsRay, RaySphereTangentIntersection)
-{
-    const gfx::Ray ray{ 0, 1, -5,
-                        0, 0, 1 };
-    const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
-
-    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
-
-    EXPECT_EQ(intersections.size(), 2);
-    EXPECT_FLOAT_EQ(intersections.at(0).getT(), 5.0);
-    EXPECT_FLOAT_EQ(intersections.at(1).getT(), 5.0);
-}
-
-// Tests a ray missing a sphere
-TEST(GraphicsRay, RaySphereMiss)
-{
-    const gfx::Ray ray{ 0, 2, -5,
-                        0, 0, 1 };
-    const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
-
-    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
-
-    EXPECT_EQ(intersections.size(), 0);
-}
-
-// Tests a ray originating inside a sphere
-TEST(GraphicsRay, RayIntersectionOriginInSphere)
-{
-    const gfx::Ray ray{ 0, 0, 0,
-                        0, 0, 1 };
-    const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
-
-    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
-
-    EXPECT_EQ(intersections.size(), 2);
-    EXPECT_FLOAT_EQ(intersections.at(0).getT(), -1.0);
-    EXPECT_FLOAT_EQ(intersections.at(1).getT(), 1.0);
-}
-
-// Tests a ray originating beyond a sphere
-TEST(GraphicsRay, RayIntersectionOriginBeyondSphere)
-{
-    const gfx::Ray ray{ 0, 0, 5,
-                        0, 0, 1 };
-    const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
-
-    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere) };
-
-    EXPECT_EQ(intersections.size(), 2);
-    EXPECT_FLOAT_EQ(intersections.at(0).getT(), -6.0);
-    EXPECT_FLOAT_EQ(intersections.at(1).getT(), -4.0);
-}
 
 // Tests translating a ray using the transform method
 TEST(GraphicsRay, RayTransformTranslate)
 {
     const gfx::Ray ray_initial{ 1, 2, 3,
-                        0, 1, 0 };
+                                0, 1, 0 };
     const gfx::Matrix4 translate_matrix{ gfx::createTranslationMatrix(3, 4, 5) };
 
     const gfx::Ray ray_transformed{ ray_initial.transform(translate_matrix) };
@@ -214,30 +133,4 @@ TEST(GraphicsRay, RayTransformScale)
                                  0, 3, 0 };
 
     EXPECT_EQ(ray_transformed, ray_expected);
-}
-
-// Tests ray-sphere intersection with a scaled sphere
-TEST(GraphicsRay, RayScaledSphereIntersection)
-{
-    const gfx::Ray ray{ 0, 0, -5,
-                        0, 0, 1 };
-    const gfx::Sphere sphere_scaled{ gfx::createScalingMatrix(2) };
-
-    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere_scaled) };
-
-    EXPECT_EQ(intersections.size(), 2);
-    EXPECT_FLOAT_EQ(intersections.at(0).getT(), 3);
-    EXPECT_FLOAT_EQ(intersections.at(1).getT(), 7);
-}
-
-// Tests ray-sphere intersection with a translated sphere
-TEST(GraphicsRay, RayTranslatedSphereIntersection)
-{
-    const gfx::Ray ray{ 0, 0, -5,
-                        0, 0, 1 };
-    const gfx::Sphere sphere_scaled{ gfx::createTranslationMatrix(5, 0, 0) };
-
-    std::vector<gfx::Intersection> intersections{ ray.getIntersections(sphere_scaled) };
-
-    EXPECT_EQ(intersections.size(), 0);
 }
