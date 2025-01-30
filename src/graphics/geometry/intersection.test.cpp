@@ -9,7 +9,7 @@
 TEST(GraphicsIntersection, StandardConstructor)
 {
     const gfx::Sphere sphere{ };
-    const gfx::Intersection intersection{ 1.0, sphere };
+    const gfx::Intersection intersection{ 1.0, &sphere };
 
     ASSERT_FLOAT_EQ(intersection.getT(), 1.0);
     ASSERT_EQ(&intersection.getObject(), &sphere);
@@ -19,7 +19,7 @@ TEST(GraphicsIntersection, StandardConstructor)
 TEST(GraphicsIntersection, CopyConstructor)
 {
     const gfx::Sphere sphere{ };
-    const gfx::Intersection intersection_src{ 1.0, sphere };
+    const gfx::Intersection intersection_src{ 1.0, &sphere };
     const gfx::Intersection intersection_cpy{ intersection_src };
 
     ASSERT_FLOAT_EQ(intersection_cpy.getT(), 1.0);
@@ -31,8 +31,8 @@ TEST(GraphicsIntersection, AssignmentOperator)
 {
     const gfx::Sphere sphere_a{ };
     const gfx::Sphere sphere_b{ };
-    const gfx::Intersection intersection_a{ 1.0, sphere_a };
-    gfx::Intersection intersection_b{ -2.0, sphere_b };
+    const gfx::Intersection intersection_a{ 1.0, &sphere_a };
+    gfx::Intersection intersection_b{ -2.0, &sphere_b };
 
     intersection_b = intersection_a;
 
@@ -44,8 +44,8 @@ TEST(GraphicsIntersection, AssignmentOperator)
 TEST(GraphicsIntersection, EqualityOperator)
 {
     const gfx::Sphere sphere{ };
-    const gfx::Intersection intersection_a{ 1.0, sphere };
-    const gfx::Intersection intersection_b{ 1.0, sphere };
+    const gfx::Intersection intersection_a{ 1.0, &sphere };
+    const gfx::Intersection intersection_b{ 1.0, &sphere };
 
     ASSERT_TRUE(intersection_a == intersection_b);
 }
@@ -55,8 +55,8 @@ TEST(GraphicsIntersection, InequalityOperator)
 {
     const gfx::Sphere sphere_a{ };
     const gfx::Sphere sphere_b{ };
-    const gfx::Intersection intersection_a{ 1.0, sphere_a };
-    const gfx::Intersection intersection_b{ -2.0, sphere_b };
+    const gfx::Intersection intersection_a{ 1.0, &sphere_a };
+    const gfx::Intersection intersection_b{ -2.0, &sphere_b };
 
     ASSERT_TRUE(intersection_a != intersection_b);
 }
@@ -65,7 +65,7 @@ TEST(GraphicsIntersection, InequalityOperator)
 TEST(GraphicsIntersection, DetailedStandardConstructorOutside)
 {
     const gfx::Sphere sphere{ };
-    const gfx::Intersection base_intersection{ 4, sphere };
+    const gfx::Intersection base_intersection{ 4, &sphere };
     const gfx::Ray ray{ 0, 0, -5,
                         0, 0, 1 };
     const gfx::DetailedIntersection detailed_intersection{ base_intersection, ray };
@@ -82,7 +82,7 @@ TEST(GraphicsIntersection, DetailedStandardConstructorOutside)
 TEST(GraphicsIntersection, DetailedStandardConstructorInside)
 {
     const gfx::Sphere sphere{ };
-    const gfx::Intersection base_intersection{ 1, sphere };
+    const gfx::Intersection base_intersection{ 1, &sphere };
     const gfx::Ray ray{ 0, 0, 0,
                         0, 0, 1 };
     const gfx::DetailedIntersection detailed_intersection{ base_intersection, ray };
@@ -99,7 +99,7 @@ TEST(GraphicsIntersection, DetailedStandardConstructorInside)
 TEST(GraphicsIntersection, DetailedCopyConstructor)
 {
     const gfx::Sphere sphere{ };
-    const gfx::Intersection base_intersection{ 4, sphere };
+    const gfx::Intersection base_intersection{ 4, &sphere };
     const gfx::Ray ray{ 0, 0, -5,
                         0, 0, 1 };
     const gfx::DetailedIntersection detailed_intersection_src{ base_intersection, ray };
@@ -117,12 +117,12 @@ TEST(GraphicsIntersection, DetailedCopyConstructor)
 TEST(GraphicsIntersection, DetailedAssignmentOperator)
 {
     const gfx::Sphere sphere_a{ };
-    const gfx::Intersection base_intersection_a{ 4, sphere_a };
+    const gfx::Intersection base_intersection_a{ 4, &sphere_a };
     const gfx::Ray ray_a{ 0, 0, -5,
                         0, 0, 1 };
     const gfx::DetailedIntersection detailed_intersection_a{ base_intersection_a, ray_a };
     const gfx::Sphere sphere_b{ };
-    const gfx::Intersection base_intersection_b{ 1, sphere_b };
+    const gfx::Intersection base_intersection_b{ 1, &sphere_b };
     const gfx::Ray ray_b{ 0, 0, -10,
                           1, 1, 1 };
     gfx::DetailedIntersection detailed_intersection_b{ base_intersection_b, ray_b };
@@ -143,7 +143,7 @@ TEST(GraphicsIntersection, DetailedIntersectionOverPoint)
     const gfx::Ray ray{ 0, 0, -5,
                         0, 0, 1 };
     const gfx::Sphere shape{ gfx::createTranslationMatrix(0, 0, 1) };
-    const gfx::Intersection intersection{ 5, shape };
+    const gfx::Intersection intersection{ 5, &shape };
     const gfx::DetailedIntersection detailedIntersection{ intersection, ray };
 
     ASSERT_TRUE(detailedIntersection.getOverPoint().z() < -utils::EPSILON / 2);
@@ -155,8 +155,8 @@ TEST(GraphicsIntersection, GetHitAllPositiveT)
 {
     const gfx::Sphere sphere{ };
 
-    const gfx::Intersection intersection_a{ 1, sphere };
-    const gfx::Intersection intersection_b{ 2, sphere };
+    const gfx::Intersection intersection_a{ 1, &sphere };
+    const gfx::Intersection intersection_b{ 2, &sphere };
     std::vector<gfx::Intersection> intersections{ intersection_a, intersection_b };
 
     const std::optional<gfx::Intersection> hit_actual{ gfx::getHit(intersections) };
@@ -170,8 +170,8 @@ TEST(GraphicsIntersection, GetHitSomePositiveT)
 {
     const gfx::Sphere sphere{ };
 
-    const gfx::Intersection intersection_a{ -1, sphere };
-    const gfx::Intersection intersection_b{ 1, sphere };
+    const gfx::Intersection intersection_a{ -1, &sphere };
+    const gfx::Intersection intersection_b{ 1, &sphere };
     std::vector<gfx::Intersection> intersections{ intersection_a, intersection_b };
 
     const std::optional<gfx::Intersection> hit_actual{ gfx::getHit(intersections) };
@@ -185,8 +185,8 @@ TEST(GraphicsIntersection, GetHitAllNegativeT)
 {
     const gfx::Sphere sphere{ };
 
-    const gfx::Intersection intersection_a{ -2, sphere };
-    const gfx::Intersection intersection_b{ -1, sphere };
+    const gfx::Intersection intersection_a{ -2, &sphere };
+    const gfx::Intersection intersection_b{ -1, &sphere };
     std::vector<gfx::Intersection> intersections{ intersection_a, intersection_b };
 
     const std::optional<gfx::Intersection> hit_actual{ gfx::getHit(intersections) };
@@ -199,10 +199,10 @@ TEST(GraphicsIntersection, GetHitMultiplePositiveT)
 {
     const gfx::Sphere sphere{ };
 
-    const gfx::Intersection intersection_a{ 5, sphere };
-    const gfx::Intersection intersection_b{ 7, sphere };
-    const gfx::Intersection intersection_c{ -3, sphere };
-    const gfx::Intersection intersection_d{ 2, sphere };
+    const gfx::Intersection intersection_a{ 5, &sphere };
+    const gfx::Intersection intersection_b{ 7, &sphere };
+    const gfx::Intersection intersection_c{ -3, &sphere };
+    const gfx::Intersection intersection_d{ 2, &sphere };
     std::vector<gfx::Intersection> intersections{ intersection_a, intersection_b, intersection_c, intersection_d };
 
     const std::optional<gfx::Intersection> hit_actual{ gfx::getHit(intersections) };

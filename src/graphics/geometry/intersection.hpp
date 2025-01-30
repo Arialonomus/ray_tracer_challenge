@@ -3,11 +3,12 @@
 #include <vector>
 #include <optional>
 
-#include "sphere.hpp"
+#include "shape.hpp"
 #include "ray.hpp"
 
 namespace gfx {
 
+    class Shape;
     class Ray;  // Forward declaration
 
     class Intersection
@@ -16,8 +17,8 @@ namespace gfx {
         /* Constructors */
 
         Intersection() = delete;
-        Intersection(const double t, const Sphere& object)
-        : m_t{ t }, m_object{ object }
+        Intersection(const double t, const Shape* object_ptr)
+        : m_t{ t }, m_object_ptr{ object_ptr }
         {}
         Intersection(const Intersection&) = default;
         Intersection(Intersection&&) = default;
@@ -35,8 +36,8 @@ namespace gfx {
 
         [[nodiscard]] double getT() const
         { return m_t; }
-        [[nodiscard]] const Sphere& getObject() const
-        { return m_object; }
+        [[nodiscard]] const Shape& getObject() const
+        { return *m_object_ptr; }
 
         /* Comparison Operator Overloads */
 
@@ -50,7 +51,7 @@ namespace gfx {
         /* Data Members */
 
         double m_t;
-        std::reference_wrapper<const Sphere> m_object;
+        const Shape* m_object_ptr;   // Shapes should always exist during the lifetime of the intersection
     };
 
     // An extension of the intersection class containing pre-computed state information

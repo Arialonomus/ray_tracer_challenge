@@ -7,7 +7,7 @@
 namespace gfx {
     bool Intersection::operator==(const Intersection& rhs) const
     {
-        return utils::areEqual(m_t, rhs.getT()) && m_object == rhs.getObject();
+        return utils::areEqual(m_t, rhs.getT()) && m_object_ptr == &rhs.getObject();
     }
 
     DetailedIntersection::DetailedIntersection(const Intersection& intersection, const Ray& ray)
