@@ -80,23 +80,23 @@ namespace data{
     gfx::Matrix4 parseTransformMatrixData(const json& transform_data)
     {
         // Define string-to-case mapping for possible transform matrices
-        enum class Cases{ Translation, Scaling, XRotation, YRotation, ZRotation, Skew, Default };
+        enum class Cases{ Translation, Scaling, XRotation, YRotation, ZRotation, Skew };
         static const std::unordered_map<std::string_view, Cases> stringToCaseMap{
                 {"translate", Cases::Translation},
-                {"scale", Cases::Scaling},
-                {"rotate_x", Cases::XRotation},
-                {"rotate_y", Cases::YRotation},
-                {"rotate_z", Cases::ZRotation},
-                {"skew", Cases::Skew}
+                {"scale",     Cases::Scaling},
+                {"rotate_x",  Cases::XRotation},
+                {"rotate_y",  Cases::YRotation},
+                {"rotate_z",  Cases::ZRotation},
+                {"skew",      Cases::Skew}
         };
 
         // Convert the string to a Case for use in the switch statement
         std::string_view transform_type_str{ transform_data["type"].get<std::string_view>() };
-        Cases matrix_type{ Cases::Default };
         auto it{ stringToCaseMap.find(transform_type_str) };
-        if (it != stringToCaseMap.end()) {
-            matrix_type = it->second;
+        if (it == stringToCaseMap.end()) {
+            throw std::invalid_argument("Invalid transform matrix type, check spelling in scene data input file");
         }
+        Cases matrix_type{ it->second };
 
         // Return the appropriate matrix based on the matrix type
         const std::vector<double> transform_vals{ transform_data["values"].get<std::vector<double>>() };
@@ -140,8 +140,6 @@ namespace data{
                 } else {
                     throw std::invalid_argument("Skew matrix value arrays must only have 6 values");
                 }
-            default:
-                throw std::invalid_argument("Invalid transform matrix type, check spelling in scene data input file");
         }
     }
 }
