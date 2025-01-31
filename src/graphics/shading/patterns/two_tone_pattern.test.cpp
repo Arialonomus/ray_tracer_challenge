@@ -104,7 +104,7 @@ TEST(GraphicsPatternTwoTone, Mutators)
 
 /* Stripe Derived Class Tests */
 
-// Tests the equality operator for stripe pattern
+// Tests the equality operator for stripe patterns
 TEST(GraphicsPatternTwoTone, StripeEqualityOperator)
 {
     const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(1, 2, 3) };
@@ -142,9 +142,9 @@ TEST(GraphicsPatternTwoTone, StripeSampleColorAt)
     ASSERT_EQ(stripe_pattern.samplePatternAt(gfx::createPoint(-1.1, 0, 0)), gfx::white());
 }
 
-/* Gradient Derived Class Tests */
+/* Gradient Pattern Derived Class Tests */
 
-// Tests the equality operator for gradient pattern
+// Tests the equality operator for gradient patterns
 TEST(GraphicsPatternTwoTone, GradientEqualityOperator)
 {
     const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(1, 2, 3) };
@@ -158,7 +158,7 @@ TEST(GraphicsPatternTwoTone, GradientEqualityOperator)
     ASSERT_TRUE(gradient_pattern_src == gradient_pattern_cpy);
 }
 
-// Tests that the default gradient pattern returns the correct color in each dimension
+// Tests that the default gradient pattern returns the correct color when sampled
 TEST(GraphicsPatternTwoTone, GradientSampleColorAt)
 {
     const gfx::GradientPattern gradient_pattern{ gfx::white(), gfx::black() };
@@ -182,4 +182,38 @@ TEST(GraphicsPatternTwoTone, GradientSampleColorAt)
     const gfx::Color color_d_expected{ 0.25, 0.25, 0.25 };
     const gfx::Color color_d_actual{ gradient_pattern.samplePatternAt(gfx::createPoint(0.75, 0, 0)) };
     EXPECT_EQ(color_d_actual, color_d_expected);
+}
+
+/* Ring Pattern Derived Class Tests */
+
+// Tests the equality operator for ring patterns
+TEST(GraphicsPatternTwoTone, RingEqualityOperator)
+{
+    const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(1, 2, 3) };
+    const gfx::Color color_a_expected{ gfx::black() };
+    const gfx::Color color_b_expected{ gfx::white() };
+    const gfx::GradientPattern ring_pattern_src{ transform_expected,
+                                                 color_a_expected,
+                                                 color_b_expected };
+    const gfx::GradientPattern ring_pattern_cpy{ ring_pattern_src };
+
+    ASSERT_TRUE(ring_pattern_src == ring_pattern_cpy);
+}
+
+// Tests that the default ring pattern returns the correct color when sampled
+TEST(GraphicsPatternTwoTone, RingSampleColorAt)
+{
+    const gfx::RingPattern ringPattern{ gfx::white(), gfx::black() };
+
+    const gfx::Color color_a_actual{ ringPattern.samplePatternAt(gfx::createPoint(0, 0, 0)) };
+    EXPECT_EQ(color_a_actual, gfx::white());
+
+    const gfx::Color color_b_actual{ ringPattern.samplePatternAt(gfx::createPoint(1, 0, 0)) };
+    EXPECT_EQ(color_b_actual, gfx::black());
+
+    const gfx::Color color_c_actual{ ringPattern.samplePatternAt(gfx::createPoint(0, 0, 1)) };
+    EXPECT_EQ(color_c_actual, gfx::black());
+
+    const gfx::Color color_d_actual{ ringPattern.samplePatternAt(gfx::createPoint(0.708, 0, 0.708)) };
+    EXPECT_EQ(color_d_actual, gfx::black());
 }
