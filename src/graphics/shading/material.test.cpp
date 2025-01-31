@@ -231,28 +231,46 @@ TEST(GraphicsMaterial, Mutators)
 {
     gfx::Material material{ };
 
+    // setColor (Color Object)
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
     material.setColor(color_expected);
     ASSERT_EQ(material.getColor(), color_expected);
 
+    // setColor (Float List)
+    material.setColor(0.5, 0.5, 0.5);
+    ASSERT_EQ(material.getColor(), color_expected);
+
+    // setPattern (Copy Semantics)
     const gfx::StripePattern pattern_expected{ gfx::createScalingMatrix(5),
                                                gfx::white(),
                                                gfx::black() };
     material.setPattern(pattern_expected);
     ASSERT_EQ(material.getPattern(), pattern_expected);
 
+    // setPattern (Move Semantics)
+    material.setPattern(std::make_unique<gfx::StripePattern>(
+            gfx::createScalingMatrix(5),
+            gfx::white(),
+            gfx::black()
+            ));
+    ASSERT_EQ(material.getPattern(), pattern_expected);
+
+    // setAmbient
     const double ambient_expected{ 0.5 };
     material.setAmbient(ambient_expected);
     ASSERT_FLOAT_EQ(material.getAmbient(), ambient_expected);
 
+    // setDiffuse
     const double diffuse_expected{ 0.5 };
     material.setDiffuse(diffuse_expected);
     ASSERT_FLOAT_EQ(material.getDiffuse(), diffuse_expected);
 
+    // setSpecular
     const double specular_expected{ 0.5 };
     material.setSpecular(specular_expected);
     ASSERT_FLOAT_EQ(material.getSpecular(), specular_expected);
 
+    // setShininess
     const double shininess_expected{ 50 };
     material.setShininess(shininess_expected);
     ASSERT_FLOAT_EQ(material.getShininess(), shininess_expected);
