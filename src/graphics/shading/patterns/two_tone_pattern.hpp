@@ -33,6 +33,20 @@ namespace gfx {
         [[nodiscard]] const Color& getColorB() const
         { return m_color_b; }
 
+        /* Mutators */
+
+        void setColorA(const Color& color)
+        { m_color_a = color; }
+
+        void setColorA(const double r, const double g, const double b)
+        { m_color_a.setValues(r, g, b); }
+
+        void setColorB(const Color& color)
+        { m_color_b = color; }
+
+        void setColorB(const double r, const double g, const double b)
+        { m_color_b.setValues(r, g, b); }
+
     private:
         /* Data Members */
 
