@@ -10,6 +10,8 @@
 #include "intersection.hpp"
 #include "ray.hpp"
 #include "transform.hpp"
+#include "sphere.hpp"
+#include "stripe_pattern.hpp"
 
 class TestShape : public gfx::Shape
 {
@@ -157,4 +159,54 @@ TEST(GraphicsShape, GetSurfaceNormalTransformsVector)
 
     const gfx::Vector4 vector_b_transformed_expected{ 0, 0.970143, -0.242536, 0 };
     ASSERT_EQ(vector_b_transformed_actual, vector_b_transformed_expected);
+}
+
+// Tests getting the color from an object with no pattern
+TEST(GraphicsShape, GetObjectColorNoPattern)
+{
+    const gfx::Material material{ gfx::cyan() };
+    const TestShape shape{ material };
+
+    const gfx::Color color_actual{ shape.getObjectColorAt(gfx::createPoint(0, 0, 0))};
+    EXPECT_EQ(color_actual, gfx::cyan());
+}
+
+// Tests getting the color from objects with patterns in various states
+TEST(GraphicsShape, GetObjectColorPattern)
+{
+    // Test getting the object color from a stripe-patterned sphere with no transformations
+    const gfx::StripePattern stripe_pattern_a{ gfx::white(), gfx::black() };
+    const gfx::Material material_a{ stripe_pattern_a };
+    const gfx::Sphere sphere_a{ material_a };
+
+    const gfx::Color color_actual_a{ sphere_a.getObjectColorAt(gfx::createPoint(0, 0, 0))};
+    EXPECT_EQ(color_actual_a, gfx::white());
+
+    // Test getting the object color from a stripe-patterned sphere with a pattern transformation
+    const gfx::StripePattern stripe_pattern_b{ gfx::white(), gfx::black() };
+    const gfx::Material material_b{ stripe_pattern_b };
+    const gfx::Matrix4 sphere_b_transform{ gfx::createScalingMatrix(2) };
+    const gfx::Sphere sphere_b{ sphere_b_transform, material_b };
+
+    const gfx::Color color_actual_b{ sphere_b.getObjectColorAt(gfx::createPoint(1.5, 0, 0))};
+    EXPECT_EQ(color_actual_b, gfx::white());
+
+    // Test getting the object color from a stripe-patterned sphere with a pattern transformation
+    const gfx::Matrix4 pattern_c_transform{ gfx::createScalingMatrix(2) };
+    const gfx::StripePattern stripe_pattern_c{ pattern_c_transform, gfx::white(), gfx::black() };
+    const gfx::Material material_c{ stripe_pattern_c };
+    const gfx::Sphere sphere_c{ material_c };
+
+    const gfx::Color color_actual_c{ sphere_c.getObjectColorAt(gfx::createPoint(1.5, 0, 0))};
+    EXPECT_EQ(color_actual_c, gfx::white());
+
+    // Test getting the object color from a stripe-patterned sphere with a pattern and object transformation
+    const gfx::Matrix4 pattern_d_transform{ gfx::createTranslationMatrix(0.5, 0, 0) };
+    const gfx::StripePattern stripe_pattern_d{ pattern_d_transform, gfx::white(), gfx::black() };
+    const gfx::Material material_d{ stripe_pattern_d };
+    const gfx::Matrix4 sphere_d_transform{ gfx::createScalingMatrix(2) };
+    const gfx::Sphere sphere_d{ sphere_d_transform, material_d };
+
+    const gfx::Color color_actual_d{ sphere_d.getObjectColorAt(gfx::createPoint(2.5, 0, 0))};
+    EXPECT_EQ(color_actual_d, gfx::white());
 }
