@@ -19,7 +19,7 @@ namespace gfx {
     }
 
     // Object Inserter (from pointer)
-    void World::addObject(std::shared_ptr<Shape> object)
+    void World::addObject(const std::shared_ptr<Shape>& object)
     {
         m_objects.push_back(object);
     }

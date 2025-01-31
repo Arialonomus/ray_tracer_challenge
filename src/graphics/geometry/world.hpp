@@ -88,7 +88,7 @@ namespace gfx {
 
         // Adds a single object to the world
         void addObject(const Shape& object);
-        void addObject(std::shared_ptr<Shape> object);
+        void addObject(const std::shared_ptr<Shape>& object);
 
         /* Ray-Tracing Operations */
 
