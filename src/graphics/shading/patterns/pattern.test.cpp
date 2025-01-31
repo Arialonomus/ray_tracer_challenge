@@ -127,3 +127,27 @@ TEST(GraphicsPattern, StripePatternAssignmentOperator)
     ASSERT_EQ(stripe_pattern_b.getColorA(), color_a_expected);
     ASSERT_EQ(stripe_pattern_b.getColorB(), color_b_expected);
 }
+
+// Tests that the default stripe pattern returns the correct color in each dimension
+TEST(GraphicsPattern, StripePatternGetColorAtNoTransform)
+{
+    const gfx::StripePattern stripe_pattern{ gfx::white(), gfx::black() };
+
+    // Test that a stripe pattern is constant in the y-dimension
+    EXPECT_EQ(stripe_pattern.getSurfaceColorAt(gfx::createPoint(0, 0, 0)), gfx::white());
+    EXPECT_EQ(stripe_pattern.getSurfaceColorAt(gfx::createPoint(0, 1, 0)), gfx::white());
+    EXPECT_EQ(stripe_pattern.getSurfaceColorAt(gfx::createPoint(0, 2, 0)), gfx::white());
+
+    // Test that a stripe pattern is constant in the z-dimension
+    EXPECT_EQ(stripe_pattern.getSurfaceColorAt(gfx::createPoint(0, 0, 0)), gfx::white());
+    EXPECT_EQ(stripe_pattern.getSurfaceColorAt(gfx::createPoint(0, 0, 1)), gfx::white());
+    EXPECT_EQ(stripe_pattern.getSurfaceColorAt(gfx::createPoint(0, 0, 2)), gfx::white());
+
+    // Test that a stripe pattern alternates in the y-dimension
+    EXPECT_EQ(stripe_pattern.getSurfaceColorAt(gfx::createPoint(0, 0, 0)), gfx::white());
+    EXPECT_EQ(stripe_pattern.getSurfaceColorAt(gfx::createPoint(0.9, 0, 0)), gfx::white());
+    EXPECT_EQ(stripe_pattern.getSurfaceColorAt(gfx::createPoint(1, 0, 0)), gfx::black());
+    EXPECT_EQ(stripe_pattern.getSurfaceColorAt(gfx::createPoint(-0.1, 0, 0)), gfx::black());
+    EXPECT_EQ(stripe_pattern.getSurfaceColorAt(gfx::createPoint(-1, 0, 0)), gfx::black());
+    ASSERT_EQ(stripe_pattern.getSurfaceColorAt(gfx::createPoint(-1.1, 0, 0)), gfx::white());
+}
