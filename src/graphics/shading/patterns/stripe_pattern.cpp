@@ -3,21 +3,21 @@
 #include <cmath>
 
 namespace gfx {
-    Color StripePattern::samplePatternAt(const Vector4& point) const
+    Color StripePattern::samplePatternAt(const Vector4& pattern_point) const
     {
-        if (static_cast<int>(std::floor(point.x())) % 2 == 0) {
-            return m_color_a;
+        if (static_cast<int>(std::floor(pattern_point.x())) % 2 == 0) {
+            return this->getColorA();
         }
 
-        return m_color_b;
+        return this->getColorB();
     }
 
     bool StripePattern::equal(const Pattern& other) const
     {
-        const StripePattern& other_stripe_pattern{ static_cast<const StripePattern&>(other) };
+        const StripePattern& other_stripe_pattern{ dynamic_cast<const StripePattern&>(other) };
         return
             this->getTransform() == other_stripe_pattern.getTransform() &&
-            m_color_a == other_stripe_pattern.getColorA() &&
-            m_color_b == other_stripe_pattern.getColorB();
+            this->getColorA() == other_stripe_pattern.getColorA() &&
+            this->getColorB() == other_stripe_pattern.getColorB();
     }
 }
