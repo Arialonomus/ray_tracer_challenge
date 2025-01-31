@@ -62,12 +62,12 @@ namespace gfx
 
     /* Color Factory Functions */
 
-    [[nodiscard]] Color black() { return Color{ 0, 0, 0 }; }
-    [[nodiscard]] Color white() { return Color{ 1, 1, 1 }; }
-    [[nodiscard]] Color red() { return Color{ 1, 0, 0 }; }
-    [[nodiscard]] Color green() { return Color{ 0, 1, 0 }; }
-    [[nodiscard]] Color blue() { return Color{ 0, 0, 1 }; }
-    [[nodiscard]] Color yellow() { return Color{ 1, 1, 0 }; }
-    [[nodiscard]] Color cyan() { return Color{ 0, 1, 1 }; }
-    [[nodiscard]] Color magenta() { return Color{ 1, 0, 1 }; }
+    [[nodiscard]] Color black();
+    [[nodiscard]] Color white();
+    [[nodiscard]] Color red();
+    [[nodiscard]] Color green();
+    [[nodiscard]] Color blue();
+    [[nodiscard]] Color yellow();
+    [[nodiscard]] Color cyan();
+    [[nodiscard]] Color magenta();
 }

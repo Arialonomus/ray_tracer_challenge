@@ -80,4 +80,15 @@ namespace gfx {
     {
         return Color{ rhs.r() * lhs, rhs.g() * lhs, rhs.b() * lhs };
     }
+
+    /* Color Factory Functions */
+
+    Color black() { return Color{ 0, 0, 0 }; }
+    Color white() { return Color{ 1, 1, 1 }; }
+    Color red() { return Color{ 1, 0, 0 }; }
+    Color green() { return Color{ 0, 1, 0 }; }
+    Color blue() { return Color{ 0, 0, 1 }; }
+    Color yellow() { return Color{ 1, 1, 0 }; }
+    Color cyan() { return Color{ 0, 1, 1 }; }
+    Color magenta() { return Color{ 1, 0, 1 }; }
 }
