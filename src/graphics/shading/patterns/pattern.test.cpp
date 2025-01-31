@@ -20,6 +20,13 @@ public:
 
     [[nodiscard]] gfx::Color getSurfaceColorAt(const gfx::Vector4& point) const override
     { return gfx::Color{ }; }
+
+    [[nodiscard]] std::unique_ptr<Pattern> clone() const override
+    { return std::make_unique<TestPattern>(*this); }
+
+private:
+    [[nodiscard]] bool equal(const Pattern& other) const override
+    { return this->getTransform() == other.getTransform(); }
 };
 
 // Tests the default constructor for the base pattern class
@@ -126,6 +133,20 @@ TEST(GraphicsPattern, StripePatternAssignmentOperator)
     ASSERT_EQ(stripe_pattern_b.getTransform(), transform_expected);
     ASSERT_EQ(stripe_pattern_b.getColorA(), color_a_expected);
     ASSERT_EQ(stripe_pattern_b.getColorB(), color_b_expected);
+}
+
+// Tests the equality operator for stripe pattern
+TEST(GraphicsPattern, StripePatternEqualityOperator)
+{
+    const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(1, 2, 3) };
+    const gfx::Color color_a_expected{ gfx::black() };
+    const gfx::Color color_b_expected{ gfx::white() };
+    const gfx::StripePattern stripe_pattern_src{ transform_expected,
+                                                 color_a_expected,
+                                                 color_b_expected };
+    const gfx::StripePattern stripe_pattern_cpy{ stripe_pattern_src };
+
+    ASSERT_TRUE(stripe_pattern_src == stripe_pattern_cpy);
 }
 
 // Tests that the default stripe pattern returns the correct color in each dimension
