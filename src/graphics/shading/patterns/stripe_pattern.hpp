@@ -30,8 +30,18 @@ namespace gfx {
         // Returns the surface color for this pattern at a passed-in point
         [[nodiscard]] Color getSurfaceColorAt(const Vector4& point) const override;
 
+        /* Object Operations */
+
+        [[nodiscard]] std::unique_ptr<Pattern> clone() const override
+        { return std::make_unique<StripePattern>(*this); }
+
     private:
+        /* Data Members */
+
         Color m_color_a{};
         Color m_color_b{};
+
+        /* Helper Methods */
+        [[nodiscard]] bool equal(const Pattern& other) const override;
     };
 }

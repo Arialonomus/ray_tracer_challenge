@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "matrix4.hpp"
 #include "color.hpp"
 #include "vector4.hpp"
@@ -31,9 +33,21 @@ namespace gfx {
         void setTransform(const Matrix4& transform_matrix)
         { m_transform = transform_matrix; }
 
+        /* Comparison Operator Overloads */
+
+        [[nodiscard]] bool operator==(const Pattern& rhs) const
+        { return typeid(*this) == typeid(rhs) && equal(rhs); }
+
+        /* Object Operations */
+
+        [[nodiscard]] virtual std::unique_ptr<Pattern> clone() const = 0;
+
     private:
         /* Data Members */
 
         Matrix4 m_transform{ gfx::createIdentityMatrix() };
+
+        /* Helper Methods */
+        [[nodiscard]] virtual bool equal(const Pattern& other) const = 0;
     };
 }

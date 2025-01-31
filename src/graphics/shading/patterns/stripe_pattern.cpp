@@ -11,4 +11,13 @@ namespace gfx {
 
         return m_color_b;
     }
+
+    bool StripePattern::equal(const Pattern& other) const
+    {
+        const StripePattern& other_stripe_pattern{ static_cast<const StripePattern&>(other) };
+        return
+            this->getTransform() == other_stripe_pattern.getTransform() &&
+            m_color_a == other_stripe_pattern.getColorA() &&
+            m_color_b == other_stripe_pattern.getColorB();
+    }
 }
