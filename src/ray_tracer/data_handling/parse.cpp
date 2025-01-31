@@ -138,6 +138,11 @@ namespace data{
         }
     }
 
+    gfx::Color parseColorData(const json& color_data)
+    {
+        return gfx::Color{ color_data[0], color_data[1], color_data[2] };
+    }
+
     gfx::Matrix4 buildChainedTransformMatrix(const json& transform_data_list)
     {
         gfx::Matrix4 transform_matrix{ gfx::createIdentityMatrix() };

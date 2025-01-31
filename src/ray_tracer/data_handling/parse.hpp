@@ -8,6 +8,7 @@
 #include "camera.hpp"
 #include "shape.hpp"
 #include "pattern.hpp"
+#include "color.hpp"
 #include "matrix4.hpp"
 
 using json = nlohmann::json;
@@ -29,6 +30,9 @@ namespace data {
 
     // Returns a pointer to a newly created pattern described by the passed-in JSON data
     [[nodiscard]] std::unique_ptr<gfx::Pattern> parsePatternData(const json& pattern_data);
+
+    // Returns a color object described by the passed in JSON data
+    [[nodiscard]] gfx::Color parseColorData(const json& color_data);
 
     // Builds a transform matrix from the array of transform matrices described by the passed-in JSON data
     [[nodiscard]] gfx::Matrix4 buildChainedTransformMatrix(const json& transform_data_list);
