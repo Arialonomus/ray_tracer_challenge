@@ -62,15 +62,21 @@ namespace data{
 
         // Extract the material data
         const json& material_data{ object_data["material"] };
-        const std::vector<double> color_vals{
-                material_data["color"].get<std::vector<double>>() };
-        const gfx::Material material{
-                gfx::Color{ color_vals[0], color_vals[1], color_vals[2] },
+        gfx::Material material{
                 material_data["ambient"],
                 material_data["diffuse"],
                 material_data["specular"],
                 material_data["shininess"]
         };
+
+        // Set the pattern or object color
+        if (material_data.contains("pattern")) {
+            material.setPattern(parsePatternData(material_data["pattern"]));
+        } else {
+            const std::vector<double> color_vals{
+                    material_data["color"].get<std::vector<double>>() };
+            material.setColor(color_vals[0], color_vals[1], color_vals[2]);
+        }
 
         // Define string-to-case mapping for possible shape primitives
         enum class Cases{ Plane, Sphere };
