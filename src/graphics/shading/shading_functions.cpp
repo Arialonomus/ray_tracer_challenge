@@ -13,7 +13,10 @@ namespace gfx {
                                 const bool is_shadowed)
     {
         // The base surface color from direct light
-        const Color effective_color{ material.getColor() * light.intensity };
+        const Color object_color{ material.hasPattern() ?
+              material.getPattern().getSurfaceColorAt(point_position)
+            : material.getColor() };
+        const Color effective_color{ object_color * light.intensity };
 
         // The direction vector to the light source
         const Vector4 light_vector{ normalize(light.position - point_position) };
