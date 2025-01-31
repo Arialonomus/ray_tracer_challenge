@@ -73,9 +73,7 @@ namespace data{
         if (material_data.contains("pattern")) {
             material.setPattern(parsePatternData(material_data["pattern"]));
         } else {
-            const std::vector<double> color_vals{
-                    material_data["color"].get<std::vector<double>>() };
-            material.setColor(color_vals[0], color_vals[1], color_vals[2]);
+            material.setColor(parseColorData(material_data["color"]));
         }
 
         // Define string-to-case mapping for possible shape primitives
@@ -121,20 +119,15 @@ namespace data{
         // Build the transform matrix
         gfx::Matrix4 transform_matrix{ buildChainedTransformMatrix(pattern_data["transform"]) };
 
-        // Get the color data and instantiate the color objects
-        const std::vector<double> color_a_vals{
-                pattern_data["color_a"].get<std::vector<double>>() };
-        const gfx::Color color_a{ color_a_vals[0], color_a_vals[1], color_a_vals[2] };
-        const std::vector<double> color_b_vals{
-                pattern_data["color_b"].get<std::vector<double>>() };
-        const gfx::Color color_b{ color_b_vals[0], color_b_vals[1], color_b_vals[2] };
-
         // Create and return the pattern
         switch (pattern_type) {
             case Cases::Stripe:
-                return std::make_unique<gfx::StripePattern>(gfx::StripePattern{ transform_matrix,
-                                                                                color_a,
-                                                                                color_b });
+                return std::make_unique<gfx::StripePattern>(
+                        gfx::StripePattern{
+                            transform_matrix,
+                            parseColorData(pattern_data["color_a"]),
+                            parseColorData(pattern_data["color_b"])
+                        });
         }
     }
 
