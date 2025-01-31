@@ -1,13 +1,9 @@
 #include "gtest/gtest.h"
 #include "pattern.hpp"
-#include "stripe_pattern.hpp"
-#include "gradient_pattern.hpp"
 
 #include "matrix4.hpp"
 #include "transform.hpp"
 #include "color.hpp"
-
-/* Pattern Base Class */
 
 class TestPattern : public gfx::Pattern
 {
