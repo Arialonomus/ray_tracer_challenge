@@ -3,6 +3,7 @@
 #include "stripe_pattern.hpp"
 #include "gradient_pattern.hpp"
 #include "ring_pattern.hpp"
+#include "checkered_pattern.hpp"
 
 #include "matrix4.hpp"
 #include "transform.hpp"
@@ -105,7 +106,7 @@ TEST(GraphicsPatternTwoTone, Mutators)
 /* Stripe Derived Class Tests */
 
 // Tests the equality operator for stripe patterns
-TEST(GraphicsPatternTwoTone, StripeEqualityOperator)
+TEST(GraphicsPatternTwoTone, StripePatternEqualityOperator)
 {
     const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(1, 2, 3) };
     const gfx::Color color_a_expected{ gfx::black() };
@@ -119,7 +120,7 @@ TEST(GraphicsPatternTwoTone, StripeEqualityOperator)
 }
 
 // Tests that the default stripe pattern returns the correct color in each dimension
-TEST(GraphicsPatternTwoTone, StripeSampleColorAt)
+TEST(GraphicsPatternTwoTone, StripePatternSampleColorAt)
 {
     const gfx::StripePattern stripe_pattern{ gfx::white(), gfx::black() };
 
@@ -145,7 +146,7 @@ TEST(GraphicsPatternTwoTone, StripeSampleColorAt)
 /* Gradient Pattern Derived Class Tests */
 
 // Tests the equality operator for gradient patterns
-TEST(GraphicsPatternTwoTone, GradientEqualityOperator)
+TEST(GraphicsPatternTwoTone, GradientPatternEqualityOperator)
 {
     const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(1, 2, 3) };
     const gfx::Color color_a_expected{ gfx::black() };
@@ -159,7 +160,7 @@ TEST(GraphicsPatternTwoTone, GradientEqualityOperator)
 }
 
 // Tests that the default gradient pattern returns the correct color when sampled
-TEST(GraphicsPatternTwoTone, GradientSampleColorAt)
+TEST(GraphicsPatternTwoTone, GradientPatternSampleColorAt)
 {
     const gfx::GradientPattern gradient_pattern{ gfx::white(), gfx::black() };
 
@@ -187,33 +188,79 @@ TEST(GraphicsPatternTwoTone, GradientSampleColorAt)
 /* Ring Pattern Derived Class Tests */
 
 // Tests the equality operator for ring patterns
-TEST(GraphicsPatternTwoTone, RingEqualityOperator)
+TEST(GraphicsPatternTwoTone, RingPatternEqualityOperator)
 {
     const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(1, 2, 3) };
     const gfx::Color color_a_expected{ gfx::black() };
     const gfx::Color color_b_expected{ gfx::white() };
-    const gfx::GradientPattern ring_pattern_src{ transform_expected,
+    const gfx::RingPattern ring_pattern_src{ transform_expected,
                                                  color_a_expected,
                                                  color_b_expected };
-    const gfx::GradientPattern ring_pattern_cpy{ ring_pattern_src };
+    const gfx::RingPattern ring_pattern_cpy{ ring_pattern_src };
 
     ASSERT_TRUE(ring_pattern_src == ring_pattern_cpy);
 }
 
 // Tests that the default ring pattern returns the correct color when sampled
-TEST(GraphicsPatternTwoTone, RingSampleColorAt)
+TEST(GraphicsPatternTwoTone, RingPatternSampleColorAt)
 {
-    const gfx::RingPattern ringPattern{ gfx::white(), gfx::black() };
+    const gfx::RingPattern ring_pattern{ gfx::white(), gfx::black() };
 
-    const gfx::Color color_a_actual{ ringPattern.samplePatternAt(gfx::createPoint(0, 0, 0)) };
+    const gfx::Color color_a_actual{ ring_pattern.samplePatternAt(gfx::createPoint(0, 0, 0)) };
     EXPECT_EQ(color_a_actual, gfx::white());
 
-    const gfx::Color color_b_actual{ ringPattern.samplePatternAt(gfx::createPoint(1, 0, 0)) };
+    const gfx::Color color_b_actual{ ring_pattern.samplePatternAt(gfx::createPoint(1, 0, 0)) };
     EXPECT_EQ(color_b_actual, gfx::black());
 
-    const gfx::Color color_c_actual{ ringPattern.samplePatternAt(gfx::createPoint(0, 0, 1)) };
+    const gfx::Color color_c_actual{ ring_pattern.samplePatternAt(gfx::createPoint(0, 0, 1)) };
     EXPECT_EQ(color_c_actual, gfx::black());
 
-    const gfx::Color color_d_actual{ ringPattern.samplePatternAt(gfx::createPoint(0.708, 0, 0.708)) };
+    const gfx::Color color_d_actual{ ring_pattern.samplePatternAt(gfx::createPoint(0.708, 0, 0.708)) };
     EXPECT_EQ(color_d_actual, gfx::black());
+}
+
+/* Checkered Pattern Derived Class Tests */
+
+// Tests the equality operator for ring patterns
+TEST(GraphicsPatternTwoTone, CheckeredPatternEqualityOperator)
+{
+    const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(1, 2, 3) };
+    const gfx::Color color_a_expected{ gfx::black() };
+    const gfx::Color color_b_expected{ gfx::white() };
+    const gfx::CheckeredPattern checkered_pattern_src{ transform_expected,
+                                                      color_a_expected,
+                                                      color_b_expected };
+    const gfx::CheckeredPattern checkered_pattern_cpy{ checkered_pattern_src };
+
+    ASSERT_TRUE(checkered_pattern_src == checkered_pattern_cpy);
+}
+
+// Tests that the checkered ring pattern repeats in each dimension
+TEST(GraphicsPatternTwoTone, CheckeredPatternSampleColorAt)
+{
+    const gfx::CheckeredPattern checkered_pattern{ gfx::white(), gfx::black() };
+
+    // Test that checkers repeat in the x-dimension
+    const gfx::Color color_x_a_actual{ checkered_pattern.samplePatternAt(gfx::createPoint(0, 0, 0)) };
+    EXPECT_EQ(color_x_a_actual, gfx::white());
+    const gfx::Color color_x_b_actual{ checkered_pattern.samplePatternAt(gfx::createPoint(0.99, 0, 0)) };
+    EXPECT_EQ(color_x_b_actual, gfx::white());
+    const gfx::Color color_x_c_actual{ checkered_pattern.samplePatternAt(gfx::createPoint(1.01, 0, 0)) };
+    EXPECT_EQ(color_x_c_actual, gfx::black());
+
+    // Test that checkers repeat in the y-dimension
+    const gfx::Color color_y_a_actual{ checkered_pattern.samplePatternAt(gfx::createPoint(0, 0, 0)) };
+    EXPECT_EQ(color_y_a_actual, gfx::white());
+    const gfx::Color color_y_b_actual{ checkered_pattern.samplePatternAt(gfx::createPoint(0, 0.99, 0)) };
+    EXPECT_EQ(color_y_b_actual, gfx::white());
+    const gfx::Color color_y_c_actual{ checkered_pattern.samplePatternAt(gfx::createPoint(0, 1.01, 0)) };
+    EXPECT_EQ(color_y_c_actual, gfx::black());
+
+    // Test that checkers repeat in the z-dimension
+    const gfx::Color color_z_a_actual{ checkered_pattern.samplePatternAt(gfx::createPoint(0, 0, 0)) };
+    EXPECT_EQ(color_z_a_actual, gfx::white());
+    const gfx::Color color_z_b_actual{ checkered_pattern.samplePatternAt(gfx::createPoint(0, 0, 0.99)) };
+    EXPECT_EQ(color_z_b_actual, gfx::white());
+    const gfx::Color color_z_c_actual{ checkered_pattern.samplePatternAt(gfx::createPoint(0, 0, 1.01)) };
+    EXPECT_EQ(color_z_c_actual, gfx::black());
 }
