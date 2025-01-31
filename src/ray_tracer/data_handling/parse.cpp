@@ -6,6 +6,7 @@
 #include "transform.hpp"
 #include "plane.hpp"
 #include "sphere.hpp"
+#include "stripe_pattern.hpp"
 
 namespace data{
     Scene parseSceneData(const json& scene_data)
@@ -92,6 +93,42 @@ namespace data{
                 return std::make_shared<gfx::Plane>(gfx::Plane{ transform_matrix, material });
             case Cases::Sphere:
                 return std::make_shared<gfx::Sphere>(gfx::Sphere{ transform_matrix, material });
+        }
+    }
+
+    std::unique_ptr<gfx::Pattern> parsePatternData(const json& pattern_data)
+    {
+        // Define string-to-case mapping for possible patterns
+        enum class Cases{ Stripe };
+        static const std::unordered_map<std::string_view, Cases> stringToCaseMap{
+                {"stripe",     Cases::Stripe},
+        };
+
+        // Convert the string to a Case for use in the switch statement
+        std::string_view pattern_type_str{ pattern_data["type"].get<std::string_view>() };
+        auto it{ stringToCaseMap.find(pattern_type_str) };
+        if (it == stringToCaseMap.end()) {
+            throw std::invalid_argument("Invalid pattern type, check spelling in scene data input file");
+        }
+        Cases pattern_type{ it->second };
+
+        // Build the transform matrix
+        gfx::Matrix4 transform_matrix{ buildChainedTransformMatrix(pattern_data["transform"]) };
+
+        // Get the color data and instantiate the color objects
+        const std::vector<double> color_a_vals{
+                pattern_data["color_a"].get<std::vector<double>>() };
+        const gfx::Color color_a{ color_a_vals[0], color_a_vals[1], color_a_vals[2] };
+        const std::vector<double> color_b_vals{
+                pattern_data["color_b"].get<std::vector<double>>() };
+        const gfx::Color color_b{ color_b_vals[0], color_b_vals[1], color_b_vals[2] };
+
+        // Create and return the pattern
+        switch (pattern_type) {
+            case Cases::Stripe:
+                return std::make_unique<gfx::StripePattern>(gfx::StripePattern{ transform_matrix,
+                                                                                color_a,
+                                                                                color_b });
         }
     }
 
