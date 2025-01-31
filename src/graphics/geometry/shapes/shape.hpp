@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include "matrix4.hpp"
@@ -28,13 +29,13 @@ namespace gfx {
         {}
 
         // Material-Only Constructor
-        explicit Shape(const Material& material)
-                : m_transform{ gfx::createIdentityMatrix() }, m_material{ material }
+        explicit Shape(Material material)
+                : m_transform{ gfx::createIdentityMatrix() }, m_material{ std::move(material) }
         {}
 
         // Standard Constructor
-        Shape(const Matrix4& transform, const Material& material)
-                : m_transform{ transform }, m_material{ material }
+        Shape(const Matrix4& transform, Material material)
+                : m_transform{ transform }, m_material{ std::move(material) }
         {}
 
         // Copy Constructor
