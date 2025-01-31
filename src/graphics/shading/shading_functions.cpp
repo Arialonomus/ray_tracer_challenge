@@ -5,7 +5,7 @@
 #include "util_functions.hpp"
 
 namespace gfx {
-    Color calculateSurfaceColor(const Material& material,
+    Color calculateSurfaceColor(const Shape& object,
                                 const PointLight& light,
                                 const Vector4& point_position,
                                 const Vector4& surface_normal,
@@ -13,15 +13,14 @@ namespace gfx {
                                 const bool is_shadowed)
     {
         // The base surface color from direct light
-        const Color object_color{ material.hasPattern() ?
-                                  material.getPattern().samplePatternAt(point_position)
-            : material.getColor() };
+        const Color object_color{ object.getObjectColorAt(point_position) };
         const Color effective_color{ object_color * light.intensity };
 
         // The direction vector to the light source
         const Vector4 light_vector{ normalize(light.position - point_position) };
 
         // Simulate the ambient color as a percentage of the base surface color
+        const Material& material{ object.getMaterial() };
         const Color ambient{ effective_color * material.getAmbient() };
 
         // Check if the light is on the same side of the surface as the viewpoint
