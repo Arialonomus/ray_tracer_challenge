@@ -19,16 +19,25 @@ namespace gfx {
     public:
         /* Constructors */
 
+        // Default Constructor
         Shape() = default;
+
+        // Transform-Only Constructor
         explicit Shape(const Matrix4& transform)
-                : m_transform{ transform }, m_material{ }
+                : m_transform{ transform }, m_material{}
         {}
+
+        // Material-Only Constructor
         explicit Shape(const Material& material)
                 : m_transform{ gfx::createIdentityMatrix() }, m_material{ material }
         {}
+
+        // Standard Constructor
         Shape(const Matrix4& transform, const Material& material)
                 : m_transform{ transform }, m_material{ material }
         {}
+
+        // Copy Constructor
         Shape(const Shape&) = default;
 
         /* Destructor */
@@ -43,13 +52,17 @@ namespace gfx {
 
         [[nodiscard]] const Matrix4& getTransform() const
         { return m_transform; }
+
         [[nodiscard]] const Material& getMaterial() const
         { return m_material; }
+
+        [[nodiscard]] Color getObjectColorAt(const Vector4& world_point) const;
 
         /* Mutators */
 
         void setTransform(const Matrix4& transform_matrix)
         { m_transform = transform_matrix; }
+
         void setMaterial(const Material& material)
         { m_material = material; }
 
@@ -70,7 +83,7 @@ namespace gfx {
         /* Data Members */
 
         Matrix4 m_transform{ gfx::createIdentityMatrix() };
-        Material m_material{ };
+        Material m_material{};
 
         /* Pure Virtual Helper Methods */
 
