@@ -7,6 +7,7 @@
 #include "plane.hpp"
 #include "sphere.hpp"
 #include "stripe_pattern.hpp"
+#include "gradient_pattern.hpp"
 
 namespace data{
     Scene parseSceneData(const json& scene_data)
@@ -103,9 +104,10 @@ namespace data{
     std::unique_ptr<gfx::Pattern> parsePatternData(const json& pattern_data)
     {
         // Define string-to-case mapping for possible patterns
-        enum class Cases{ Stripe };
+        enum class Cases{ Stripe, Gradient };
         static const std::unordered_map<std::string_view, Cases> stringToCaseMap{
                 {"stripe",     Cases::Stripe},
+                {"gradient",     Cases::Gradient}
         };
 
         // Convert the string to a Case for use in the switch statement
@@ -127,6 +129,13 @@ namespace data{
                             transform_matrix,
                             parseColorData(pattern_data["color_a"]),
                             parseColorData(pattern_data["color_b"])
+                        });
+            case Cases::Gradient:
+                return std::make_unique<gfx::GradientPattern>(
+                        gfx::GradientPattern{
+                                transform_matrix,
+                                parseColorData(pattern_data["color_a"]),
+                                parseColorData(pattern_data["color_b"])
                         });
         }
     }
