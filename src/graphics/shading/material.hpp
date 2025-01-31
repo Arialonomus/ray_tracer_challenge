@@ -102,8 +102,8 @@ namespace gfx {
         {}
 
         // Move Constructor
-        Material(Material&& src)
-                : m_color{ std::move(src.m_color) },
+        Material(Material&& src) noexcept
+                : m_color{ src.m_color },
                   m_pattern{ std::move(src.m_pattern) },
                   m_ambient{ src.m_ambient },
                   m_diffuse{ src.m_diffuse },
@@ -131,9 +131,9 @@ namespace gfx {
         }
 
         // Move Assignment Operator
-        Material& operator=(Material&& src)
+        Material& operator=(Material&& src) noexcept
         {
-            m_color = std::move(src.m_color);
+            m_color = src.m_color;
             m_pattern = std::move(src.m_pattern);
             m_ambient = src.m_ambient;
             m_diffuse = src.m_diffuse;
