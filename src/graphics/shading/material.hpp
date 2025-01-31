@@ -176,6 +176,9 @@ namespace gfx {
 
         void setPattern(const Pattern& pattern);
 
+        void setPattern(std::unique_ptr<Pattern>&& pattern_ptr)
+        { m_pattern = std::move(pattern_ptr); }
+
         void setAmbient(const double ambient)
         { m_ambient = ambient; }
 
