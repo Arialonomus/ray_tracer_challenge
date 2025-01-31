@@ -3,8 +3,9 @@
 
 #include <cmath>
 
-#include "color.hpp"
 #include "material.hpp"
+#include "color.hpp"
+#include "sphere.hpp"
 #include "light.hpp"
 #include "vector4.hpp"
 #include "stripe_pattern.hpp"
@@ -13,6 +14,7 @@
 TEST(GraphicsShading, ViewBetweenLightAndSurface)
 {
     const gfx::Material material{ };
+    const gfx::Sphere sphere{ material };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
                                        gfx::createPoint(0, 0, -10) };
     const gfx::Vector4 surface_position{ 0, 0, 0, 1 };
@@ -20,7 +22,7 @@ TEST(GraphicsShading, ViewBetweenLightAndSurface)
     const gfx::Vector4 view_vector{ 0, 0, -1, 0 };
 
     const gfx::Color color_expected{ 1.9, 1.9, 1.9 };
-    const gfx::Color color_actual{ gfx::calculateSurfaceColor(material,
+    const gfx::Color color_actual{ gfx::calculateSurfaceColor(sphere,
                                                               point_light,
                                                               surface_position,
                                                               surface_normal,
@@ -33,7 +35,7 @@ TEST(GraphicsShading, ViewBetweenLightAndSurface)
 // and the surface and the light offset 45 degrees
 TEST(GraphicsShading, ViewBetweenLightAndSurfaceViewOffset45Degrees)
 {
-    const gfx::Material material{ };
+    const gfx::Sphere sphere{ };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
                                        gfx::createPoint(0, 0, -10) };
     const gfx::Vector4 surface_position{ 0, 0, 0, 1 };
@@ -41,7 +43,7 @@ TEST(GraphicsShading, ViewBetweenLightAndSurfaceViewOffset45Degrees)
     const gfx::Vector4 view_vector{  0, M_SQRT2 / 2, -M_SQRT2 / 2, 0 };
 
     const gfx::Color color_expected{ 1.0, 1.0, 1.0 };
-    const gfx::Color color_actual{ gfx::calculateSurfaceColor(material,
+    const gfx::Color color_actual{ gfx::calculateSurfaceColor(sphere,
                                                               point_light,
                                                               surface_position,
                                                               surface_normal,
@@ -54,7 +56,7 @@ TEST(GraphicsShading, ViewBetweenLightAndSurfaceViewOffset45Degrees)
 // and the light offset 45 degrees
 TEST(GraphicsShading, ViewOppositeSurfaceLightOffset45Degrees)
 {
-    const gfx::Material material{ };
+    const gfx::Sphere sphere{ };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
                                        gfx::createPoint(0, 10, -10) };
     const gfx::Vector4 surface_position{ 0, 0, 0, 1 };
@@ -62,7 +64,7 @@ TEST(GraphicsShading, ViewOppositeSurfaceLightOffset45Degrees)
     const gfx::Vector4 view_vector{ 0, 0, -1, 0 };
 
     const gfx::Color color_expected{ 0.736396, 0.736396, 0.736396 };
-    const gfx::Color color_actual{ gfx::calculateSurfaceColor(material,
+    const gfx::Color color_actual{ gfx::calculateSurfaceColor(sphere,
                                                               point_light,
                                                               surface_position,
                                                               surface_normal,
@@ -74,7 +76,7 @@ TEST(GraphicsShading, ViewOppositeSurfaceLightOffset45Degrees)
 // Tests calculating surface color with the view origin in the path of the light reflection vector
 TEST(GraphicsShading, ViewInPathOfReflectionVector)
 {
-    const gfx::Material material{ };
+    const gfx::Sphere sphere{ };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
                                        gfx::createPoint(0, 10, -10) };
     const gfx::Vector4 surface_position{ 0, 0, 0, 1 };
@@ -82,7 +84,7 @@ TEST(GraphicsShading, ViewInPathOfReflectionVector)
     const gfx::Vector4 view_vector{ 0, -M_SQRT2 / 2, -M_SQRT2 / 2, 0 };
 
     const gfx::Color color_expected{ 1.636396, 1.636396, 1.636396 };
-    const gfx::Color color_actual{ gfx::calculateSurfaceColor(material,
+    const gfx::Color color_actual{ gfx::calculateSurfaceColor(sphere,
                                                               point_light,
                                                               surface_position,
                                                               surface_normal,
@@ -94,7 +96,7 @@ TEST(GraphicsShading, ViewInPathOfReflectionVector)
 // Tests calculating surface color with the surface between the view and the light
 TEST(GraphicsShading, SurfaceBetweenViewAndLight)
 {
-    const gfx::Material material{ };
+    const gfx::Sphere sphere{ };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
                                        gfx::createPoint(0, 0, 10) };
     const gfx::Vector4 surface_position{ 0, 0, 0, 1 };
@@ -102,7 +104,7 @@ TEST(GraphicsShading, SurfaceBetweenViewAndLight)
     const gfx::Vector4 view_vector{ 0, 0, -1, 0 };
 
     const gfx::Color color_expected{ 0.1, 0.1, 0.1 };
-    const gfx::Color color_actual{ gfx::calculateSurfaceColor(material,
+    const gfx::Color color_actual{ gfx::calculateSurfaceColor(sphere,
                                                               point_light,
                                                               surface_position,
                                                               surface_normal,
@@ -114,7 +116,7 @@ TEST(GraphicsShading, SurfaceBetweenViewAndLight)
 // Tests calculating surface color with the surface between the view and the light
 TEST(GraphicsShading, SurfaceInShadow)
 {
-    const gfx::Material material{ };
+    const gfx::Sphere sphere{ };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
                                        gfx::createPoint(0, 0, -10) };
     const gfx::Vector4 surface_position{ 0, 0, 0, 1 };
@@ -122,7 +124,7 @@ TEST(GraphicsShading, SurfaceInShadow)
     const gfx::Vector4 view_vector{ 0, 0, -1, 0 };
 
     const gfx::Color color_expected{ 0.1, 0.1, 0.1 };
-    const gfx::Color color_actual{ gfx::calculateSurfaceColor(material,
+    const gfx::Color color_actual{ gfx::calculateSurfaceColor(sphere,
                                                               point_light,
                                                               surface_position,
                                                               surface_normal,
@@ -142,6 +144,7 @@ TEST(GraphicsShading, StripePatternedSurface)
                                   0,
                                   0,
                                   200 };
+    const gfx::Sphere sphere{ material };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
                                        gfx::createPoint(0, 0, -10) };
     const gfx::Vector4 surface_position_a{ 0.9, 0, 0, 1 };
@@ -149,11 +152,11 @@ TEST(GraphicsShading, StripePatternedSurface)
     const gfx::Vector4 view_vector{ 0, 0, -1, 0 };
 
     const gfx::Color color_expected_a{ 1, 1, 1 };
-    const gfx::Color color_actual_a{ gfx::calculateSurfaceColor(material,
-                                                              point_light,
-                                                              surface_position_a,
-                                                              surface_normal,
-                                                              view_vector) };
+    const gfx::Color color_actual_a{ gfx::calculateSurfaceColor(sphere,
+                                                                point_light,
+                                                                surface_position_a,
+                                                                surface_normal,
+                                                                view_vector) };
 
     EXPECT_EQ(color_actual_a, color_expected_a);
 
@@ -161,7 +164,7 @@ TEST(GraphicsShading, StripePatternedSurface)
     const gfx::Vector4 surface_position_b{ 1.1, 0, 0, 1 };
 
     const gfx::Color color_expected_b{ 0, 0, 0 };
-    const gfx::Color color_actual_b{ gfx::calculateSurfaceColor(material,
+    const gfx::Color color_actual_b{ gfx::calculateSurfaceColor(sphere,
                                                                 point_light,
                                                                 surface_position_b,
                                                                 surface_normal,

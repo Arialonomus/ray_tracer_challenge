@@ -71,7 +71,7 @@ namespace gfx {
             const DetailedIntersection detailed_hit{ possible_hit.value(), ray };
             const bool is_shadowed{ this->isShadowed(detailed_hit.getOverPoint()) };
 
-            return calculateSurfaceColor(detailed_hit.getObject().getMaterial(),
+            return calculateSurfaceColor(detailed_hit.getObject(),
                                          m_light_source,
                                          detailed_hit.getOverPoint(),
                                          detailed_hit.getSurfaceNormal(),
