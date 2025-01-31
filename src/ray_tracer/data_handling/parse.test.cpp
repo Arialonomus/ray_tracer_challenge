@@ -212,7 +212,17 @@ TEST(RayTracerParse, BuildChainedTransformMatrix)
     EXPECT_EQ(transform_matrix_actual, transform_matrix_expected);
 }
 
-// Test creating a plane from parsed JSON data
+// Tests creating a color object from parsed JSON data
+TEST(RayTracerParse, ParseColorData)
+{
+    const json color_data{ json::array({ 1, 0.9, 0.9 }) };
+    const gfx::Color color_expected{ 1, 0.9, 0.9 };
+
+    const gfx::Color color_actual{ data::parseColorData(color_data) };
+    EXPECT_EQ(color_actual, color_expected);
+}
+
+// Tests creating a plane from parsed JSON data
 TEST(RayTracerParse, ParsePlaneData)
 {
     const json plane_data{
@@ -238,7 +248,7 @@ TEST(RayTracerParse, ParsePlaneData)
     EXPECT_EQ(plane_actual, plane_expected);
 }
 
-// Test creating a sphere from parsed JSON data
+// Tests creating a sphere from parsed JSON data
 TEST(RayTracerParse, ParseSphereDataNoPattern)
 {
     const json sphere_data{
