@@ -14,7 +14,7 @@ namespace gfx {
     {
         // The base surface color from direct light
         const Color object_color{ material.hasPattern() ?
-              material.getPattern().getSurfaceColorAt(point_position)
+                                  material.getPattern().samplePatternAt(point_position)
             : material.getColor() };
         const Color effective_color{ object_color * light.intensity };
 

@@ -27,8 +27,8 @@ namespace gfx {
         [[nodiscard]] const Color& getColorB() const
         { return m_color_b; }
 
-        // Returns the surface color for this pattern at a passed-in point
-        [[nodiscard]] Color getSurfaceColorAt(const Vector4& point) const override;
+        // Returns the color for this pattern at a passed-in point
+        [[nodiscard]] Color samplePatternAt(const Vector4& pattern_point) const override;
 
         /* Object Operations */
 

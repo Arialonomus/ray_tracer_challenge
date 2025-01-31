@@ -26,7 +26,7 @@ namespace gfx {
         [[nodiscard]] const Matrix4& getTransform() const
         { return m_transform; }
 
-        [[nodiscard]] virtual Color getSurfaceColorAt(const Vector4& point) const = 0;
+        [[nodiscard]] virtual Color samplePatternAt(const Vector4& pattern_point) const = 0;
 
         /* Mutators */
 
