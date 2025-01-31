@@ -7,6 +7,7 @@
 #include "material.hpp"
 #include "light.hpp"
 #include "vector4.hpp"
+#include "stripe_pattern.hpp"
 
 // Tests calculating surface color with the view origin between the light and the surface
 TEST(GraphicsShading, ViewBetweenLightAndSurface)
@@ -129,4 +130,42 @@ TEST(GraphicsShading, SurfaceInShadow)
                                                               true) };
 
     EXPECT_EQ(color_actual, color_expected);
+}
+
+// Tests calculating surface color on a stripe-patterned surface
+TEST(GraphicsShading, StripePatternedSurface)
+{
+    // Test that pattern color A is shaded properly
+    const gfx::StripePattern stripe_pattern{ gfx::white(), gfx::black() };
+    const gfx::Material material{ stripe_pattern,
+                                  1,
+                                  0,
+                                  0,
+                                  200 };
+    const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
+                                       gfx::createPoint(0, 0, -10) };
+    const gfx::Vector4 surface_position_a{ 0.9, 0, 0, 1 };
+    const gfx::Vector4 surface_normal{ 0, 0, -1, 0 };
+    const gfx::Vector4 view_vector{ 0, 0, -1, 0 };
+
+    const gfx::Color color_expected_a{ 1, 1, 1 };
+    const gfx::Color color_actual_a{ gfx::calculateSurfaceColor(material,
+                                                              point_light,
+                                                              surface_position_a,
+                                                              surface_normal,
+                                                              view_vector) };
+
+    EXPECT_EQ(color_actual_a, color_expected_a);
+
+    // Test that pattern color B is shaded properly
+    const gfx::Vector4 surface_position_b{ 1.1, 0, 0, 1 };
+
+    const gfx::Color color_expected_b{ 0, 0, 0 };
+    const gfx::Color color_actual_b{ gfx::calculateSurfaceColor(material,
+                                                                point_light,
+                                                                surface_position_b,
+                                                                surface_normal,
+                                                                view_vector) };
+
+    EXPECT_EQ(color_actual_b, color_expected_b);
 }
