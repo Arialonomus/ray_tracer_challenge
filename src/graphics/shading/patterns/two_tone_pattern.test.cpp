@@ -78,7 +78,7 @@ TEST(GraphicsPatternTwoTone, CopyConstructor)
     ASSERT_EQ(two_tone_pattern_cpy.getTransform(), transform_expected);
 }
 
-// Tests setting the pattern colors
+// Tests setting the two-tone pattern colors
 TEST(GraphicsPatternTwoTone, Mutators)
 {
     TestTwoTonePattern two_tone_pattern{ gfx::black(), gfx::white() };
@@ -100,4 +100,86 @@ TEST(GraphicsPatternTwoTone, Mutators)
     // setColorB (Float List)
     two_tone_pattern.setColorB(0, 0, 0);
     ASSERT_EQ(two_tone_pattern.getColorB(), gfx::black());
+}
+
+/* Stripe Derived Class Tests */
+
+// Tests the equality operator for stripe pattern
+TEST(GraphicsPatternTwoTone, StripeEqualityOperator)
+{
+    const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(1, 2, 3) };
+    const gfx::Color color_a_expected{ gfx::black() };
+    const gfx::Color color_b_expected{ gfx::white() };
+    const gfx::StripePattern stripe_pattern_src{ transform_expected,
+                                                 color_a_expected,
+                                                 color_b_expected };
+    const gfx::StripePattern stripe_pattern_cpy{ stripe_pattern_src };
+
+    ASSERT_TRUE(stripe_pattern_src == stripe_pattern_cpy);
+}
+
+// Tests that the default stripe pattern returns the correct color in each dimension
+TEST(GraphicsPatternTwoTone, StripeSampleColorAt)
+{
+    const gfx::StripePattern stripe_pattern{ gfx::white(), gfx::black() };
+
+    // Test that a stripe pattern is constant in the y-dimension
+    EXPECT_EQ(stripe_pattern.samplePatternAt(gfx::createPoint(0, 0, 0)), gfx::white());
+    EXPECT_EQ(stripe_pattern.samplePatternAt(gfx::createPoint(0, 1, 0)), gfx::white());
+    EXPECT_EQ(stripe_pattern.samplePatternAt(gfx::createPoint(0, 2, 0)), gfx::white());
+
+    // Test that a stripe pattern is constant in the z-dimension
+    EXPECT_EQ(stripe_pattern.samplePatternAt(gfx::createPoint(0, 0, 0)), gfx::white());
+    EXPECT_EQ(stripe_pattern.samplePatternAt(gfx::createPoint(0, 0, 1)), gfx::white());
+    EXPECT_EQ(stripe_pattern.samplePatternAt(gfx::createPoint(0, 0, 2)), gfx::white());
+
+    // Test that a stripe pattern alternates in the y-dimension
+    EXPECT_EQ(stripe_pattern.samplePatternAt(gfx::createPoint(0, 0, 0)), gfx::white());
+    EXPECT_EQ(stripe_pattern.samplePatternAt(gfx::createPoint(0.9, 0, 0)), gfx::white());
+    EXPECT_EQ(stripe_pattern.samplePatternAt(gfx::createPoint(1, 0, 0)), gfx::black());
+    EXPECT_EQ(stripe_pattern.samplePatternAt(gfx::createPoint(-0.1, 0, 0)), gfx::black());
+    EXPECT_EQ(stripe_pattern.samplePatternAt(gfx::createPoint(-1, 0, 0)), gfx::black());
+    ASSERT_EQ(stripe_pattern.samplePatternAt(gfx::createPoint(-1.1, 0, 0)), gfx::white());
+}
+
+/* Gradient Derived Class Tests */
+
+// Tests the equality operator for gradient pattern
+TEST(GraphicsPatternTwoTone, GradientEqualityOperator)
+{
+    const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(1, 2, 3) };
+    const gfx::Color color_a_expected{ gfx::black() };
+    const gfx::Color color_b_expected{ gfx::white() };
+    const gfx::GradientPattern gradient_pattern_src{ transform_expected,
+                                                     color_a_expected,
+                                                     color_b_expected };
+    const gfx::GradientPattern gradient_pattern_cpy{ gradient_pattern_src };
+
+    ASSERT_TRUE(gradient_pattern_src == gradient_pattern_cpy);
+}
+
+// Tests that the default gradient pattern returns the correct color in each dimension
+TEST(GraphicsPatternTwoTone, GradientSampleColorAt)
+{
+    const gfx::GradientPattern gradient_pattern{ gfx::white(), gfx::black() };
+
+    // Test sampling the left edge
+    const gfx::Color color_a_expected{ gfx::white() };
+    const gfx::Color color_a_actual{ gradient_pattern.samplePatternAt(gfx::createPoint(0, 0, 0)) };
+    EXPECT_EQ(color_a_actual, color_a_expected);
+
+    // Test sampling 25% from the left edge
+    const gfx::Color color_b_expected{ 0.75, 0.75, 0.75 };
+    const gfx::Color color_b_actual{ gradient_pattern.samplePatternAt(gfx::createPoint(0.25, 0, 0)) };
+    EXPECT_EQ(color_b_actual, color_b_expected);
+
+    // Test sampling 50% from the left edge
+    const gfx::Color color_c_expected{ 0.5, 0.5, 0.5 };
+    const gfx::Color color_c_actual{ gradient_pattern.samplePatternAt(gfx::createPoint(0.5, 0, 0)) };
+    EXPECT_EQ(color_c_actual, color_c_expected);
+
+    // Test sampling 75% from the left edge
+    const gfx::Color color_d_expected{ 0.25, 0.25, 0.25 };
+    const gfx::Color color_d_actual{ gradient_pattern.samplePatternAt(gfx::createPoint(0.75, 0, 0)) };
+    EXPECT_EQ(color_d_actual, color_d_expected);
 }
