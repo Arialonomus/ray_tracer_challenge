@@ -19,6 +19,10 @@ target_sources(gfx PRIVATE
         graphics/geometry/shapes/plane.cpp
         graphics/geometry/intersection.cpp
         graphics/geometry/world.cpp
+        graphics/shading/patterns/stripe_pattern.cpp
+        graphics/shading/patterns/gradient_pattern.cpp
+        graphics/shading/patterns/ring_pattern.cpp
+        graphics/shading/patterns/checkered_pattern.cpp
         graphics/shading/material.cpp
         graphics/shading/shading_functions.cpp
 )
@@ -30,6 +34,7 @@ target_include_directories(gfx PUBLIC
         graphics/geometry
         graphics/geometry/shapes
         graphics/shading
+        graphics/shading/patterns
         graphics/utils
 )
 

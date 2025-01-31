@@ -18,6 +18,8 @@ set(GFX_UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/plane.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/intersection.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/world.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/patterns/pattern.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/patterns/two_tone_pattern.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/material.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/shading.test.cpp
 
