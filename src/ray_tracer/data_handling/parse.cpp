@@ -8,33 +8,36 @@
 #include "sphere.hpp"
 #include "stripe_pattern.hpp"
 #include "gradient_pattern.hpp"
+#include "ring_pattern.hpp"
+#include "checkered_pattern.hpp"
 
-namespace data{
+namespace data {
     Scene parseSceneData(const json& scene_data)
     {
         // Get the light source data
         const json& light_source_data{ scene_data["world"]["light_source"] };
         const std::vector<double> intensity_vals{
-            light_source_data["intensity"].get<std::vector<double>>() };
+                light_source_data["intensity"].get<std::vector<double>>() };
         const std::vector<double> position_vals{
-            light_source_data["position"].get<std::vector<double>>() };
-        const gfx::PointLight light_source {
-            gfx::Color{ intensity_vals[0], intensity_vals[1], intensity_vals[2] },
-            gfx::createPoint(position_vals[0], position_vals[1], position_vals[2]) };
+                light_source_data["position"].get<std::vector<double>>() };
+        const gfx::PointLight light_source{
+                gfx::Color{ intensity_vals[0], intensity_vals[1], intensity_vals[2] },
+                gfx::createPoint(position_vals[0], position_vals[1], position_vals[2]) };
 
         // Create the world with the light source
         gfx::World world{ light_source };
 
         // Add all the objects to the scene
         const json& object_data_list{ scene_data["world"]["objects"] };
-        for (const auto& object_data : object_data_list) {
+        for (const auto& object_data: object_data_list) {
             world.addObject(parseObjectData(object_data));
         }
 
         // Get the camera data
         const json& camera_data{ scene_data["camera"] };
         const std::vector<double> input_base_vals{ camera_data["transform"]["input_base"].get<std::vector<double>>() };
-        const std::vector<double> output_base_vals{ camera_data["transform"]["output_base"].get<std::vector<double>>() };
+        const std::vector<double> output_base_vals{
+                camera_data["transform"]["output_base"].get<std::vector<double>>() };
         const std::vector<double> up_vector_vals{ camera_data["transform"]["up_vector"].get<std::vector<double>>() };
 
         // Build the view transform matrix
@@ -42,15 +45,15 @@ namespace data{
                 gfx::createPoint(input_base_vals[0], input_base_vals[1], input_base_vals[2]),
                 gfx::createPoint(output_base_vals[0], output_base_vals[1], output_base_vals[2]),
                 gfx::createVector(up_vector_vals[0], up_vector_vals[1], up_vector_vals[2])
-                )
+        )
         };
 
         // Create the camera
         const rt::Camera camera{
-            camera_data["viewport_width"],
-            camera_data["viewport_height"],
-            camera_data["field_of_view"],
-            view_transform_matrix
+                camera_data["viewport_width"],
+                camera_data["viewport_height"],
+                camera_data["field_of_view"],
+                view_transform_matrix
         };
 
         return Scene{ world, camera };
@@ -78,10 +81,10 @@ namespace data{
         }
 
         // Define string-to-case mapping for possible shape primitives
-        enum class Cases{ Plane, Sphere };
+        enum class Cases { Plane, Sphere };
         static const std::unordered_map<std::string_view, Cases> stringToCaseMap{
-                {"plane",     Cases::Plane},
-                {"sphere",    Cases::Sphere}
+                { "plane",  Cases::Plane },
+                { "sphere", Cases::Sphere }
         };
 
         // Convert the string to a Case for use in the switch statement
@@ -104,10 +107,12 @@ namespace data{
     std::unique_ptr<gfx::Pattern> parsePatternData(const json& pattern_data)
     {
         // Define string-to-case mapping for possible patterns
-        enum class Cases{ Stripe, Gradient };
+        enum class Cases{ Stripe, Gradient, Ring, Checkered };
         static const std::unordered_map<std::string_view, Cases> stringToCaseMap{
-                {"stripe",     Cases::Stripe},
-                {"gradient",     Cases::Gradient}
+                { "stripe",    Cases::Stripe },
+                { "gradient",  Cases::Gradient },
+                { "ring",      Cases::Ring },
+                { "checkered", Cases::Checkered }
         };
 
         // Convert the string to a Case for use in the switch statement
@@ -126,13 +131,27 @@ namespace data{
             case Cases::Stripe:
                 return std::make_unique<gfx::StripePattern>(
                         gfx::StripePattern{
-                            transform_matrix,
-                            parseColorData(pattern_data["color_a"]),
-                            parseColorData(pattern_data["color_b"])
+                                transform_matrix,
+                                parseColorData(pattern_data["color_a"]),
+                                parseColorData(pattern_data["color_b"])
                         });
             case Cases::Gradient:
                 return std::make_unique<gfx::GradientPattern>(
                         gfx::GradientPattern{
+                                transform_matrix,
+                                parseColorData(pattern_data["color_a"]),
+                                parseColorData(pattern_data["color_b"])
+                        });
+            case Cases::Ring:
+                return std::make_unique<gfx::RingPattern>(
+                        gfx::RingPattern{
+                                transform_matrix,
+                                parseColorData(pattern_data["color_a"]),
+                                parseColorData(pattern_data["color_b"])
+                        });
+            case Cases::Checkered:
+                return std::make_unique<gfx::CheckeredPattern>(
+                        gfx::CheckeredPattern{
                                 transform_matrix,
                                 parseColorData(pattern_data["color_a"]),
                                 parseColorData(pattern_data["color_b"])
@@ -148,7 +167,7 @@ namespace data{
     gfx::Matrix4 buildChainedTransformMatrix(const json& transform_data_list)
     {
         gfx::Matrix4 transform_matrix{ gfx::createIdentityMatrix() };
-        for (const auto& transform_data : transform_data_list) {
+        for (const auto& transform_data: transform_data_list) {
             transform_matrix *= parseTransformMatrixData(transform_data);
         }
 
@@ -160,12 +179,12 @@ namespace data{
         // Define string-to-case mapping for possible transform matrices
         enum class Cases{ Translation, Scaling, XRotation, YRotation, ZRotation, Skew };
         static const std::unordered_map<std::string_view, Cases> stringToCaseMap{
-                {"translate", Cases::Translation},
-                {"scale",     Cases::Scaling},
-                {"rotate_x",  Cases::XRotation},
-                {"rotate_y",  Cases::YRotation},
-                {"rotate_z",  Cases::ZRotation},
-                {"skew",      Cases::Skew}
+                { "translate", Cases::Translation },
+                { "scale",     Cases::Scaling },
+                { "rotate_x",  Cases::XRotation },
+                { "rotate_y",  Cases::YRotation },
+                { "rotate_z",  Cases::ZRotation },
+                { "skew",      Cases::Skew }
         };
 
         // Convert the string to a Case for use in the switch statement
