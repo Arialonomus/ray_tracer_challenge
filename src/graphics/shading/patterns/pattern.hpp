@@ -12,7 +12,10 @@ namespace gfx {
     public:
         /* Constructors */
 
+        // Default Constructor
         Pattern() = default;
+
+        // Standard Constructor
         explicit Pattern(const Matrix4& transform_matrix)
                 : m_transform{ transform_matrix }
         {}
@@ -26,6 +29,7 @@ namespace gfx {
         [[nodiscard]] const Matrix4& getTransform() const
         { return m_transform; }
 
+        // Returns the color for this pattern at a passed-in point
         [[nodiscard]] virtual Color samplePatternAt(const Vector4& pattern_point) const = 0;
 
         /* Mutators */
@@ -40,6 +44,7 @@ namespace gfx {
 
         /* Object Operations */
 
+        // Creates a copy of this pattern and returns a smart pointer to the new object
         [[nodiscard]] virtual std::unique_ptr<Pattern> clone() const = 0;
 
     private:
@@ -48,6 +53,8 @@ namespace gfx {
         Matrix4 m_transform{ gfx::createIdentityMatrix() };
 
         /* Helper Methods */
+
+        // Derived-class implemented equality check
         [[nodiscard]] virtual bool equal(const Pattern& other) const = 0;
     };
 }
