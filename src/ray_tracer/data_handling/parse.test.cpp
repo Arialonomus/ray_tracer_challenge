@@ -9,6 +9,7 @@
 #include "transform.hpp"
 #include "plane.hpp"
 #include "sphere.hpp"
+#include "stripe_pattern.hpp"
 
 using json = nlohmann::json;
 
@@ -238,7 +239,7 @@ TEST(RayTracerParse, ParsePlaneData)
 }
 
 // Test creating a sphere from parsed JSON data
-TEST(RayTracerParse, ParseSphereData)
+TEST(RayTracerParse, ParseSphereDataNoPattern)
 {
     const json sphere_data{
             { "shape", "sphere"},
@@ -264,4 +265,22 @@ TEST(RayTracerParse, ParseSphereData)
 
     const gfx::Sphere sphere_actual{ dynamic_cast<const gfx::Sphere&>(*data::parseObjectData(sphere_data)) };
     EXPECT_EQ(sphere_actual, sphere_expected);
+}
+
+// Tests creating various patterns from parsed JSON data
+TEST(RayTracerParse, ParsePatternData)
+{
+    // Test creating a stripe pattern
+    const json stripe_pattern_data{
+            { "type", "stripe"},
+            { "transform", json::array({ }) },
+            { "color_a", json::array({ 0, 0, 0 }) },
+            { "color_b", json::array({ 1, 1, 1 }) },
+    };
+    const gfx::StripePattern stripe_pattern_expected{ gfx::createIdentityMatrix(),
+                                                      gfx::black(),
+                                                      gfx::white() };
+
+    const auto stripe_pattern_actual{ data::parsePatternData(stripe_pattern_data) };
+    EXPECT_EQ(*stripe_pattern_actual, stripe_pattern_expected);
 }
