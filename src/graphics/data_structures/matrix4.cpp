@@ -52,7 +52,7 @@ namespace gfx {
                                                0.0, 0.0, 1.0, 0.0,
                                                0.0, 0.0, 0.0, 1.0 };
         for (int i = 0; i < 16; ++i) {
-            if (!utils::areEqual(m_data[i], identity_values[i])) {
+            if (utils::areNotEqual(m_data[i], identity_values[i])) {
                 return false;
             }
         }
