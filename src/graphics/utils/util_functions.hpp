@@ -21,6 +21,13 @@ namespace utils
         return difference <= epsilon * std::fmax(std::abs(f1), std::abs(f2));
     }
 
+    // Uses relative comparison for floating-point numbers to determine f1 is not equal to f2
+    template<typename T>
+    bool areNotEqual(T f1, T f2)
+    {
+        return !areEqual(f1, f2);
+    }
+
     // Uses relative comparison for floating-point numbers to determine f1 is less than f2
     template<typename T>
     bool isLess(T f1, T f2)
