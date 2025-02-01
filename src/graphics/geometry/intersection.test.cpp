@@ -5,6 +5,8 @@
 #include "transform.hpp"
 #include "util_functions.hpp"
 
+#include "plane.hpp"
+
 // Tests the standard constructor
 TEST(GraphicsIntersection, StandardConstructor)
 {
@@ -148,6 +150,19 @@ TEST(GraphicsIntersection, DetailedIntersectionOverPoint)
 
     ASSERT_TRUE(detailedIntersection.getOverPoint().z() < -utils::EPSILON / 2);
     ASSERT_TRUE(detailedIntersection.getIntersectionPosition().z() > detailedIntersection.getOverPoint().z());
+}
+
+// Tests that a detailed intersection properly calculates the reflection vector when constructed
+TEST(GraphicsIntersection, DetailedIntersectionReflectionVector)
+{
+    const gfx::Plane plane{ };
+    const gfx::Ray ray{ 0, 1, -1,
+                        0, -M_SQRT2 / 2, M_SQRT2 / 2 };
+    const gfx::Intersection intersection{ M_SQRT2, &plane };
+    const gfx::DetailedIntersection detailed_intersection{ intersection, ray };
+
+    const gfx::Vector4 reflection_vector_expected{ 0, M_SQRT2 / 2, M_SQRT2 / 2, 0 };
+    ASSERT_EQ(detailed_intersection.getReflectionVector(), reflection_vector_expected);
 }
 
 // Tests the getHit functionality for 2-intersection groups when all intersections have positive t values
