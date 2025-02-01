@@ -143,7 +143,8 @@ TEST(GraphicsShading, StripePatternedSurface)
                                   1,
                                   0,
                                   0,
-                                  200 };
+                                  200,
+                                  0 };
     const gfx::Sphere sphere{ material };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
                                        gfx::createPoint(0, 0, -10) };

@@ -241,7 +241,8 @@ TEST(RayTracerParse, ParsePlaneData)
                                            0.1,
                                            0.9,
                                            0,
-                                           200 };
+                                           200,
+                                           0 };
     const gfx::Plane plane_expected{ material_expected };
 
     const gfx::Plane plane_actual{ dynamic_cast<const gfx::Plane&>(*data::parseObjectData(plane_data)) };
@@ -269,7 +270,8 @@ TEST(RayTracerParse, ParseSphereDataNoPattern)
                                            0.1,
                                            0.7,
                                            0.3,
-                                           200 };
+                                           200,
+                                           0 };
     const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(-0.5, 1, 0.5) };
     const gfx::Sphere sphere_expected{ transform_expected, material_expected };
 

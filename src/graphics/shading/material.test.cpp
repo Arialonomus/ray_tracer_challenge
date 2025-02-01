@@ -14,6 +14,7 @@ TEST(GraphicsMaterial, DefaultConstructor)
     const double diffuse_expected{ 0.9 };
     const double specular_expected{ 0.9 };
     const double shininess_expected{ 200 };
+    const double reflectivity_expected{ 0 };
 
     ASSERT_EQ(material.getColor(), color_expected);
     ASSERT_FALSE(material.hasPattern());
@@ -21,6 +22,7 @@ TEST(GraphicsMaterial, DefaultConstructor)
     ASSERT_FLOAT_EQ(material.getDiffuse(), diffuse_expected);
     ASSERT_FLOAT_EQ(material.getSpecular(), specular_expected);
     ASSERT_FLOAT_EQ(material.getShininess(), shininess_expected);
+    ASSERT_FLOAT_EQ(material.getReflectivity(), reflectivity_expected);
 }
 
 // Tests the color-only constructor
@@ -31,6 +33,7 @@ TEST(GraphicsMaterial, ColorConstructor)
     const double diffuse_expected{ 0.9 };
     const double specular_expected{ 0.9 };
     const double shininess_expected{ 200 };
+    const double reflectivity_expected{ 0 };
     const gfx::Material material{ color_expected };
 
     ASSERT_EQ(material.getColor(), color_expected);
@@ -39,6 +42,7 @@ TEST(GraphicsMaterial, ColorConstructor)
     ASSERT_FLOAT_EQ(material.getDiffuse(), diffuse_expected);
     ASSERT_FLOAT_EQ(material.getSpecular(), specular_expected);
     ASSERT_FLOAT_EQ(material.getShininess(), shininess_expected);
+    ASSERT_FLOAT_EQ(material.getReflectivity(), reflectivity_expected);
 }
 
 // Tests the pattern-only constructor
@@ -52,6 +56,7 @@ TEST(GraphicsMaterial, PatternOnlyConstructor)
     const double diffuse_expected{ 0.9 };
     const double specular_expected{ 0.9 };
     const double shininess_expected{ 200 };
+    const double reflectivity_expected{ 0 };
     const gfx::Material material{ pattern_expected };
 
     ASSERT_EQ(material.getColor(), color_expected);
@@ -60,6 +65,7 @@ TEST(GraphicsMaterial, PatternOnlyConstructor)
     ASSERT_FLOAT_EQ(material.getDiffuse(), diffuse_expected);
     ASSERT_FLOAT_EQ(material.getSpecular(), specular_expected);
     ASSERT_FLOAT_EQ(material.getShininess(), shininess_expected);
+    ASSERT_FLOAT_EQ(material.getReflectivity(), reflectivity_expected);
 }
 
 // Tests the Phong values list-only constructor
@@ -70,10 +76,12 @@ TEST(GraphicsMaterial, PhongValuesList)
     const double diffuse_expected{ 0.5 };
     const double specular_expected{ 0.5 };
     const double shininess_expected{ 50 };
+    const double reflectivity_expected{ 0.5 };
     const gfx::Material material{ ambient_expected,
                                   diffuse_expected,
                                   specular_expected,
-                                  shininess_expected };
+                                  shininess_expected,
+                                  reflectivity_expected };
 
     ASSERT_EQ(material.getColor(), color_expected);
     ASSERT_FALSE(material.hasPattern());
@@ -81,6 +89,7 @@ TEST(GraphicsMaterial, PhongValuesList)
     ASSERT_FLOAT_EQ(material.getDiffuse(), diffuse_expected);
     ASSERT_FLOAT_EQ(material.getSpecular(), specular_expected);
     ASSERT_FLOAT_EQ(material.getShininess(), shininess_expected);
+    ASSERT_FLOAT_EQ(material.getReflectivity(), reflectivity_expected);
 }
 
 // Tests the no-pattern constructors
@@ -92,17 +101,20 @@ TEST(GraphicsMaterial, NoPatternConstructors)
     const double diffuse_expected{ 0.5 };
     const double specular_expected{ 0.5 };
     const double shininess_expected{ 50 };
+    const double reflectivity_expected{ 0.5 };
     const gfx::Material material_a{ color_a_expected,
                                     ambient_expected,
                                     diffuse_expected,
                                     specular_expected,
-                                    shininess_expected };
+                                    shininess_expected,
+                                    reflectivity_expected };
 
     ASSERT_EQ(material_a.getColor(), color_a_expected);
     ASSERT_FLOAT_EQ(material_a.getAmbient(), ambient_expected);
     ASSERT_FLOAT_EQ(material_a.getDiffuse(), diffuse_expected);
     ASSERT_FLOAT_EQ(material_a.getSpecular(), specular_expected);
     ASSERT_FLOAT_EQ(material_a.getShininess(), shininess_expected);
+    ASSERT_FLOAT_EQ(material_a.getReflectivity(), reflectivity_expected);
 
     // Test the float list constructor
     const double color_r{ 0.5 };
@@ -115,13 +127,15 @@ TEST(GraphicsMaterial, NoPatternConstructors)
                                     ambient_expected,
                                     diffuse_expected,
                                     specular_expected,
-                                    shininess_expected };
+                                    shininess_expected,
+                                    reflectivity_expected };
 
     ASSERT_EQ(material_b.getColor(), color_b_expected);
     ASSERT_FLOAT_EQ(material_b.getAmbient(), ambient_expected);
     ASSERT_FLOAT_EQ(material_b.getDiffuse(), diffuse_expected);
     ASSERT_FLOAT_EQ(material_b.getSpecular(), specular_expected);
     ASSERT_FLOAT_EQ(material_b.getShininess(), shininess_expected);
+    ASSERT_FLOAT_EQ(material_b.getReflectivity(), reflectivity_expected);
 }
 
 // Tests the no-color constructor
@@ -136,11 +150,13 @@ TEST(GraphicsMaterial, NoColorConstructor)
     const double diffuse_expected{ 0.5 };
     const double specular_expected{ 0.5 };
     const double shininess_expected{ 50 };
+    const double reflectivity_expected{ 0.5 };
     const gfx::Material material{ pattern_expected,
                                   ambient_expected,
                                   diffuse_expected,
                                   specular_expected,
-                                  shininess_expected };
+                                  shininess_expected,
+                                  reflectivity_expected };
 
     ASSERT_EQ(material.getColor(), color_expected);
     ASSERT_EQ(material.getPattern(), pattern_expected);
@@ -148,6 +164,7 @@ TEST(GraphicsMaterial, NoColorConstructor)
     ASSERT_FLOAT_EQ(material.getDiffuse(), diffuse_expected);
     ASSERT_FLOAT_EQ(material.getSpecular(), specular_expected);
     ASSERT_FLOAT_EQ(material.getShininess(), shininess_expected);
+    ASSERT_FLOAT_EQ(material.getReflectivity(), reflectivity_expected);
 }
 
 // Tests the copy constructor
@@ -158,11 +175,13 @@ TEST(GraphicsMaterial, CopyConstructor)
     const double diffuse_expected{ 0.5 };
     const double specular_expected{ 0.5 };
     const double shininess_expected{ 50 };
+    const double reflectivity_expected{ 0.5 };
     const gfx::Material material_src{ color_expected,
                                       ambient_expected,
                                       diffuse_expected,
                                       specular_expected,
-                                      shininess_expected };
+                                      shininess_expected,
+                                      reflectivity_expected };
 
     const gfx::Material material_cpy{ material_src };
 
@@ -171,6 +190,7 @@ TEST(GraphicsMaterial, CopyConstructor)
     ASSERT_FLOAT_EQ(material_cpy.getDiffuse(), diffuse_expected);
     ASSERT_FLOAT_EQ(material_cpy.getSpecular(), specular_expected);
     ASSERT_FLOAT_EQ(material_cpy.getShininess(), shininess_expected);
+    ASSERT_FLOAT_EQ(material_cpy.getReflectivity(), reflectivity_expected);
 }
 
 // Tests the assignment operator
@@ -181,12 +201,13 @@ TEST(GraphicsMaterial, AssignmentOperator)
     const double diffuse_expected{ 0.5 };
     const double specular_expected{ 0.5 };
     const double shininess_expected{ 50 };
-
+    const double reflectivity_expected{ 0.5 };
     const gfx::Material material_a{ color_expected,
-                                      ambient_expected,
-                                      diffuse_expected,
-                                      specular_expected,
-                                      shininess_expected };
+                                    ambient_expected,
+                                    diffuse_expected,
+                                    specular_expected,
+                                    shininess_expected,
+                                    reflectivity_expected };
     gfx::Material material_b{ };
 
     material_b = material_a;
@@ -196,6 +217,7 @@ TEST(GraphicsMaterial, AssignmentOperator)
     ASSERT_FLOAT_EQ(material_b.getDiffuse(), diffuse_expected);
     ASSERT_FLOAT_EQ(material_b.getSpecular(), specular_expected);
     ASSERT_FLOAT_EQ(material_b.getShininess(), shininess_expected);
+    ASSERT_FLOAT_EQ(material_b.getReflectivity(), reflectivity_expected);
 }
 
 // Tests the equality operator
@@ -215,12 +237,13 @@ TEST(GraphicsMaterial, InequalityOperator)
     const double diffuse_expected{ 0.5 };
     const double specular_expected{ 0.5 };
     const double shininess_expected{ 50 };
-
+    const double reflectivity_expected{ 0.5 };
     const gfx::Material material_a{ color_expected,
                                     ambient_expected,
                                     diffuse_expected,
                                     specular_expected,
-                                    shininess_expected };
+                                    shininess_expected,
+                                    reflectivity_expected };
     const gfx::Material material_b{ };
 
     ASSERT_TRUE(material_a != material_b);
@@ -274,4 +297,9 @@ TEST(GraphicsMaterial, Mutators)
     const double shininess_expected{ 50 };
     material.setShininess(shininess_expected);
     ASSERT_FLOAT_EQ(material.getShininess(), shininess_expected);
+
+    // setReflectivity
+    const double reflectivity_expected{ 0.5 };
+    material.setReflectivity(reflectivity_expected);
+    ASSERT_FLOAT_EQ(material.getReflectivity(), reflectivity_expected);
 }

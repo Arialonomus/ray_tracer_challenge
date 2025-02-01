@@ -23,7 +23,7 @@ TEST(GraphicsSphere, DefaultConstructor)
 TEST(GraphicsSphere, StandardConstructor)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50 };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
     const gfx::Sphere sphere{ gfx::createScalingMatrix(5), material_expected };
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
 
@@ -46,7 +46,7 @@ TEST(GraphicsSphere, StandardConstructorDefaultMaterial)
 TEST(GraphicsSphere, StandardConstructorDefaultTransform)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50 };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
     const gfx::Sphere sphere{ material_expected };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
 
@@ -59,7 +59,7 @@ TEST(GraphicsSphere, CopyConstructor)
 {
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50 };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
     const gfx::Sphere sphere_src{ transform_expected, material_expected };
     const gfx::Sphere sphere_cpy{ sphere_src };
 
@@ -73,7 +73,7 @@ TEST(GraphicsSphere, AssignmentOperator)
 
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50 };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
     const gfx::Sphere sphere_a{ transform_expected, material_expected };
     gfx::Sphere sphere_b{ };
 
