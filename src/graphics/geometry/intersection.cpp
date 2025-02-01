@@ -15,6 +15,7 @@ namespace gfx {
               m_intersection_position{ ray.position(intersection.getT()) },
               m_surface_normal{ intersection.getObject().getSurfaceNormal(m_intersection_position) },
               m_view_vector{ -ray.getDirection() },
+              m_reflection_vector{ },
               m_over_point{ },
               m_is_inside_object{ false }
     {
@@ -23,6 +24,9 @@ namespace gfx {
             m_is_inside_object = true;
             m_surface_normal = -m_surface_normal;
         }
+
+        // Calculate the reflection vector from the surface normal
+        m_reflection_vector = ray.getDirection().reflect(m_surface_normal);
 
         // Calculate a point slightly above the object surface for use in shadow calculations
         m_over_point = m_intersection_position + m_surface_normal * utils::EPSILON;
