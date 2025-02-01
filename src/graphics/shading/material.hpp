@@ -21,7 +21,8 @@ namespace gfx {
                   m_ambient{ 0.1 },
                   m_diffuse{ 0.9 },
                   m_specular{ 0.9 },
-                  m_shininess{ 200 }
+                  m_shininess{ 200 },
+                  m_reflectivity{ 0 }
         {}
 
         // Pattern-Only Constructor
@@ -31,20 +32,23 @@ namespace gfx {
                   m_ambient{ 0.1 },
                   m_diffuse{ 0.9 },
                   m_specular{ 0.9 },
-                  m_shininess{ 200 }
+                  m_shininess{ 200 },
+                  m_reflectivity{ 0 }
         {}
 
         // Phong Values-Only Constructor
         Material(const double ambient,
                  const double diffuse,
                  const double specular,
-                 const double shininess)
+                 const double shininess,
+                 const double reflectivity)
                 : m_color{ 1, 1, 1 },
                   m_pattern{ nullptr },
                   m_ambient{ ambient },
                   m_diffuse{ diffuse },
                   m_specular{ specular },
-                  m_shininess{ shininess }
+                  m_shininess{ shininess },
+                  m_reflectivity{ reflectivity }
         {}
 
         // No-Pattern Constructor (Color Object)
@@ -52,13 +56,15 @@ namespace gfx {
                  const double ambient,
                  const double diffuse,
                  const double specular,
-                 const double shininess)
+                 const double shininess,
+                 const double reflectivity)
                 : m_color{ color },
                   m_pattern{ nullptr },
                   m_ambient{ ambient },
                   m_diffuse{ diffuse },
                   m_specular{ specular },
-                  m_shininess{ shininess }
+                  m_shininess{ shininess },
+                  m_reflectivity{ reflectivity }
         {}
 
         // No-Pattern Constructor (Float List)
@@ -68,13 +74,15 @@ namespace gfx {
                  const double ambient,
                  const double diffuse,
                  const double specular,
-                 const double shininess)
+                 const double shininess,
+                 const double reflectivity)
                 : m_color{ Color{ color_r, color_g, color_b }},
                   m_pattern{ nullptr },
                   m_ambient{ ambient },
                   m_diffuse{ diffuse },
                   m_specular{ specular },
-                  m_shininess{ shininess }
+                  m_shininess{ shininess },
+                  m_reflectivity{ reflectivity }
         {}
 
         // No-Color Constructor
@@ -82,13 +90,15 @@ namespace gfx {
                  const double ambient,
                  const double diffuse,
                  const double specular,
-                 const double shininess)
+                 const double shininess,
+                 const double reflectivity)
                 : m_color{ 1, 1, 1 },
                   m_pattern{ pattern.clone() },
                   m_ambient{ ambient },
                   m_diffuse{ diffuse },
                   m_specular{ specular },
-                  m_shininess{ shininess }
+                  m_shininess{ shininess },
+                  m_reflectivity{ reflectivity }
         {}
 
         // Copy Constructor
@@ -98,7 +108,8 @@ namespace gfx {
                   m_ambient{ src.m_ambient },
                   m_diffuse{ src.m_diffuse },
                   m_specular{ src.m_specular },
-                  m_shininess{ src.m_shininess }
+                  m_shininess{ src.m_shininess },
+                  m_reflectivity{ src.m_reflectivity }
         {}
 
         // Move Constructor
@@ -108,7 +119,8 @@ namespace gfx {
                   m_ambient{ src.m_ambient },
                   m_diffuse{ src.m_diffuse },
                   m_specular{ src.m_specular },
-                  m_shininess{ src.m_shininess }
+                  m_shininess{ src.m_shininess },
+                  m_reflectivity{ src.m_reflectivity }
         {}
 
         /* Destructor */
@@ -126,6 +138,7 @@ namespace gfx {
             m_diffuse = src.m_diffuse;
             m_specular = src.m_specular;
             m_shininess = src.m_shininess;
+            m_reflectivity = src.m_reflectivity;
 
             return *this;
         }
@@ -139,6 +152,7 @@ namespace gfx {
             m_diffuse = src.m_diffuse;
             m_specular = src.m_specular;
             m_shininess = src.m_shininess;
+            m_reflectivity = src.m_reflectivity;
 
             return *this;
         }
@@ -166,6 +180,9 @@ namespace gfx {
         [[nodiscard]] double getShininess() const
         { return m_shininess; }
 
+        [[nodiscard]] double getReflectivity() const
+        { return m_reflectivity; }
+
         /* Mutators */
 
         void setColor(const Color& color)
@@ -191,6 +208,9 @@ namespace gfx {
         void setShininess(const double shininess)
         { m_shininess = shininess; }
 
+        void setReflectivity(const double reflectivity)
+        { m_reflectivity = reflectivity; }
+
         /* Comparison Operator Overloads */
 
         [[nodiscard]] bool operator==(const Material& rhs) const;
@@ -204,5 +224,6 @@ namespace gfx {
         double m_diffuse{ 0.9 };
         double m_specular{ 0.9 };
         double m_shininess{ 200 };
+        double m_reflectivity{ 0 };
     };
 }
