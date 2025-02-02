@@ -59,7 +59,7 @@ namespace gfx {
         return false;
     }
 
-    Color World::calculatePixelColor(const Ray& ray) const
+    Color World::calculatePixelColor(const Ray& ray, const int remaining_bounces) const
     {
         // Get the list of intersections for the ray and check for a hit
         const std::vector<Intersection> world_intersections{ this->getIntersections(ray) };
@@ -70,6 +70,7 @@ namespace gfx {
             // Pre-compute values to utilize in shadow and reflection calculations
             const DetailedIntersection detailed_hit{ possible_hit.value(), ray };
             const bool is_shadowed{ this->isShadowed(detailed_hit.getOverPoint()) };
+            const Color reflected_color{ this->calculateReflectedColor(detailed_hit, remaining_bounces) };
 
             // Calculate the surface color, and return the final value summed with the reflected color
             Color surface_color{ calculateSurfaceColor(detailed_hit.getObject(),
@@ -78,7 +79,7 @@ namespace gfx {
                                                        detailed_hit.getSurfaceNormal(),
                                                        detailed_hit.getViewVector(),
                                                        is_shadowed) };
-            return surface_color;
+            return surface_color + reflected_color;
         }
         // No hit found, return black
         else {
@@ -86,14 +87,14 @@ namespace gfx {
         }
     }
 
-    Color World::calculateReflectedColor(const DetailedIntersection& intersection) const
+    Color World::calculateReflectedColor(const DetailedIntersection& intersection, const int remaining_bounces) const
     {
         // Bounce a ray to see what colors the reflective surface picks up
         const double object_reflectivity{ intersection.getObject().getMaterial().getReflectivity() };
-        if (utils::areNotEqual(object_reflectivity, 0.0)) {
+        if (utils::areNotEqual(object_reflectivity, 0.0) && remaining_bounces > 0) {
             const Ray reflection_vector{ intersection.getOverPoint(),
                                          intersection.getReflectionVector() };
-            return object_reflectivity * this->calculatePixelColor(reflection_vector);
+            return object_reflectivity * this->calculatePixelColor(reflection_vector, remaining_bounces - 1);
         }
         // Non-reflective surface, return black
         else {

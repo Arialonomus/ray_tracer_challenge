@@ -99,10 +99,10 @@ namespace gfx {
         [[nodiscard]] bool isShadowed(const Vector4& point) const;
 
         // Returns the pixel color for the ray hit using pre-computed vector data for that point in world space
-        [[nodiscard]] Color calculatePixelColor(const Ray& ray) const;
+        [[nodiscard]] Color calculatePixelColor(const Ray& ray, int remaining_bounces = 5) const;
 
         // Returns the reflected color at a ray-object intersection
-        [[nodiscard]] Color calculateReflectedColor(const DetailedIntersection& intersection) const;
+        [[nodiscard]] Color calculateReflectedColor(const DetailedIntersection& intersection, int remaining_bounces = 5) const;
 
     private:
         /* Data Members */
