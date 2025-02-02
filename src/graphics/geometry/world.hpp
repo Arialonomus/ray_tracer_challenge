@@ -101,6 +101,9 @@ namespace gfx {
         // Returns the pixel color for the ray hit using pre-computed vector data for that point in world space
         [[nodiscard]] Color calculatePixelColor(const Ray& ray) const;
 
+        // Returns the reflected color at a ray-object intersection
+        [[nodiscard]] Color calculateReflectedColor(const DetailedIntersection& intersection) const;
+
     private:
         /* Data Members */
 

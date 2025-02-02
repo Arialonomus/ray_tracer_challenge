@@ -71,16 +71,33 @@ namespace gfx {
             const DetailedIntersection detailed_hit{ possible_hit.value(), ray };
             const bool is_shadowed{ this->isShadowed(detailed_hit.getOverPoint()) };
 
-            return calculateSurfaceColor(detailed_hit.getObject(),
-                                         m_light_source,
-                                         detailed_hit.getOverPoint(),
-                                         detailed_hit.getSurfaceNormal(),
-                                         detailed_hit.getViewVector(),
-                                         is_shadowed);
+            // Calculate the surface color, and return the final value summed with the reflected color
+            Color surface_color{ calculateSurfaceColor(detailed_hit.getObject(),
+                                                       m_light_source,
+                                                       detailed_hit.getOverPoint(),
+                                                       detailed_hit.getSurfaceNormal(),
+                                                       detailed_hit.getViewVector(),
+                                                       is_shadowed) };
+            return surface_color;
         }
         // No hit found, return black
         else {
-            return Color{ 0, 0, 0 };
+            return black();
+        }
+    }
+
+    Color World::calculateReflectedColor(const DetailedIntersection& intersection) const
+    {
+        // Bounce a ray to see what colors the reflective surface picks up
+        const double object_reflectivity{ intersection.getObject().getMaterial().getReflectivity() };
+        if (utils::areNotEqual(object_reflectivity, 0.0)) {
+            const Ray reflection_vector{ intersection.getOverPoint(),
+                                         intersection.getReflectionVector() };
+            return object_reflectivity * this->calculatePixelColor(reflection_vector);
+        }
+        // Non-reflective surface, return black
+        else {
+            return black();
         }
     }
 }
