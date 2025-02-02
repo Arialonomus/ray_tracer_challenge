@@ -320,3 +320,40 @@ TEST(GraphicsWorld, CalculateReflectedColorReflective)
     const gfx::Color color_actual{ world.calculateReflectedColor(intersection) };
     EXPECT_EQ(color_actual, color_expected);
 }
+
+// Tests shading a color on a surface with a reflective material
+TEST(GraphicsWorld, CalculatePixelColorReflectiveMaterial)
+{
+    const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
+                                        gfx::createPoint( -10, 10, -10 )};
+    gfx::Material sphere_a_material{ };
+    sphere_a_material.setColor(0.8, 1.0, 0.6);
+    sphere_a_material.setDiffuse(0.7);
+    sphere_a_material.setSpecular(0.2);
+
+    gfx::Sphere sphere_a{ sphere_a_material };
+    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+
+    gfx::Material plane_material{ };
+    plane_material.setReflectivity(0.5);
+    const gfx::Plane plane{ gfx::createTranslationMatrix(0, -1, 0), plane_material };
+
+    const gfx::World world{ light_source, sphere_a, sphere_b, plane };
+    const gfx::Ray ray{ 0, 0, -3,
+                        0, -M_SQRT2 / 2, M_SQRT2 / 2 };
+
+    // Validate state is correctly initialized before repeating this calculation in calculatePixelColor()
+    const std::vector<gfx::Intersection> world_intersections{ world.getIntersections(ray) };
+    auto possible_hit{ getHit(world_intersections) };
+
+    ASSERT_TRUE(possible_hit);
+    const gfx::Intersection intersection_expected{ M_SQRT2, &world.getObjectAt(2) };
+    const gfx::Intersection& intersection_actual{ possible_hit.value() };
+
+    EXPECT_EQ(intersection_actual, intersection_expected);
+
+    const gfx::Color pixel_color_expected{ 0.876756, 0.924339, 0.829173 };
+    const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
+
+    EXPECT_EQ(pixel_color_actual, pixel_color_expected);
+}
