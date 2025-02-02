@@ -8,6 +8,7 @@
 #include "ray.hpp"
 #include "transform.hpp"
 #include "intersection.hpp"
+#include "plane.hpp"
 
 // Tests the default constructor
 TEST(GraphicsWorld, DefaultConstructor)
@@ -243,7 +244,7 @@ TEST(GraphicsWorld, CalculatePixelColorHitBehind)
     EXPECT_EQ(pixel_color_actual, pixel_color_expected);
 }
 
-// Test shading a color when a ray intersection point is in shadow
+// Tests shading a color when a ray intersection point is in shadow
 TEST(GraphicsWorld, CalculatePixelColorInShadow)
 {
     gfx::Sphere sphere_a{ };
@@ -268,4 +269,54 @@ TEST(GraphicsWorld, CalculatePixelColorInShadow)
     const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
 
     EXPECT_EQ(pixel_color_actual, pixel_color_expected);
+}
+
+// Tests calculating the reflected color for a non-reflective material
+TEST(GraphicsWorld, CalculateReflectedColorNonReflective)
+{
+    gfx::Material material{ };
+    material.setColor(0.8, 1.0, 0.6);
+    material.setDiffuse(0.7);
+    material.setSpecular(0.2);
+
+    gfx::Sphere sphere_a{ material };
+    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+    const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
+                                        gfx::createPoint( -10, 10, -10 )};
+    const gfx::World world{ light_source, sphere_a, sphere_b };
+    const gfx::Ray ray{ 0, 0, 1,
+                        0, 0, 1 };
+
+    const gfx::DetailedIntersection intersection{ gfx::Intersection{ 1, &sphere_b }, ray };
+
+    const gfx::Color color_expected{ gfx::black() };
+    const gfx::Color color_actual{ world.calculateReflectedColor(intersection) };
+    EXPECT_EQ(color_actual, color_expected);
+}
+
+// Tests calculating the reflected color for a non-reflective material
+TEST(GraphicsWorld, CalculateReflectedColorReflective)
+{
+    gfx::Material material{ };
+    material.setColor(0.8, 1.0, 0.6);
+    material.setDiffuse(0.7);
+    material.setSpecular(0.2);
+    gfx::Sphere sphere_a{ material };
+    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+
+    gfx::Material plane_material{ };
+    plane_material.setReflectivity(0.5);
+    const gfx::Plane plane{ gfx::createTranslationMatrix(0, -1, 0), plane_material };
+
+    const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
+                                        gfx::createPoint( -10, 10, -10 )};
+    const gfx::World world{ light_source, sphere_a, sphere_b, plane };
+    const gfx::Ray ray{ 0, 0, -3,
+                        0, -M_SQRT2 / 2, M_SQRT2 /2 };
+
+    const gfx::DetailedIntersection intersection{ gfx::Intersection{ M_SQRT2, &plane }, ray };
+
+    const gfx::Color color_expected{ 0.190331, 0.237913, 0.142748 };
+    const gfx::Color color_actual{ world.calculateReflectedColor(intersection) };
+    EXPECT_EQ(color_actual, color_expected);
 }
