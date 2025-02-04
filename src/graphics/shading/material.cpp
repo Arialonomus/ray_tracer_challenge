@@ -12,7 +12,10 @@ namespace gfx {
             utils::areEqual(m_ambient, rhs.getAmbient()) &&
             utils::areEqual(m_diffuse, rhs.getDiffuse()) &&
             utils::areEqual(m_specular, rhs.getSpecular()) &&
-            utils::areEqual(m_shininess, rhs.getShininess());
+            utils::areEqual(m_shininess, rhs.getShininess()) &&
+            utils::areEqual(m_reflectivity, rhs.getReflectivity()) &&
+            utils::areEqual(m_transparency, rhs.getTransparency()) &&
+            utils::areEqual(m_refractive_index, rhs.getRefractiveIndex());
     }
 
     // Pattern Mutator
