@@ -22,7 +22,9 @@ namespace gfx {
                   m_diffuse{ 0.9 },
                   m_specular{ 0.9 },
                   m_shininess{ 200 },
-                  m_reflectivity{ 0 }
+                  m_reflectivity{ 0 },
+                  m_transparency{ 0 },
+                  m_refractive_index{ 1 }
         {}
 
         // Pattern-Only Constructor
@@ -33,10 +35,12 @@ namespace gfx {
                   m_diffuse{ 0.9 },
                   m_specular{ 0.9 },
                   m_shininess{ 200 },
-                  m_reflectivity{ 0 }
+                  m_reflectivity{ 0 },
+                  m_transparency{ 0 },
+                  m_refractive_index{ 1 }
         {}
 
-        // Phong Values-Only Constructor
+        // Material Properties-Only Constructor (Opaque Material)
         Material(const double ambient,
                  const double diffuse,
                  const double specular,
@@ -48,10 +52,31 @@ namespace gfx {
                   m_diffuse{ diffuse },
                   m_specular{ specular },
                   m_shininess{ shininess },
-                  m_reflectivity{ reflectivity }
+                  m_reflectivity{ reflectivity },
+                  m_transparency{ 0 },
+                  m_refractive_index{ 1 }
         {}
 
-        // No-Pattern Constructor (Color Object)
+        // Material Properties-Only Constructor (Transparent Material)
+        Material(const double ambient,
+                 const double diffuse,
+                 const double specular,
+                 const double shininess,
+                 const double reflectivity,
+                 const double transparency,
+                 const double refractive_index)
+                : m_color{ 1, 1, 1 },
+                  m_pattern{ nullptr },
+                  m_ambient{ ambient },
+                  m_diffuse{ diffuse },
+                  m_specular{ specular },
+                  m_shininess{ shininess },
+                  m_reflectivity{ reflectivity },
+                  m_transparency{ transparency },
+                  m_refractive_index{ refractive_index }
+        {}
+
+        // No-Pattern Constructor (Color Object, Opaque Material)
         Material(const Color& color,
                  const double ambient,
                  const double diffuse,
@@ -64,10 +89,32 @@ namespace gfx {
                   m_diffuse{ diffuse },
                   m_specular{ specular },
                   m_shininess{ shininess },
-                  m_reflectivity{ reflectivity }
+                  m_reflectivity{ reflectivity },
+                  m_transparency{ 0 },
+                  m_refractive_index{ 1 }
         {}
 
-        // No-Pattern Constructor (Float List)
+        // No-Pattern Constructor (Color Object, Transparent Material)
+        Material(const Color& color,
+                 const double ambient,
+                 const double diffuse,
+                 const double specular,
+                 const double shininess,
+                 const double reflectivity,
+                 const double transparency,
+                 const double refractive_index)
+                : m_color{ color },
+                  m_pattern{ nullptr },
+                  m_ambient{ ambient },
+                  m_diffuse{ diffuse },
+                  m_specular{ specular },
+                  m_shininess{ shininess },
+                  m_reflectivity{ reflectivity },
+                  m_transparency{ transparency },
+                  m_refractive_index{ refractive_index }
+        {}
+
+        // No-Pattern Constructor (Float List, Opaque Material)
         Material(const double color_r,
                  const double color_g,
                  const double color_b,
@@ -82,10 +129,34 @@ namespace gfx {
                   m_diffuse{ diffuse },
                   m_specular{ specular },
                   m_shininess{ shininess },
-                  m_reflectivity{ reflectivity }
+                  m_reflectivity{ reflectivity },
+                  m_transparency{ 0 },
+                  m_refractive_index{ 1 }
         {}
 
-        // No-Color Constructor
+        // No-Pattern Constructor (Float List, Transparent Material)
+        Material(const double color_r,
+                 const double color_g,
+                 const double color_b,
+                 const double ambient,
+                 const double diffuse,
+                 const double specular,
+                 const double shininess,
+                 const double reflectivity,
+                 const double transparency,
+                 const double refractive_index)
+                : m_color{ Color{ color_r, color_g, color_b }},
+                  m_pattern{ nullptr },
+                  m_ambient{ ambient },
+                  m_diffuse{ diffuse },
+                  m_specular{ specular },
+                  m_shininess{ shininess },
+                  m_reflectivity{ reflectivity },
+                  m_transparency{ transparency },
+                  m_refractive_index{ refractive_index }
+        {}
+
+        // No-Color Constructor (Opaque Material)
         Material(const Pattern& pattern,
                  const double ambient,
                  const double diffuse,
@@ -98,7 +169,29 @@ namespace gfx {
                   m_diffuse{ diffuse },
                   m_specular{ specular },
                   m_shininess{ shininess },
-                  m_reflectivity{ reflectivity }
+                  m_reflectivity{ reflectivity },
+                  m_transparency{ 0 },
+                  m_refractive_index{ 1 }
+        {}
+
+        // No-Color Constructor (Transparent Material)
+        Material(const Pattern& pattern,
+                 const double ambient,
+                 const double diffuse,
+                 const double specular,
+                 const double shininess,
+                 const double reflectivity,
+                 const double transparency,
+                 const double refractive_index)
+                : m_color{ 1, 1, 1 },
+                  m_pattern{ pattern.clone() },
+                  m_ambient{ ambient },
+                  m_diffuse{ diffuse },
+                  m_specular{ specular },
+                  m_shininess{ shininess },
+                  m_reflectivity{ reflectivity },
+                  m_transparency{ transparency },
+                  m_refractive_index{ refractive_index }
         {}
 
         // Copy Constructor
@@ -109,7 +202,9 @@ namespace gfx {
                   m_diffuse{ src.m_diffuse },
                   m_specular{ src.m_specular },
                   m_shininess{ src.m_shininess },
-                  m_reflectivity{ src.m_reflectivity }
+                  m_reflectivity{ src.m_reflectivity },
+                  m_transparency{ src.m_transparency },
+                  m_refractive_index{ src.m_refractive_index }
         {}
 
         // Move Constructor
@@ -120,7 +215,9 @@ namespace gfx {
                   m_diffuse{ src.m_diffuse },
                   m_specular{ src.m_specular },
                   m_shininess{ src.m_shininess },
-                  m_reflectivity{ src.m_reflectivity }
+                  m_reflectivity{ src.m_reflectivity },
+                  m_transparency{ src.m_transparency },
+                  m_refractive_index{ src.m_refractive_index }
         {}
 
         /* Destructor */
@@ -139,6 +236,8 @@ namespace gfx {
             m_specular = src.m_specular;
             m_shininess = src.m_shininess;
             m_reflectivity = src.m_reflectivity;
+            m_transparency = src.m_transparency;
+            m_refractive_index = src.m_refractive_index;
 
             return *this;
         }
@@ -153,6 +252,8 @@ namespace gfx {
             m_specular = src.m_specular;
             m_shininess = src.m_shininess;
             m_reflectivity = src.m_reflectivity;
+            m_transparency = src.m_transparency;
+            m_refractive_index = src.m_refractive_index;
 
             return *this;
         }
@@ -183,6 +284,12 @@ namespace gfx {
         [[nodiscard]] double getReflectivity() const
         { return m_reflectivity; }
 
+        [[nodiscard]] double getTransparency() const
+        { return m_transparency; }
+
+        [[nodiscard]] double getRefractiveIndex() const
+        { return m_refractive_index; }
+
         /* Mutators */
 
         void setColor(const Color& color)
@@ -211,6 +318,12 @@ namespace gfx {
         void setReflectivity(const double reflectivity)
         { m_reflectivity = reflectivity; }
 
+        void setTransparency(const double transparency)
+        { m_transparency = transparency; }
+
+        void setRefractiveIndex(const double refractive_index)
+        { m_refractive_index = refractive_index; }
+
         /* Comparison Operator Overloads */
 
         [[nodiscard]] bool operator==(const Material& rhs) const;
@@ -225,5 +338,7 @@ namespace gfx {
         double m_specular{ 0.9 };
         double m_shininess{ 200 };
         double m_reflectivity{ 0 };
+        double m_transparency{ 0 };
+        double m_refractive_index{ 1 };
     };
 }
