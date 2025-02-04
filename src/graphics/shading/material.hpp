@@ -341,4 +341,9 @@ namespace gfx {
         double m_transparency{ 0 };
         double m_refractive_index{ 1 };
     };
+
+    /* Material Factory Functions */
+
+    // Returns a new Material object with transparency and refractive index set to those of clear glass
+    [[nodiscard]] Material createGlassyMaterial();
 }
