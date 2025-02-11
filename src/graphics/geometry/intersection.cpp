@@ -40,7 +40,6 @@ namespace gfx {
 
     std::optional<Intersection> getHit(std::vector<Intersection> intersections)
     {
-        std::sort(intersections.begin(), intersections.end());
         auto hit_iter = std::lower_bound(
                 intersections.begin(),
                 intersections.end(),
