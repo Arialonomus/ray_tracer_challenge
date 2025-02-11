@@ -67,10 +67,13 @@ namespace gfx {
 
         // Hit found calculate the color at that position
         if (possible_hit) {
-            // Pre-compute values to utilize in shadow and reflection calculations
+            // Pre-compute values to utilize in shadow, reflection, and refraction calculations
             const DetailedIntersection detailed_hit{ possible_hit.value(), ray };
             const bool is_shadowed{ this->isShadowed(detailed_hit.getOverPoint()) };
             const Color reflected_color{ this->calculateReflectedColorAt(detailed_hit, remaining_bounces) };
+            const Color refracted_color{ this->calculateRefractedColorAt(detailed_hit,
+                                                                         world_intersections,
+                                                                         remaining_bounces) };
 
             // Calculate the surface color, and return the final value summed with the reflected color
             Color surface_color{ calculateSurfaceColor(detailed_hit.getObject(),
@@ -79,7 +82,7 @@ namespace gfx {
                                                        detailed_hit.getSurfaceNormal(),
                                                        detailed_hit.getViewVector(),
                                                        is_shadowed) };
-            return surface_color + reflected_color;
+            return surface_color + reflected_color + refracted_color;
         }
         // No hit found, return black
         else {
@@ -132,7 +135,7 @@ namespace gfx {
                                       normal_vector * (n_ratio * cos_i - cos_r) - view_vector * n_ratio };
 
             // Recursively calculate the refracted color
-            return this->calculatePixelColor(refraction_ray, remaining_bounces - 1);
+            return this->calculatePixelColor(refraction_ray, remaining_bounces - 1) ;
         } else {
             // Opaque object or maximum recursion, return black
             return black();
