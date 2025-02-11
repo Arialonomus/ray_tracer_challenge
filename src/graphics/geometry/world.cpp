@@ -111,9 +111,11 @@ namespace gfx {
             // Calculate the trig values for the angles of refraction using Snell's Law: θᵢ/θᵣ = n2/n1
             // Assume θᵢ is the angle of incidence and θᵣ is the angle of refraction
             const auto [ n1, n2 ] { getRefractiveIndices(intersection, possible_overlaps) };
+            const Vector4 view_vector{ intersection.getViewVector() };
+            const Vector4 normal_vector{ intersection.getSurfaceNormal() };
 
             // θᵢ is formed by the view vector and the normal, so the cos(θᵢ) is their dot product
-            const double cos_i{ dotProduct(intersection.getViewVector(), intersection.getSurfaceNormal()) };
+            const double cos_i{ dotProduct(view_vector, normal_vector) };
 
             // Using the identity sin²θ + cos²θ = 1 gives us sin²(θᵣ) = (n1 / n2)² * (1 - cos²(θᵢ))
             const double n_ratio{ n1 / n2 };
@@ -124,9 +126,15 @@ namespace gfx {
                 return black();
             }
 
-            return white();
+            // Use the refraction formula to calculate the refraction direction and create the refraction ray
+            const double cos_r{ std::sqrt(1 - sin2_r) };
+            const Ray refraction_ray{ intersection.getUnderPoint(),
+                                      normal_vector * (n_ratio * cos_i - cos_r) - view_vector * n_ratio };
+
+            // Recursively calculate the refracted color
+            return this->calculatePixelColor(refraction_ray, remaining_bounces - 1);
         } else {
-            // Opaque object, return black
+            // Opaque object or maximum recursion, return black
             return black();
         }
     }
