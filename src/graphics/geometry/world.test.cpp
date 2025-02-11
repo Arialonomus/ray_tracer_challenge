@@ -119,7 +119,7 @@ TEST(GraphicsWorld, WorldIntersections)
     const gfx::Ray ray{ 0, 0, -5,
                         0, 0, 1 };
 
-    const std::vector<gfx::Intersection> world_intersections{ world.getIntersections(ray) };
+    const std::vector<gfx::Intersection> world_intersections{ world.getAllIntersections(ray) };
 
     EXPECT_EQ(world_intersections.size(), 4);
     EXPECT_FLOAT_EQ(world_intersections.at(0).getT(), 4);
@@ -256,7 +256,7 @@ TEST(GraphicsWorld, CalculatePixelColorInShadow)
                         0, 0, 1 };
 
     // Validate state is correctly initialized before repeating this calculation in calculatePixelColor()
-    const std::vector<gfx::Intersection> world_intersections{ world.getIntersections(ray) };
+    const std::vector<gfx::Intersection> world_intersections{ world.getAllIntersections(ray) };
     auto possible_hit{ getHit(world_intersections) };
 
     ASSERT_TRUE(possible_hit);
@@ -343,7 +343,7 @@ TEST(GraphicsWorld, CalculatePixelColorReflectiveMaterial)
                         0, -M_SQRT2 / 2, M_SQRT2 / 2 };
 
     // Validate state is correctly initialized before repeating this calculation in calculatePixelColor()
-    const std::vector<gfx::Intersection> world_intersections{ world.getIntersections(ray) };
+    const std::vector<gfx::Intersection> world_intersections{ world.getAllIntersections(ray) };
     auto possible_hit{ getHit(world_intersections) };
 
     ASSERT_TRUE(possible_hit);

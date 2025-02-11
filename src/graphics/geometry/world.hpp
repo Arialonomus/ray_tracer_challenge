@@ -93,7 +93,7 @@ namespace gfx {
         /* Ray-Tracing Operations */
 
         // Returns a sorted list of all intersections with objects in this world with a passed-in Ray
-        [[nodiscard]] std::vector<Intersection> getIntersections(const Ray& ray) const;
+        [[nodiscard]] std::vector<Intersection> getAllIntersections(const Ray& ray) const;
 
         // Returns true if the passed-in position is in shadow
         [[nodiscard]] bool isShadowed(const Vector4& point) const;

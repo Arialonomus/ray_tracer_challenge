@@ -25,7 +25,7 @@ namespace gfx {
     }
 
     // World Intersection Calculator
-    std::vector<Intersection> World::getIntersections(const Ray& ray) const
+    std::vector<Intersection> World::getAllIntersections(const Ray& ray) const
     {
         std::vector<Intersection> world_intersections{ };
 
@@ -49,7 +49,7 @@ namespace gfx {
 
         // Cast a ray towards the light source to see if it intersects with any other object
         const Ray shadow_ray( point, normalize(light_source_displacement));
-        const auto possible_hit{ getHit(this->getIntersections(shadow_ray)) };
+        const auto possible_hit{ getHit(this->getAllIntersections(shadow_ray)) };
 
         // If the intersection occurs closer than the distance to the vector, the point is shadowed
         if (possible_hit && utils::isLess(possible_hit.value().getT(), light_source_displacement.magnitude())) {
@@ -62,7 +62,7 @@ namespace gfx {
     Color World::calculatePixelColor(const Ray& ray, const int remaining_bounces) const
     {
         // Get the list of intersections for the ray and check for a hit
-        const std::vector<Intersection> world_intersections{ this->getIntersections(ray) };
+        const std::vector<Intersection> world_intersections{ this->getAllIntersections(ray) };
         auto possible_hit{ getHit(world_intersections) };
 
         // Hit found calculate the color at that position

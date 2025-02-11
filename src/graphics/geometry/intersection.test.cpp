@@ -259,7 +259,7 @@ TEST(GraphicsIntersection, GetRefractiveIndexOverlappingSpheres)
 
     const gfx::World world{ glass_sphere_a, glass_sphere_b, glass_sphere_c };
 
-    auto intersections{ world.getIntersections(ray) };
+    auto intersections{ world.getAllIntersections(ray) };
     const std::vector<std::pair<double, double>> refractive_indices_expected_list{ std::pair(1.0, 1.5),
                                                                                    std::pair(1.5, 2.0),
                                                                                    std::pair(2.0, 2.5),
