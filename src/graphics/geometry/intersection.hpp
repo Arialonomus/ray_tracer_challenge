@@ -97,17 +97,21 @@ namespace gfx {
         [[nodiscard]] Vector4 getOverPoint() const
         { return m_over_point; }
 
+        [[nodiscard]] Vector4 getUnderPoint() const
+        { return m_under_point; }
+
         [[nodiscard]] bool isInsideObject() const
         { return m_is_inside_object; }
 
     private:
         /* Data Members */
 
-        Vector4 m_intersection_position{};
-        Vector4 m_surface_normal{};
-        Vector4 m_view_vector{};
-        Vector4 m_reflection_vector{};
-        Vector4 m_over_point{};
+        Vector4 m_intersection_position{ };
+        Vector4 m_surface_normal{ };
+        Vector4 m_view_vector{ };
+        Vector4 m_reflection_vector{ };
+        Vector4 m_over_point{ };
+        Vector4 m_under_point{ };
         bool m_is_inside_object{ false };
     };
 
