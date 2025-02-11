@@ -102,7 +102,8 @@ namespace gfx {
         [[nodiscard]] Color calculatePixelColor(const Ray& ray, int remaining_bounces = 5) const;
 
         // Returns the reflected color at a ray-object intersection
-        [[nodiscard]] Color calculateReflectedColor(const DetailedIntersection& intersection, int remaining_bounces = 5) const;
+        [[nodiscard]] Color calculateReflectedColorAt(const DetailedIntersection& intersection,
+                                                      int remaining_bounces = 5) const;
 
     private:
         /* Data Members */

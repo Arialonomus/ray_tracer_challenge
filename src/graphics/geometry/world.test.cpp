@@ -290,7 +290,7 @@ TEST(GraphicsWorld, CalculateReflectedColorNonReflective)
     const gfx::DetailedIntersection intersection{ gfx::Intersection{ 1, &sphere_b }, ray };
 
     const gfx::Color color_expected{ gfx::black() };
-    const gfx::Color color_actual{ world.calculateReflectedColor(intersection) };
+    const gfx::Color color_actual{ world.calculateReflectedColorAt(intersection) };
     EXPECT_EQ(color_actual, color_expected);
 }
 
@@ -317,7 +317,7 @@ TEST(GraphicsWorld, CalculateReflectedColorReflective)
     const gfx::DetailedIntersection intersection{ gfx::Intersection{ M_SQRT2, &plane }, ray };
 
     const gfx::Color color_expected{ 0.190331, 0.237913, 0.142748 };
-    const gfx::Color color_actual{ world.calculateReflectedColor(intersection) };
+    const gfx::Color color_actual{ world.calculateReflectedColorAt(intersection) };
     EXPECT_EQ(color_actual, color_expected);
 }
 
