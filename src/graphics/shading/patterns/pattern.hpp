@@ -57,4 +57,26 @@ namespace gfx {
         // Derived-class implemented equality check
         [[nodiscard]] virtual bool equal(const Pattern& other) const = 0;
     };
+
+    // A derived Pattern class to be used in test suites to test the abstract base class functionality
+    class TestPattern : public gfx::Pattern
+    {
+    public:
+        TestPattern()
+                : Pattern{ }
+        {}
+        explicit TestPattern(const gfx::Matrix4& transform_matrix)
+                : Pattern{ transform_matrix }
+        {}
+
+        [[nodiscard]] gfx::Color samplePatternAt(const gfx::Vector4& point) const override
+        { return gfx::Color{ point.x(), point.y(), point.z() }; }
+
+        [[nodiscard]] std::unique_ptr<Pattern> clone() const override
+        { return std::make_unique<TestPattern>(*this); }
+
+    private:
+        [[nodiscard]] bool equal(const Pattern& other) const override
+        { return this->getTransform() == other.getTransform(); }
+    };
 }
