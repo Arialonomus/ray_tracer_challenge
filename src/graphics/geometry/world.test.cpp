@@ -319,3 +319,17 @@ TEST(GraphicsWorld, CalculateRefractedColorOpaque)
     const gfx::Color color_actual{ default_world.calculateReflectedColorAt(intersection) };
     EXPECT_EQ(color_actual, color_expected);
 }
+
+// Tests calculating the refracted color at the maximum recursive depth
+TEST(GraphicsWorld, CalculateRefractedColorMaximumDepth)
+{
+    const gfx::Ray ray{ 0, 0, -5,
+                        0, 0, 1 };
+
+    const std::vector<gfx::Intersection> world_intersections{ default_world.getAllIntersections(ray) };
+    const gfx::DetailedIntersection intersection{ world_intersections[0], ray };
+
+    const gfx::Color color_expected{ gfx::black() };
+    const gfx::Color color_actual{ default_world.calculateReflectedColorAt(intersection, 0) };
+    EXPECT_EQ(color_actual, color_expected);
+}
