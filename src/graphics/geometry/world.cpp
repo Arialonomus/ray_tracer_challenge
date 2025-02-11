@@ -135,7 +135,7 @@ namespace gfx {
                                       normal_vector * (n_ratio * cos_i - cos_r) - view_vector * n_ratio };
 
             // Recursively calculate the refracted color
-            return this->calculatePixelColor(refraction_ray, remaining_bounces - 1) ;
+            return object_transparency * this->calculatePixelColor(refraction_ray, remaining_bounces - 1) ;
         } else {
             // Opaque object or maximum recursion, return black
             return black();
