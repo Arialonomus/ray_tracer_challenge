@@ -400,3 +400,38 @@ TEST(GraphicsWorld, CalculateRefractedColor)
     const gfx::Color color_actual{ world.calculateRefractedColorAt(hit, world_intersections) };
     EXPECT_EQ(color_actual, color_expected);
 }
+
+// Tests shading pixels in a refractive (transparent) material
+TEST(GraphicsWorld, CalculatePixelColorTransparentMaterial)
+{
+    gfx::World world{ default_world };
+
+    gfx::Material floor_material{ };
+    floor_material.setTransparency(0.5);
+    floor_material.setRefractiveIndex(1.5);
+    const gfx::Plane floor{ gfx::createTranslationMatrix(0, -1, 0), floor_material };
+    world.addObject(floor);
+
+    gfx::Material ball_material{ gfx::Color(1, 0, 0) };
+    ball_material.setAmbient(0.5);
+    const gfx::Sphere ball{ gfx::createTranslationMatrix(0, -3.5, -0.5), ball_material };
+    world.addObject(ball);
+
+    const gfx::Ray ray{ 0, 0, -3,
+                        0, -M_SQRT2 / 2, M_SQRT2 / 2 };
+
+    // Validate state is correctly initialized before repeating this calculation in calculatePixelColor()
+    const std::vector<gfx::Intersection> world_intersections{ world.getAllIntersections(ray) };
+    auto possible_hit{ getHit(world_intersections) };
+
+    ASSERT_TRUE(possible_hit);
+    const gfx::Intersection intersection_expected{ M_SQRT2, &world.getObjectAt(2) };
+    const gfx::Intersection& intersection_actual{ possible_hit.value() };
+
+    EXPECT_EQ(intersection_actual, intersection_expected);
+
+    const gfx::Color pixel_color_expected{ 0.936425, 0.686425, 0.686425 };
+    const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
+
+    EXPECT_EQ(pixel_color_actual, pixel_color_expected);
+}
