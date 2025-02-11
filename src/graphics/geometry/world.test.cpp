@@ -370,3 +370,33 @@ TEST(GraphicsWorld, CalculateRefractedColorTotalInternalReflection)
     const gfx::Color color_actual{ world.calculateRefractedColorAt(hit, world_intersections) };
     EXPECT_EQ(color_actual, color_expected);
 }
+
+// Tests calculating the refracted color using refraction rays
+TEST(GraphicsWorld, CalculateRefractedColor)
+{
+    gfx::Material sphere_a_material{ };
+    sphere_a_material.setPattern(gfx::TestPattern{ });
+    sphere_a_material.setAmbient(1);
+    sphere_a_material.setDiffuse(0.7);
+    sphere_a_material.setSpecular(0.2);
+
+    gfx::Sphere sphere_a{ sphere_a_material };
+
+    gfx::Material sphere_b_material{ };
+    sphere_b_material.setTransparency(1);
+    sphere_b_material.setRefractiveIndex(1.5);
+
+    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5), sphere_b_material };
+
+    const gfx::World world{ sphere_a, sphere_b };
+
+    const gfx::Ray ray{ 0, 0, 0.1,
+                        0, 1, 0 };
+
+    const std::vector<gfx::Intersection> world_intersections{ world.getAllIntersections(ray) };
+    const gfx::DetailedIntersection hit{ world_intersections[2], ray };
+
+    const gfx::Color color_expected{ 0, 0.998883, 0.047216 };
+    const gfx::Color color_actual{ world.calculateRefractedColorAt(hit, world_intersections) };
+    EXPECT_EQ(color_actual, color_expected);
+}
