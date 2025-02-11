@@ -111,8 +111,13 @@ namespace gfx {
         bool m_is_inside_object{ false };
     };
 
-    /* Global-Ray Tracing Operations */
+    /* Global Ray-Tracing Operations */
 
     // Returns the first ray-object intersection with a non-negative t-value, representing a hit
     [[nodiscard]] std::optional<Intersection> getHit(std::vector<Intersection> intersections);
+
+    // Returns a pair containing the refractive indices for a ray-object intersection within
+    // a group of intersections of potentially overlapping objects
+    [[nodiscard]] std::pair<double, double> getRefractiveIndices(const Intersection& intersection,
+                                                                 const std::vector<Intersection>& possible_overlaps);
 }
