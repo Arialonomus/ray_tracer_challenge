@@ -78,7 +78,7 @@ namespace gfx {
 
         // Returns a vector of Intersection objects representing the distances at which
         // the passed-in ray intersects with this shape
-        [[nodiscard]] std::vector<Intersection> getIntersections(const Ray& ray) const;
+        [[nodiscard]] std::vector<Intersection> getObjectIntersections(const Ray& ray) const;
 
     private:
         /* Data Members */

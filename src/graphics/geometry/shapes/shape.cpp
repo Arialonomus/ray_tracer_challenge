@@ -32,7 +32,7 @@ namespace gfx {
         return normalize(world_normal);
     }
 
-    std::vector<Intersection> Shape::getIntersections(const Ray& ray) const
+    std::vector<Intersection> Shape::getObjectIntersections(const Ray& ray) const
     {
         // Transform the ray to the object space of the sphere
         const Ray transformed_ray{ ray.transform(m_transform.inverse()) };

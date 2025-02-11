@@ -122,7 +122,7 @@ TEST(GraphicsPlane, RayPlaneIntersectionParallelRay)
     const gfx::Ray parallel_ray{ 0, 10, 0,
                                  0, 0, 1} ;
 
-    auto intersections{ plane.getIntersections(parallel_ray) };
+    auto intersections{ plane.getObjectIntersections(parallel_ray) };
     EXPECT_EQ(intersections.size(), 0);
 }
 
@@ -133,7 +133,7 @@ TEST(GraphicsPlane, RayPlaneIntersectionCoplanarRay)
     const gfx::Ray coplanar_ray{ 0, 0, 0,
                                  0, 0, 1} ;
 
-    auto intersections{ plane.getIntersections(coplanar_ray) };
+    auto intersections{ plane.getObjectIntersections(coplanar_ray) };
     EXPECT_EQ(intersections.size(), 0);
 }
 
@@ -144,7 +144,7 @@ TEST(GraphicsPlane, RayPlaneIntersectionRayOriginAbove)
     const gfx::Ray ray_origin_above{ 0, 1, 0,
                                  0, -1, 0} ;
 
-    auto intersections{ plane.getIntersections(ray_origin_above) };
+    auto intersections{ plane.getObjectIntersections(ray_origin_above) };
     ASSERT_EQ(intersections.size(), 1);
     EXPECT_FLOAT_EQ(intersections.at(0).getT(), 1);
     EXPECT_EQ(&intersections.at(0).getObject(), &plane);
@@ -157,7 +157,7 @@ TEST(GraphicsPlane, RayPlaneIntersectionRayOriginBelow)
     const gfx::Ray ray_origin_below{ 0, -1, 0,
                                      0, 1, 0} ;
 
-    auto intersections{ plane.getIntersections(ray_origin_below) };
+    auto intersections{ plane.getObjectIntersections(ray_origin_below) };
     ASSERT_EQ(intersections.size(), 1);
     EXPECT_FLOAT_EQ(intersections.at(0).getT(), 1);
     EXPECT_EQ(&intersections.at(0).getObject(), &plane);

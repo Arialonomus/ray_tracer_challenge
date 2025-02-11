@@ -121,7 +121,7 @@ TEST(GraphicsShape, GetIntersectionsTransformsRay)
                                   0, 0, 1 };
     const TestShape shape_a{ gfx::createScalingMatrix(2) };
 
-    const auto discarded_intersections_a{ shape_a.getIntersections(ray_a_initial) };
+    const auto discarded_intersections_a{ shape_a.getObjectIntersections(ray_a_initial) };
 
     const gfx::Ray ray_a_transformed_expected{ 0, 0, -2.5,
                                                0, 0, 0.5};
@@ -133,7 +133,7 @@ TEST(GraphicsShape, GetIntersectionsTransformsRay)
                                   0, 0, 1 };
     const TestShape shape_b{ gfx::createTranslationMatrix(5, 0, 0) };
 
-    const auto discarded_intersections_b{ shape_b.getIntersections(ray_b_initial) };
+    const auto discarded_intersections_b{ shape_b.getObjectIntersections(ray_b_initial) };
 
     const gfx::Ray ray_b_transformed_expected{ -5, 0, -5,
                                                0, 0, 1};

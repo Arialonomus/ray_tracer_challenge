@@ -169,7 +169,7 @@ TEST(GraphicsSphere, GetIntersectionsCorrectReference)
                         0, 0, 1 };
     const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
 
-    std::vector<gfx::Intersection> intersections{ sphere.getIntersections(ray) };
+    std::vector<gfx::Intersection> intersections{ sphere.getObjectIntersections(ray) };
 
     EXPECT_EQ(intersections.size(), 2);
     EXPECT_EQ(&intersections.at(0).getObject(), &sphere);
@@ -183,7 +183,7 @@ TEST(GraphicsSphere, RaySphereFullIntersection)
                         0, 0, 1 };
     const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
 
-    std::vector<gfx::Intersection> intersections{ sphere.getIntersections(ray) };
+    std::vector<gfx::Intersection> intersections{ sphere.getObjectIntersections(ray) };
 
     EXPECT_EQ(intersections.size(), 2);
     EXPECT_FLOAT_EQ(intersections.at(0).getT(), 4.0);
@@ -197,7 +197,7 @@ TEST(GraphicsSphere, RaySphereTangentIntersection)
                         0, 0, 1 };
     const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
 
-    std::vector<gfx::Intersection> intersections{ sphere.getIntersections(ray) };
+    std::vector<gfx::Intersection> intersections{ sphere.getObjectIntersections(ray) };
 
     EXPECT_EQ(intersections.size(), 2);
     EXPECT_FLOAT_EQ(intersections.at(0).getT(), 5.0);
@@ -211,7 +211,7 @@ TEST(GraphicsSphere, RaySphereMiss)
                         0, 0, 1 };
     const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
 
-    std::vector<gfx::Intersection> intersections{ sphere.getIntersections(ray) };
+    std::vector<gfx::Intersection> intersections{ sphere.getObjectIntersections(ray) };
 
     EXPECT_EQ(intersections.size(), 0);
 }
@@ -223,7 +223,7 @@ TEST(GraphicsSphere, RaySphereIntersectionOriginInSphere)
                         0, 0, 1 };
     const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
 
-    std::vector<gfx::Intersection> intersections{ sphere.getIntersections(ray) };
+    std::vector<gfx::Intersection> intersections{ sphere.getObjectIntersections(ray) };
 
     EXPECT_EQ(intersections.size(), 2);
     EXPECT_FLOAT_EQ(intersections.at(0).getT(), -1.0);
@@ -237,7 +237,7 @@ TEST(GraphicsSphere, RaySphereIntersectionOriginBeyondSphere)
                         0, 0, 1 };
     const gfx::Sphere sphere{ };    // Assume a unit sphere at the origin
 
-    std::vector<gfx::Intersection> intersections{ sphere.getIntersections(ray) };
+    std::vector<gfx::Intersection> intersections{ sphere.getObjectIntersections(ray) };
 
     EXPECT_EQ(intersections.size(), 2);
     EXPECT_FLOAT_EQ(intersections.at(0).getT(), -6.0);
@@ -251,7 +251,7 @@ TEST(GraphicsSphere, RayScaledSphereIntersection)
                         0, 0, 1 };
     const gfx::Sphere sphere_scaled{ gfx::createScalingMatrix(2) };
 
-    std::vector<gfx::Intersection> intersections{ sphere_scaled.getIntersections(ray) };
+    std::vector<gfx::Intersection> intersections{ sphere_scaled.getObjectIntersections(ray) };
 
     EXPECT_EQ(intersections.size(), 2);
     EXPECT_FLOAT_EQ(intersections.at(0).getT(), 3);
@@ -265,7 +265,7 @@ TEST(GraphicsSphere, RayTranslatedSphereIntersection)
                         0, 0, 1 };
     const gfx::Sphere sphere_translated{ gfx::createTranslationMatrix(5, 0, 0) };
 
-    std::vector<gfx::Intersection> intersections{ sphere_translated.getIntersections(ray) };
+    std::vector<gfx::Intersection> intersections{ sphere_translated.getObjectIntersections(ray) };
 
     EXPECT_EQ(intersections.size(), 0);
 }
