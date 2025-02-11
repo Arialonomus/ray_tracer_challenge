@@ -153,6 +153,19 @@ TEST(GraphicsIntersection, DetailedIntersectionOverPoint)
     ASSERT_TRUE(detailedIntersection.getIntersectionPosition().z() > detailedIntersection.getOverPoint().z());
 }
 
+// Tests that a detailed intersection properly calculates the under point when constructed
+TEST(GraphicsIntersection, DetailedIntersectionUnderPoint)
+{
+    const gfx::Ray ray{ 0, 0, -5,
+                        0, 0, 1 };
+    const gfx::Sphere shape{ gfx::createTranslationMatrix(0, 0, 1) };
+    const gfx::Intersection intersection{ 5, &shape };
+    const gfx::DetailedIntersection detailedIntersection{ intersection, ray };
+
+    ASSERT_TRUE(detailedIntersection.getUnderPoint().z() > utils::EPSILON / 2);
+    ASSERT_TRUE(detailedIntersection.getIntersectionPosition().z() < detailedIntersection.getUnderPoint().z());
+}
+
 // Tests that a detailed intersection properly calculates the reflection vector when constructed
 TEST(GraphicsIntersection, DetailedIntersectionReflectionVector)
 {
