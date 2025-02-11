@@ -101,4 +101,17 @@ namespace gfx {
             return black();
         }
     }
+
+    Color World::calculateRefractedColorAt(const DetailedIntersection& intersection,
+                                           const std::vector<Intersection>& possible_overlaps,
+                                           const int remaining_bounces) const
+    {
+        const double object_transparency{ intersection.getObject().getMaterial().getTransparency() };
+        if (utils::areNotEqual(object_transparency, 0.0) && remaining_bounces > 0) {
+            return white();
+        } else {
+            // Opaque object, return black
+            return black();
+        }
+    }
 }

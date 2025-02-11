@@ -105,6 +105,11 @@ namespace gfx {
         [[nodiscard]] Color calculateReflectedColorAt(const DetailedIntersection& intersection,
                                                       int remaining_bounces = 5) const;
 
+        // Returns the refracted color at a ray-object intersection
+        [[nodiscard]] Color calculateRefractedColorAt(const DetailedIntersection& intersection,
+                                                      const std::vector<Intersection>& possible_overlaps,
+                                                      int remaining_bounces = 5) const;
+
     private:
         /* Data Members */
 
