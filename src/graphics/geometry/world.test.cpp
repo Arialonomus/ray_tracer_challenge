@@ -182,11 +182,21 @@ TEST(GraphicsWorld, CalculatePixelColorHitOutside)
 // Test shading a color when a ray hits an object in world from the inside
 TEST(GraphicsWorld, CalculatePixelColorHitInside)
 {
+    gfx::Material material{ };
+    material.setColor(0.8, 1.0, 0.6);
+    material.setDiffuse(0.7);
+    material.setSpecular(0.2);
+
+    gfx::Sphere sphere_a{ material };
+    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+    const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
+                                        gfx::createPoint( 0, 0.25, 0 )};
+    const gfx::World world{ light_source, sphere_a, sphere_b };
     const gfx::Ray ray{ 0, 0, 0,
                         0, 0, 1 };
 
     const gfx::Color pixel_color_expected{ 0.904984, 0.904984, 0.904984  };
-    const gfx::Color pixel_color_actual{ default_world.calculatePixelColor(ray) };
+    const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
 
     EXPECT_EQ(pixel_color_actual, pixel_color_expected);
 }
@@ -316,7 +326,7 @@ TEST(GraphicsWorld, CalculateRefractedColorOpaque)
     const gfx::DetailedIntersection intersection{ world_intersections[0], ray };
 
     const gfx::Color color_expected{ gfx::black() };
-    const gfx::Color color_actual{ default_world.calculateReflectedColorAt(intersection) };
+    const gfx::Color color_actual{ default_world.calculateRefractedColorAt(intersection) };
     EXPECT_EQ(color_actual, color_expected);
 }
 
@@ -330,6 +340,6 @@ TEST(GraphicsWorld, CalculateRefractedColorMaximumDepth)
     const gfx::DetailedIntersection intersection{ world_intersections[0], ray };
 
     const gfx::Color color_expected{ gfx::black() };
-    const gfx::Color color_actual{ default_world.calculateReflectedColorAt(intersection, 0) };
+    const gfx::Color color_actual{ default_world.calculateRefractedColorAt(intersection, 0) };
     EXPECT_EQ(color_actual, color_expected);
 }
