@@ -108,6 +108,22 @@ namespace gfx {
     {
         const double object_transparency{ intersection.getObject().getMaterial().getTransparency() };
         if (utils::areNotEqual(object_transparency, 0.0) && remaining_bounces > 0) {
+            // Calculate the trig values for the angles of refraction using Snell's Law: θᵢ/θᵣ = n2/n1
+            // Assume θᵢ is the angle of incidence and θᵣ is the angle of refraction
+            const auto [ n1, n2 ] { getRefractiveIndices(intersection, possible_overlaps) };
+
+            // θᵢ is formed by the view vector and the normal, so the cos(θᵢ) is their dot product
+            const double cos_i{ dotProduct(intersection.getViewVector(), intersection.getSurfaceNormal()) };
+
+            // Using the identity sin²θ + cos²θ = 1 gives us sin²(θᵣ) = (n1 / n2)² * (1 - cos²(θᵢ))
+            const double n_ratio{ n1 / n2 };
+            const double sin2_r{ std::pow(n_ratio, 2) * (1 - std::pow(cos_i, 2)) };
+
+            // Total internal reflection occurs when no real solution exists for θᵣ, i.e. when sin²(θᵣ) exceeds 1
+            if (utils::isGreater(sin2_r, 1.0)) {
+                return black();
+            }
+
             return white();
         } else {
             // Opaque object, return black
