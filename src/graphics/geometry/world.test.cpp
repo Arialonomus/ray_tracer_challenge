@@ -323,10 +323,10 @@ TEST(GraphicsWorld, CalculateRefractedColorOpaque)
                         0, 0, 1 };
 
     const std::vector<gfx::Intersection> world_intersections{ default_world.getAllIntersections(ray) };
-    const gfx::DetailedIntersection intersection{ world_intersections[0], ray };
+    const gfx::DetailedIntersection hit{ world_intersections[0], ray };
 
     const gfx::Color color_expected{ gfx::black() };
-    const gfx::Color color_actual{ default_world.calculateRefractedColorAt(intersection) };
+    const gfx::Color color_actual{ default_world.calculateRefractedColorAt(hit, world_intersections) };
     EXPECT_EQ(color_actual, color_expected);
 }
 
@@ -337,9 +337,36 @@ TEST(GraphicsWorld, CalculateRefractedColorMaximumDepth)
                         0, 0, 1 };
 
     const std::vector<gfx::Intersection> world_intersections{ default_world.getAllIntersections(ray) };
-    const gfx::DetailedIntersection intersection{ world_intersections[0], ray };
+    const gfx::DetailedIntersection hit{ world_intersections[0], ray };
 
     const gfx::Color color_expected{ gfx::black() };
-    const gfx::Color color_actual{ default_world.calculateRefractedColorAt(intersection, 0) };
+    const gfx::Color color_actual{ default_world.calculateRefractedColorAt(hit,
+                                                                           world_intersections,
+                                                                           0) };
+    EXPECT_EQ(color_actual, color_expected);
+}
+
+// Tests calculating the refracted color under total internal reflection
+TEST(GraphicsWorld, CalculateRefractedColorTotalInternalReflection)
+{
+    gfx::Material sphere_a_material{ };
+    sphere_a_material.setColor(0.8, 1.0, 0.6);
+    sphere_a_material.setDiffuse(0.7);
+    sphere_a_material.setSpecular(0.2);
+    sphere_a_material.setTransparency(1);
+    sphere_a_material.setRefractiveIndex(1.5);
+
+    gfx::Sphere sphere_a{ sphere_a_material };
+    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+    const gfx::World world{ sphere_a, sphere_b };
+
+    const gfx::Ray ray{ 0, 0, M_SQRT2 / 2,
+                        0, 1, 0 };
+
+    const std::vector<gfx::Intersection> world_intersections{ world.getAllIntersections(ray) };
+    const gfx::DetailedIntersection hit{ world_intersections[1], ray };
+
+    const gfx::Color color_expected{ gfx::black() };
+    const gfx::Color color_actual{ world.calculateRefractedColorAt(hit, world_intersections) };
     EXPECT_EQ(color_actual, color_expected);
 }
