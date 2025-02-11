@@ -10,6 +10,17 @@
 #include "intersection.hpp"
 #include "plane.hpp"
 
+static const gfx::World default_world {
+    gfx::PointLight { gfx::Color{ 1, 1, 1 },
+                      gfx::createPoint( -10, 10, -10 ) },
+    gfx::Sphere {
+        gfx::Material{ gfx::Color{ 0.8, 1.0, 0.6 },
+                       0.1, 0.7, 0.2, 200,
+                       0, 0, 1 }
+        },
+    gfx::Sphere { gfx::createScalingMatrix(0.5) }
+};
+
 // Tests the default constructor
 TEST(GraphicsWorld, DefaultConstructor)
 {
@@ -131,46 +142,27 @@ TEST(GraphicsWorld, WorldIntersections)
 // Tests calculating whether various points are in shadow
 TEST(GraphicsWorld, PointIsShadowed)
 {
-    gfx::Material material{ };
-    material.setColor(0.8, 1.0, 0.6);
-    material.setDiffuse(0.7);
-    material.setSpecular(0.2);
-
-    const gfx::Sphere sphere_a{ material };
-    const gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
-
-    const gfx::World world{ sphere_a, sphere_b };
-
     // Test a point where nothing is collinear with point and light source
-    ASSERT_FALSE(world.isShadowed(gfx::createPoint(0, 10, 0)));
+    ASSERT_FALSE(default_world.isShadowed(gfx::createPoint(0, 10, 0)));
 
     // Test a point where an object is between the point and the light
-    ASSERT_TRUE(world.isShadowed(gfx::createPoint(10, -10, 10)));
+    ASSERT_TRUE(default_world.isShadowed(gfx::createPoint(10, -10, 10)));
 
     // Test a point where the light source is between the point and an object
-    ASSERT_FALSE(world.isShadowed(gfx::createPoint(-20, 20, -20)));
+    ASSERT_FALSE(default_world.isShadowed(gfx::createPoint(-20, 20, -20)));
 
     // Test a point where the point is between an object and the light source
-    ASSERT_FALSE(world.isShadowed(gfx::createPoint(-2, 2, -2)));
+    ASSERT_FALSE(default_world.isShadowed(gfx::createPoint(-2, 2, -2)));
 }
 
 // Test shading a color when a ray misses all objects in a world
 TEST(GraphicsWorld, CalculatePixelColorMiss)
 {
-    gfx::Material material{ };
-    material.setColor(0.8, 1.0, 0.6);
-    material.setDiffuse(0.7);
-    material.setSpecular(0.2);
-
-    gfx::Sphere sphere_a{ material };
-    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
-
-    const gfx::World world{ sphere_a, sphere_b };
     const gfx::Ray ray{ 0, 0, -5,
                         0, 1, 0 };
 
     const gfx::Color pixel_color_expected{ 0, 0, 0 };
-    const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
+    const gfx::Color pixel_color_actual{ default_world.calculatePixelColor(ray) };
 
     EXPECT_EQ(pixel_color_actual, pixel_color_expected);
 }
@@ -178,20 +170,11 @@ TEST(GraphicsWorld, CalculatePixelColorMiss)
 // Test shading a color when a ray hits an object in world from the outside
 TEST(GraphicsWorld, CalculatePixelColorHitOutside)
 {
-    gfx::Material material{ };
-    material.setColor(0.8, 1.0, 0.6);
-    material.setDiffuse(0.7);
-    material.setSpecular(0.2);
-
-    gfx::Sphere sphere_a{ material };
-    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
-
-    const gfx::World world{ sphere_a, sphere_b };
     const gfx::Ray ray{ 0, 0, -5,
                         0, 0, 1 };
 
     const gfx::Color pixel_color_expected{ 0.380661, 0.475827, 0.285496  };
-    const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
+    const gfx::Color pixel_color_actual{ default_world.calculatePixelColor(ray) };
 
     EXPECT_EQ(pixel_color_actual, pixel_color_expected);
 }
@@ -199,21 +182,11 @@ TEST(GraphicsWorld, CalculatePixelColorHitOutside)
 // Test shading a color when a ray hits an object in world from the inside
 TEST(GraphicsWorld, CalculatePixelColorHitInside)
 {
-    gfx::Material material{ };
-    material.setColor(0.8, 1.0, 0.6);
-    material.setDiffuse(0.7);
-    material.setSpecular(0.2);
-
-    gfx::Sphere sphere_a{ material };
-    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
-    const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
-                                        gfx::createPoint( 0, 0.25, 0 )};
-    const gfx::World world{ light_source, sphere_a, sphere_b };
     const gfx::Ray ray{ 0, 0, 0,
                         0, 0, 1 };
 
     const gfx::Color pixel_color_expected{ 0.904984, 0.904984, 0.904984  };
-    const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
+    const gfx::Color pixel_color_actual{ default_world.calculatePixelColor(ray) };
 
     EXPECT_EQ(pixel_color_actual, pixel_color_expected);
 }
@@ -274,43 +247,26 @@ TEST(GraphicsWorld, CalculatePixelColorInShadow)
 // Tests calculating the reflected color for a non-reflective material
 TEST(GraphicsWorld, CalculateReflectedColorNonReflective)
 {
-    gfx::Material material{ };
-    material.setColor(0.8, 1.0, 0.6);
-    material.setDiffuse(0.7);
-    material.setSpecular(0.2);
-
-    gfx::Sphere sphere_a{ material };
-    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
-    const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
-                                        gfx::createPoint( -10, 10, -10 )};
-    const gfx::World world{ light_source, sphere_a, sphere_b };
     const gfx::Ray ray{ 0, 0, 1,
                         0, 0, 1 };
 
-    const gfx::DetailedIntersection intersection{ gfx::Intersection{ 1, &sphere_b }, ray };
+    const gfx::DetailedIntersection intersection{ gfx::Intersection{ 1, &default_world.getObjectAt(1) }, ray };
 
     const gfx::Color color_expected{ gfx::black() };
-    const gfx::Color color_actual{ world.calculateReflectedColorAt(intersection) };
+    const gfx::Color color_actual{ default_world.calculateReflectedColorAt(intersection) };
     EXPECT_EQ(color_actual, color_expected);
 }
 
 // Tests calculating the reflected color for a reflective material
 TEST(GraphicsWorld, CalculateReflectedColorReflective)
 {
-    gfx::Material material{ };
-    material.setColor(0.8, 1.0, 0.6);
-    material.setDiffuse(0.7);
-    material.setSpecular(0.2);
-    gfx::Sphere sphere_a{ material };
-    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+    gfx::World world{ default_world };
 
     gfx::Material plane_material{ };
     plane_material.setReflectivity(0.5);
     const gfx::Plane plane{ gfx::createTranslationMatrix(0, -1, 0), plane_material };
+    world.addObject(plane);
 
-    const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
-                                        gfx::createPoint( -10, 10, -10 )};
-    const gfx::World world{ light_source, sphere_a, sphere_b, plane };
     const gfx::Ray ray{ 0, 0, -3,
                         0, -M_SQRT2 / 2, M_SQRT2 /2 };
 
@@ -324,21 +280,13 @@ TEST(GraphicsWorld, CalculateReflectedColorReflective)
 // Tests shading a color on a surface with a reflective material
 TEST(GraphicsWorld, CalculatePixelColorReflectiveMaterial)
 {
-    const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
-                                        gfx::createPoint( -10, 10, -10 )};
-    gfx::Material sphere_a_material{ };
-    sphere_a_material.setColor(0.8, 1.0, 0.6);
-    sphere_a_material.setDiffuse(0.7);
-    sphere_a_material.setSpecular(0.2);
-
-    gfx::Sphere sphere_a{ sphere_a_material };
-    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+    gfx::World world{ default_world };
 
     gfx::Material plane_material{ };
     plane_material.setReflectivity(0.5);
     const gfx::Plane plane{ gfx::createTranslationMatrix(0, -1, 0), plane_material };
+    world.addObject(plane);
 
-    const gfx::World world{ light_source, sphere_a, sphere_b, plane };
     const gfx::Ray ray{ 0, 0, -3,
                         0, -M_SQRT2 / 2, M_SQRT2 / 2 };
 
@@ -361,23 +309,13 @@ TEST(GraphicsWorld, CalculatePixelColorReflectiveMaterial)
 // Tests calculating the refracted color for an opaque material
 TEST(GraphicsWorld, CalculateRefractedColorOpaque)
 {
-    gfx::Material material{ };
-    material.setColor(0.8, 1.0, 0.6);
-    material.setDiffuse(0.7);
-    material.setSpecular(0.2);
-
-    gfx::Sphere sphere_a{ material };
-    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
-    const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
-                                        gfx::createPoint( -10, 10, -10 )};
-    const gfx::World world{ light_source, sphere_a, sphere_b };
     const gfx::Ray ray{ 0, 0, -5,
                         0, 0, 1 };
 
-    const std::vector<gfx::Intersection> world_intersections{ world.getAllIntersections(ray) };
+    const std::vector<gfx::Intersection> world_intersections{ default_world.getAllIntersections(ray) };
     const gfx::DetailedIntersection intersection{ world_intersections[0], ray };
 
     const gfx::Color color_expected{ gfx::black() };
-    const gfx::Color color_actual{ world.calculateReflectedColorAt(intersection) };
+    const gfx::Color color_actual{ default_world.calculateReflectedColorAt(intersection) };
     EXPECT_EQ(color_actual, color_expected);
 }
