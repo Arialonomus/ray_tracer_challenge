@@ -294,7 +294,7 @@ TEST(GraphicsWorld, CalculateReflectedColorNonReflective)
     EXPECT_EQ(color_actual, color_expected);
 }
 
-// Tests calculating the reflected color for a non-reflective material
+// Tests calculating the reflected color for a reflective material
 TEST(GraphicsWorld, CalculateReflectedColorReflective)
 {
     gfx::Material material{ };
@@ -356,4 +356,28 @@ TEST(GraphicsWorld, CalculatePixelColorReflectiveMaterial)
     const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
 
     EXPECT_EQ(pixel_color_actual, pixel_color_expected);
+}
+
+// Tests calculating the refracted color for an opaque material
+TEST(GraphicsWorld, CalculateRefractedColorOpaque)
+{
+    gfx::Material material{ };
+    material.setColor(0.8, 1.0, 0.6);
+    material.setDiffuse(0.7);
+    material.setSpecular(0.2);
+
+    gfx::Sphere sphere_a{ material };
+    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+    const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
+                                        gfx::createPoint( -10, 10, -10 )};
+    const gfx::World world{ light_source, sphere_a, sphere_b };
+    const gfx::Ray ray{ 0, 0, -5,
+                        0, 0, 1 };
+
+    const std::vector<gfx::Intersection> world_intersections{ world.getAllIntersections(ray) };
+    const gfx::DetailedIntersection intersection{ world_intersections[0], ray };
+
+    const gfx::Color color_expected{ gfx::black() };
+    const gfx::Color color_actual{ world.calculateReflectedColorAt(intersection) };
+    EXPECT_EQ(color_actual, color_expected);
 }
