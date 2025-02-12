@@ -216,3 +216,24 @@ TEST(GraphicsShading, GetRefractiveIndexOverlappingSpheres)
         EXPECT_EQ(refracted_indices_actual, refractive_indices_expected_list[i]);
     }
 }
+
+// Tests calculating reflectance when total internal reflection occurs
+TEST(GraphicsShading, CalculateReflectanceTotalInternalReflection)
+{
+    const gfx::Sphere glass_sphere{ gfx::createGlassyMaterial() };
+    const gfx::Ray ray{ 0, 0, M_SQRT2 / 2,
+                        0, 1, 0 };
+    const gfx::World world{ glass_sphere };
+
+    const auto intersections{ world.getAllIntersections(ray) };
+    const gfx::DetailedIntersection detailed_hit{ intersections[1], ray };
+
+    const auto [ n1, n2 ] { gfx::getRefractiveIndices(detailed_hit, intersections) };
+
+    const double reflectance_expected{ 1 };
+    const double reflectance_actual{ gfx::calculateReflectance(detailed_hit.getViewVector(),
+                                                               detailed_hit.getSurfaceNormal(),
+                                                               n1, n2) };
+
+    EXPECT_FLOAT_EQ(reflectance_actual, reflectance_expected);
+}
