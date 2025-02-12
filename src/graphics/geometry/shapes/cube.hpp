@@ -37,9 +37,15 @@ namespace gfx {
         { return std::make_shared<Cube>(*this); }
 
     private:
-        /* Helper Method Overrides */
+        /* Shape Helper Method Overrides */
 
         [[nodiscard]] Vector4 calculateSurfaceNormal(const Vector4& transformed_point) const override;
         [[nodiscard]] std::vector<Intersection> calculateIntersections(const Ray& transformed_ray) const override;
+
+        /* Cube Helper Methods */
+
+        // Returns the t-values for the intersections (if any) on the cube faces aligned to the given axis
+        [[nodiscard]] static std::pair<double, double> getAxisIntersectionTs(double origin_axis_val,
+                                                                             double direction_axis_val) ;
     };
 }

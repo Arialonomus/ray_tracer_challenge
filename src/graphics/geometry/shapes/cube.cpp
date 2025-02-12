@@ -22,4 +22,18 @@ namespace gfx {
     {
         return std::vector<Intersection>{ };
     }
+
+    // Axis-Intersection Calculator
+    std::pair<double, double> Cube::getAxisIntersectionTs(const double origin_axis_val,
+                                                          const double direction_axis_val)
+    {
+        double t_min{ (-1 - origin_axis_val) / direction_axis_val };
+        double t_max{ (1 - origin_axis_val) / direction_axis_val };
+
+        if (utils::isGreater(t_min, t_max)) {
+            std::swap(t_min, t_max);
+        }
+
+        return std::pair<double, double>{ t_min, t_max };
+    }
 }
