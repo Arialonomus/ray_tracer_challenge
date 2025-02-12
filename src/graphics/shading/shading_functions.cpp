@@ -90,4 +90,18 @@ namespace gfx {
         // All intersections have been checked, the entered medium is air
         return std::pair<double, double>{ n1, 1.0 };
     }
+
+    double calculateReflectance(const Vector4& view_vector, const Vector4& normal_vector, double n1, double n2)
+    {
+        const double cosine{ dotProduct(view_vector, normal_vector) };
+        if (utils::isGreater(n1, n2)) {
+            const double n{ n1 / n2 };
+            const double sin2_t{ std::pow(n, 2) * (1 - std::pow(cosine, 2)) };
+            if (utils::isGreater(sin2_t, 1.0)) {
+                return 1;
+            }
+        }
+
+        return 0;
+    }
 }

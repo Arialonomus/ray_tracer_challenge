@@ -20,4 +20,9 @@ namespace gfx {
     // a group of intersections of potentially overlapping objects
     [[nodiscard]] std::pair<double, double> getRefractiveIndices(const Intersection& intersection,
                                                                  const std::vector<Intersection>& possible_overlaps);
+
+    // Calculates the reflectance of a surface using the Schlick approximation to Fresnel's equations
+    [[nodiscard]] double calculateReflectance(const Vector4& view_vector,
+                                              const Vector4& normal_vector,
+                                              double n1, double n2);
 }
