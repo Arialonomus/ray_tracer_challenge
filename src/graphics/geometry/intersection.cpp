@@ -11,7 +11,7 @@ namespace gfx {
     DetailedIntersection::DetailedIntersection(const Intersection& intersection, const Ray& ray)
             : Intersection(intersection),
               m_intersection_position{ ray.position(intersection.getT()) },
-              m_surface_normal{ intersection.getObject().getSurfaceNormal(m_intersection_position) },
+              m_surface_normal{ intersection.getObject().getSurfaceNormalAt(m_intersection_position) },
               m_view_vector{ -ray.getDirection() },
               m_reflection_vector{ },
               m_over_point{ },

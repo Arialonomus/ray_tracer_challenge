@@ -147,7 +147,7 @@ TEST(GraphicsShape, GetSurfaceNormalTransformsVector)
     // Test calculating the normal on a translated shape
     TestShape shape_a{ gfx::createTranslationMatrix(0, 1, 0) };
     const gfx::Vector4 input_point_a{ 0, 1.707107, -0.707107, 1 };
-    const gfx::Vector4 vector_a_transformed_actual{ shape_a.getSurfaceNormal(input_point_a) };
+    const gfx::Vector4 vector_a_transformed_actual{ shape_a.getSurfaceNormalAt(input_point_a) };
 
     const gfx::Vector4 vector_a_transformed_expected{ 0, 0.707107, -0.707107, 0 };
     ASSERT_EQ(vector_a_transformed_actual, vector_a_transformed_expected);
@@ -155,7 +155,7 @@ TEST(GraphicsShape, GetSurfaceNormalTransformsVector)
     // Test calculating the normal on a transformed shape
     TestShape shape_b{ gfx::createScalingMatrix(1, 0.5, 1) * gfx::createZRotationMatrix(M_PI / 5) };
     const gfx::Vector4 input_point_b{ 0, M_PI_2, -M_PI_2, 1 };
-    const gfx::Vector4 vector_b_transformed_actual{ shape_b.getSurfaceNormal(input_point_b) };
+    const gfx::Vector4 vector_b_transformed_actual{ shape_b.getSurfaceNormalAt(input_point_b) };
 
     const gfx::Vector4 vector_b_transformed_expected{ 0, 0.970143, -0.242536, 0 };
     ASSERT_EQ(vector_b_transformed_actual, vector_b_transformed_expected);

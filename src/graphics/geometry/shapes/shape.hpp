@@ -74,7 +74,7 @@ namespace gfx {
         /* Geometric Operations */
 
         // Returns the surface normal vector at a passed-in world_point
-        [[nodiscard]] Vector4 getSurfaceNormal(const Vector4& world_point) const;
+        [[nodiscard]] Vector4 getSurfaceNormalAt(const Vector4& world_point) const;
 
         // Returns a vector of Intersection objects representing the distances at which
         // the passed-in ray intersects with this shape

@@ -15,7 +15,7 @@ namespace gfx {
         return m_material.getColor();
     }
 
-    Vector4 Shape::getSurfaceNormal(const Vector4& world_point) const
+    Vector4 Shape::getSurfaceNormalAt(const Vector4& world_point) const
     {
         // Transform the point from world space to object space
         const Matrix4 transform_inverse{ m_transform.inverse() };

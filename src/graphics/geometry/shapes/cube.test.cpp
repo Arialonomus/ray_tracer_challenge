@@ -224,7 +224,7 @@ TEST(GraphicsCube, GetSurfaceNormal)
     ASSERT_TRUE(point_list.size() == surface_normaL_expected_list.size());
 
     for (int i = 0; i < point_list.size(); ++i) {
-        const gfx::Vector4 surface_normal_actual{ cube.getSurfaceNormal(point_list[i]) };
+        const gfx::Vector4 surface_normal_actual{ cube.getSurfaceNormalAt(point_list[i]) };
         EXPECT_EQ(surface_normal_actual, surface_normaL_expected_list[i]);
     }
 }
