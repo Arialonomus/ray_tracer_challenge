@@ -71,7 +71,9 @@ namespace data {
                 material_data["diffuse"],
                 material_data["specular"],
                 material_data["shininess"],
-                material_data.contains("reflectivity") ? material_data["reflectivity"].get<double>() : 0
+                material_data.contains("reflectivity") ? material_data["reflectivity"].get<double>() : 0,
+                material_data.contains("transparency") ? material_data["transparency"].get<double>() : 0,
+                material_data.contains("refractive_index") ? material_data["refractive_index"].get<double>() : 1,
         };
 
         // Set the pattern or object color
