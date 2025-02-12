@@ -67,13 +67,13 @@ namespace data {
         // Extract the material data
         const json& material_data{ object_data["material"] };
         gfx::Material material{
-                material_data["ambient"],
-                material_data["diffuse"],
-                material_data["specular"],
-                material_data["shininess"],
-                material_data.contains("reflectivity") ? material_data["reflectivity"].get<double>() : 0,
-                material_data.contains("transparency") ? material_data["transparency"].get<double>() : 0,
-                material_data.contains("refractive_index") ? material_data["refractive_index"].get<double>() : 1,
+            material_data.contains("ambient") ? material_data["ambient"].get<double>() : 0.1,
+            material_data.contains("diffuse") ? material_data["diffuse"].get<double>() : 0.9,
+            material_data.contains("specular") ? material_data["specular"].get<double>() : 0.9,
+            material_data.contains("shininess") ? material_data["shininess"].get<double>() : 200,
+            material_data.contains("reflectivity") ? material_data["reflectivity"].get<double>() : 0,
+            material_data.contains("transparency") ? material_data["transparency"].get<double>() : 0,
+            material_data.contains("refractive_index") ? material_data["refractive_index"].get<double>() : 1,
         };
 
         // Set the pattern or object color
