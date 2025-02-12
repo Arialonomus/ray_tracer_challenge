@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "cube.hpp"
 
-#include <cmath>
+#include <vector>
 
 #include "matrix4.hpp"
 #include "material.hpp"
@@ -11,92 +11,150 @@
 // Tests the default constructor
 TEST(GraphicsCube, DefaultConstructor)
 {
-const gfx::Cube cube{ };
-const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
-const gfx::Material material_expected{ };
+    const gfx::Cube cube{ };
+    const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
+    const gfx::Material material_expected{ };
 
-ASSERT_EQ(cube.getTransform(), transform_expected);
-ASSERT_EQ(cube.getMaterial(), material_expected);
+    ASSERT_EQ(cube.getTransform(), transform_expected);
+    ASSERT_EQ(cube.getMaterial(), material_expected);
 }
 
 // Tests the standard constructor
 TEST(GraphicsCube, StandardConstructor)
 {
-const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
-const gfx::Cube cube{ gfx::createScalingMatrix(5), material_expected };
-const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
+    const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
+    const gfx::Cube cube{ gfx::createScalingMatrix(5), material_expected };
+    const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
 
-ASSERT_EQ(cube.getTransform(), transform_expected);
-ASSERT_EQ(cube.getMaterial(), material_expected);
+    ASSERT_EQ(cube.getTransform(), transform_expected);
+    ASSERT_EQ(cube.getMaterial(), material_expected);
 }
 
 // Tests the standard constructor (with default material)
 TEST(GraphicsCube, StandardConstructorDefaultMaterial)
 {
-const gfx::Cube cube{ gfx::createScalingMatrix(5) };
-const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
-const gfx::Material material_expected{ };
+    const gfx::Cube cube{ gfx::createScalingMatrix(5) };
+    const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
+    const gfx::Material material_expected{ };
 
-ASSERT_EQ(cube.getTransform(), transform_expected);
-ASSERT_EQ(cube.getMaterial(), material_expected);
+    ASSERT_EQ(cube.getTransform(), transform_expected);
+    ASSERT_EQ(cube.getMaterial(), material_expected);
 }
 
 // Tests the standard constructor (with default transform)
 TEST(GraphicsCube, StandardConstructorDefaultTransform)
 {
-const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
-const gfx::Cube cube{ material_expected };
-const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
+    const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
+    const gfx::Cube cube{ material_expected };
+    const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
 
-ASSERT_EQ(cube.getTransform(), transform_expected);
-ASSERT_EQ(cube.getMaterial(), material_expected);
+    ASSERT_EQ(cube.getTransform(), transform_expected);
+    ASSERT_EQ(cube.getMaterial(), material_expected);
 }
 
 // Tests the copy constructor
 TEST(GraphicsCube, CopyConstructor)
 {
-const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
-const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
-const gfx::Cube cube_src{ transform_expected, material_expected };
-const gfx::Cube cube_cpy{ cube_src };
+    const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
+    const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
+    const gfx::Cube cube_src{ transform_expected, material_expected };
+    const gfx::Cube cube_cpy{ cube_src };
 
-ASSERT_EQ(cube_cpy.getTransform(), transform_expected);
-ASSERT_EQ(cube_cpy.getMaterial(), material_expected);
+    ASSERT_EQ(cube_cpy.getTransform(), transform_expected);
+    ASSERT_EQ(cube_cpy.getMaterial(), material_expected);
 }
 
 // Tests the assignment operator
 TEST(GraphicsCube, AssignmentOperator)
 {
+    const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
+    const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
+    const gfx::Cube cube_a{ transform_expected, material_expected };
+    gfx::Cube cube_b{ };
 
-const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
-const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
-const gfx::Cube cube_a{ transform_expected, material_expected };
-gfx::Cube cube_b{ };
+    cube_b = cube_a;
 
-cube_b = cube_a;
-
-ASSERT_EQ(cube_b.getTransform(), transform_expected);
-ASSERT_EQ(cube_b.getMaterial(), material_expected);
+    ASSERT_EQ(cube_b.getTransform(), transform_expected);
+    ASSERT_EQ(cube_b.getMaterial(), material_expected);
 }
 
 // Tests the equality operator
 TEST(GraphicsCube, EqualityOperator)
 {
-const gfx::Cube cube_a{ gfx::createScalingMatrix(5) };
-const gfx::Cube cube_b{ gfx::createScalingMatrix(5) };
+    const gfx::Cube cube_a{ gfx::createScalingMatrix(5) };
+    const gfx::Cube cube_b{ gfx::createScalingMatrix(5) };
 
-ASSERT_TRUE(cube_a == cube_b);
+    ASSERT_TRUE(cube_a == cube_b);
 }
 
 // Tests the inequality operator
 TEST(GraphicsCube, InequalityOperator)
 {
-const gfx::Cube cube_a{ gfx::createScalingMatrix(5) };
-const gfx::Cube cube_b{ };
+    const gfx::Cube cube_a{ gfx::createScalingMatrix(5) };
+    const gfx::Cube cube_b{ };
 
-ASSERT_TRUE(cube_a != cube_b);
+    ASSERT_TRUE(cube_a != cube_b);
+}
+
+// Tests a ray intersecting a cube at each face, as well as inside
+TEST(GraphicsCube, RayCubeIntersections)
+{
+    const gfx::Cube cube{ };    // Assume an axis-aligned bounding box
+
+    // -Test Case Index Key-
+    // [0] - +x face
+    // [1] - -x face
+    // [2] - +y face
+    // [3] - -y face
+    // [4] - +z face
+    // [5] - -z face
+    // [6] - inside the cube
+
+    const std::vector<gfx::Vector4> origin_list{
+        gfx::createPoint(5, 0.5 ,0),
+        gfx::createPoint(-5, 0.5, 0),
+        gfx::createPoint(0.5, 5, 0),
+        gfx::createPoint(0.5, -5, 0),
+        gfx::createPoint(0.5, 0, 5),
+        gfx::createPoint(0.5, 0, -5),
+        gfx::createPoint(0, 0.5, 0)
+    };
+
+    const std::vector<gfx::Vector4> direction_list{
+            gfx::createVector(-1, 0, 0),
+            gfx::createVector(1, 0, 0),
+            gfx::createVector(0, -1, 0),
+            gfx::createVector(0, 1, 0),
+            gfx::createVector(0, 0, -1),
+            gfx::createVector(0, 0, 1),
+            gfx::createVector(0, 0, 1)
+    };
+
+    const std::vector<std::pair<double, double>> intersection_t_expected_list {
+            { 4, 6 },
+            { 4, 6 },
+            { 4, 6 },
+            { 4, 6 },
+            { 4, 6 },
+            { 4, 6 },
+            { -1, 1 }
+    };
+
+    ASSERT_TRUE(origin_list.size() == direction_list.size());
+    ASSERT_TRUE(origin_list.size() == intersection_t_expected_list.size());
+
+    for (int i = 0; i < origin_list.size(); ++i) {
+        const gfx::Ray ray{ origin_list[i],
+                            direction_list[i] };
+
+        std::vector<gfx::Intersection> intersections{ cube.getObjectIntersections(ray) };
+
+        const auto [ t1_expected, t2_expected ] { intersection_t_expected_list[i] };
+        EXPECT_FLOAT_EQ(intersections[0].getT(), t1_expected);
+        EXPECT_FLOAT_EQ(intersections[1].getT(), t2_expected);
+    }
 }
