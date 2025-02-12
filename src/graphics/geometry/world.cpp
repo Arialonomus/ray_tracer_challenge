@@ -75,13 +75,27 @@ namespace gfx {
                                                                          world_intersections,
                                                                          remaining_bounces) };
 
-            // Calculate the surface color, and return the final value summed with the reflected color
+            // Calculate the surface color using the shading model
             Color surface_color{ calculateSurfaceColor(detailed_hit.getObject(),
                                                        m_light_source,
                                                        detailed_hit.getOverPoint(),
                                                        detailed_hit.getSurfaceNormal(),
                                                        detailed_hit.getViewVector(),
                                                        is_shadowed) };
+
+            // Apply Fresnel Effect for reflective transparent materials,
+            const Material hit_material{ detailed_hit.getObject().getMaterial() };
+            if (utils::isGreater(hit_material.getReflectivity(), 0.0) &&
+                utils::isGreater(hit_material.getTransparency(), 0.0))
+            {
+                const auto [ n1, n2 ] { getRefractiveIndices(detailed_hit, world_intersections) };
+                const double reflectance{ calculateReflectance(detailed_hit.getViewVector(),
+                                                               detailed_hit.getSurfaceNormal(),
+                                                               n1, n2) };
+                return surface_color + (reflected_color * reflectance) + (refracted_color * (1 - reflectance));
+            }
+
+            // Otherwise return calculated color
             return surface_color + reflected_color + refracted_color;
         }
         // No hit found, return black
