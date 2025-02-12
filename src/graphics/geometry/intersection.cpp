@@ -1,9 +1,5 @@
 #include "intersection.hpp"
 
-#include <algorithm>
-#include <list>
-#include <unordered_map>
-
 #include "util_functions.hpp"
 
 namespace gfx {
@@ -49,48 +45,5 @@ namespace gfx {
         } else {
             return std::nullopt;
         }
-    }
-
-    std::pair<double, double> getRefractiveIndices(const Intersection& hit,
-                                                   const std::vector<Intersection>& possible_overlaps)
-    {
-        // The order in which objects are added must be maintained, but we use a map to facilitate quick removal
-        // of objects from the list at arbitrary positions without having to repeatedly search the list
-        std::list<const Shape*> containing_objects_list{ };
-        std::unordered_map<const Shape*, std::list<const Shape*>::iterator> object_list_iterator_map{ };
-
-        // Assume the exited medium is air
-        double n1 = 1.0;
-
-        // Check each intersection in the possible overlaps group to find the exited & entered objects
-        for (const auto& intersection : possible_overlaps) {
-            // The exited medium is an overlapping object
-            if (intersection == hit && !containing_objects_list.empty()) {
-                n1 = containing_objects_list.back()->getMaterial().getRefractiveIndex();
-            }
-
-            const Shape* object_ptr{ &intersection.getObject() };
-            if (object_list_iterator_map.contains(object_ptr)) {
-                // The ray has exited this object, remove it from the list
-                auto list_iter{ object_list_iterator_map[object_ptr] };
-                containing_objects_list.erase(list_iter);
-                object_list_iterator_map.erase(object_ptr);
-            } else {
-                // The ray is entering this object, append it to the end of the list
-                containing_objects_list.push_back(object_ptr);
-                object_list_iterator_map[object_ptr] = std::prev(containing_objects_list.end());
-            }
-
-            if (intersection == hit && !containing_objects_list.empty()) {
-                // The entered medium is an overlapping object
-                const double n2{ containing_objects_list.back()->getMaterial().getRefractiveIndex() };
-
-                // Terminate loop early since the correct entered object has been found
-                return std::pair<double, double>{ n1, n2 };
-            }
-        }
-
-        // All intersections have been checked, the entered medium is air
-        return std::pair<double, double>{ n1, 1.0 };
     }
 }

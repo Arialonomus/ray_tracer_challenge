@@ -8,7 +8,10 @@
 #include "sphere.hpp"
 #include "light.hpp"
 #include "vector4.hpp"
+#include "transform.hpp"
 #include "stripe_pattern.hpp"
+#include "intersection.hpp"
+#include "world.hpp"
 
 // Tests calculating surface color with the view origin between the light and the surface
 TEST(GraphicsShading, ViewBetweenLightAndSurface)
@@ -172,4 +175,44 @@ TEST(GraphicsShading, StripePatternedSurface)
                                                                 view_vector) };
 
     EXPECT_EQ(color_actual_b, color_expected_b);
+}
+
+
+// Tests finding the refractive indices at multiple intersections of overlapping spheres with different mediums
+TEST(GraphicsShading, GetRefractiveIndexOverlappingSpheres)
+{
+    gfx::Material glassy_material_a, glassy_material_b, glassy_material_c{ gfx::createGlassyMaterial() };
+
+    glassy_material_a.setRefractiveIndex(1.5);
+    const gfx::Sphere glass_sphere_a{ gfx::createScalingMatrix(2), glassy_material_a };
+
+    glassy_material_b.setRefractiveIndex(2.0);
+    const gfx::Sphere glass_sphere_b{ gfx::createTranslationMatrix(0, 0, -0.25), glassy_material_b };
+
+    glassy_material_c.setRefractiveIndex(2.5);
+    const gfx::Sphere glass_sphere_c{ gfx::createTranslationMatrix(0, 0, 0.25), glassy_material_c };
+
+    const gfx::Ray ray{ 0, 0 , -4,
+                        0, 0, 1 };
+
+    const gfx::World world{ glass_sphere_a, glass_sphere_b, glass_sphere_c };
+
+    auto intersections{ world.getAllIntersections(ray) };
+    const std::vector<std::pair<double, double>> refractive_indices_expected_list{ std::pair(1.0, 1.5),
+                                                                                   std::pair(1.5, 2.0),
+                                                                                   std::pair(2.0, 2.5),
+                                                                                   std::pair(2.5, 2.5),
+                                                                                   std::pair(2.5, 1.5),
+                                                                                   std::pair(1.5, 1.0) };
+
+    // Ensure test cases are properly initialized for comparison
+    ASSERT_EQ(intersections.size(), refractive_indices_expected_list.size());
+
+    // Check that the refractive indices for each ray-object intersection are correct
+    for (int i = 0; i < intersections.size(); ++i) {
+        auto refracted_indices_actual{ gfx::getRefractiveIndices(intersections[i],
+                                                                 intersections) };
+
+        EXPECT_EQ(refracted_indices_actual, refractive_indices_expected_list[i]);
+    }
 }
