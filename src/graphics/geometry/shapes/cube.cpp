@@ -20,7 +20,17 @@ namespace gfx {
     // Ray-Cube Intersection Calculator
     std::vector<Intersection> Cube::calculateIntersections(const Ray& transformed_ray) const
     {
-        return std::vector<Intersection>{ };
+        const auto [ x_t_min, x_t_max ] { getAxisIntersectionTs(transformed_ray.getOrigin().x(),
+                                                                transformed_ray.getDirection().x()) };
+        const auto [ y_t_min, y_t_max ] { getAxisIntersectionTs(transformed_ray.getOrigin().y(),
+                                                                transformed_ray.getDirection().y()) };
+        const auto [ z_t_min, z_t_max ] { getAxisIntersectionTs(transformed_ray.getOrigin().z(),
+                                                                transformed_ray.getDirection().z()) };
+
+        const double t_min{ std::max({ x_t_min, y_t_min, z_t_min }) };
+        const double t_max{ std::min({ x_t_max, y_t_max, z_t_max }) };
+
+        return std::vector<Intersection>{ Intersection{ t_min, this }, Intersection{ t_max, this } };
     }
 
     // Axis-Intersection Calculator
