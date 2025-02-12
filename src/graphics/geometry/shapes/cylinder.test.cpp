@@ -99,3 +99,32 @@ TEST(GraphicsCylinder, InequalityOperator)
 
     ASSERT_TRUE(cylinder_a != cylinder_b);
 }
+
+// Tests a ray missing a cylinder
+TEST(GraphicsCylinder, RayCylinderMisses)
+{
+    const gfx::Cylinder cylinder{ };    // Assume an axis-aligned bounding box
+
+    const std::vector<gfx::Vector4> origin_list{
+            gfx::createPoint(1, 0, 0),
+            gfx::createPoint(0, 0 ,0),
+            gfx::createPoint(0, 0, -5),
+    };
+
+    const std::vector<gfx::Vector4> direction_list{
+            gfx::createVector(0, 1, 0),
+            gfx::createVector(0, 1, 0),
+            gfx::createVector(1, 1, 1),
+    };
+
+    ASSERT_TRUE(origin_list.size() == direction_list.size());
+
+    for (int i = 0; i < origin_list.size(); ++i) {
+        const gfx::Ray ray{ origin_list[i],
+                            direction_list[i] };
+
+        std::vector<gfx::Intersection> intersections{ cylinder.getObjectIntersections(ray) };
+
+        EXPECT_TRUE(intersections.empty());
+    }
+}
