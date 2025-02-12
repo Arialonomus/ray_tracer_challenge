@@ -93,15 +93,26 @@ namespace gfx {
 
     double calculateReflectance(const Vector4& view_vector, const Vector4& normal_vector, double n1, double n2)
     {
-        const double cosine{ dotProduct(view_vector, normal_vector) };
+        // When assume initially that n₂ > n₁ and thus initially use the cosine
+        // of the incident angle in Schlick's approximation
+        double cos_schlick{ dotProduct(view_vector, normal_vector) };
+
         if (utils::isGreater(n1, n2)) {
-            const double n{ n1 / n2 };
-            const double sin2_t{ std::pow(n, 2) * (1 - std::pow(cosine, 2)) };
+            // Use Snell's Law to determine if θᵣ has a real solution
+            const double n_ratio{ n1 / n2 };
+            const double sin2_t{ std::pow(n_ratio, 2) * (1 - std::pow(cos_schlick, 2)) };
             if (utils::isGreater(sin2_t, 1.0)) {
+                // Total internal reflection occurs
                 return 1;
             }
+
+            // Since n₁ > n₂, we will use the transmitted angle in Schlick's approximation
+            const double cos_t{ std::sqrt(1 - sin2_t) };
+            cos_schlick = cos_t;
         }
 
-        return 0;
+        // Compute Schlick's approximation with R₀ representing the reflectance at normal incidence (θ = 0)
+        const double r_0{ std::pow((n1 - n2) / (n1 + n2), 2) };
+        return r_0 + (1 - r_0) * std::pow(1 - cos_schlick, 5);
     }
 }
