@@ -27,10 +27,16 @@ namespace gfx {
         const auto [ z_t_min, z_t_max ] { getAxisIntersectionTs(transformed_ray.getOrigin().z(),
                                                                 transformed_ray.getDirection().z()) };
 
-        const double t_min{ std::max({ x_t_min, y_t_min, z_t_min }) };
-        const double t_max{ std::min({ x_t_max, y_t_max, z_t_max }) };
+        double t_min{ std::fmax( x_t_min, y_t_min ) };
+        t_min = std::fmax(t_min, z_t_min);
+        double t_max{ std::fmin( x_t_max, y_t_max ) };
+        t_max = std::fmin(t_max, z_t_max);
 
-        return std::vector<Intersection>{ Intersection{ t_min, this }, Intersection{ t_max, this } };
+        if (utils::isGreater(t_min, t_max)) {
+            return std::vector<Intersection>{ };
+        } else {
+            return std::vector<Intersection>{ Intersection{ t_min, this }, Intersection{ t_max, this } };
+        }
     }
 
     // Axis-Intersection Calculator
