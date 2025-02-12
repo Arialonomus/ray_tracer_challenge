@@ -158,3 +158,47 @@ TEST(GraphicsCube, RayCubeIntersections)
         EXPECT_FLOAT_EQ(intersections[1].getT(), t2_expected);
     }
 }
+
+// Tests a ray intersecting a cube at each face, as well as originating from inside
+TEST(GraphicsCube, RayCubeMisses)
+{
+    const gfx::Cube cube{ };    // Assume an axis-aligned bounding box
+
+    // -Test Case Index Key-
+    // [0] - +x face
+    // [1] - -x face
+    // [2] - +y face
+    // [3] - -y face
+    // [4] - +z face
+    // [5] - -z face
+    // [6] - inside the cube
+
+    const std::vector<gfx::Vector4> origin_list{
+            gfx::createPoint(-2, 0, 0),
+            gfx::createPoint(0, -2 ,0),
+            gfx::createPoint(0, 0, -2),
+            gfx::createPoint(2, 0, 2),
+            gfx::createPoint(0, 2, 2),
+            gfx::createPoint(2, 2, 0)
+    };
+
+    const std::vector<gfx::Vector4> direction_list{
+            gfx::createVector(0.2673, 0.5345, 0.8018),
+            gfx::createVector(0.2673, 0.5345, 0.8018),
+            gfx::createVector(0.5345, 0.8018, 0.2673),
+            gfx::createVector(0, 0, -1),
+            gfx::createVector(0, -1, 0),
+            gfx::createVector(-1, 0, 0)
+    };
+
+    ASSERT_TRUE(origin_list.size() == direction_list.size());
+
+    for (int i = 0; i < origin_list.size(); ++i) {
+        const gfx::Ray ray{ origin_list[i],
+                            direction_list[i] };
+
+        std::vector<gfx::Intersection> intersections{ cube.getObjectIntersections(ray) };
+
+        EXPECT_TRUE(intersections.empty());
+    }
+}
