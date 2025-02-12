@@ -164,15 +164,6 @@ TEST(GraphicsCube, RayCubeMisses)
 {
     const gfx::Cube cube{ };    // Assume an axis-aligned bounding box
 
-    // -Test Case Index Key-
-    // [0] - +x face
-    // [1] - -x face
-    // [2] - +y face
-    // [3] - -y face
-    // [4] - +z face
-    // [5] - -z face
-    // [6] - inside the cube
-
     const std::vector<gfx::Vector4> origin_list{
             gfx::createPoint(-2, 0, 0),
             gfx::createPoint(0, -2 ,0),
@@ -184,7 +175,7 @@ TEST(GraphicsCube, RayCubeMisses)
 
     const std::vector<gfx::Vector4> direction_list{
             gfx::createVector(0.2673, 0.5345, 0.8018),
-            gfx::createVector(0.2673, 0.5345, 0.8018),
+            gfx::createVector(0.8018, 0.2673, 0.5345),
             gfx::createVector(0.5345, 0.8018, 0.2673),
             gfx::createVector(0, 0, -1),
             gfx::createVector(0, -1, 0),
@@ -200,5 +191,40 @@ TEST(GraphicsCube, RayCubeMisses)
         std::vector<gfx::Intersection> intersections{ cube.getObjectIntersections(ray) };
 
         EXPECT_TRUE(intersections.empty());
+    }
+}
+
+// Tests finding the surface normal for a cube at various points
+TEST(GraphicsCube, GetSurfaceNormal)
+{
+    const gfx::Cube cube{ };    // Assume an axis-aligned bounding box
+
+    const std::vector<gfx::Vector4> point_list{
+            gfx::createPoint(1, 0.5, -0.8),
+            gfx::createPoint(-1, -0.2, 0.9),
+            gfx::createPoint(-0.4, 1, -0.1),
+            gfx::createPoint(0.3, -1, 0.7),
+            gfx::createPoint(-0.6, 0.3, 1),
+            gfx::createPoint(0.4, 0.4, -1),
+            gfx::createPoint(1, 1, 1),
+            gfx::createPoint(-1, -1, -1)
+    };
+
+    const std::vector<gfx::Vector4> surface_normaL_expected_list{
+            gfx::createVector(1, 0, 0),
+            gfx::createVector(-1, 0, 0),
+            gfx::createVector(0, 1, 0),
+            gfx::createVector(0, -1, 0),
+            gfx::createVector(0, 0, 1),
+            gfx::createVector(0, 0, -1),
+            gfx::createVector(1, 0, 0),
+            gfx::createVector(-1, 0, 0)
+    };
+
+    ASSERT_TRUE(point_list.size() == surface_normaL_expected_list.size());
+
+    for (int i = 0; i < point_list.size(); ++i) {
+        const gfx::Vector4 surface_normal_actual{ cube.getSurfaceNormal(point_list[i]) };
+        EXPECT_EQ(surface_normal_actual, surface_normaL_expected_list[i]);
     }
 }
