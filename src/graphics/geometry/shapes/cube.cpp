@@ -14,7 +14,23 @@ namespace gfx {
     // Surface Normal for a Cube
     Vector4 Cube::calculateSurfaceNormal(const Vector4& transformed_point) const
     {
-        return Vector4{ };
+        const double abs_x{ std::abs(transformed_point.x()) };
+        const double abs_y{ std::abs(transformed_point.y()) };
+        const double abs_z{ std::abs(transformed_point.z()) };
+
+        double max_component{ std::fmax(abs_x, abs_y) };
+        max_component = std::fmax(max_component, abs_z);
+
+        // X-Axis Aligned Face
+        if (utils::areEqual(max_component, abs_x)) {
+            return createVector(transformed_point.x(), 0, 0);
+        }
+        // Y-Axis Aligned Face
+        if (utils::areEqual(max_component, abs_y)) {
+            return createVector(0, transformed_point.y(), 0);
+        }
+        // Z-Axis Aligned Face
+        return createVector(0, 0, transformed_point.z());
     }
 
     // Ray-Cube Intersection Calculator
