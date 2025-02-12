@@ -1,0 +1,87 @@
+{
+  "world": {
+    "light_source": {
+      "intensity": [0.9, 0.9, 0.9],
+      "position": [2, 10, -5]
+    },
+    "objects": [
+      {
+        "object_name": "floor",
+        "shape": "plane",
+        "transform": [
+          {
+            "type": "translate",
+            "values": [0, 0, 10]
+          },
+          {
+            "type": "rotate_x",
+            "values": [1.5707963268]
+          }
+        ],
+        "material": {
+          "pattern": {
+            "type": "checkered",
+            "transform": [
+            ],
+            "color_a": [0.15, 0.15, 0.15],
+            "color_b": [0.85, 0.85, 0.85]
+          },
+          "ambient": 0.8,
+          "diffuse": 0.2,
+          "specular": 0
+        }
+      },
+      {
+        "object_name": "glass_ball",
+        "shape": "sphere",
+        "transform": [],
+        "material": {
+          "color": [1, 1, 1],
+          "ambient": 0,
+          "diffuse": 0,
+          "specular": 0.9,
+          "shininess": 300,
+          "reflectivity": 0.9,
+          "transparency": 0.9,
+          "refractive_index": 1.5
+        }
+      },
+      {
+        "object_name": "hollow_center",
+        "shape": "sphere",
+        "transform": [
+          {
+            "type": "scale",
+            "values": [
+              0.5
+            ]
+          }
+        ],
+        "material": {
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "ambient": 0,
+          "diffuse": 0,
+          "specular": 0.9,
+          "shininess": 300,
+          "reflectivity": 0.9,
+          "transparency": 0.9,
+          "refractive_index": 1.0000034
+        }
+      }
+    ]
+  },
+  "camera": {
+    "viewport_width": 500,
+    "viewport_height": 500,
+    "field_of_view": 0.45,
+    "transform": {
+      "input_base": [0, 0, -5],
+      "output_base": [0, 0, 0],
+      "up_vector": [0, 1, 0]
+    }
+  }
+}
