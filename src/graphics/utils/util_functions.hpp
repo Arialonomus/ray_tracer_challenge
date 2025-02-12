@@ -13,6 +13,10 @@ namespace utils
     template<typename T>
     bool areEqual(T f1, T f2)
     {
+        if (std::isinf(f1) || std::isinf(f2)) {
+            return f1 == f2;
+        }
+
         const T epsilon{ EPSILON };
         const T difference = std::abs(f1 - f2);
         if (difference <= epsilon) {
