@@ -237,3 +237,45 @@ TEST(GraphicsShading, CalculateReflectanceTotalInternalReflection)
 
     EXPECT_FLOAT_EQ(reflectance_actual, reflectance_expected);
 }
+
+// Tests calculating reflectance when the surface is struck at a 90-degree angle
+TEST(GraphicsShading, CalculateReflectancePerpendicularHit)
+{
+    const gfx::Sphere glass_sphere{ gfx::createGlassyMaterial() };
+    const gfx::Ray ray{ 0, 0, 0,
+                        0, 1, 0 };
+    const gfx::World world{ glass_sphere };
+
+    const auto intersections{ world.getAllIntersections(ray) };
+    const gfx::DetailedIntersection detailed_hit{ intersections[1], ray };
+
+    const auto [ n1, n2 ] { gfx::getRefractiveIndices(detailed_hit, intersections) };
+
+    const double reflectance_expected{ 0.04 };
+    const double reflectance_actual{ gfx::calculateReflectance(detailed_hit.getViewVector(),
+                                                               detailed_hit.getSurfaceNormal(),
+                                                               n1, n2) };
+
+    EXPECT_FLOAT_EQ(reflectance_actual, reflectance_expected);
+}
+
+// Tests calculating reflectance when the surface is struck at a small angle (n₂ > n₁)
+TEST(GraphicsShading, CalculateReflectanceSmallAngleHit)
+{
+    const gfx::Sphere glass_sphere{ gfx::createGlassyMaterial() };
+    const gfx::Ray ray{ 0, 0.99, -2,
+                        0, 0, 1 };
+    const gfx::World world{ glass_sphere };
+
+    const auto intersections{ world.getAllIntersections(ray) };
+    const gfx::DetailedIntersection detailed_hit{ intersections[0], ray };
+
+    const auto [ n1, n2 ] { gfx::getRefractiveIndices(detailed_hit, intersections) };
+
+    const double reflectance_expected{ 0.48881438 };
+    const double reflectance_actual{ gfx::calculateReflectance(detailed_hit.getViewVector(),
+                                                               detailed_hit.getSurfaceNormal(),
+                                                               n1, n2) };
+
+    EXPECT_FLOAT_EQ(reflectance_actual, reflectance_expected);
+}
