@@ -108,46 +108,32 @@ namespace gfx {
         void setYMin(const double y_min)
         { m_y_min = y_min; }
 
-        // Removes the lower bound of the cylinder, uncaps if the upper bound is already removed
+        // Removes the lower bound of the cylinder
         void unboundYMin()
-        {
-            m_y_min = -std::numeric_limits<double>::infinity();
-            if (std::isinf(m_y_max))
-                m_is_closed = false;
-        }
+        { m_y_min = -std::numeric_limits<double>::infinity(); }
 
         // Adds an upper bound to the cylinder's local y-value
         void setYMax(const double y_max)
         { m_y_max = y_max; }
 
-        // Removes the upper bound of the cylinder, uncaps if the lower bound is already removed
+        // Removes the upper bound of the cylinder
         void unboundYMax()
-        {
-            m_y_max = std::numeric_limits<double>::infinity();
-            if (std::isinf(m_y_min))
-                m_is_closed = false;
-        }
+        { m_y_max = std::numeric_limits<double>::infinity(); }
 
-        // Removes upper and lower bounds from the cylinder height, and uncaps the cylinder
+        // Removes upper and lower bounds from the cylinder height
         void unboundCylinder()
         {
-            m_y_min = -std::numeric_limits<double>::infinity();
-            m_y_max = std::numeric_limits<double>::infinity();
-            m_is_closed = false;
+            this->unboundYMin();
+            this->unboundYMax();
         }
 
-        // Adds end caps to a cylinder, has no effect if the cylinder is fully unbounded
+        // Adds end caps to a cylinder
         void capCylinder()
-        {
-            if (!std::isinf(m_y_min) || !isinf(m_y_max))
-                m_is_closed = true;
-        }
+        { m_is_closed = true; }
 
         // Removes end caps from a cylinder
         void uncapCylinder()
-        {
-            m_is_closed = false;
-        }
+        { m_is_closed = false; }
 
         /* Comparison Operator Overloads */
 
