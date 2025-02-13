@@ -109,7 +109,7 @@ namespace gfx {
         { m_y_min = y_min; }
 
         // Removes the lower bound of the cylinder, uncaps if the upper bound is already removed
-        void uncapYMin()
+        void unboundYMin()
         {
             m_y_min = -std::numeric_limits<double>::infinity();
             if (std::isinf(m_y_max))
@@ -121,21 +121,21 @@ namespace gfx {
         { m_y_max = y_max; }
 
         // Removes the upper bound of the cylinder, uncaps if the lower bound is already removed
-        void uncapYMax()
+        void unboundYMax()
         {
             m_y_max = std::numeric_limits<double>::infinity();
             if (std::isinf(m_y_min))
                 m_is_closed = false;
         }
 
-        // Adds endcaps to a cylinder, has no effect if the cylinder is fully unbounded
+        // Adds end caps to a cylinder, has no effect if the cylinder is fully unbounded
         void capCylinder()
         {
             if (!std::isinf(m_y_min) || !isinf(m_y_max))
                 m_is_closed = true;
         }
 
-        // Removes endcaps from a cylinder
+        // Removes end caps from a cylinder
         void uncapCylinder()
         {
             m_is_closed = false;
@@ -144,6 +144,8 @@ namespace gfx {
         /* Comparison Operator Overloads */
 
         [[nodiscard]] bool operator==(const Cylinder& rhs) const;
+
+        /* Object Operations */
 
         // Creates a clone of this cylinder to be stored in a world object list
         [[nodiscard]] std::shared_ptr<Shape> clone() const override

@@ -179,8 +179,8 @@ TEST(GraphicsCylinder, Mutators)
     ASSERT_FLOAT_EQ(cylinder.getYMax(), y_max_expected);
 
     // Test uncapping y_min and y_max
-    cylinder.uncapYMin();
-    cylinder.uncapYMax();
+    cylinder.unboundYMin();
+    cylinder.unboundYMax();
 
     ASSERT_TRUE(std::isinf(cylinder.getYMin()));
     ASSERT_TRUE(cylinder.getYMin() < 0);
