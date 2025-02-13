@@ -206,8 +206,8 @@ TEST(GraphicsCylinder, InequalityOperator)
     ASSERT_TRUE(cylinder_a != cylinder_b);
 }
 
-// Tests a ray missing a cylinder
-TEST(GraphicsCylinder, RayCylinderMisses)
+// Tests a ray missing an unbounded cylinder
+TEST(GraphicsCylinder, RayCylinderMissesUnbounded)
 {
     const gfx::Cylinder cylinder{ };    // Assume an unbounded unit cylinder centered at the origin
 
@@ -270,6 +270,59 @@ TEST(GraphicsCylinder, RayCylinderHitsUnbounded)
         const auto [ t1_expected, t2_expected ] { intersection_t_expected_list[i] };
         EXPECT_FLOAT_EQ(intersections[0].getT(), t1_expected);
         EXPECT_FLOAT_EQ(intersections[1].getT(), t2_expected);
+    }
+}
+
+// Tests ray intersections with a bounded, uncapped cylinder
+TEST(GraphicsCylinder, RayCylinderIntersectionsBoundedUncapped)
+{
+    const gfx::Cylinder cylinder{ 1, 2 };
+
+    /* Test Case Index Key */
+    // [0] - Ray cast diagonally upward from cylinder center
+    // [1] - Ray cast perpendicular to the y-axis, above cylinder upper bound
+    // [2] - Ray cast perpendicular to the y-axis, below cylinder lower bound
+    // [3] - Ray cast perpendicular to the y-axis, co-planar with cylinder upper bound
+    // [4] - Ray cast perpendicular to the y-axis, co-planar with cylinder lower bound
+    // [5] - Ray cast perpendicular to the y-axis, through cylinder center
+
+    const std::vector<gfx::Vector4> origin_list{
+            gfx::createPoint(0, 1.5, 0),
+            gfx::createPoint(0, 3, -5),
+            gfx::createPoint(0, 0, -5),
+            gfx::createPoint(0, 2, -5),
+            gfx::createPoint(0, 1, -5),
+            gfx::createPoint(0, 1.5, -2)
+    };
+
+    const std::vector<gfx::Vector4> direction_list{
+            gfx::createVector(0.1, 1, 0),
+            gfx::createVector(0, 0, 1),
+            gfx::createVector(0, 0, 1),
+            gfx::createVector(0, 0, 1),
+            gfx::createVector(0, 0, 1),
+            gfx::createVector(0, 0, 1)
+    };
+
+    const std::vector<size_t> intersection_count_expected_list {
+            0,
+            0,
+            0,
+            0,
+            0,
+            2
+    };
+
+    ASSERT_TRUE(origin_list.size() == direction_list.size());
+    ASSERT_TRUE(origin_list.size() == intersection_count_expected_list.size());
+
+    for (int i = 0; i < origin_list.size(); ++i) {
+        const gfx::Ray ray{ origin_list[i],
+                            gfx::normalize(direction_list[i]) };
+
+        std::vector<gfx::Intersection> intersections{ cylinder.getObjectIntersections(ray) };
+
+        EXPECT_EQ(intersections.size(), intersection_count_expected_list[i]);
     }
 }
 
