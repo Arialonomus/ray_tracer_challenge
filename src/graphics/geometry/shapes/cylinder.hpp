@@ -21,52 +21,63 @@ namespace gfx {
         Cylinder() = default;
 
         // Default Constructor (Bounded Cylinder)
-        Cylinder(const double y_min, const double y_max)
+        Cylinder(const double y_min, const double y_max, bool is_closed = false)
                 : Shape{ },
                   m_y_min{ y_min },
-                  m_y_max{ y_max }
+                  m_y_max{ y_max },
+                  m_is_closed{ is_closed }
         {}
 
         // Transform-Only Constructor (Unbounded Cylinder)
         explicit Cylinder(const Matrix4& transform)
                 : Shape{ transform },
                   m_y_min{ -std::numeric_limits<double>::infinity() },
-                  m_y_max{ std::numeric_limits<double>::infinity() }
+                  m_y_max{ std::numeric_limits<double>::infinity() },
+                  m_is_closed{ false }
         {}
 
         // Transform-Only Constructor (Bounded Cylinder)
-        Cylinder(const Matrix4& transform, const double y_min, const double y_max)
+        Cylinder(const Matrix4& transform, const double y_min, const double y_max, bool is_closed = false)
                 : Shape{ transform },
                   m_y_min{ y_min },
-                  m_y_max{ y_max }
+                  m_y_max{ y_max },
+                  m_is_closed{ is_closed }
         {}
 
         // Material-Only Constructor (Unbounded Cylinder)
         explicit Cylinder(const Material& material)
                 : Shape{ material },
                   m_y_min{ -std::numeric_limits<double>::infinity() },
-                  m_y_max{ std::numeric_limits<double>::infinity() }
+                  m_y_max{ std::numeric_limits<double>::infinity() },
+                  m_is_closed{ false }
         {}
 
         // Material-Only Constructor (Bounded Cylinder)
-        Cylinder(const Material& material, const double y_min, const double y_max)
+        Cylinder(const Material& material, const double y_min, const double y_max, bool is_closed = false)
                 : Shape{ material },
                   m_y_min{ y_min },
-                  m_y_max{ y_max }
+                  m_y_max{ y_max },
+                  m_is_closed{ is_closed }
         {}
 
         // Standard Constructor (Unbounded Cylinder)
         Cylinder(const Matrix4& transform, const Material& material)
                 : Shape{ transform, material },
                   m_y_min{ -std::numeric_limits<double>::infinity() },
-                  m_y_max{ std::numeric_limits<double>::infinity() }
+                  m_y_max{ std::numeric_limits<double>::infinity() },
+                  m_is_closed{ false }
         {}
 
         // Standard Constructor (Bounded Cylinder)
-        Cylinder(const Matrix4& transform, const Material& material, const double y_min, const double y_max)
+        Cylinder(const Matrix4& transform,
+                 const Material& material,
+                 const double y_min,
+                 const double y_max,
+                 bool is_closed = false)
                 : Shape{ transform, material },
                   m_y_min{ y_min },
-                  m_y_max{ y_max }
+                  m_y_max{ y_max },
+                  m_is_closed{ is_closed }
         {}
 
         // Copy Constructor
@@ -88,19 +99,47 @@ namespace gfx {
         [[nodiscard]] double getYMax() const
         { return m_y_max; }
 
+        [[nodiscard]] bool isClosed() const
+        { return m_is_closed; }
+
         /* Mutators */
 
+        // Adds a lower bound to the cylinder's local y-value
         void setYMin(const double y_min)
         { m_y_min = y_min; }
 
+        // Removes the lower bound of the cylinder, uncaps if the upper bound is already removed
         void uncapYMin()
-        { m_y_min = -std::numeric_limits<double>::infinity(); }
+        {
+            m_y_min = -std::numeric_limits<double>::infinity();
+            if (std::isinf(m_y_max))
+                m_is_closed = false;
+        }
 
+        // Adds an upper bound to the cylinder's local y-value
         void setYMax(const double y_max)
         { m_y_max = y_max; }
 
+        // Removes the upper bound of the cylinder, uncaps if the lower bound is already removed
         void uncapYMax()
-        { m_y_max = std::numeric_limits<double>::infinity(); }
+        {
+            m_y_max = std::numeric_limits<double>::infinity();
+            if (std::isinf(m_y_min))
+                m_is_closed = false;
+        }
+
+        // Adds endcaps to a cylinder, has no effect if the cylinder is fully unbounded
+        void capCylinder()
+        {
+            if (!std::isinf(m_y_min) || !isinf(m_y_max))
+                m_is_closed = true;
+        }
+
+        // Removes endcaps from a cylinder
+        void uncapCylinder()
+        {
+            m_is_closed = false;
+        }
 
         /* Comparison Operator Overloads */
 
@@ -115,6 +154,7 @@ namespace gfx {
 
         double m_y_min{ -std::numeric_limits<double>::infinity() };
         double m_y_max{ std::numeric_limits<double>::infinity() };
+        bool m_is_closed{ false };
 
         /* Helper Method Overrides */
 
