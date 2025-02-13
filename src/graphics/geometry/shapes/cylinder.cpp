@@ -50,11 +50,11 @@ namespace gfx {
 
         const double y_0{ transformed_ray.getOrigin().y() + t_0 * transformed_ray.getDirection().y() };
         if (utils::isLess(this->m_y_min, y_0) && utils::isLess(y_0, this->m_y_max)) {
-            intersections.push_back(Intersection{ t_0, this });
+            intersections.emplace_back( t_0, this );
         }
         const double y_1{ transformed_ray.getOrigin().y() + t_1 * transformed_ray.getDirection().y() };
         if (utils::isLess(this->m_y_min, y_1) && utils::isLess(y_1, this->m_y_max)) {
-            intersections.push_back(Intersection{ t_1, this });
+            intersections.emplace_back( t_1, this );
         }
 
         return intersections;
