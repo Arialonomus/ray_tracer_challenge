@@ -103,7 +103,7 @@ TEST(GraphicsCylinder, InequalityOperator)
 // Tests a ray missing a cylinder
 TEST(GraphicsCylinder, RayCylinderMisses)
 {
-    const gfx::Cylinder cylinder{ };
+    const gfx::Cylinder cylinder{ };    // Assume an unbounded unit cylinder centered at the origin
 
     const std::vector<gfx::Vector4> origin_list{
             gfx::createPoint(1, 0, 0),
@@ -132,7 +132,7 @@ TEST(GraphicsCylinder, RayCylinderMisses)
 // Tests ray intersections with an unbounded cylinder
 TEST(GraphicsCylinder, RayCylinderHitsUnbounded)
 {
-    const gfx::Cylinder cylinder{ };
+    const gfx::Cylinder cylinder{ };    // Assume an unbounded unit cylinder centered at the origin
 
     const std::vector<gfx::Vector4> origin_list{
             gfx::createPoint(1, 0, -5),
@@ -164,5 +164,32 @@ TEST(GraphicsCylinder, RayCylinderHitsUnbounded)
         const auto [ t1_expected, t2_expected ] { intersection_t_expected_list[i] };
         EXPECT_FLOAT_EQ(intersections[0].getT(), t1_expected);
         EXPECT_FLOAT_EQ(intersections[1].getT(), t2_expected);
+    }
+}
+
+// Tests finding the surface normal on an unbounded cylinder
+TEST(GraphicsCylinder, GetSurfaceNormalUnbounded)
+{
+    const gfx::Cylinder cylinder{ };    // Assume an unbounded unit cylinder centered at the origin
+
+    const std::vector<gfx::Vector4> point_list{
+            gfx::createPoint(1, 0, 0),
+            gfx::createPoint(0, 5, -1),
+            gfx::createPoint(0, -2, 1),
+            gfx::createPoint(-1, 1, 0)
+    };
+
+    const std::vector<gfx::Vector4> surface_normaL_expected_list{
+            gfx::createVector(1, 0, 0),
+            gfx::createVector(0, 0, -1),
+            gfx::createVector(0, 0, 1),
+            gfx::createVector(-1, 0, 0)
+    };
+
+    ASSERT_TRUE(point_list.size() == surface_normaL_expected_list.size());
+
+    for (int i = 0; i < point_list.size(); ++i) {
+        const gfx::Vector4 surface_normal_actual{ cylinder.getSurfaceNormalAt(point_list[i]) };
+        EXPECT_EQ(surface_normal_actual, surface_normaL_expected_list[i]);
     }
 }
