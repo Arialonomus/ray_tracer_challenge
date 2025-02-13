@@ -128,6 +128,14 @@ namespace gfx {
                 m_is_closed = false;
         }
 
+        // Removes upper and lower bounds from the cylinder height, and uncaps the cylinder
+        void unboundCylinder()
+        {
+            m_y_min = -std::numeric_limits<double>::infinity();
+            m_y_max = std::numeric_limits<double>::infinity();
+            m_is_closed = false;
+        }
+
         // Adds end caps to a cylinder, has no effect if the cylinder is fully unbounded
         void capCylinder()
         {
