@@ -14,7 +14,7 @@ namespace gfx {
     // Surface Normal for a Cylinder
     Vector4 Cylinder::calculateSurfaceNormal(const Vector4& transformed_point) const
     {
-        return Vector4{ };
+        return createVector(transformed_point.x(), 0, transformed_point.z());
     }
 
     // Ray-Cylinder Intersection Calculator
