@@ -359,6 +359,57 @@ TEST(GraphicsCylinder, RayCylinderIntersectionsBoundedUncapped)
     }
 }
 
+// Tests ray intersections with a bounded, capped cylinder
+TEST(GraphicsCylinder, RayCylinderIntersectionsBoundedCapped)
+{
+    const gfx::Cylinder cylinder{ 1, 2, true };
+
+    /* Test Case Index Key */
+    // [0] - Downward ray collinear with the y-axis, intersecting the center through the cylinder's upper end cap
+    // [1] - Ray cast diagonally downward through the cylinder's upper end cap and out the side of the cylinder
+    // [2] - Ray cast diagonally downward through the cylinder's upper end cap and exiting at the
+    //       intersection of the side and lower end cap (corner case)
+    // [3] - Ray cast diagonally upward through the cylinder's lower end cap and out the side of the cylinder
+    // [4] - Ray cast diagonally upward through the cylinder's lower end cap and exiting at the
+    //       intersection of the side and upper end cap (corner case)
+
+    const std::vector<gfx::Vector4> origin_list{
+            gfx::createPoint(0, 3, 0),
+            gfx::createPoint(0, 3, -3),
+            gfx::createPoint(0, 4, -2),
+            gfx::createPoint(0, 0, -2),
+            gfx::createPoint(0, -1, -2)
+    };
+
+    const std::vector<gfx::Vector4> direction_list{
+            gfx::createVector(0, -1, 0),
+            gfx::createVector(0, -1, 2),
+            gfx::createVector(0, -1, 1),
+            gfx::createVector(0, 1, 2),
+            gfx::createVector(0, 1, 1)
+    };
+
+    const std::vector<size_t> intersection_count_expected_list {
+            2,
+            2,
+            2,
+            2,
+            2
+    };
+
+    ASSERT_TRUE(origin_list.size() == direction_list.size());
+    ASSERT_TRUE(origin_list.size() == intersection_count_expected_list.size());
+
+    for (int i = 0; i < origin_list.size(); ++i) {
+        const gfx::Ray ray{ origin_list[i],
+                            gfx::normalize(direction_list[i]) };
+
+        std::vector<gfx::Intersection> intersections{ cylinder.getObjectIntersections(ray) };
+
+        EXPECT_EQ(intersections.size(), intersection_count_expected_list[i]);
+    }
+}
+
 // Tests finding the surface normal on an unbounded cylinder
 TEST(GraphicsCylinder, GetSurfaceNormalUnbounded)
 {
