@@ -38,9 +38,25 @@ namespace gfx {
             return std::vector<Intersection>{ };
         }
 
-        const double t_0{ (-b - std::sqrt(discriminant)) / (2 * a) };
-        const double t_1{ (-b + std::sqrt(discriminant)) / (2 * a) };
+        // Calculate the intersection points for an unbounded cylinder
+        double t_0{ (-b - std::sqrt(discriminant)) / (2 * a) };
+        double t_1{ (-b + std::sqrt(discriminant)) / (2 * a) };
+        if (utils::isGreater(t_0, t_1)) {
+            std::swap(t_0, t_1);
+        }
 
-        return std::vector<Intersection>{ Intersection{ t_0, this }, Intersection{ t_1, this } };
+        // Check that intersection points land within cylinder bounds (if applicable)
+        std::vector<Intersection> intersections{ };
+
+        const double y_0{ transformed_ray.getOrigin().y() + t_0 * transformed_ray.getDirection().y() };
+        if (utils::isLess(this->m_y_min, y_0) && utils::isLess(y_0, this->m_y_max)) {
+            intersections.push_back(Intersection{ t_0, this });
+        }
+        const double y_1{ transformed_ray.getOrigin().y() + t_1 * transformed_ray.getDirection().y() };
+        if (utils::isLess(this->m_y_min, y_1) && utils::isLess(y_1, this->m_y_max)) {
+            intersections.push_back(Intersection{ t_1, this });
+        }
+
+        return intersections;
     }
 }
