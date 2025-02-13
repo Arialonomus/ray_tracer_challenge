@@ -23,6 +23,7 @@ TEST(GraphicsCylinder, DefaultConstructor)
     ASSERT_TRUE(cylinder_unbounded.getYMin() < 0);
     ASSERT_TRUE(std::isinf(cylinder_unbounded.getYMax()));
     ASSERT_TRUE(cylinder_unbounded.getYMax() > 0);
+    ASSERT_FALSE(cylinder_unbounded.isClosed());
 
     // Test a bounded cylinder
     const double y_min_expected{ -1 };
@@ -33,6 +34,7 @@ TEST(GraphicsCylinder, DefaultConstructor)
     ASSERT_EQ(cylinder_bounded.getMaterial(), material_expected);
     ASSERT_FLOAT_EQ(cylinder_bounded.getYMin(), y_min_expected);
     ASSERT_FLOAT_EQ(cylinder_bounded.getYMax(), y_max_expected);
+    ASSERT_FALSE(cylinder_bounded.isClosed());
 }
 
 // Tests the material-only constructors
@@ -50,6 +52,7 @@ TEST(GraphicsCylinder, StandardConstructorDefaultMaterial)
     ASSERT_TRUE(cylinder_unbounded.getYMin() < 0);
     ASSERT_TRUE(std::isinf(cylinder_unbounded.getYMax()));
     ASSERT_TRUE(cylinder_unbounded.getYMax() > 0);
+    ASSERT_FALSE(cylinder_unbounded.isClosed());
 
     // Test a bounded cylinder
     const double y_min_expected{ -1 };
@@ -60,6 +63,7 @@ TEST(GraphicsCylinder, StandardConstructorDefaultMaterial)
     ASSERT_EQ(cylinder_bounded.getMaterial(), material_expected);
     ASSERT_FLOAT_EQ(cylinder_bounded.getYMin(), y_min_expected);
     ASSERT_FLOAT_EQ(cylinder_bounded.getYMax(), y_max_expected);
+    ASSERT_FALSE(cylinder_bounded.isClosed());
 }
 
 // Tests the transform-only constructors
@@ -78,6 +82,7 @@ TEST(GraphicsCylinder, StandardConstructorDefaultTransform)
     ASSERT_TRUE(cylinder_unbounded.getYMin() < 0);
     ASSERT_TRUE(std::isinf(cylinder_unbounded.getYMax()));
     ASSERT_TRUE(cylinder_unbounded.getYMax() > 0);
+    ASSERT_FALSE(cylinder_unbounded.isClosed());
 
     // Test a bounded cylinder
     const double y_min_expected{ -1 };
@@ -88,6 +93,7 @@ TEST(GraphicsCylinder, StandardConstructorDefaultTransform)
     ASSERT_EQ(cylinder_bounded.getMaterial(), material_expected);
     ASSERT_FLOAT_EQ(cylinder_bounded.getYMin(), y_min_expected);
     ASSERT_FLOAT_EQ(cylinder_bounded.getYMax(), y_max_expected);
+    ASSERT_FALSE(cylinder_bounded.isClosed());
 }
 
 // Tests the standard constructors
@@ -106,19 +112,22 @@ TEST(GraphicsCylinder, StandardConstructor)
     ASSERT_TRUE(cylinder_unbounded.getYMin() < 0);
     ASSERT_TRUE(std::isinf(cylinder_unbounded.getYMax()));
     ASSERT_TRUE(cylinder_unbounded.getYMax() > 0);
+    ASSERT_FALSE(cylinder_unbounded.isClosed());
 
-    // Test a bounded cylinder
+    // Test a bounded cylinder (with end caps)
     const double y_min_expected{ -1 };
     const double y_max_expected{ 1 };
     const gfx::Cylinder cylinder_bounded{ transform_expected,
                                           material_expected,
                                           y_min_expected,
-                                          y_max_expected };
+                                          y_max_expected,
+                                          true };
 
     ASSERT_EQ(cylinder_bounded.getTransform(), transform_expected);
     ASSERT_EQ(cylinder_bounded.getMaterial(), material_expected);
     ASSERT_FLOAT_EQ(cylinder_bounded.getYMin(), y_min_expected);
     ASSERT_FLOAT_EQ(cylinder_bounded.getYMax(), y_max_expected);
+    ASSERT_TRUE(cylinder_bounded.isClosed());
 }
 
 // Tests the copy constructor
@@ -140,6 +149,7 @@ TEST(GraphicsCylinder, CopyConstructor)
     ASSERT_EQ(cylinder_cpy.getMaterial(), material_expected);
     ASSERT_FLOAT_EQ(cylinder_cpy.getYMin(), y_min_expected);
     ASSERT_FLOAT_EQ(cylinder_cpy.getYMax(), y_max_expected);
+    ASSERT_FALSE(cylinder_cpy.isClosed());
 }
 
 // Tests the assignment operator
@@ -161,6 +171,9 @@ TEST(GraphicsCylinder, AssignmentOperator)
 
     ASSERT_EQ(cylinder_b.getTransform(), transform_expected);
     ASSERT_EQ(cylinder_b.getMaterial(), material_expected);
+    ASSERT_FLOAT_EQ(cylinder_b.getYMin(), y_min_expected);
+    ASSERT_FLOAT_EQ(cylinder_b.getYMax(), y_max_expected);
+    ASSERT_FALSE(cylinder_b.isClosed());
 }
 
 // Tests the mutators
@@ -173,19 +186,39 @@ TEST(GraphicsCylinder, Mutators)
     const double y_max_expected{ 1 };
 
     cylinder.setYMin(y_min_expected);
-    cylinder.setYMax(y_max_expected);
+    ASSERT_FLOAT_EQ(cylinder.getYMin(), y_min_expected);
 
+    cylinder.setYMax(y_max_expected);
+    ASSERT_FLOAT_EQ(cylinder.getYMax(), y_max_expected);
+
+    // Test unbounding y_min and y_max individually
+    cylinder.unboundYMin();
+    ASSERT_TRUE(std::isinf(cylinder.getYMin()));
+    ASSERT_TRUE(cylinder.getYMin() < 0);
+
+    cylinder.unboundYMax();
+    ASSERT_TRUE(std::isinf(cylinder.getYMax()));
+    ASSERT_TRUE(cylinder.getYMax() > 0);
+
+    // Test bounding y_min and y_max at the same time
+    cylinder.setCylinderBounds(y_min_expected, y_max_expected);
     ASSERT_FLOAT_EQ(cylinder.getYMin(), y_min_expected);
     ASSERT_FLOAT_EQ(cylinder.getYMax(), y_max_expected);
 
-    // Test uncapping y_min and y_max
-    cylinder.unboundYMin();
-    cylinder.unboundYMax();
-
+    // Test unbounding y_min and y_max at the same time
+    cylinder.unboundCylinder();
     ASSERT_TRUE(std::isinf(cylinder.getYMin()));
     ASSERT_TRUE(cylinder.getYMin() < 0);
     ASSERT_TRUE(std::isinf(cylinder.getYMax()));
     ASSERT_TRUE(cylinder.getYMax() > 0);
+
+    // Test capping the cylinder
+    cylinder.capCylinder();
+    ASSERT_TRUE(cylinder.isClosed());
+
+    // Test uncapping the cylinder
+    cylinder.uncapCylinder();
+    ASSERT_FALSE(cylinder.isClosed());
 }
 
 // Tests the equality operator
