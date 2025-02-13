@@ -59,4 +59,38 @@ namespace gfx {
 
         return intersections;
     }
+
+    std::vector<Intersection> Cylinder::calculateEndCapIntersections(const Ray& transformed_ray) const
+    {
+        const double ray_direction_y_val{ transformed_ray.getDirection().y() };
+        if (!this->isClosed() || utils::areEqual(ray_direction_y_val, 0.0)) {
+            // Intersections only possible if the cylinder is capped and could potentially be intersected by the ray
+            return std::vector<Intersection>{ };
+        }
+
+        std::vector<Intersection> intersections{ };
+
+        // Check for an intersection with the plane at the lower bound
+        const double ray_origin_y_val{ transformed_ray.getDirection().y() };
+        const double t_lower{ (this->m_y_min - ray_origin_y_val) / ray_direction_y_val };
+        if (isWithinCylinderWalls(transformed_ray, t_lower)) {
+            intersections.emplace_back(Intersection(t_lower, this));
+        }
+
+        // Check for an intersection with the plane at the upper bound
+        const double t_upper{ (this->m_y_max - ray_origin_y_val) / ray_direction_y_val };
+        if (isWithinCylinderWalls(transformed_ray, t_upper)) {
+            intersections.emplace_back(Intersection(t_upper, this));
+        }
+
+        return intersections;
+    }
+
+    bool Cylinder::isWithinCylinderWalls(const Ray& ray, double t) const
+    {
+        const double x { ray.getOrigin().x() + t * ray.getDirection().x() };
+        const double z { ray.getOrigin().z() + t * ray.getDirection().z() };
+
+        return utils::isLessOrEqual(std::pow(x, 2) + std::pow(z, 2), 1.0);
+    }
 }

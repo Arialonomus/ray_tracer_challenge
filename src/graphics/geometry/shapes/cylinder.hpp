@@ -163,5 +163,13 @@ namespace gfx {
 
         [[nodiscard]] Vector4 calculateSurfaceNormal(const Vector4& transformed_point) const override;
         [[nodiscard]] std::vector<Intersection> calculateIntersections(const Ray& transformed_ray) const override;
+
+        /* Cylinder Helper Methods */
+
+        // Calculates the intersections with the end
+        [[nodiscard]] std::vector<Intersection> calculateEndCapIntersections(const Ray& transformed_ray) const;
+
+        // Returns true if a ray's position at t is within a radius of 1 from the y-axis
+        [[nodiscard]] bool isWithinCylinderWalls(const Ray& ray, double t) const;
     };
 }
