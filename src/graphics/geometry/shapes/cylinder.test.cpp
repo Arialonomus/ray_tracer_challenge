@@ -8,50 +8,117 @@
 #include "transform.hpp"
 #include "ray.hpp"
 
-// Tests the default constructor
+// Tests the default constructors
 TEST(GraphicsCylinder, DefaultConstructor)
 {
-    const gfx::Cylinder cylinder{ };
+    const gfx::Cylinder cylinder_unbounded{ };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
+
+    // Test an unbounded cylinder
     const gfx::Material material_expected{ };
 
-    ASSERT_EQ(cylinder.getTransform(), transform_expected);
-    ASSERT_EQ(cylinder.getMaterial(), material_expected);
+    ASSERT_EQ(cylinder_unbounded.getTransform(), transform_expected);
+    ASSERT_EQ(cylinder_unbounded.getMaterial(), material_expected);
+    ASSERT_TRUE(std::isinf(cylinder_unbounded.getYMin()));
+    ASSERT_TRUE(cylinder_unbounded.getYMin() < 0);
+    ASSERT_TRUE(std::isinf(cylinder_unbounded.getYMax()));
+    ASSERT_TRUE(cylinder_unbounded.getYMax() > 0);
+
+    // Test a bounded cylinder
+    const double y_min_expected{ -1 };
+    const double y_max_expected{ 1 };
+    const gfx::Cylinder cylinder_bounded{ y_min_expected, y_max_expected };
+
+    ASSERT_EQ(cylinder_bounded.getTransform(), transform_expected);
+    ASSERT_EQ(cylinder_bounded.getMaterial(), material_expected);
+    ASSERT_FLOAT_EQ(cylinder_bounded.getYMin(), y_min_expected);
+    ASSERT_FLOAT_EQ(cylinder_bounded.getYMax(), y_max_expected);
 }
 
-// Tests the standard constructor
-TEST(GraphicsCylinder, StandardConstructor)
-{
-    const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
-    const gfx::Cylinder cylinder{ gfx::createScalingMatrix(5), material_expected };
-    const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
-
-    ASSERT_EQ(cylinder.getTransform(), transform_expected);
-    ASSERT_EQ(cylinder.getMaterial(), material_expected);
-}
-
-// Tests the standard constructor (with default material)
+// Tests the material-only constructors
 TEST(GraphicsCylinder, StandardConstructorDefaultMaterial)
 {
-    const gfx::Cylinder cylinder{ gfx::createScalingMatrix(5) };
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     const gfx::Material material_expected{ };
 
-    ASSERT_EQ(cylinder.getTransform(), transform_expected);
-    ASSERT_EQ(cylinder.getMaterial(), material_expected);
+    // Test an unbounded cylinder
+    const gfx::Cylinder cylinder_unbounded{ transform_expected };
+
+    ASSERT_EQ(cylinder_unbounded.getTransform(), transform_expected);
+    ASSERT_EQ(cylinder_unbounded.getMaterial(), material_expected);
+    ASSERT_TRUE(std::isinf(cylinder_unbounded.getYMin()));
+    ASSERT_TRUE(cylinder_unbounded.getYMin() < 0);
+    ASSERT_TRUE(std::isinf(cylinder_unbounded.getYMax()));
+    ASSERT_TRUE(cylinder_unbounded.getYMax() > 0);
+
+    // Test a bounded cylinder
+    const double y_min_expected{ -1 };
+    const double y_max_expected{ 1 };
+    const gfx::Cylinder cylinder_bounded{ transform_expected, y_min_expected, y_max_expected };
+
+    ASSERT_EQ(cylinder_bounded.getTransform(), transform_expected);
+    ASSERT_EQ(cylinder_bounded.getMaterial(), material_expected);
+    ASSERT_FLOAT_EQ(cylinder_bounded.getYMin(), y_min_expected);
+    ASSERT_FLOAT_EQ(cylinder_bounded.getYMax(), y_max_expected);
 }
 
-// Tests the standard constructor (with default transform)
+// Tests the transform-only constructors
 TEST(GraphicsCylinder, StandardConstructorDefaultTransform)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
     const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
-    const gfx::Cylinder cylinder{ material_expected };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
 
-    ASSERT_EQ(cylinder.getTransform(), transform_expected);
-    ASSERT_EQ(cylinder.getMaterial(), material_expected);
+    // Test an unbounded cylinder
+    const gfx::Cylinder cylinder_unbounded{ material_expected };
+
+    ASSERT_EQ(cylinder_unbounded.getTransform(), transform_expected);
+    ASSERT_EQ(cylinder_unbounded.getMaterial(), material_expected);
+    ASSERT_TRUE(std::isinf(cylinder_unbounded.getYMin()));
+    ASSERT_TRUE(cylinder_unbounded.getYMin() < 0);
+    ASSERT_TRUE(std::isinf(cylinder_unbounded.getYMax()));
+    ASSERT_TRUE(cylinder_unbounded.getYMax() > 0);
+
+    // Test a bounded cylinder
+    const double y_min_expected{ -1 };
+    const double y_max_expected{ 1 };
+    const gfx::Cylinder cylinder_bounded{ material_expected, y_min_expected, y_max_expected };
+
+    ASSERT_EQ(cylinder_bounded.getTransform(), transform_expected);
+    ASSERT_EQ(cylinder_bounded.getMaterial(), material_expected);
+    ASSERT_FLOAT_EQ(cylinder_bounded.getYMin(), y_min_expected);
+    ASSERT_FLOAT_EQ(cylinder_bounded.getYMax(), y_max_expected);
+}
+
+// Tests the standard constructors
+TEST(GraphicsCylinder, StandardConstructor)
+{
+    const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
+    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
+    const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
+
+    // Test an unbounded cylinder
+    const gfx::Cylinder cylinder_unbounded{ transform_expected, material_expected };
+
+    ASSERT_EQ(cylinder_unbounded.getTransform(), transform_expected);
+    ASSERT_EQ(cylinder_unbounded.getMaterial(), material_expected);
+    ASSERT_TRUE(std::isinf(cylinder_unbounded.getYMin()));
+    ASSERT_TRUE(cylinder_unbounded.getYMin() < 0);
+    ASSERT_TRUE(std::isinf(cylinder_unbounded.getYMax()));
+    ASSERT_TRUE(cylinder_unbounded.getYMax() > 0);
+
+    // Test a bounded cylinder
+    const double y_min_expected{ -1 };
+    const double y_max_expected{ 1 };
+    const gfx::Cylinder cylinder_bounded{ transform_expected,
+                                          material_expected,
+                                          y_min_expected,
+                                          y_max_expected };
+
+    ASSERT_EQ(cylinder_bounded.getTransform(), transform_expected);
+    ASSERT_EQ(cylinder_bounded.getMaterial(), material_expected);
+    ASSERT_FLOAT_EQ(cylinder_bounded.getYMin(), y_min_expected);
+    ASSERT_FLOAT_EQ(cylinder_bounded.getYMax(), y_max_expected);
 }
 
 // Tests the copy constructor
@@ -60,11 +127,19 @@ TEST(GraphicsCylinder, CopyConstructor)
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
     const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
-    const gfx::Cylinder cylinder_src{ transform_expected, material_expected };
+    const double y_min_expected{ -1 };
+    const double y_max_expected{ 1 };
+
+    const gfx::Cylinder cylinder_src{ transform_expected,
+                                      material_expected,
+                                      y_min_expected,
+                                      y_max_expected };
     const gfx::Cylinder cylinder_cpy{ cylinder_src };
 
     ASSERT_EQ(cylinder_cpy.getTransform(), transform_expected);
     ASSERT_EQ(cylinder_cpy.getMaterial(), material_expected);
+    ASSERT_FLOAT_EQ(cylinder_cpy.getYMin(), y_min_expected);
+    ASSERT_FLOAT_EQ(cylinder_cpy.getYMax(), y_max_expected);
 }
 
 // Tests the assignment operator
@@ -73,13 +148,44 @@ TEST(GraphicsCylinder, AssignmentOperator)
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
     const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
-    const gfx::Cylinder cylinder_a{ transform_expected, material_expected };
+    const double y_min_expected{ -1 };
+    const double y_max_expected{ 1 };
+
+    const gfx::Cylinder cylinder_a{ transform_expected,
+                                    material_expected,
+                                    y_min_expected,
+                                    y_max_expected };
     gfx::Cylinder cylinder_b{ };
 
     cylinder_b = cylinder_a;
 
     ASSERT_EQ(cylinder_b.getTransform(), transform_expected);
     ASSERT_EQ(cylinder_b.getMaterial(), material_expected);
+}
+
+// Tests the mutators
+TEST(GraphicsCylinder, Mutators)
+{
+    gfx::Cylinder cylinder{ };
+
+    // Test setting y_min and y_max with values
+    const double y_min_expected{ -1 };
+    const double y_max_expected{ 1 };
+
+    cylinder.setYMin(y_min_expected);
+    cylinder.setYMax(y_max_expected);
+
+    ASSERT_FLOAT_EQ(cylinder.getYMin(), y_min_expected);
+    ASSERT_FLOAT_EQ(cylinder.getYMax(), y_max_expected);
+
+    // Test uncapping y_min and y_max
+    cylinder.uncapYMin();
+    cylinder.uncapYMax();
+
+    ASSERT_TRUE(std::isinf(cylinder.getYMin()));
+    ASSERT_TRUE(cylinder.getYMin() < 0);
+    ASSERT_TRUE(std::isinf(cylinder.getYMax()));
+    ASSERT_TRUE(cylinder.getYMax() > 0);
 }
 
 // Tests the equality operator
