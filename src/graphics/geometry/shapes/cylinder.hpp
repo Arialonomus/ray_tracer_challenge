@@ -120,6 +120,13 @@ namespace gfx {
         void unboundYMax()
         { m_y_max = std::numeric_limits<double>::infinity(); }
 
+        // Sets the upper and lower bound simultaneously
+        void setCylinderBounds(const double y_min, const double y_max)
+        {
+            this->setYMin(y_min);
+            this->setYMax(y_max);
+        }
+
         // Removes upper and lower bounds from the cylinder height
         void unboundCylinder()
         {
