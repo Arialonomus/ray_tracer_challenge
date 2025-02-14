@@ -15,6 +15,19 @@ namespace gfx {
     // Surface Normal for a Cylinder
     Vector4 Cylinder::calculateSurfaceNormal(const Vector4& transformed_point) const
     {
+        const double y_axis_distance{ std::pow(transformed_point.x(), 2) + std::pow(transformed_point.z(), 2) };
+
+        if (utils::isLess(y_axis_distance, 1.0) && utils::areEqual(transformed_point.y(), m_y_min)) {
+            // Normal is on lower end cap
+            return createVector(0, -1, 0);
+        }
+
+        if (utils::isLess(y_axis_distance, 1.0) && utils::areEqual(transformed_point.y(), m_y_max)) {
+            // Normal is on upper end cap
+            return createVector(0, 1, 0);
+        }
+
+        // Normal is on cylinder wall
         return createVector(transformed_point.x(), 0, transformed_point.z());
     }
 
