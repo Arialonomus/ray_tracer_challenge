@@ -1,6 +1,7 @@
 #include "cylinder.hpp"
 
 #include <cmath>
+#include <algorithm>
 
 #include "util_functions.hpp"
 
@@ -26,7 +27,7 @@ namespace gfx {
         const double a{ std::pow(direction.x(), 2) + std::pow(direction.z(), 2) };
         if (utils::areEqual(a, 0.0)) {
             // Ray is parallel to the y-axis
-            return std::vector<Intersection>{ };
+            return calculateEndCapIntersections(transformed_ray);
         }
 
         const double b{ (2 * origin.x() * direction.x()) + (2 * origin.z() * direction.z()) };
@@ -57,6 +58,11 @@ namespace gfx {
             intersections.emplace_back( t_1, this );
         }
 
+        // Calculate intersections for cylinder end caps (if applicable)
+        intersections.append_range(calculateEndCapIntersections(transformed_ray));
+
+        // Sort intersections and return
+        std::sort(intersections.begin(), intersections.end());
         return intersections;
     }
 
@@ -71,16 +77,16 @@ namespace gfx {
         std::vector<Intersection> intersections{ };
 
         // Check for an intersection with the plane at the lower bound
-        const double ray_origin_y_val{ transformed_ray.getDirection().y() };
+        const double ray_origin_y_val{ transformed_ray.getOrigin().y() };
         const double t_lower{ (this->m_y_min - ray_origin_y_val) / ray_direction_y_val };
         if (isWithinCylinderWalls(transformed_ray, t_lower)) {
-            intersections.emplace_back(Intersection(t_lower, this));
+            intersections.emplace_back(t_lower, this);
         }
 
         // Check for an intersection with the plane at the upper bound
         const double t_upper{ (this->m_y_max - ray_origin_y_val) / ray_direction_y_val };
         if (isWithinCylinderWalls(transformed_ray, t_upper)) {
-            intersections.emplace_back(Intersection(t_upper, this));
+            intersections.emplace_back(t_upper, this);
         }
 
         return intersections;
