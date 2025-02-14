@@ -170,6 +170,6 @@ namespace gfx {
         [[nodiscard]] std::vector<Intersection> calculateEndCapIntersections(const Ray& transformed_ray) const;
 
         // Returns true if a ray's position at t is within a radius of 1 from the y-axis
-        [[nodiscard]] bool isWithinCylinderWalls(const Ray& ray, double t) const;
+        [[nodiscard]] static bool isWithinCylinderWalls(const Ray& ray, double t) ;
     };
 }

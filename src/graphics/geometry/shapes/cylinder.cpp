@@ -92,7 +92,7 @@ namespace gfx {
         return intersections;
     }
 
-    bool Cylinder::isWithinCylinderWalls(const Ray& ray, double t) const
+    bool Cylinder::isWithinCylinderWalls(const Ray& ray, double t)
     {
         const double x { ray.getOrigin().x() + t * ray.getDirection().x() };
         const double z { ray.getOrigin().z() + t * ray.getDirection().z() };
