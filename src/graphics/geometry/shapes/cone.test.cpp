@@ -294,3 +294,18 @@ TEST(GraphicsCone, RayConeHitsUnbounded)
         EXPECT_FLOAT_EQ(intersections[1].getT(), t2_expected);
     }
 }
+
+// Tests intersecting an unbounded cone with a ray parallel to one of its halves
+TEST(GraphicsCone, RayConeHitParallelToHalf)
+{
+    const gfx::Cone cone{ };
+    const gfx::Ray ray{ gfx::createPoint(0, 0, -1),
+                        gfx::normalize(gfx::createVector(0, 1, 1)) };
+
+    std::vector<gfx::Intersection> intersections{ cone.getObjectIntersections(ray) };
+    ASSERT_EQ(intersections.size(), 1);
+
+    const double hit_t_expected{ 0.3535534 };
+    const double hit_t_actual{ intersections[0].getT() };
+    EXPECT_FLOAT_EQ(hit_t_actual, hit_t_expected);
+}
