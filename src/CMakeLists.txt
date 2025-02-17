@@ -17,6 +17,9 @@ target_sources(gfx PRIVATE
         graphics/geometry/shapes/shape.cpp
         graphics/geometry/shapes/sphere.cpp
         graphics/geometry/shapes/plane.cpp
+        graphics/geometry/shapes/cube.cpp
+        graphics/geometry/shapes/cylinder.cpp
+        graphics/geometry/shapes/cone.cpp
         graphics/geometry/intersection.cpp
         graphics/geometry/world.cpp
         graphics/shading/patterns/stripe_pattern.cpp
