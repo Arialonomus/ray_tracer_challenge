@@ -33,40 +33,43 @@ namespace gfx {
         const double b{ (2 * origin.x() * direction.x()) - (2 * origin.y() * direction.y()) + (2 * origin.z() * direction.z()) };
         const double c{ std::pow(origin.x(), 2) - std::pow(origin.y(), 2) + std::pow(origin.z(), 2) };
 
-        if (utils::areEqual(a, 0.0)) {
-            if (utils::areEqual(b, 0.0)) {
-                // Ray misses the cone
-                return std::vector<Intersection>{ };
-            }
-            // Ray is parallel to one half of the cone, intersects the other
-            return std::vector<Intersection>{ { -c / (2 * b), this } };
-        }
-
-        const double discriminant{ std::pow(b, 2) - (4 * a * c) };
-        if (utils::isLess(discriminant, 0.0)) {
-            // Ray misses the cone
-            return std::vector<Intersection>{ };
-        }
-
-        // Calculate the intersection points for an unbounded cone
-        double t_0{ (-b - std::sqrt(discriminant)) / (2 * a) };
-        double t_1{ (-b + std::sqrt(discriminant)) / (2 * a) };
-        if (utils::isGreater(t_0, t_1)) {
-            std::swap(t_0, t_1);
-        }
-
-        // Check that intersection points land within cone bounds (if applicable)
         std::vector<Intersection> intersections{ };
 
-        const double y_0{ transformed_ray.getOrigin().y() + t_0 * transformed_ray.getDirection().y() };
-        if (utils::isLess(this->m_y_min, y_0) && utils::isLess(y_0, this->m_y_max)) {
-            intersections.emplace_back( t_0, this );
+        // Check if ray  potentially intersects both cone halves
+        if (utils::areNotEqual(a, 0.0)) {
+            const double discriminant{ std::pow(b, 2) - (4 * a * c) };
+            if (utils::isLess(discriminant, 0.0)) {
+                // Ray misses the cone
+                return intersections;
+            }
+
+            // Calculate the intersection points for an unbounded cone
+            double t_0{ (-b - std::sqrt(discriminant)) / (2 * a) };
+            double t_1{ (-b + std::sqrt(discriminant)) / (2 * a) };
+            if (utils::isGreater(t_0, t_1)) {
+                std::swap(t_0, t_1);
+            }
+
+            // Check that intersection points land within cone bounds (if applicable)
+            const double y_0{ transformed_ray.getOrigin().y() + t_0 * transformed_ray.getDirection().y() };
+            if (utils::isLess(this->m_y_min, y_0) && utils::isLess(y_0, this->m_y_max)) {
+                intersections.emplace_back(t_0, this);
+            }
+            const double y_1{ transformed_ray.getOrigin().y() + t_1 * transformed_ray.getDirection().y() };
+            if (utils::isLess(this->m_y_min, y_1) && utils::isLess(y_1, this->m_y_max)) {
+                intersections.emplace_back(t_1, this);
+            }
         }
-        const double y_1{ transformed_ray.getOrigin().y() + t_1 * transformed_ray.getDirection().y() };
-        if (utils::isLess(this->m_y_min, y_1) && utils::isLess(y_1, this->m_y_max)) {
-            intersections.emplace_back( t_1, this );
+        else if (utils::areNotEqual(b, 0.0)) {
+            // Ray is parallel to one half of the cone, intersects the other
+            intersections.emplace_back(-c / (2 * b), this);
         }
 
+        // Calculate intersections for cone end caps (if applicable)
+        intersections.append_range(calculateEndCapIntersections(transformed_ray));
+
+        // Sort intersections and return
+        std::sort(intersections.begin(), intersections.end());
         return intersections;
     }
 
