@@ -20,7 +20,28 @@ namespace gfx {
     // Surface Normal for a Cone
     Vector4 Cone::calculateSurfaceNormal(const Vector4& transformed_point) const
     {
-        return Vector4{ };
+        const double y_axis_distance{ std::pow(transformed_point.x(), 2) + std::pow(transformed_point.z(), 2) };
+        const double radius_at_point{ std::abs(transformed_point.y()) };
+
+        if (utils::isLess(y_axis_distance, radius_at_point)) {
+            if (utils::areEqual(transformed_point.y(), m_y_min)) {
+                // Normal is on lower end cap
+                return createVector(0, -1, 0);
+            }
+
+            if (utils::areEqual(transformed_point.y(), m_y_max)) {
+                // Normal is on upper end cap
+                return createVector(0, 1, 0);
+            }
+        }
+
+        // Normal is on cone wall
+        const double return_y_val{ std::sqrt(y_axis_distance) };
+        return createVector(
+                transformed_point.x(),
+                utils::isGreater(transformed_point.y(), 0.0) ? -return_y_val : return_y_val,
+                transformed_point.z()
+                );
     }
 
     // Ray-Cone Intersection Calculator
