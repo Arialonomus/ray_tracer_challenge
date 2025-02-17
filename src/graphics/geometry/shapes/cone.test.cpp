@@ -309,3 +309,39 @@ TEST(GraphicsCone, RayConeHitParallelToHalf)
     const double hit_t_actual{ intersections[0].getT() };
     EXPECT_FLOAT_EQ(hit_t_actual, hit_t_expected);
 }
+
+// Tests ray intersections with a bounded, capped cone
+TEST(GraphicsCone, RayConeIntersectionsBoundedCapped)
+{
+    const gfx::Cone cone{ -0.5, 0.5, true };
+
+    const std::vector<gfx::Vector4> origin_list{
+            gfx::createPoint(0, 0, -5),
+            gfx::createPoint(0, 0, -0.25),
+            gfx::createPoint(0, 0, -0.25)
+    };
+
+    const std::vector<gfx::Vector4> direction_list{
+            gfx::createVector(0, 1, 0),
+            gfx::createVector(0, 1, 1),
+            gfx::createVector(0, 1, 0)
+    };
+
+    const std::vector<size_t> intersection_count_expected_list {
+            0,
+            2,
+            4
+    };
+
+    ASSERT_TRUE(origin_list.size() == direction_list.size());
+    ASSERT_TRUE(origin_list.size() == intersection_count_expected_list.size());
+
+    for (int i = 0; i < origin_list.size(); ++i) {
+        const gfx::Ray ray{ origin_list[i],
+                            gfx::normalize(direction_list[i]) };
+
+        std::vector<gfx::Intersection> intersections{ cone.getObjectIntersections(ray) };
+
+        EXPECT_EQ(intersections.size(), intersection_count_expected_list[i]);
+    }
+}
