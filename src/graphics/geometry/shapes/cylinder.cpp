@@ -9,7 +9,12 @@ namespace gfx {
     // Equality Operator
     bool Cylinder::operator==(const Cylinder& rhs) const
     {
-        return this->getTransform() == rhs.getTransform() && this->getMaterial() == rhs.getMaterial();
+        return
+            this->getTransform() == rhs.getTransform() &&
+            this->getMaterial() == rhs.getMaterial() &&
+            utils::areEqual(m_y_min, rhs.getYMin()) &&
+            utils::areEqual(m_y_max, rhs.getYMax()) &&
+            m_is_closed == rhs.isClosed();
     }
 
     // Surface Normal for a Cylinder
