@@ -224,8 +224,20 @@ TEST(GraphicsCylinder, Mutators)
 // Tests the equality operator
 TEST(GraphicsCylinder, EqualityOperator)
 {
-    const gfx::Cylinder cylinder_a{ gfx::createScalingMatrix(5) };
-    const gfx::Cylinder cylinder_b{ gfx::createScalingMatrix(5) };
+    const gfx::Cylinder cylinder_a{
+        gfx::createScalingMatrix(5),
+        gfx::createGlassyMaterial(),
+        1,
+        2,
+        true
+    };
+    const gfx::Cylinder cylinder_b{
+        gfx::createScalingMatrix(5),
+        gfx::createGlassyMaterial(),
+        1,
+        2,
+        true
+    };
 
     ASSERT_TRUE(cylinder_a == cylinder_b);
 }
@@ -233,7 +245,13 @@ TEST(GraphicsCylinder, EqualityOperator)
 // Tests the inequality operator
 TEST(GraphicsCylinder, InequalityOperator)
 {
-    const gfx::Cylinder cylinder_a{ gfx::createScalingMatrix(5) };
+    const gfx::Cylinder cylinder_a{
+            gfx::createScalingMatrix(5),
+            gfx::createGlassyMaterial(),
+            1,
+            2,
+            true
+    };
     const gfx::Cylinder cylinder_b{ };
 
     ASSERT_TRUE(cylinder_a != cylinder_b);
