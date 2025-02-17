@@ -8,6 +8,7 @@
 #include "sphere.hpp"
 #include "cube.hpp"
 #include "cylinder.hpp"
+#include "cone.hpp"
 
 #include "stripe_pattern.hpp"
 #include "gradient_pattern.hpp"
@@ -87,12 +88,13 @@ namespace data {
         }
 
         // Define string-to-case mapping for possible shape primitives
-        enum class Cases { Plane, Sphere, Cube, Cylinder };
+        enum class Cases { Plane, Sphere, Cube, Cylinder, Cone };
         static const std::unordered_map<std::string_view, Cases> stringToCaseMap{
                 { "plane",      Cases::Plane },
                 { "sphere",     Cases::Sphere },
                 { "cube",       Cases::Cube },
-                { "cylinder",   Cases::Cylinder }
+                { "cylinder",   Cases::Cylinder },
+                { "cone",       Cases::Cone }
         };
 
         // Convert the string to a Case for use in the switch statement
@@ -113,6 +115,8 @@ namespace data {
                 return std::make_shared<gfx::Cube>(gfx::Cube{ transform_matrix, material });
             case Cases::Cylinder:
                 return std::make_shared<gfx::Cylinder>(gfx::Cylinder{ transform_matrix, material });
+            case Cases::Cone:
+                return std::make_shared<gfx::Cone>(gfx::Cone{ transform_matrix, material });
         }
     }
 
