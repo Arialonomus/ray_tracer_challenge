@@ -345,3 +345,31 @@ TEST(GraphicsCone, RayConeIntersectionsBoundedCapped)
         EXPECT_EQ(intersections.size(), intersection_count_expected_list[i]);
     }
 }
+
+// Tests finding the surface normal on a bounded, capped cone
+TEST(GraphicsCone, GetSurfaceNormalUnbounded)
+{
+    const gfx::Cone cone{ -2, 2, true};    // Assume an unbounded unit cone centered at the origin
+
+    const std::vector<gfx::Vector4> point_list{
+            gfx::createPoint(1, 1, 1),
+            gfx::createPoint(-1, -1, 0),
+            gfx::createPoint(-0.5, 2, -0.5),
+            gfx::createPoint(0.5, -2, 0.5)
+    };
+
+    const std::vector<gfx::Vector4> surface_normaL_local_output_list{
+            gfx::createVector(1, -M_SQRT2, 1),
+            gfx::createVector(-1, 1, 0),
+            gfx::createVector(0, 1, 0),
+            gfx::createVector(0, -1, 0),
+    };
+
+    ASSERT_TRUE(point_list.size() == surface_normaL_local_output_list.size());
+
+    for (int i = 0; i < point_list.size(); ++i) {
+        const gfx::Vector4 surface_normal_actual{ cone.getSurfaceNormalAt(point_list[i]) };
+        const gfx::Vector4 surface_normal_expected{ gfx::normalize(surface_normaL_local_output_list[i]) };
+        EXPECT_EQ(surface_normal_actual, surface_normal_expected);
+    }
+}
