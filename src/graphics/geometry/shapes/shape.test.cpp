@@ -45,6 +45,15 @@ private:
         m_transformed_ray = transformed_ray;
         return std::vector<gfx::Intersection>{ };
     }
+
+    [[nodiscard]] bool areEquivalent(const Shape& other_shape) const override
+    {
+        const TestShape& other_test_shape{ dynamic_cast<const TestShape&>(other_shape) };
+
+        return
+                this->getTransform() == other_test_shape.getTransform() &&
+                this->getMaterial() == other_test_shape.getMaterial();
+    }
 };
 
 // Tests the base class default constructor

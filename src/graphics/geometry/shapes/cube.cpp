@@ -5,12 +5,6 @@
 #include "util_functions.hpp"
 
 namespace gfx {
-    // Equality Operator
-    bool Cube::operator==(const Cube& rhs) const
-    {
-        return this->getTransform() == rhs.getTransform() && this->getMaterial() == rhs.getMaterial();
-    }
-
     // Surface Normal for a Cube
     Vector4 Cube::calculateSurfaceNormal(const Vector4& transformed_point) const
     {
@@ -53,6 +47,16 @@ namespace gfx {
         } else {
             return std::vector<Intersection>{ Intersection{ t_min, this }, Intersection{ t_max, this } };
         }
+    }
+
+    // Cube Object Equivalency Check
+    bool Cube::areEquivalent(const Shape& other_shape) const
+    {
+        const Cube& other_cube{ dynamic_cast<const Cube&>(other_shape) };
+
+        return
+                this->getTransform() == other_cube.getTransform() &&
+                this->getMaterial() == other_cube.getMaterial();
     }
 
     // Axis-Intersection Calculator

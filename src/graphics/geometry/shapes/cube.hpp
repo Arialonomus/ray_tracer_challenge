@@ -24,13 +24,7 @@ namespace gfx {
 
         ~Cube() override = default;
 
-        /* Assignment Operators */
-
-        Cube& operator=(const Cube&) = default;
-
-        /* Comparison Operator Overloads */
-
-        [[nodiscard]] bool operator==(const Cube& rhs) const;
+        /* Object Operations */
 
         // Creates a clone of this cube to be stored in a world object list
         [[nodiscard]] std::shared_ptr<Shape> clone() const override
@@ -41,6 +35,7 @@ namespace gfx {
 
         [[nodiscard]] Vector4 calculateSurfaceNormal(const Vector4& transformed_point) const override;
         [[nodiscard]] std::vector<Intersection> calculateIntersections(const Ray& transformed_ray) const override;
+        [[nodiscard]] bool areEquivalent(const Shape& other_shape) const override;
 
         /* Cube Helper Methods */
 

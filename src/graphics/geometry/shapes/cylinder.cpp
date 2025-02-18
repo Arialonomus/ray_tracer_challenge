@@ -6,17 +6,6 @@
 #include "util_functions.hpp"
 
 namespace gfx {
-    // Equality Operator
-    bool Cylinder::operator==(const Cylinder& rhs) const
-    {
-        return
-            this->getTransform() == rhs.getTransform() &&
-            this->getMaterial() == rhs.getMaterial() &&
-            utils::areEqual(m_y_min, rhs.getYMin()) &&
-            utils::areEqual(m_y_max, rhs.getYMax()) &&
-            m_is_closed == rhs.isClosed();
-    }
-
     // Surface Normal for a Cylinder
     Vector4 Cylinder::calculateSurfaceNormal(const Vector4& transformed_point) const
     {
@@ -81,6 +70,20 @@ namespace gfx {
         return intersections;
     }
 
+    // Cylinder Object Equivalency Check
+    bool Cylinder::areEquivalent(const Shape& other_shape) const
+    {
+        const Cylinder& other_cylinder{ dynamic_cast<const Cylinder&>(other_shape) };
+
+        return
+                this->getTransform() == other_cylinder.getTransform() &&
+                this->getMaterial() == other_cylinder.getMaterial() &&
+                utils::areEqual(m_y_min, other_cylinder.getYMin()) &&
+                utils::areEqual(m_y_max, other_cylinder.getYMax()) &&
+                m_is_closed == other_cylinder.isClosed();
+    }
+
+    // End Cap Intersection Calculator
     std::vector<Intersection> Cylinder::calculateEndCapIntersections(const Ray& transformed_ray) const
     {
         const double ray_direction_y_val{ transformed_ray.getDirection().y() };
@@ -107,6 +110,8 @@ namespace gfx {
         return intersections;
     }
 
+
+    // Check Point is Within Cylinder Boundaries
     bool Cylinder::isWithinCylinderWalls(const Ray& ray, double t)
     {
         const double x { ray.getOrigin().x() + t * ray.getDirection().x() };

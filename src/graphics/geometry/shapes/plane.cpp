@@ -5,12 +5,6 @@
 #include "util_functions.hpp"
 
 namespace gfx {
-// Equality Operator
-    bool Plane::operator==(const Plane& rhs) const
-    {
-        return this->getTransform() == rhs.getTransform() && this->getMaterial() == rhs.getMaterial();
-    }
-
     // Surface Normal for a Plane
     Vector4 Plane::calculateSurfaceNormal(const Vector4& transformed_point) const
     {
@@ -30,5 +24,15 @@ namespace gfx {
         // Ray intersects plane (assume plane is defined as xz-plane)
         return std::vector<Intersection>{ Intersection{ -transformed_ray.getOrigin().y() / ray_y_direction,
                                                         this } };
+    }
+
+    // Plane Object Equivalency Check
+    bool Plane::areEquivalent(const Shape& other_shape) const
+    {
+        const Plane& other_plane{ dynamic_cast<const Plane&>(other_shape) };
+
+        return
+                this->getTransform() == other_plane.getTransform() &&
+                this->getMaterial() == other_plane.getMaterial();
     }
 }

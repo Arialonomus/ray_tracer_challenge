@@ -36,11 +36,9 @@ namespace gfx {
 
         Sphere& operator=(const Sphere&) = default;
 
-        /* Comparison Operator Overloads */
+        /* Object Operations */
 
-        [[nodiscard]] bool operator==(const Sphere& rhs) const;
-
-        // Creates a clone of this sphere to be stored in a world object list
+        // Creates a clone of this sphere to be stored in an object list
         [[nodiscard]] std::shared_ptr<Shape> clone() const override
         { return std::make_shared<Sphere>(*this); }
 
@@ -49,5 +47,6 @@ namespace gfx {
 
         [[nodiscard]] Vector4 calculateSurfaceNormal(const Vector4& transformed_point) const override;
         [[nodiscard]] std::vector<Intersection> calculateIntersections(const Ray& transformed_ray) const override;
+        [[nodiscard]] bool areEquivalent(const Shape& other_shape) const override;
     };
 }

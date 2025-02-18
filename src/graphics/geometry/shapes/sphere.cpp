@@ -5,12 +5,6 @@
 #include "util_functions.hpp"
 
 namespace gfx {
-    // Equality Operator
-    bool Sphere::operator==(const Sphere& rhs) const
-    {
-        return this->getTransform() == rhs.getTransform() && this->getMaterial() == rhs.getMaterial();
-    }
-
     // Surface Normal for a Sphere
     Vector4 Sphere::calculateSurfaceNormal(const Vector4& transformed_point) const
     {
@@ -45,5 +39,15 @@ namespace gfx {
             const Intersection intersection_b{ (-b + std::sqrt(discriminant)) / (2 * a), this };
             return std::vector<Intersection>{ intersection_a, intersection_b };
         }
+    }
+
+    // Sphere Object Equivalency Check
+    bool Sphere::areEquivalent(const Shape& other_shape) const
+    {
+        const Sphere& other_sphere{ dynamic_cast<const Sphere&>(other_shape) };
+
+        return
+                this->getTransform() == other_sphere.getTransform() &&
+                this->getMaterial() == other_sphere.getMaterial();
     }
 }

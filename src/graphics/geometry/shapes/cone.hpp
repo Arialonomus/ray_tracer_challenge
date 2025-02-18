@@ -142,10 +142,6 @@ namespace gfx {
         void uncapCone()
         { m_is_closed = false; }
 
-        /* Comparison Operator Overloads */
-
-        [[nodiscard]] bool operator==(const Cone& rhs) const;
-
         /* Object Operations */
 
         // Creates a clone of this cone to be stored in a world object list
@@ -163,6 +159,7 @@ namespace gfx {
 
         [[nodiscard]] Vector4 calculateSurfaceNormal(const Vector4& transformed_point) const override;
         [[nodiscard]] std::vector<Intersection> calculateIntersections(const Ray& transformed_ray) const override;
+        [[nodiscard]] bool areEquivalent(const Shape& other_shape) const override;
 
         /* Cone Helper Methods */
 

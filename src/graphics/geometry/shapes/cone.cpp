@@ -6,17 +6,6 @@
 #include "util_functions.hpp"
 
 namespace gfx {
-    // Equality Operator
-    bool Cone::operator==(const Cone& rhs) const
-    {
-        return
-                this->getTransform() == rhs.getTransform() &&
-                this->getMaterial() == rhs.getMaterial() &&
-                utils::areEqual(m_y_min, rhs.getYMin()) &&
-                utils::areEqual(m_y_max, rhs.getYMax()) &&
-                m_is_closed == rhs.isClosed();
-    }
-
     // Surface Normal for a Cone
     Vector4 Cone::calculateSurfaceNormal(const Vector4& transformed_point) const
     {
@@ -94,6 +83,20 @@ namespace gfx {
         return intersections;
     }
 
+    // Cone Object Equivalency Check
+    bool Cone::areEquivalent(const Shape& other_shape) const
+    {
+        const Cone& other_cone{ dynamic_cast<const Cone&>(other_shape) };
+
+        return
+                this->getTransform() == other_cone.getTransform() &&
+                this->getMaterial() == other_cone.getMaterial() &&
+                utils::areEqual(m_y_min, other_cone.getYMin()) &&
+                utils::areEqual(m_y_max, other_cone.getYMax()) &&
+                m_is_closed == other_cone.isClosed();
+    }
+
+    // End Cap Intersection Calculator
     std::vector<Intersection> Cone::calculateEndCapIntersections(const Ray& transformed_ray) const
     {
         const double ray_direction_y_val{ transformed_ray.getDirection().y() };
@@ -120,6 +123,7 @@ namespace gfx {
         return intersections;
     }
 
+    // Check Point is Within Cone Boundaries
     bool Cone::isWithinConeWalls(const Ray& ray, const double t, const double end_cap_y_val)
     {
         const double x { ray.getOrigin().x() + t * ray.getDirection().x() };
