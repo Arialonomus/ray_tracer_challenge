@@ -41,42 +41,39 @@ namespace gfx {
     {
         const Vector4 direction{ transformed_ray.getDirection() };
         const Vector4 origin{ transformed_ray.getOrigin() };
-
-        const double a{ std::pow(direction.x(), 2) + std::pow(direction.z(), 2) };
-        if (utils::areEqual(a, 0.0)) {
-            // Ray is parallel to the y-axis
-            return calculateEndCapIntersections(transformed_ray);
-        }
-
-        const double b{ (2 * origin.x() * direction.x()) + (2 * origin.z() * direction.z()) };
-        const double c{ std::pow(origin.x(), 2) + std::pow(origin.z(), 2) - 1 };
-
-        const double discriminant{ std::pow(b, 2) - (4 * a * c) };
-        if (utils::isLess(discriminant, 0.0)) {
-            // Ray misses the cylinder
-            return std::vector<Intersection>{ };
-        }
-
-        // Calculate the intersection points for an unbounded cylinder
-        double t_0{ (-b - std::sqrt(discriminant)) / (2 * a) };
-        double t_1{ (-b + std::sqrt(discriminant)) / (2 * a) };
-        if (utils::isGreater(t_0, t_1)) {
-            std::swap(t_0, t_1);
-        }
-
-        // Check that intersection points land within cylinder bounds (if applicable)
         std::vector<Intersection> intersections{ };
 
-        const double y_0{ transformed_ray.getOrigin().y() + t_0 * transformed_ray.getDirection().y() };
-        if (utils::isLess(this->m_y_min, y_0) && utils::isLess(y_0, this->m_y_max)) {
-            intersections.emplace_back( t_0, this );
-        }
-        const double y_1{ transformed_ray.getOrigin().y() + t_1 * transformed_ray.getDirection().y() };
-        if (utils::isLess(this->m_y_min, y_1) && utils::isLess(y_1, this->m_y_max)) {
-            intersections.emplace_back( t_1, this );
+        const double a{ std::pow(direction.x(), 2) + std::pow(direction.z(), 2) };
+
+        if (utils::areNotEqual(a, 0.0)) {
+            // Ray is not parallel to y-axis, calculate cylinder wall intersection(s)
+            const double b{ (2 * origin.x() * direction.x()) + (2 * origin.z() * direction.z()) };
+            const double c{ std::pow(origin.x(), 2) + std::pow(origin.z(), 2) - 1 };
+            const double discriminant{ std::pow(b, 2) - (4 * a * c) };
+            if (utils::isLess(discriminant, 0.0)) {
+                // Ray misses the cylinder
+                return intersections;
+            }
+
+            // Calculate the intersection points for an unbounded cylinder
+            double t_0{ (-b - std::sqrt(discriminant)) / (2 * a) };
+            double t_1{ (-b + std::sqrt(discriminant)) / (2 * a) };
+            if (utils::isGreater(t_0, t_1)) {
+                std::swap(t_0, t_1);
+            }
+
+            // Check that intersection points land within cylinder bounds
+            const double y_0{ transformed_ray.getOrigin().y() + t_0 * transformed_ray.getDirection().y() };
+            if (utils::isLess(this->m_y_min, y_0) && utils::isLess(y_0, this->m_y_max)) {
+                intersections.emplace_back(t_0, this);
+            }
+            const double y_1{ transformed_ray.getOrigin().y() + t_1 * transformed_ray.getDirection().y() };
+            if (utils::isLess(this->m_y_min, y_1) && utils::isLess(y_1, this->m_y_max)) {
+                intersections.emplace_back(t_1, this);
+            }
         }
 
-        // Calculate intersections for cylinder end caps (if applicable)
+        // Calculate intersections for cylinder end caps (if any)
         intersections.append_range(calculateEndCapIntersections(transformed_ray));
 
         // Sort intersections and return
