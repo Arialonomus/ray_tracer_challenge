@@ -67,6 +67,10 @@ namespace gfx {
         void setMaterial(const Material& material)
         { m_material = material; }
 
+        /* Comparison Operator Overloads */
+
+        [[nodiscard]] bool operator==(const Shape& rhs) const;
+
         /* Object Operations */
 
         [[nodiscard]] virtual std::shared_ptr<Shape> clone() const = 0;
@@ -84,11 +88,12 @@ namespace gfx {
         /* Data Members */
 
         Matrix4 m_transform{ gfx::createIdentityMatrix() };
-        Material m_material{};
+        Material m_material{ };
 
         /* Pure Virtual Helper Methods */
 
         [[nodiscard]] virtual Vector4 calculateSurfaceNormal(const Vector4& transformed_point) const = 0;
         [[nodiscard]] virtual std::vector<Intersection> calculateIntersections(const Ray& transformed_ray) const = 0;
+        [[nodiscard]] virtual bool areEquivalent(const Shape& other_shape) const = 0;
     };
 }

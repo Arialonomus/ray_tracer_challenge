@@ -15,6 +15,14 @@ namespace gfx {
         return m_material.getColor();
     }
 
+    bool Shape::operator==(const Shape& rhs) const
+    {
+        if (typeid(*this) != typeid(rhs)) {
+            return false;
+        }
+        return areEquivalent(rhs);
+    }
+
     Vector4 Shape::getSurfaceNormalAt(const Vector4& world_point) const
     {
         // Transform the point from world space to object space
