@@ -65,6 +65,8 @@ TEST(GraphicsShape, BaseClassDefaultConstructor)
 
     ASSERT_EQ(shape.getTransform(), transform_expected);
     ASSERT_EQ(shape.getMaterial(), material_expected);
+    ASSERT_FALSE(shape.hasParent());
+    ASSERT_EQ(shape.getParent(), nullptr);
 }
 
 // Tests the base class transform constructor
@@ -76,6 +78,8 @@ TEST(GraphicsShape, BaseClassTransformConstructor)
 
     ASSERT_EQ(shape.getTransform(), transform_expected);
     ASSERT_EQ(shape.getMaterial(), material_expected);
+    ASSERT_FALSE(shape.hasParent());
+    ASSERT_EQ(shape.getParent(), nullptr);
 }
 
 // Tests the base class material constructor
@@ -87,6 +91,8 @@ TEST(GraphicsShape, BaseClassMaterialConstructor)
 
     ASSERT_EQ(shape.getTransform(), transform_expected);
     ASSERT_EQ(shape.getMaterial(), material_expected);
+    ASSERT_FALSE(shape.hasParent());
+    ASSERT_EQ(shape.getParent(), nullptr);
 }
 
 // Tests the base class standard constructor
@@ -98,6 +104,8 @@ TEST(GraphicsShape, BaseClassStandardConstructor)
 
     ASSERT_EQ(shape.getTransform(), transform_expected);
     ASSERT_EQ(shape.getMaterial(), material_expected);
+    ASSERT_FALSE(shape.hasParent());
+    ASSERT_EQ(shape.getParent(), nullptr);
 }
 
 // Tests setting the transform of a shape
