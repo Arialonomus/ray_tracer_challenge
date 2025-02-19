@@ -14,6 +14,7 @@ namespace gfx {
     // Forward Declarations
     class Ray;
     class Intersection;
+    class Group;
 
     class Shape
     {
@@ -25,17 +26,17 @@ namespace gfx {
 
         // Transform-Only Constructor
         explicit Shape(const Matrix4& transform)
-                : m_transform{ transform }, m_material{}
+                : m_transform{ transform }, m_material{ }, m_parent{ nullptr }
         {}
 
         // Material-Only Constructor
         explicit Shape(Material material)
-                : m_transform{ gfx::createIdentityMatrix() }, m_material{ std::move(material) }
+                : m_transform{ gfx::createIdentityMatrix() }, m_material{ std::move(material) }, m_parent{ nullptr }
         {}
 
         // Standard Constructor
         Shape(const Matrix4& transform, Material material)
-                : m_transform{ transform }, m_material{ std::move(material) }
+                : m_transform{ transform }, m_material{ std::move(material) }, m_parent{ nullptr }
         {}
 
         // Copy Constructor
@@ -59,6 +60,12 @@ namespace gfx {
 
         [[nodiscard]] Color getObjectColorAt(const Vector4& world_point) const;
 
+        [[nodiscard]] bool hasParent() const
+        { return m_parent != nullptr; }
+
+        [[nodiscard]] const Group* getParent() const
+        { return m_parent; }
+
         /* Mutators */
 
         void setTransform(const Matrix4& transform_matrix)
@@ -66,6 +73,9 @@ namespace gfx {
 
         void setMaterial(const Material& material)
         { m_material = material; }
+
+        void setParent(Group* const parent_group_ptr)
+        { m_parent = parent_group_ptr; }
 
         /* Comparison Operator Overloads */
 
@@ -89,6 +99,7 @@ namespace gfx {
 
         Matrix4 m_transform{ gfx::createIdentityMatrix() };
         Material m_material{ };
+        Group* m_parent{ nullptr };
 
         /* Pure Virtual Helper Methods */
 
