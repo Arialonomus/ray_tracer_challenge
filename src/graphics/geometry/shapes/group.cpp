@@ -1,16 +1,21 @@
 #include "group.hpp"
 
+#include "intersection.hpp"
+
 namespace gfx {
     // Object Inserter (from object ref)
-    void Group::addChild(const Shape& shape)
+    void Group::addChild(const Object& object)
     {
-        m_children.push_back(shape.clone());
+        auto cloned_object_ptr{ object.clone() };
+        cloned_object_ptr->setParent(this);
+        m_children.push_back(cloned_object_ptr);
     }
 
     // Object Inserter (from pointer)
-    void Group::addChild(const std::shared_ptr<Shape>& shape)
+    void Group::addChild(const std::shared_ptr<Object>& object_ptr)
     {
-        m_children.push_back(shape);
+        object_ptr->setParent(this);
+        m_children.push_back(object_ptr);
     }
 
     // Caller Method for Recursion
@@ -32,7 +37,7 @@ namespace gfx {
         for (const auto& child_ptr : m_children) {
             const auto child_group_ptr{ std::dynamic_pointer_cast<Group>(child_ptr) };
             if (child_group_ptr) {
-                num_children += getNumChildren(*child_group_ptr);
+                num_children += 1 + getNumChildren(*child_group_ptr);
             }
         }
 
@@ -52,9 +57,9 @@ namespace gfx {
     }
 
     // Group Object Equivalency Check
-    bool Group::areEquivalent(const Shape& other_shape) const
+    bool Group::areEquivalent(const Object& other_object) const
     {
-        const Group& other_group{ dynamic_cast<const Group&>(other_shape) };
+        const Group& other_group{ dynamic_cast<const Group&>(other_object) };
 
         // Ensure the number of children in the next layer match for each object
         const size_t num_children{ this->m_children.size() };

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "shape.hpp"
+#include "object.hpp"
 
 namespace gfx {
-    class Group : public Shape
+    class Group : public Object
     {
     public:
         /* Constructors */
@@ -11,17 +11,38 @@ namespace gfx {
         // Default Constructor
         Group() = default;
 
-        // Standard Constructors
-        template<typename... ShapePtrs>
-        explicit Group(const std::shared_ptr<Shape>& first_shape,
-                       const ShapePtrs&... remaining_shapes)
-                : m_children { first_shape, remaining_shapes...  }
+        // Transform-Only Constructor
+        explicit Group(const Matrix4& transform_matrix)
+                : Object(transform_matrix), m_children{ }
         {}
 
-        template<typename... ShapeRefs>
-        explicit Group(const Shape& first_shape,
-                       const ShapeRefs&... remaining_shapes)
-        { addChildren(first_shape, remaining_shapes...); }
+        // Object List Constructors
+        template<typename... ObjectPtrs>
+        explicit Group(const std::shared_ptr<Object>& first_object_ptr,
+                       const ObjectPtrs&... remaining_object_ptrs)
+                : Object(), m_children { first_object_ptr, remaining_object_ptrs...  }
+        {}
+
+        template<typename... ObjectRefs>
+        explicit Group(const Object& first_object_ref,
+                       const ObjectRefs&... remaining_object_refs)
+                : Object(), m_children{ }
+        { addChildren(first_object_ref, remaining_object_refs...); }
+
+        // Standard Constructors
+        template<typename... ObjectPtrs>
+        explicit Group(const Matrix4& transform_matrix,
+                       const std::shared_ptr<Object>& first_object_ptr,
+                       const ObjectPtrs&... remaining_object_ptrs)
+                : Object(transform_matrix), m_children { first_object_ptr, remaining_object_ptrs...  }
+        {}
+
+        template<typename... ObjectRefs>
+        explicit Group(const Matrix4& transform_matrix,
+                       const Object& first_object_ref,
+                       const ObjectRefs&... remaining_object_refs)
+                       : Object(transform_matrix), m_children { }
+        { addChildren(first_object_ref, remaining_object_refs...); }
 
         // Copy Constructor
         Group(const Group&) = default;
@@ -31,7 +52,13 @@ namespace gfx {
 
         /* Destructor */
 
-        ~Group() override = default;
+        ~Group() override
+        {
+            // Unlink the child from the group before object destruction
+            for (const auto& child_ptr : m_children) {
+                child_ptr->setParent(nullptr);
+            }
+        }
 
         /* Assignment Operators */
 
@@ -47,34 +74,34 @@ namespace gfx {
 
         /* Mutators */
 
-        // Adds a single shape as a child to the group
-        void addChild(const Shape& shape);
-        void addChild(const std::shared_ptr<Shape>& shape);
+        // Adds a single object as a child to the group
+        void addChild(const Object& object);
+        void addChild(const std::shared_ptr<Object>& object_ptr);
 
         /* Object Operations */
 
-        // Creates a clone of this sphere to be stored in an object list
-        [[nodiscard]] std::shared_ptr<Shape> clone() const override
+        // Creates a clone of this group to be stored in an object list
+        [[nodiscard]] std::shared_ptr<Object> clone() const override
         { return std::make_shared<Group>(*this); }
 
     private:
         /* Data Members */
         
-        std::vector<std::shared_ptr<Shape>> m_children{ };
+        std::vector<std::shared_ptr<Object>> m_children{ };
 
-        /* Shape Helper Method Overrides */
+        /* Object Helper Method Overrides */
 
         [[nodiscard]] Vector4 calculateSurfaceNormal(const Vector4& transformed_point) const override;
         [[nodiscard]] std::vector<Intersection> calculateIntersections(const Ray& transformed_ray) const override;
-        [[nodiscard]] bool areEquivalent(const Shape& other_shape) const override;
+        [[nodiscard]] bool areEquivalent(const Object& other_object) const override;
 
         /* Helper Methods */
 
-        // Add multiple shapes passed in as references to the group
-        template<typename... ShapeRefs>
-        void addChildren(const Shape& first_object, const ShapeRefs&... remaining_objects) {
-            this->addChild(first_object);
-            addChildren(remaining_objects...);
+        // Add multiple objects passed in as references to the group
+        template<typename... ObjectRefs>
+        void addChildren(const Object& first_object_ref, const ObjectRefs&... remaining_object_refs) {
+            this->addChild(first_object_ref);
+            addChildren(remaining_object_refs...);
         }
         void addChildren() {}    // Base case for recursion
 
