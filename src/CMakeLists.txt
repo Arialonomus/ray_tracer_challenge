@@ -21,6 +21,7 @@ target_sources(gfx PRIVATE
         graphics/geometry/shapes/cone.cpp
         graphics/geometry/object.cpp
         graphics/geometry/group.cpp
+        graphics/geometry/bounding_box.cpp
         graphics/geometry/ray.cpp
         graphics/geometry/intersection.cpp
         graphics/geometry/world.cpp
