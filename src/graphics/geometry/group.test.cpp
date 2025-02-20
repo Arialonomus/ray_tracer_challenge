@@ -106,6 +106,23 @@ TEST(GraphicsGroup, CopyConstructor)
     EXPECT_EQ(group_cpy.getChildAt(1).getParent(), &group_cpy);
 }
 
+// Tests the move constructor
+TEST(GraphicsGroup, MoveConstructor)
+{
+    const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
+    const gfx::Sphere sphere_a{ };
+    const gfx::Sphere sphere_b{ };
+    const gfx::Group group_src{ transform_expected, sphere_a, sphere_b };
+    const gfx::Group group_moved{ std::move(group_src) };
+
+    EXPECT_EQ(group_moved.getTransform(), transform_expected);
+    ASSERT_FALSE(group_moved.isEmpty());
+    EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_moved.getChildAt(0)), sphere_a);
+    EXPECT_EQ(group_moved.getChildAt(0).getParent(), &group_moved);
+    EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_moved.getChildAt(1)), sphere_b);
+    EXPECT_EQ(group_moved.getChildAt(1).getParent(), &group_moved);
+}
+
 // Tests the assignment operator
 TEST(GraphicsGroup, AssignmentOperator)
 {
@@ -116,6 +133,25 @@ TEST(GraphicsGroup, AssignmentOperator)
     gfx::Group group_b{ };
 
     group_b = group_a;
+
+    EXPECT_EQ(group_b.getTransform(), transform_expected);
+    ASSERT_FALSE(group_b.isEmpty());
+    EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_b.getChildAt(0)), sphere_a);
+    EXPECT_EQ(group_b.getChildAt(0).getParent(), &group_b);
+    EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_b.getChildAt(1)), sphere_b);
+    EXPECT_EQ(group_b.getChildAt(1).getParent(), &group_b);
+}
+
+// Tests the move assignment operator
+TEST(GraphicsGroup, MoveAssignmentOperator)
+{
+    const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
+    const gfx::Sphere sphere_a{ };
+    const gfx::Sphere sphere_b{ };
+    const gfx::Group group_a{ transform_expected, sphere_a, sphere_b };
+    gfx::Group group_b{ };
+
+    group_b = std::move(group_a);
 
     EXPECT_EQ(group_b.getTransform(), transform_expected);
     ASSERT_FALSE(group_b.isEmpty());
