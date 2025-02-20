@@ -149,4 +149,24 @@ TEST(GraphicsGroup, InequalityOperator)
     EXPECT_TRUE(group_a != group_b);
 }
 
+// Tests adding children to the group
+TEST(GraphicsGroup, AddChild)
+{
+    gfx::Group group{ };
+    const gfx::Sphere sphere_a{ };
+    const gfx::Sphere sphere_b{ };
+
+    // Add object directly
+    group.addChild(sphere_a);
+
+    // Add object via shared pointer
+    group.addChild(std::make_shared<gfx::Sphere>(sphere_b));
+
+    ASSERT_FALSE(group.isEmpty());
+    EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group.getChildAt(0)), sphere_a);
+    EXPECT_EQ(group.getChildAt(0).getParent(), &group);
+    EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group.getChildAt(1)), sphere_b);
+    EXPECT_EQ(group.getChildAt(1).getParent(), &group);
+}
+
 #pragma clang diagnostic pop
