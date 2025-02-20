@@ -117,11 +117,11 @@ namespace gfx {
     private:
         /* Data Members */
 
-        std::array<double, 3> m_min_extents{ -std::numeric_limits<double>::infinity(),
-                                             -std::numeric_limits<double>::infinity(),
-                                             -std::numeric_limits<double>::infinity() };
-        std::array<double, 3> m_max_extents{ std::numeric_limits<double>::infinity(),
+        std::array<double, 3> m_min_extents{ std::numeric_limits<double>::infinity(),
                                              std::numeric_limits<double>::infinity(),
                                              std::numeric_limits<double>::infinity() };
+        std::array<double, 3> m_max_extents{ -std::numeric_limits<double>::infinity(),
+                                             -std::numeric_limits<double>::infinity(),
+                                             -std::numeric_limits<double>::infinity() };
     };
 }

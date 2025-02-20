@@ -11,12 +11,12 @@ TEST(GraphicsBoundingBox, DefaultConstructor)
 {
     const gfx::BoundingBox bounding_box{ };
 
-    EXPECT_EQ(bounding_box.getMinX(), -std::numeric_limits<double>::infinity());
-    EXPECT_EQ(bounding_box.getMinY(), -std::numeric_limits<double>::infinity());
-    EXPECT_EQ(bounding_box.getMinZ(), -std::numeric_limits<double>::infinity());
-    EXPECT_EQ(bounding_box.getMaxX(), std::numeric_limits<double>::infinity());
-    EXPECT_EQ(bounding_box.getMaxY(), std::numeric_limits<double>::infinity());
-    EXPECT_EQ(bounding_box.getMaxZ(), std::numeric_limits<double>::infinity());
+    EXPECT_EQ(bounding_box.getMinX(), std::numeric_limits<double>::infinity());
+    EXPECT_EQ(bounding_box.getMinY(), std::numeric_limits<double>::infinity());
+    EXPECT_EQ(bounding_box.getMinZ(), std::numeric_limits<double>::infinity());
+    EXPECT_EQ(bounding_box.getMaxX(), -std::numeric_limits<double>::infinity());
+    EXPECT_EQ(bounding_box.getMaxY(), -std::numeric_limits<double>::infinity());
+    EXPECT_EQ(bounding_box.getMaxZ(), -std::numeric_limits<double>::infinity());
 }
 
 // Tests the float list constructor
