@@ -4,6 +4,7 @@
 #include "gtest/gtest.h"
 #include "group.hpp"
 
+#include <cmath>
 #include <vector>
 
 #include "transform.hpp"
@@ -252,6 +253,23 @@ TEST(GraphicsGroup, RayTransformedGroupIntersection)
     const std::vector<gfx::Intersection> intersections{ group.getObjectIntersections(ray) };
 
     EXPECT_EQ(intersections.size(), 2);
+}
+
+// Tests finding the normal on a child object
+TEST(GraphicsGroup, GetSurfaceNormalChildObject)
+{
+    const std::shared_ptr<gfx::Sphere> sphere_ptr{
+        std::make_shared<gfx::Sphere>(gfx::createTranslationMatrix(5, 0, 0))
+    };
+    const gfx::Group group_child{ gfx::createScalingMatrix(1, 2, 3), sphere_ptr };
+    const gfx::Group group_parent{ gfx::createYRotationMatrix(M_PI_2), group_child };
+
+    const gfx::Vector4 point{ gfx::createPoint(1.7321, 1.1547, -5.5774) };
+
+    const gfx::Vector4 normal_expected{ gfx::createVector(0.285704, 0.428543, -0.857160) };
+    const gfx::Vector4 normal_actual{ sphere_ptr->getSurfaceNormalAt(point) };
+
+    EXPECT_EQ(normal_actual, normal_expected);
 }
 
 #pragma clang diagnostic pop
