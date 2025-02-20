@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "performance-unnecessary-copy-initialization"
+
 #include "gtest/gtest.h"
 #include "plane.hpp"
 
@@ -163,3 +166,5 @@ TEST(GraphicsPlane, RayPlaneIntersectionRayOriginBelow)
     EXPECT_FLOAT_EQ(intersections.at(0).getT(), 1);
     EXPECT_EQ(&intersections.at(0).getObject(), &plane);
 }
+
+#pragma clang diagnostic pop

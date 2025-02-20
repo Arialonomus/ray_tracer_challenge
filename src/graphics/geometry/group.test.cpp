@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "performance-unnecessary-copy-initialization"
+
 #include "gtest/gtest.h"
 #include "group.hpp"
 
@@ -127,3 +130,5 @@ TEST(GraphicsGroup, InequalityOperator)
 
     ASSERT_TRUE(group_a != group_b);
 }
+
+#pragma clang diagnostic pop

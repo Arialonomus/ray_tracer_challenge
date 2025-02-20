@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "performance-unnecessary-copy-initialization"
+
 #include "gtest/gtest.h"
 #include "pattern.hpp"
 
@@ -43,3 +46,5 @@ TEST(GraphicsPattern, SetTransform)
 
     ASSERT_EQ(pattern.getTransform(), transform_expected);
 }
+
+#pragma clang diagnostic pop

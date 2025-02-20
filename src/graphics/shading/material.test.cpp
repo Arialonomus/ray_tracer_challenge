@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "performance-unnecessary-copy-initialization"
+
 #include "gtest/gtest.h"
 #include "material.hpp"
 
@@ -454,3 +457,5 @@ TEST(GraphicsMaterial, CreateGlassyMaterial)
     EXPECT_FLOAT_EQ(glassy_material.getTransparency(), 1);
     EXPECT_FLOAT_EQ(glassy_material.getRefractiveIndex(), 1.5);
 }
+
+#pragma clang diagnostic pop

@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "performance-unnecessary-copy-initialization"
+
 #include "gtest/gtest.h"
 #include "intersection.hpp"
 
@@ -238,3 +241,5 @@ TEST(GraphicsIntersection, GetHitMultiplePositiveT)
     EXPECT_TRUE(hit_actual.has_value());
     EXPECT_EQ(hit_actual.value(), intersection_d);
 }
+
+#pragma clang diagnostic pop

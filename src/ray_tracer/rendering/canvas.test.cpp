@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "performance-unnecessary-copy-initialization"
+
 #include "gtest/gtest.h"
 #include "canvas.hpp"
 
@@ -184,3 +187,5 @@ TEST(RayTracerCanvas, ExportPPMLargerCanvas)
     // Ensure that file ends in a newline
     EXPECT_TRUE(ppm_string.at(ppm_string.length() - 1) == '\n');
 }
+
+#pragma clang diagnostic pop

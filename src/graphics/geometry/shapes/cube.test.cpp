@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "performance-unnecessary-copy-initialization"
+
 #include "gtest/gtest.h"
 #include "cube.hpp"
 
@@ -229,3 +232,5 @@ TEST(GraphicsCube, GetSurfaceNormal)
         EXPECT_EQ(surface_normal_actual, surface_normaL_expected_list[i]);
     }
 }
+
+#pragma clang diagnostic pop

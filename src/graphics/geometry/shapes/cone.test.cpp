@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "performance-unnecessary-copy-initialization"
+
 #include "gtest/gtest.h"
 #include "cone.hpp"
 
@@ -374,3 +377,5 @@ TEST(GraphicsCone, GetSurfaceNormalUnbounded)
         EXPECT_EQ(surface_normal_actual, surface_normal_expected);
     }
 }
+
+#pragma clang diagnostic pop

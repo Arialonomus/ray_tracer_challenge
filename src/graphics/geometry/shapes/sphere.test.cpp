@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "performance-unnecessary-copy-initialization"
+
 #include "gtest/gtest.h"
 #include "sphere.hpp"
 
@@ -270,3 +273,5 @@ TEST(GraphicsSphere, RayTranslatedSphereIntersection)
 
     EXPECT_EQ(intersections.size(), 0);
 }
+
+#pragma clang diagnostic pop
