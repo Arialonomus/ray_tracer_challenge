@@ -40,7 +40,9 @@ TEST(GraphicsGroup, ObjectListConstructor)
     EXPECT_EQ(group_a.getTransform(), transform_expected);
     ASSERT_FALSE(group_a.isEmpty());
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_a.getChildAt(0)), sphere_a);
+    EXPECT_EQ(group_a.getChildAt(0).getParent(), &group_a);
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_a.getChildAt(1)), sphere_b);
+    EXPECT_EQ(group_a.getChildAt(1).getParent(), &group_a);
 
     // Test building from object pointers
     const std::shared_ptr<gfx::Sphere> sphere_a_ptr{ std::make_shared<gfx::Sphere>(sphere_a) };
@@ -51,7 +53,9 @@ TEST(GraphicsGroup, ObjectListConstructor)
     ASSERT_EQ(group_b.getTransform(), transform_expected);
     ASSERT_FALSE(group_b.isEmpty());
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_b.getChildAt(0)), sphere_a);
+    EXPECT_EQ(group_b.getChildAt(0).getParent(), &group_b);
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_b.getChildAt(1)), sphere_b);
+    EXPECT_EQ(group_b.getChildAt(1).getParent(), &group_b);
 }
 
 // Tests the standard constructor
@@ -67,7 +71,9 @@ TEST(GraphicsGroup, StandardConstructor)
     EXPECT_EQ(group_a.getTransform(), transform_expected);
     ASSERT_FALSE(group_a.isEmpty());
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_a.getChildAt(0)), sphere_a);
+    EXPECT_EQ(group_a.getChildAt(0).getParent(), &group_a);
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_a.getChildAt(1)), sphere_b);
+    EXPECT_EQ(group_a.getChildAt(1).getParent(), &group_a);
 
     // Test building from object pointers
     const std::shared_ptr<gfx::Sphere> sphere_a_ptr{ std::make_shared<gfx::Sphere>(sphere_a) };
@@ -78,7 +84,9 @@ TEST(GraphicsGroup, StandardConstructor)
     EXPECT_EQ(group_b.getTransform(), transform_expected);
     ASSERT_FALSE(group_b.isEmpty());
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_b.getChildAt(0)), sphere_a);
+    EXPECT_EQ(group_b.getChildAt(0).getParent(), &group_b);
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_b.getChildAt(1)), sphere_b);
+    EXPECT_EQ(group_b.getChildAt(1).getParent(), &group_b);
 }
 
 // Tests the copy constructor
@@ -93,7 +101,9 @@ TEST(GraphicsGroup, CopyConstructor)
     EXPECT_EQ(group_cpy.getTransform(), transform_expected);
     ASSERT_FALSE(group_cpy.isEmpty());
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_cpy.getChildAt(0)), sphere_a);
+    EXPECT_EQ(group_cpy.getChildAt(0).getParent(), &group_cpy);
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_cpy.getChildAt(1)), sphere_b);
+    EXPECT_EQ(group_cpy.getChildAt(1).getParent(), &group_cpy);
 }
 
 // Tests the assignment operator
@@ -110,7 +120,9 @@ TEST(GraphicsGroup, AssignmentOperator)
     EXPECT_EQ(group_b.getTransform(), transform_expected);
     ASSERT_FALSE(group_b.isEmpty());
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_b.getChildAt(0)), sphere_a);
+    EXPECT_EQ(group_b.getChildAt(0).getParent(), &group_b);
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group_b.getChildAt(1)), sphere_b);
+    EXPECT_EQ(group_b.getChildAt(1).getParent(), &group_b);
 }
 
 // Tests the equality operator
