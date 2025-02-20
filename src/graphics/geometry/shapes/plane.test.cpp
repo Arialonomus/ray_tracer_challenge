@@ -5,6 +5,7 @@
 #include "material.hpp"
 #include "transform.hpp"
 #include "ray.hpp"
+#include "intersection.hpp"
 
 // Tests the default constructor
 TEST(GraphicsPlane, DefaultConstructor)

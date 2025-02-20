@@ -7,6 +7,7 @@
 #include "material.hpp"
 #include "transform.hpp"
 #include "ray.hpp"
+#include "intersection.hpp"
 
 // Tests the default constructors
 TEST(GraphicsCylinder, DefaultConstructor)
