@@ -55,9 +55,18 @@ namespace gfx {
         void setMaterial(const Material& material)
         { m_material = material; }
 
+        /* Geometric Operations */
+
+        // Returns the surface normal vector at a passed-in world_point
+        [[nodiscard]] Vector4 getSurfaceNormalAt(const Vector4& world_point) const;
+
     private:
         /* Data Members */
 
         Material m_material{ };
+
+        /* Pure Virtual Helper Methods */
+
+        [[nodiscard]] virtual Vector4 calculateSurfaceNormal(const Vector4& transformed_point) const = 0;
     };
 }

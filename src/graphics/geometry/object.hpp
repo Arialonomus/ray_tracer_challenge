@@ -62,9 +62,6 @@ namespace gfx {
 
         /* Geometric Operations */
 
-        // Returns the surface normal vector at a passed-in world_point
-        [[nodiscard]] Vector4 getSurfaceNormalAt(const Vector4& world_point) const;
-
         // Returns a vector of Intersection objects representing the distances at which
         // the passed-in ray intersects with this object
         [[nodiscard]] std::vector<Intersection> getObjectIntersections(const Ray& ray) const;
@@ -89,7 +86,6 @@ namespace gfx {
     private:
         /* Pure Virtual Helper Methods */
 
-        [[nodiscard]] virtual Vector4 calculateSurfaceNormal(const Vector4& transformed_point) const = 0;
         [[nodiscard]] virtual std::vector<Intersection> calculateIntersections(const Ray& transformed_ray) const = 0;
         [[nodiscard]] virtual bool areEquivalent(const Object& other_object) const = 0;
     };

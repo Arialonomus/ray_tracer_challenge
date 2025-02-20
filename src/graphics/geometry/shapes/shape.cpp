@@ -14,4 +14,14 @@ namespace gfx {
         // Return the base surface color
         return m_material.getColor();
     }
+
+    Vector4 Shape::getSurfaceNormalAt(const Vector4& world_point) const
+    {
+        // Transform the point from world space to object space
+        const Vector4 object_point{ this->transformToObjectSpace(world_point) };
+
+        // Calculate the normal vector and transform back to world space for return
+        const Vector4 object_normal{ this->calculateSurfaceNormal(object_point) };
+        return this->transformNormalToWorldSpace(object_normal);
+    }
 }
