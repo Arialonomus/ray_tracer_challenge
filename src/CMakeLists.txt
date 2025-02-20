@@ -13,13 +13,15 @@ target_sources(gfx PRIVATE
         graphics/data_structures/matrix4.cpp
         graphics/functions/linear_algebra.cpp
         graphics/functions/transform.cpp
-        graphics/geometry/ray.cpp
         graphics/geometry/shapes/shape.cpp
         graphics/geometry/shapes/sphere.cpp
         graphics/geometry/shapes/plane.cpp
         graphics/geometry/shapes/cube.cpp
         graphics/geometry/shapes/cylinder.cpp
         graphics/geometry/shapes/cone.cpp
+        graphics/geometry/object.cpp
+        graphics/geometry/group.cpp
+        graphics/geometry/ray.cpp
         graphics/geometry/intersection.cpp
         graphics/geometry/world.cpp
         graphics/shading/patterns/stripe_pattern.cpp
