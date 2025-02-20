@@ -20,12 +20,6 @@ namespace gfx {
         m_children.push_back(object_ptr);
     }
 
-    // Surface Normal for a Child Object in a Group
-    Vector4 Group::calculateSurfaceNormal(const Vector4& transformed_point) const
-    {
-        return Vector4{ };
-    }
-
     // Intersections with Child Object(s) in a Group
     std::vector<Intersection> Group::calculateIntersections(const Ray& transformed_ray) const
     {
