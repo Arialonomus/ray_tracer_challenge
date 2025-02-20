@@ -21,7 +21,7 @@ namespace gfx {
         explicit Group(const std::shared_ptr<Object>& first_object_ptr,
                        const ObjectPtrs&... remaining_object_ptrs)
                 : Object(), m_children { first_object_ptr, remaining_object_ptrs...  }
-        {}
+        { this->setParentForAllChildren(this); }
 
         template<typename... ObjectRefs>
         explicit Group(const Object& first_object_ref,
@@ -35,7 +35,7 @@ namespace gfx {
                        const std::shared_ptr<Object>& first_object_ptr,
                        const ObjectPtrs&... remaining_object_ptrs)
                 : Object(transform_matrix), m_children { first_object_ptr, remaining_object_ptrs...  }
-        {}
+        { this->setParentForAllChildren(this); }
 
         template<typename... ObjectRefs>
         explicit Group(const Matrix4& transform_matrix,
@@ -55,9 +55,7 @@ namespace gfx {
         ~Group() override
         {
             // Unlink the child from the group before object destruction
-            for (const auto& child_ptr : m_children) {
-                child_ptr->setParent(nullptr);
-            }
+            this->setParentForAllChildren(nullptr);
         }
 
         /* Assignment Operators */
@@ -106,5 +104,13 @@ namespace gfx {
             addChildren(remaining_object_refs...);
         }
         void addChildren() {}    // Base case for recursion
+
+        // Sets the parent pointer for all children in the group
+        void setParentForAllChildren(Group* const parent_ptr) const
+        {
+            for (const auto& child_ptr : m_children) {
+                child_ptr->setParent(parent_ptr);
+            }
+        }
     };
 }
