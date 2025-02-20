@@ -149,9 +149,12 @@ namespace gfx {
         double m_y_max{ std::numeric_limits<double>::infinity() };
         bool m_is_closed{ false };
 
-        /* Helper Method Overrides */
+        /* Shape Helper Method Overrides */
 
         [[nodiscard]] Vector4 calculateSurfaceNormal(const Vector4& transformed_point) const override;
+
+        /* Object Helper Method Overrides */
+
         [[nodiscard]] std::vector<Intersection> calculateIntersections(const Ray& transformed_ray) const override;
         [[nodiscard]] bool areEquivalent(const Object& other_object) const override;
 
