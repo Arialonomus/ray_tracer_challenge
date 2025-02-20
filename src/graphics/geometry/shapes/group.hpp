@@ -70,6 +70,10 @@ namespace gfx {
         [[nodiscard]] bool isEmpty() const
         { return m_children.empty(); }
 
+        // Primarily for testing purposes, will perform object slicing if is not cast to the proper derived class
+        [[nodiscard]] const Object& getChildAt(const size_t index) const
+        { return *m_children.at(index); }
+
         [[nodiscard]] unsigned int getNumChildren() const;
 
         /* Mutators */
