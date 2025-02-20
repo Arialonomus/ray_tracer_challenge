@@ -109,6 +109,9 @@ namespace gfx {
             m_max_extents[2] = coordinate.z();
         }
 
+        // Adds a point to the bounding box, adjusting the extents if necessary
+        void addPoint(const Vector4& point);
+
         /* Comparison Operator Overloads */
 
         [[nodiscard]] bool operator==(const BoundingBox& rhs) const
