@@ -1,5 +1,7 @@
 #include "group.hpp"
 
+#include <algorithm>
+
 #include "intersection.hpp"
 
 namespace gfx {
@@ -27,7 +29,14 @@ namespace gfx {
     // Intersections with Child Object(s) in a Group
     std::vector<Intersection> Group::calculateIntersections(const Ray& transformed_ray) const
     {
-        return std::vector<Intersection>{ };
+        // Aggregate intersections across all children
+        std::vector<Intersection> intersections{ };
+        for (auto object_ptr : m_children) {
+            intersections.append_range(object_ptr->getObjectIntersections(transformed_ray));
+        }
+
+        std::sort(intersections.begin(), intersections.end());
+        return intersections;
     }
 
     // Group Object Equivalency Check
