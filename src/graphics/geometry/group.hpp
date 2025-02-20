@@ -45,7 +45,9 @@ namespace gfx {
         { addChildren(first_object_ref, remaining_object_refs...); }
 
         // Copy Constructor
-        Group(const Group&) = default;
+        Group(const Group& src)
+                : Object(src.getTransform()), m_children { src.m_children }
+        { this->setParentForAllChildren(this); }
 
         // Move Constructor
         Group(Group&&) = default;
@@ -60,7 +62,14 @@ namespace gfx {
 
         /* Assignment Operators */
 
-        Group& operator=(const Group&) = default;
+        Group& operator=(const Group& rhs)
+        {
+            this->setTransform(rhs.getTransform());
+            m_children = rhs.m_children;
+            this->setParentForAllChildren(this);
+
+            return *this;
+        }
         Group& operator=(Group&&) = default;
 
         /* Accessors */
