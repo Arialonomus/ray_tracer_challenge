@@ -74,8 +74,6 @@ namespace gfx {
         [[nodiscard]] const Object& getChildAt(const size_t index) const
         { return *m_children.at(index); }
 
-        [[nodiscard]] unsigned int getNumChildren() const;
-
         /* Mutators */
 
         // Adds a single object as a child to the group
@@ -108,8 +106,5 @@ namespace gfx {
             addChildren(remaining_object_refs...);
         }
         void addChildren() {}    // Base case for recursion
-
-        // Recursively calculate the number of children in a group
-        [[nodiscard]] unsigned int getNumChildren(const Group& parent) const;
     };
 }

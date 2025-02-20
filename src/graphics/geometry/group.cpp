@@ -18,32 +18,6 @@ namespace gfx {
         m_children.push_back(object_ptr);
     }
 
-    // Caller Method for Recursion
-    unsigned int Group::getNumChildren() const
-    {
-        return getNumChildren(*this);
-    }
-
-    // Recursive Children Counter Method
-    unsigned int Group::getNumChildren(const Group& parent) const
-    {
-        // Base Case
-        if (parent.isEmpty()) {
-            return 0;
-        }
-
-        // Recursive Case, Count Children
-        unsigned int num_children{ 0 };
-        for (const auto& child_ptr : m_children) {
-            const auto child_group_ptr{ std::dynamic_pointer_cast<Group>(child_ptr) };
-            if (child_group_ptr) {
-                num_children += 1 + getNumChildren(*child_group_ptr);
-            }
-        }
-
-        return num_children;
-    }
-
     // Surface Normal for a Child Object in a Group
     Vector4 Group::calculateSurfaceNormal(const Vector4& transformed_point) const
     {
