@@ -141,4 +141,24 @@ TEST(GraphicsBoundingBox, Mutators)
     EXPECT_EQ(max_extent_coordinate_actual, max_extent_coordinate_expected);
 }
 
+// Tests adding points to an empty bounding box
+TEST(GraphicsBoundingBox, AddPoints)
+{
+    gfx::BoundingBox bounding_box{ };
+
+    const gfx::Vector4 point_a{ gfx::createPoint(-5, 2, 0) };
+    const gfx::Vector4 point_b{ gfx::createPoint(7, 0, -3) };
+
+    bounding_box.addPoint(point_a);
+    bounding_box.addPoint(point_b);
+
+    const gfx::Vector4 min_extent_expected{ gfx::createPoint(-5, 0, -3) };
+    const gfx::Vector4 min_extent_actual{ bounding_box.getMinExtentPoint() };
+    EXPECT_EQ(min_extent_actual, min_extent_expected);
+
+    const gfx::Vector4 max_extent_expected{ gfx::createPoint(7, 2, 0) };
+    const gfx::Vector4 max_extent_actual{ bounding_box.getMaxExtentPoint() };
+    EXPECT_EQ(max_extent_actual, max_extent_expected);
+}
+
 #pragma clang diagnostic pop
