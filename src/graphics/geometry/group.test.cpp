@@ -4,8 +4,12 @@
 #include "gtest/gtest.h"
 #include "group.hpp"
 
+#include <vector>
+
 #include "transform.hpp"
 #include "sphere.hpp"
+#include "ray.hpp"
+#include "intersection.hpp"
 
 // Tests the default constructor
 TEST(GraphicsGroup, DefaultConstructor)
@@ -203,6 +207,51 @@ TEST(GraphicsGroup, AddChild)
     EXPECT_EQ(group.getChildAt(0).getParent(), &group);
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group.getChildAt(1)), sphere_b);
     EXPECT_EQ(group.getChildAt(1).getParent(), &group);
+}
+
+// Tests intersecting a ray with an empty group
+TEST(GraphicsGroup, RayEmptyGroupIntersection)
+{
+    const gfx::Group group{ };
+    const gfx::Ray ray{ 0, 0, 0,
+                        0, 0, 1 };
+
+    const std::vector<gfx::Intersection> intersections{ group.getObjectIntersections(ray) };
+
+    EXPECT_TRUE(intersections.empty());
+}
+
+// Tests intersecting a ray with a non-empty group
+TEST(GraphicsGroup, RayGroupIntersection)
+{
+    const gfx::Sphere sphere_a{ };
+    const gfx::Sphere sphere_b{ gfx::createTranslationMatrix(0, 0, -3) };
+    const gfx::Sphere sphere_c{ gfx::createTranslationMatrix(5, 0, 0) };
+    const gfx::Group group{ sphere_a, sphere_b, sphere_c };
+    const gfx::Ray ray{ 0, 0, -5,
+                        0, 0, 1 };
+
+    const std::vector<gfx::Intersection> intersections{ group.getObjectIntersections(ray) };
+
+    ASSERT_EQ(intersections.size(), 4);
+    EXPECT_EQ(intersections.at(0).getObject(), sphere_b);
+    EXPECT_EQ(intersections.at(1).getObject(), sphere_b);
+    EXPECT_EQ(intersections.at(2).getObject(), sphere_a);
+    EXPECT_EQ(intersections.at(3).getObject(), sphere_a);
+}
+
+// Tests intersecting a ray with a non-empty group with a transformation applied
+TEST(GraphicsGroup, RayTransformedGroupIntersection)
+{
+    const gfx::Sphere sphere{ gfx::createTranslationMatrix(5, 0, 0) };
+    const gfx::Group group{ gfx::createScalingMatrix(2),
+                            sphere };
+    const gfx::Ray ray{ 10, 0, -10,
+                        0, 0, 1 };
+
+    const std::vector<gfx::Intersection> intersections{ group.getObjectIntersections(ray) };
+
+    EXPECT_EQ(intersections.size(), 2);
 }
 
 #pragma clang diagnostic pop
