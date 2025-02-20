@@ -2,6 +2,7 @@
 
 #include <cmath>
 
+#include "intersection.hpp"
 #include "util_functions.hpp"
 
 namespace gfx {
@@ -42,9 +43,9 @@ namespace gfx {
     }
 
     // Sphere Object Equivalency Check
-    bool Sphere::areEquivalent(const Shape& other_shape) const
+    bool Sphere::areEquivalent(const Object& other_object) const
     {
-        const Sphere& other_sphere{ dynamic_cast<const Sphere&>(other_shape) };
+        const Sphere& other_sphere{ dynamic_cast<const Sphere&>(other_object) };
 
         return
                 this->getTransform() == other_sphere.getTransform() &&

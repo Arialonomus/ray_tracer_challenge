@@ -9,7 +9,7 @@
 #include "intersection.hpp"
 
 namespace gfx {
-    class Shape;
+    class Object;
     class Intersection;
 
     class World
@@ -24,34 +24,34 @@ namespace gfx {
         explicit World(const PointLight& light_source);
 
         // Object List Constructors
-        template<typename... ShapePtrs>
-        explicit World(const std::shared_ptr<Shape>& first_object,
-                       const ShapePtrs&... remaining_objects)
+        template<typename... ObjectPtrs>
+        explicit World(const std::shared_ptr<Object>& first_object_ptr,
+                       const ObjectPtrs&... remaining_object_ptrs)
                 : m_light_source{ Color{ 1, 1, 1 },
                                   createPoint(-10, 10, -10) },
-                m_objects { first_object, remaining_objects...  }
+                m_objects { first_object_ptr, remaining_object_ptrs...  }
         {}
 
-        template<typename... ShapeRefs>
-        explicit World(const Shape& first_object,
-                       const ShapeRefs&... remaining_objects)
+        template<typename... ObjectRefs>
+        explicit World(const Object& first_object_ref,
+                       const ObjectRefs&... remaining_object_refs)
                 : m_light_source{ Color{ 1, 1, 1 },
                                   createPoint(-10, 10, -10) }
-        { addObjects(first_object, remaining_objects...); }
+        { addObjects(first_object_ref, remaining_object_refs...); }
 
         // Standard Constructors
-        template<typename... ShapePtrs>
+        template<typename... ObjectPtrs>
         World(const PointLight& light_source,
-              const std::shared_ptr<Shape>& first_object,
-              const ShapePtrs&... remaining_objects)
+              const std::shared_ptr<Object>& first_object,
+              const ObjectPtrs&... remaining_objects)
                 : m_light_source{ light_source },
                 m_objects { first_object, remaining_objects...  }
         {}
 
-        template<typename... ShapeRefs>
+        template<typename... ObjectRefs>
         World(const PointLight& light_source,
-              const Shape& first_object,
-              const ShapeRefs&... remaining_objects)
+              const Object& first_object,
+              const ObjectRefs&... remaining_objects)
                 : m_light_source{ light_source }
         { addObjects(first_object, remaining_objects...); }
 
@@ -81,14 +81,14 @@ namespace gfx {
         [[nodiscard]] bool isEmpty() const
         { return m_objects.empty(); }
 
-        [[nodiscard]] const Shape& getObjectAt(const size_t index) const
+        [[nodiscard]] const Object& getObjectAt(const size_t index) const
         { return *m_objects.at(index); }
 
         /* Mutators */
 
         // Adds a single object to the world
-        void addObject(const Shape& object);
-        void addObject(const std::shared_ptr<Shape>& object);
+        void addObject(const Object& object);
+        void addObject(const std::shared_ptr<Object>& object);
 
         /* Ray-Tracing Operations */
 
@@ -115,13 +115,13 @@ namespace gfx {
 
         PointLight m_light_source{ Color{ 1, 1, 1 },
                                    createPoint(-10, 10, -10) };
-        std::vector<std::shared_ptr<Shape>> m_objects{ };
+        std::vector<std::shared_ptr<Object>> m_objects{ };
 
         /* Helper Methods */
 
         // Add multiple objects passed in as references to the world
-        template<typename... ShapeRefs>
-        void addObjects(const Shape& first_object, const ShapeRefs&... remaining_objects) {
+        template<typename... ObjectRefs>
+        void addObjects(const Object& first_object, const ObjectRefs&... remaining_objects) {
             this->addObject(first_object);
             addObjects(remaining_objects...);
         }

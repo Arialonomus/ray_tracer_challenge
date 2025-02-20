@@ -2,6 +2,7 @@
 
 #include <cmath>
 
+#include "intersection.hpp"
 #include "util_functions.hpp"
 
 namespace gfx {
@@ -50,9 +51,9 @@ namespace gfx {
     }
 
     // Cube Object Equivalency Check
-    bool Cube::areEquivalent(const Shape& other_shape) const
+    bool Cube::areEquivalent(const Object& other_object) const
     {
-        const Cube& other_cube{ dynamic_cast<const Cube&>(other_shape) };
+        const Cube& other_cube{ dynamic_cast<const Cube&>(other_object) };
 
         return
                 this->getTransform() == other_cube.getTransform() &&

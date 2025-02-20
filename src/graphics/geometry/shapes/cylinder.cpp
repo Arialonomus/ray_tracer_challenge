@@ -3,6 +3,7 @@
 #include <cmath>
 #include <algorithm>
 
+#include "intersection.hpp"
 #include "util_functions.hpp"
 
 namespace gfx {
@@ -71,9 +72,9 @@ namespace gfx {
     }
 
     // Cylinder Object Equivalency Check
-    bool Cylinder::areEquivalent(const Shape& other_shape) const
+    bool Cylinder::areEquivalent(const Object& other_object) const
     {
-        const Cylinder& other_cylinder{ dynamic_cast<const Cylinder&>(other_shape) };
+        const Cylinder& other_cylinder{ dynamic_cast<const Cylinder&>(other_object) };
 
         return
                 this->getTransform() == other_cylinder.getTransform() &&

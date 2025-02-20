@@ -2,6 +2,7 @@
 
 #include <cmath>
 
+#include "intersection.hpp"
 #include "util_functions.hpp"
 
 namespace gfx {
@@ -27,9 +28,9 @@ namespace gfx {
     }
 
     // Plane Object Equivalency Check
-    bool Plane::areEquivalent(const Shape& other_shape) const
+    bool Plane::areEquivalent(const Object& other_object) const
     {
-        const Plane& other_plane{ dynamic_cast<const Plane&>(other_shape) };
+        const Plane& other_plane{ dynamic_cast<const Plane&>(other_object) };
 
         return
                 this->getTransform() == other_plane.getTransform() &&

@@ -10,7 +10,9 @@
 #include "intersection.hpp"
 #include "ray.hpp"
 #include "transform.hpp"
+
 #include "sphere.hpp"
+
 #include "stripe_pattern.hpp"
 
 class TestShape : public gfx::Shape
@@ -27,11 +29,12 @@ public:
             : Shape{ transform, material }, m_transformed_ray{ }
     {}
 
-    [[nodiscard]] std::shared_ptr<Shape> clone() const override
+    [[nodiscard]] std::shared_ptr<Object> clone() const override
     { return std::make_shared<TestShape>(*this); }
 
     [[nodiscard]] gfx::Ray getTransformedRay() const
     { return m_transformed_ray; }
+
 private:
     mutable gfx::Ray m_transformed_ray{ };
 
@@ -46,7 +49,7 @@ private:
         return std::vector<gfx::Intersection>{ };
     }
 
-    [[nodiscard]] bool areEquivalent(const Shape& other_shape) const override
+    [[nodiscard]] bool areEquivalent(const Object& other_shape) const override
     {
         const TestShape& other_test_shape{ dynamic_cast<const TestShape&>(other_shape) };
 

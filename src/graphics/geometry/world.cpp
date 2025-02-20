@@ -13,13 +13,13 @@ namespace gfx {
     {}
 
     // Object Inserter (from object ref)
-    void World::addObject(const Shape& object)
+    void World::addObject(const Object& object)
     {
         m_objects.push_back(object.clone());
     }
 
     // Object Inserter (from pointer)
-    void World::addObject(const std::shared_ptr<Shape>& object)
+    void World::addObject(const std::shared_ptr<Object>& object)
     {
         m_objects.push_back(object);
     }

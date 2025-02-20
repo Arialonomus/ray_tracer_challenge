@@ -3,6 +3,7 @@
 #include <cmath>
 #include <algorithm>
 
+#include "intersection.hpp"
 #include "util_functions.hpp"
 
 namespace gfx {
@@ -84,9 +85,9 @@ namespace gfx {
     }
 
     // Cone Object Equivalency Check
-    bool Cone::areEquivalent(const Shape& other_shape) const
+    bool Cone::areEquivalent(const Object& other_object) const
     {
-        const Cone& other_cone{ dynamic_cast<const Cone&>(other_shape) };
+        const Cone& other_cone{ dynamic_cast<const Cone&>(other_object) };
 
         return
                 this->getTransform() == other_cone.getTransform() &&
