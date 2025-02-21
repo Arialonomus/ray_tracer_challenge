@@ -117,7 +117,7 @@ TEST(GraphicsGroup, MoveConstructor)
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     const gfx::Sphere sphere_a{ };
     const gfx::Sphere sphere_b{ };
-    const gfx::Group group_src{ transform_expected, sphere_a, sphere_b };
+    gfx::Group group_src{ transform_expected, sphere_a, sphere_b };
     const gfx::Group group_moved{ std::move(group_src) };
 
     EXPECT_EQ(group_moved.getTransform(), transform_expected);
@@ -153,7 +153,7 @@ TEST(GraphicsGroup, MoveAssignmentOperator)
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     const gfx::Sphere sphere_a{ };
     const gfx::Sphere sphere_b{ };
-    const gfx::Group group_a{ transform_expected, sphere_a, sphere_b };
+    gfx::Group group_a{ transform_expected, sphere_a, sphere_b };
     gfx::Group group_b{ };
 
     group_b = std::move(group_a);
