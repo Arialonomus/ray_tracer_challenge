@@ -11,7 +11,7 @@ namespace gfx {
         auto cloned_object_ptr{ object.clone() };
         cloned_object_ptr->setParent(this);
         m_children.push_back(cloned_object_ptr);
-        m_bounds.mergeWithBox(object.getLocalSpaceBounds());
+        m_bounds.mergeWithBox(cloned_object_ptr->getLocalSpaceBounds());
     }
 
 
@@ -29,7 +29,7 @@ namespace gfx {
     {
         // Check if ray intersects bounding box
         std::vector<Intersection> intersections{ };
-        if (m_bounds.isIntersectedBy(transformed_ray))
+        if (!m_bounds.isIntersectedBy(transformed_ray))
             return intersections;
 
         // Aggregate intersections across all children
