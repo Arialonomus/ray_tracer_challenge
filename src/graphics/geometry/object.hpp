@@ -45,7 +45,11 @@ namespace gfx {
         [[nodiscard]] const Group* getParent() const
         { return m_parent; }
 
+        // Returns a bounding volume in object space (i.e. without a transformation applied)
         [[nodiscard]] virtual BoundingBox getBounds() const = 0;
+
+        // Returns a bounding volume in local space (i.e. with this object's transformation applied)
+        [[nodiscard]] BoundingBox getLocalSpaceBounds() const;
 
         /* Mutators */
 

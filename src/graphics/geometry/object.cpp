@@ -4,6 +4,12 @@
 #include "group.hpp"
 
 namespace gfx {
+    BoundingBox Object::getLocalSpaceBounds() const
+    {
+        return this->getBounds().transform(this->m_transform);
+    }
+
+
     bool Object::operator==(const Object& rhs) const
     {
         if (typeid(*this) != typeid(rhs)) {
@@ -11,6 +17,7 @@ namespace gfx {
         }
         return areEquivalent(rhs);
     }
+
 
     std::vector<Intersection> Object::getObjectIntersections(const Ray& ray) const
     {
@@ -20,6 +27,7 @@ namespace gfx {
         // Calculate the intersections for this object and return
         return this->calculateIntersections(transformed_ray);
     }
+
 
     Vector4 Object::transformToObjectSpace(const Vector4& point) const
     {
@@ -32,6 +40,7 @@ namespace gfx {
         // Transform the point to object space and return
         return m_transform.inverse() * transformed_point;
     }
+
 
     Vector4 Object::transformNormalToWorldSpace(const Vector4& local_normal) const
     {
