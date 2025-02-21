@@ -119,4 +119,15 @@ namespace gfx {
 
     // Returns the first ray-object intersection with a non-negative t-value, representing a hit
     [[nodiscard]] std::optional<Intersection> getHit(std::vector<Intersection> intersections);
+
+    // Returns a pair representing T-values for ray intersections with an axis-aligned bounding box
+    [[nodiscard]] std::pair<double, double> calculateBoxIntersectionTs(const Ray& ray,
+                                                                       const Vector4& box_min_extent,
+                                                                       const Vector4& box_max_extent);
+
+    // Returns the t-values at which a given ray intersects an axis
+    [[nodiscard]] std::pair<double, double> getAxisIntersectionTs(double origin_axis_val,
+                                                                  double direction_axis_val,
+                                                                  double min_extent_axis_val,
+                                                                  double max_extent_axis_val);
 }

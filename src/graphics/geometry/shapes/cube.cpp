@@ -31,17 +31,9 @@ namespace gfx {
     // Ray-Cube Intersection Calculator
     std::vector<Intersection> Cube::calculateIntersections(const Ray& transformed_ray) const
     {
-        const auto [ x_t_min, x_t_max ] { getAxisIntersectionTs(transformed_ray.getOrigin().x(),
-                                                                transformed_ray.getDirection().x()) };
-        const auto [ y_t_min, y_t_max ] { getAxisIntersectionTs(transformed_ray.getOrigin().y(),
-                                                                transformed_ray.getDirection().y()) };
-        const auto [ z_t_min, z_t_max ] { getAxisIntersectionTs(transformed_ray.getOrigin().z(),
-                                                                transformed_ray.getDirection().z()) };
-
-        double t_min{ std::fmax( x_t_min, y_t_min ) };
-        t_min = std::fmax(t_min, z_t_min);
-        double t_max{ std::fmin( x_t_max, y_t_max ) };
-        t_max = std::fmin(t_max, z_t_max);
+        const auto [ t_min, t_max ] { calculateBoxIntersectionTs(transformed_ray,
+                                                                 createPoint(-1, -1, -1),
+                                                                 createPoint(1, 1, 1)) };
 
         if (utils::isGreater(t_min, t_max)) {
             return std::vector<Intersection>{ };
@@ -58,19 +50,5 @@ namespace gfx {
         return
                 this->getTransform() == other_cube.getTransform() &&
                 this->getMaterial() == other_cube.getMaterial();
-    }
-
-    // Axis-Intersection Calculator
-    std::pair<double, double> Cube::getAxisIntersectionTs(const double origin_axis_val,
-                                                          const double direction_axis_val)
-    {
-        double t_min{ (-1 - origin_axis_val) / direction_axis_val };
-        double t_max{ (1 - origin_axis_val) / direction_axis_val };
-
-        if (utils::isGreater(t_min, t_max)) {
-            std::swap(t_min, t_max);
-        }
-
-        return std::pair<double, double>{ t_min, t_max };
     }
 }

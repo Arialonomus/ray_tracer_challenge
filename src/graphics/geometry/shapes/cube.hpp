@@ -49,11 +49,5 @@ namespace gfx {
 
         [[nodiscard]] std::vector<Intersection> calculateIntersections(const Ray& transformed_ray) const override;
         [[nodiscard]] bool areEquivalent(const Object& other_object) const override;
-
-        /* Cube Helper Methods */
-
-        // Returns the t-values for the intersections (if any) on the cube faces aligned to the given axis
-        [[nodiscard]] static std::pair<double, double> getAxisIntersectionTs(double origin_axis_val,
-                                                                             double direction_axis_val) ;
     };
 }
