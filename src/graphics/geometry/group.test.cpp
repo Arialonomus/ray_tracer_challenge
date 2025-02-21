@@ -9,6 +9,7 @@
 
 #include "transform.hpp"
 #include "sphere.hpp"
+#include "cylinder.hpp"
 #include "ray.hpp"
 #include "intersection.hpp"
 
@@ -208,6 +209,45 @@ TEST(GraphicsGroup, AddChild)
     EXPECT_EQ(group.getChildAt(0).getParent(), &group);
     EXPECT_EQ(dynamic_cast<const gfx::Sphere&>(group.getChildAt(1)), sphere_b);
     EXPECT_EQ(group.getChildAt(1).getParent(), &group);
+}
+
+// Tests getting the bounds of a group of objects
+TEST(GraphicsGroup, GetBounds)
+{
+    const std::shared_ptr<gfx::Sphere> sphere_ptr{ std::make_shared<gfx::Sphere>(
+            gfx::createTranslationMatrix(2, 5, -3) * gfx::createScalingMatrix(2))
+    };
+    const std::shared_ptr<gfx::Cylinder> cylinder_ptr{ std::make_shared<gfx::Cylinder>(
+            gfx::createTranslationMatrix(-4, -1, 4) * gfx::createScalingMatrix(0.5, 1, 0.5),
+            -2,
+            2)
+    };
+
+    // Test bounds calculations via constructor
+    const gfx::Group group_a{ sphere_ptr, cylinder_ptr };
+    const gfx::BoundingBox group_a_bounds{ group_a.getBounds() };
+
+    const gfx::Vector4 group_a_min_extent_expected{ gfx::createPoint(-4.5, -3, -5) };
+    const gfx::Vector4 group_a_min_extent_actual{ group_a_bounds.getMinExtentPoint() };
+    EXPECT_EQ(group_a_min_extent_actual, group_a_min_extent_expected);
+
+    const gfx::Vector4 group_a_max_extent_expected{ gfx::createPoint(4, 7, 4.5) };
+    const gfx::Vector4 group_a_max_extent_actual{ group_a_bounds.getMaxExtentPoint() };
+    EXPECT_EQ(group_a_max_extent_actual, group_a_max_extent_expected);
+
+    // Test bounds calculations via adding objects individually
+    gfx::Group group_b{ };
+    group_b.addChild(sphere_ptr);
+    group_b.addChild(cylinder_ptr);
+    const gfx::BoundingBox group_b_bounds{ group_b.getBounds() };
+
+    const gfx::Vector4 group_b_min_extent_expected{ gfx::createPoint(-4.5, -3, -5) };
+    const gfx::Vector4 group_b_min_extent_actual{ group_b_bounds.getMinExtentPoint() };
+    EXPECT_EQ(group_b_min_extent_actual, group_b_min_extent_expected);
+
+    const gfx::Vector4 group_b_max_extent_expected{ gfx::createPoint(4, 7, 4.5) };
+    const gfx::Vector4 group_b_max_extent_actual{ group_b_bounds.getMaxExtentPoint() };
+    EXPECT_EQ(group_b_max_extent_actual, group_b_max_extent_expected);
 }
 
 // Tests intersecting a ray with an empty group
