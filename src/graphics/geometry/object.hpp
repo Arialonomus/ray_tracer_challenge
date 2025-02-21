@@ -2,6 +2,7 @@
 
 #include "matrix4.hpp"
 #include "vector4.hpp"
+#include "bounding_box.hpp"
 
 namespace gfx {
     /* Forward Declarations */
@@ -43,6 +44,8 @@ namespace gfx {
 
         [[nodiscard]] const Group* getParent() const
         { return m_parent; }
+
+        [[nodiscard]] virtual BoundingBox getBounds() const = 0;
 
         /* Mutators */
 
