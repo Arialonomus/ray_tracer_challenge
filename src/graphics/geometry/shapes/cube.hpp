@@ -24,6 +24,16 @@ namespace gfx {
 
         ~Cube() override = default;
 
+        /* Assignment Operators */
+
+        Cube& operator=(const Cube&) = default;
+
+        /* Accessors */
+
+        [[nodiscard]] BoundingBox getBounds() const override
+        { return BoundingBox{ -1, -1, -1,
+                              1, 1, 1 }; }
+
         /* Object Operations */
 
         // Creates a clone of this cube to be stored in a world object list

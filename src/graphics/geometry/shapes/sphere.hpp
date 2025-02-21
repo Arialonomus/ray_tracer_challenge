@@ -30,6 +30,12 @@ namespace gfx {
 
         Sphere& operator=(const Sphere&) = default;
 
+        /* Accessors */
+
+        [[nodiscard]] BoundingBox getBounds() const override
+        { return BoundingBox{ -1, -1, -1,
+                              1, 1, 1 }; }
+
         /* Object Operations */
 
         // Creates a clone of this sphere to be stored in an object list

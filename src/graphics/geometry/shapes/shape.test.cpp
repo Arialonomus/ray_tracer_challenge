@@ -6,6 +6,7 @@
 
 #include "matrix4.hpp"
 #include "material.hpp"
+#include "bounding_box.hpp"
 #include "vector4.hpp"
 #include "intersection.hpp"
 #include "ray.hpp"
@@ -28,6 +29,10 @@ public:
     TestShape(const gfx::Matrix4& transform, const gfx::Material& material)
             : Shape{ transform, material }, m_transformed_ray{ }
     {}
+
+    [[nodiscard]] gfx::BoundingBox getBounds() const override
+    { return gfx::BoundingBox{ -1, -1, -1,
+                               1, 1, 1 }; }
 
     [[nodiscard]] std::shared_ptr<Object> clone() const override
     { return std::make_shared<TestShape>(*this); }

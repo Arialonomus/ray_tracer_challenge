@@ -7,6 +7,14 @@
 #include "util_functions.hpp"
 
 namespace gfx {
+    // Calculate Bounding Box for a Cone
+    BoundingBox Cone::getBounds() const
+    {
+        const double limit{ std::max(std::abs(m_y_min), std::abs(m_y_max)) };
+        return BoundingBox{ -limit, m_y_min, -limit,
+                            limit, m_y_max, limit };
+    }
+
     // Surface Normal for a Cone
     Vector4 Cone::calculateSurfaceNormal(const Vector4& transformed_point) const
     {

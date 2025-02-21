@@ -1,5 +1,7 @@
 #pragma once
 
+#include <limits>
+
 #include "shape.hpp"
 
 namespace gfx {
@@ -27,6 +29,12 @@ namespace gfx {
         /* Assignment Operators */
 
         Plane& operator=(const Plane&) = default;
+
+        /* Accessors */
+
+        [[nodiscard]] BoundingBox getBounds() const override
+        { return BoundingBox{ -std::numeric_limits<double>::infinity(), 0, -std::numeric_limits<double>::infinity(),
+                              std::numeric_limits<double>::infinity(), 0, std::numeric_limits<double>::infinity() }; }
 
         /* Object Operations */
 

@@ -96,6 +96,10 @@ namespace gfx {
         [[nodiscard]] bool isClosed() const
         { return m_is_closed; }
 
+        [[nodiscard]] BoundingBox getBounds() const override
+        { return BoundingBox{ -1, m_y_min, -1,
+                              1, m_y_max, 1 }; }
+
         /* Mutators */
 
         // Adds a lower bound to the cylinder's local y-value

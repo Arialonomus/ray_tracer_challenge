@@ -81,6 +81,9 @@ namespace gfx {
         [[nodiscard]] const Object& getChildAt(const size_t index) const
         { return *m_children.at(index); }
 
+        [[nodiscard]] BoundingBox getBounds() const override
+        { return m_bounds; }
+
         /* Mutators */
 
         // Adds a single object as a child to the group
@@ -97,6 +100,7 @@ namespace gfx {
         /* Data Members */
         
         std::vector<std::shared_ptr<Object>> m_children{ };
+        BoundingBox m_bounds{ };
 
         /* Object Helper Method Overrides */
 

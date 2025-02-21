@@ -96,6 +96,8 @@ namespace gfx {
         [[nodiscard]] bool isClosed() const
         { return m_is_closed; }
 
+        [[nodiscard]] BoundingBox getBounds() const override;
+
         /* Mutators */
 
         // Adds a lower bound to the cone's local y-value
