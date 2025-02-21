@@ -161,4 +161,23 @@ TEST(GraphicsBoundingBox, AddPoints)
     EXPECT_EQ(max_extent_actual, max_extent_expected);
 }
 
+// Tests merging a bounding box into another
+TEST(GraphicsBoundingBox, MergeBoxes)
+{
+    gfx::BoundingBox bounding_box_a{ -5, -2, 0,
+                                     7, 4, 4 };
+    const gfx::BoundingBox bounding_box_b{ 8, -7, -2,
+                                           14, 2, 8 };
+
+    bounding_box_a.mergeWithBox(bounding_box_b);
+
+    const gfx::Vector4 min_extent_expected{ gfx::createPoint(-5, -7, -2) };
+    const gfx::Vector4 min_extent_actual{ bounding_box_a.getMinExtentPoint() };
+    EXPECT_EQ(min_extent_actual, min_extent_expected);
+
+    const gfx::Vector4 max_extent_expected{ gfx::createPoint(14, 4, 8) };
+    const gfx::Vector4 max_extent_actual{ bounding_box_a.getMaxExtentPoint() };
+    EXPECT_EQ(max_extent_actual, max_extent_expected);
+}
+
 #pragma clang diagnostic pop
