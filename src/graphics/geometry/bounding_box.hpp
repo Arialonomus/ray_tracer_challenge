@@ -138,6 +138,9 @@ namespace gfx {
         // Returns a new axis-aligned bounding box enclosing the transformed bounds volume
         [[nodiscard]] BoundingBox transform(const Matrix4& transform_matrix) const;
 
+        // Returns a pair of bounding boxes representing an even split of this box
+        [[nodiscard]] std::pair<BoundingBox, BoundingBox> split() const;
+
     private:
         /* Data Members */
 
