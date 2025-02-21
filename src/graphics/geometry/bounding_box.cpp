@@ -1,6 +1,7 @@
 #include "bounding_box.hpp"
 
 #include "util_functions.hpp"
+#include "intersection.hpp"
 
 namespace gfx {
     void BoundingBox::addPoint(const Vector4& point)
@@ -44,6 +45,16 @@ namespace gfx {
     bool BoundingBox::containsBox(const BoundingBox& box) const
     {
         return this->containsPoint(box.getMinExtentPoint()) && this->containsPoint(box.getMaxExtentPoint());
+    }
+
+
+    bool BoundingBox::isIntersectedBy(const Ray& ray) const
+    {
+        const auto [ t_min, t_max ] { calculateBoxIntersectionTs(ray,
+                                                                 this->getMinExtentPoint(),
+                                                                 this->getMaxExtentPoint()) };
+
+        return utils::isLessOrEqual(t_min, t_max);
     }
 
     BoundingBox BoundingBox::transform(const Matrix4& transform_matrix) const

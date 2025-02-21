@@ -4,6 +4,7 @@
 #include <limits>
 
 #include "vector4.hpp"
+#include "ray.hpp"
 
 namespace gfx {
     class BoundingBox
@@ -128,6 +129,9 @@ namespace gfx {
         // Returns true if the extents of the passed-in bounding box are entirely contained
         // by the extents of this bounding box
         [[nodiscard]] bool containsBox(const BoundingBox& box) const;
+
+        // Returns true if a ray intersects with this bounding box
+        [[nodiscard]] bool isIntersectedBy(const Ray& ray) const;
 
         /* Transformation Operations */
 
