@@ -80,24 +80,8 @@ namespace gfx {
 
         /* Assignment Operators */
 
-        Group& operator=(const Group& rhs)
-        {
-            this->setTransform(rhs.getTransform());
-            m_children = rhs.m_children;
-            this->setParentForAllChildren(this);
-            m_bounds = rhs.m_bounds;
-
-            return *this;
-        }
-        Group& operator=(Group&& rhs) noexcept
-        {
-            this->setTransform(rhs.getTransform());
-            m_children = std::move(rhs.m_children);
-            this->setParentForAllChildren(this);
-            m_bounds = rhs.m_bounds;
-
-            return *this;
-        }
+        Group& operator=(const Group& rhs);
+        Group& operator=(Group&& rhs) noexcept;
 
         /* Accessors */
 
@@ -145,12 +129,7 @@ namespace gfx {
         void addChildren() {}    // Base case for recursion
 
         // Sets the parent pointer for all children in the group
-        void setParentForAllChildren(Group* const parent_ptr) const
-        {
-            for (const auto& child_ptr : m_children) {
-                child_ptr->setParent(parent_ptr);
-            }
-        }
+        void setParentForAllChildren(Group* parent_ptr) const;
 
         // Calculates the extents of a bounding box enclosing the bounding boxes of each child
         [[nodiscard]] BoundingBox calculateBounds() const;

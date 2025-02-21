@@ -14,6 +14,27 @@ namespace gfx {
         m_bounds.mergeWithBox(cloned_object_ptr->getLocalSpaceBounds());
     }
 
+    // Copy Assignment Operator
+    Group& Group::operator=(const Group& rhs)
+    {
+        this->setTransform(rhs.getTransform());
+        m_children = rhs.m_children;
+        this->setParentForAllChildren(this);
+        m_bounds = rhs.m_bounds;
+
+        return *this;
+    }
+
+    // Move Assignment Operator
+    Group& Group::operator=(Group&& rhs) noexcept
+    {
+        this->setTransform(rhs.getTransform());
+        m_children = std::move(rhs.m_children);
+        this->setParentForAllChildren(this);
+        m_bounds = rhs.m_bounds;
+
+        return *this;
+    }
 
     // Object Inserter (from pointer)
     void Group::addChild(const std::shared_ptr<Object>& object_ptr)
@@ -22,7 +43,6 @@ namespace gfx {
         m_children.push_back(object_ptr);
         m_bounds.mergeWithBox(object_ptr->getLocalSpaceBounds());
     }
-
 
     // Intersections with Child Object(s) in a Group
     std::vector<Intersection> Group::calculateIntersections(const Ray& transformed_ray) const
@@ -41,7 +61,6 @@ namespace gfx {
         return intersections;
     }
 
-
     // Group Object Equivalency Check
     bool Group::areEquivalent(const Object& other_object) const
     {
@@ -49,20 +68,24 @@ namespace gfx {
 
         // Ensure the number of children in the next layer match for each object
         const size_t num_children{ this->m_children.size() };
-        if (num_children != other_group.m_children.size()) {
+        if (num_children != other_group.m_children.size())
             return false;
-        }
 
         // Compare each child object in tree
         for (int i = 0; i < num_children; ++i) {
-            if (*this->m_children[i] != *other_group.m_children[i]) {
+            if (*this->m_children[i] != *other_group.m_children[i])
                 return false;
-            }
         }
-
         return true;
     }
 
+    // Parent Setter Helper Method
+    void Group::setParentForAllChildren(Group* const parent_ptr) const
+    {
+        for (const auto& child_ptr : m_children) {
+            child_ptr->setParent(parent_ptr);
+        }
+    }
 
     // Group Bounding Volume Calculator
     BoundingBox Group::calculateBounds() const
@@ -72,7 +95,6 @@ namespace gfx {
         for (const auto& child_ptr : m_children) {
             new_enclosing_volume.mergeWithBox(child_ptr->getLocalSpaceBounds());
         }
-
         return new_enclosing_volume;
     }
 }
