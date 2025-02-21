@@ -120,6 +120,11 @@ namespace gfx {
         [[nodiscard]] bool operator==(const BoundingBox& rhs) const
         { return m_min_extents == rhs.m_min_extents && m_max_extents == rhs.m_max_extents; }
 
+        /* Bounds Checking Operations */
+
+        // Returns true if a point is contained within the extents of the bounding box
+        [[nodiscard]] bool containsPoint(const Vector4& point) const;
+
     private:
         /* Data Members */
 

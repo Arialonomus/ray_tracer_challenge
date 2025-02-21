@@ -29,4 +29,15 @@ namespace gfx {
         this->addPoint(target_box.getMinExtentPoint());
         this->addPoint(target_box.getMaxExtentPoint());
     }
+
+    bool BoundingBox::containsPoint(const Vector4& point) const
+    {
+        return
+                utils::isLessOrEqual(point.x(), m_max_extents[0]) &&
+                utils::isGreaterOrEqual(point.x(), m_min_extents[0]) &&
+                utils::isLessOrEqual(point.y(), m_max_extents[1]) &&
+                utils::isGreaterOrEqual(point.y(), m_min_extents[1]) &&
+                utils::isLessOrEqual(point.z(), m_max_extents[2]) &&
+                utils::isGreaterOrEqual(point.z(), m_min_extents[2]);
+    }
 }
