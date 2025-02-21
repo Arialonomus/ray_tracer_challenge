@@ -250,4 +250,66 @@ TEST(GraphicsBoundingBox, Transform)
     EXPECT_EQ(max_extent_actual, max_extent_expected);
 }
 
+// Tests intersecting a ray with an axis-aligned bounding box at the origin
+TEST(GraphicsBoundingBox, RayCubicBoundingBoxIntersections)
+{
+    const gfx::BoundingBox bounding_box{ -1, -1, -1,
+                                         1, 1, 1 };
+
+    std::vector<std::tuple<gfx::Vector4, gfx::Vector4, bool>> test_cases_input_expected{
+            { gfx::createPoint(5, 0.5, 0), gfx::createVector(-1, 0, 0), true },
+            { gfx::createPoint(-5, 0.5, 0), gfx::createVector(1, 0, 0), true },
+            { gfx::createPoint(0.5, 5, 0), gfx::createVector(0, -1, 0), true },
+            { gfx::createPoint(0.5, -5, 0), gfx::createVector(0, 1, 0), true },
+            { gfx::createPoint(0.5, 0, 5), gfx::createVector(0, 0, -1), true },
+            { gfx::createPoint(0.5, 0, -5), gfx::createVector(0, 0, 1), true },
+            { gfx::createPoint(0, 0.5, 0), gfx::createVector(0, 0, 1), true },
+            { gfx::createPoint(-2, 0, 0), gfx::createVector(2, 4, 6), false },
+            { gfx::createPoint(0, -2, 0), gfx::createVector(6, 2, 4), false },
+            { gfx::createPoint(0, 0, -2), gfx::createVector(4, 6, 2), false },
+            { gfx::createPoint(2, 0, 2), gfx::createVector(0, 0, -1), false },
+            { gfx::createPoint(0, 2, 2), gfx::createVector(0, -1, 0), false },
+            { gfx::createPoint(2, 2, 0), gfx::createVector(-1, 0, 0), false }
+    };
+
+    for (const auto test_case : test_cases_input_expected) {
+        auto [input_point, input_direction, result_expected] { test_case };
+        const gfx::Ray ray{ input_point, input_direction };
+
+        const bool result_actual{ bounding_box.isIntersectedBy(ray) };
+        EXPECT_EQ(result_actual, result_expected);
+    }
+}
+
+// Tests intersecting a ray with a non-cubic bounding box centered at the origin
+TEST(GraphicsBoundingBox, RayNonCubicBoundingBoxIntersections)
+{
+    const gfx::BoundingBox bounding_box{ 5, -2, 0,
+                                         11, 4, 7 };
+
+    std::vector<std::tuple<gfx::Vector4, gfx::Vector4, bool>> test_cases_input_expected{
+            { gfx::createPoint(15, 1, 2), gfx::createVector(-1, 0, 0), true },
+            { gfx::createPoint(-5, -1, 4), gfx::createVector(1, 0, 0), true },
+            { gfx::createPoint(7, 6, 5), gfx::createVector(0, -1, 0), true },
+            { gfx::createPoint(9, -5, 6), gfx::createVector(0, 1, 0), true },
+            { gfx::createPoint(8, 2, 12), gfx::createVector(0, 0, -1), true },
+            { gfx::createPoint(6, 0, -5), gfx::createVector(0, 0, 1), true },
+            { gfx::createPoint(8, 1, 3.5), gfx::createVector(0, 0, 1), true },
+            { gfx::createPoint(9, -1, -8), gfx::createVector(2, 4, 6), false },
+            { gfx::createPoint(8, 3, -4), gfx::createVector(6, 2, 4), false },
+            { gfx::createPoint(9, -1, -2), gfx::createVector(4, 6, 2), false },
+            { gfx::createPoint(4, 0, 9), gfx::createVector(0, 0, -1), false },
+            { gfx::createPoint(8, 6, -1), gfx::createVector(0, -1, 0), false },
+            { gfx::createPoint(12, 5, 4), gfx::createVector(-1, 0, 0), false },
+    };
+
+    for (const auto test_case : test_cases_input_expected) {
+        auto [input_point, input_direction, result_expected] { test_case };
+        const gfx::Ray ray{ input_point, normalize(input_direction) };
+
+        const bool result_actual{ bounding_box.isIntersectedBy(ray) };
+        EXPECT_EQ(result_actual, result_expected);
+    }
+}
+
 #pragma clang diagnostic pop
