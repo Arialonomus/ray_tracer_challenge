@@ -27,9 +27,13 @@ namespace gfx {
     // Intersections with Child Object(s) in a Group
     std::vector<Intersection> Group::calculateIntersections(const Ray& transformed_ray) const
     {
-        // Aggregate intersections across all children
+        // Check if ray intersects bounding box
         std::vector<Intersection> intersections{ };
-        for (auto object_ptr : m_children) {
+        if (m_bounds.isIntersectedBy(transformed_ray))
+            return intersections;
+
+        // Aggregate intersections across all children
+        for (const auto& object_ptr : m_children) {
             intersections.append_range(object_ptr->getObjectIntersections(transformed_ray));
         }
 
