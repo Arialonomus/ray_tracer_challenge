@@ -23,4 +23,10 @@ namespace gfx {
         if (utils::isGreater(point.z(), m_max_extents[2]))
             m_max_extents[2] = point.z();
     }
+
+    void BoundingBox::mergeWithBox(const BoundingBox& target_box)
+    {
+        this->addPoint(target_box.getMinExtentPoint());
+        this->addPoint(target_box.getMaxExtentPoint());
+    }
 }

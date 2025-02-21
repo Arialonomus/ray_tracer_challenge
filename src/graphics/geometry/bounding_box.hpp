@@ -112,6 +112,9 @@ namespace gfx {
         // Adds a point to the bounding box, adjusting the extents if necessary
         void addPoint(const Vector4& point);
 
+        // Merges another bounding box with this box, resizing this box to contain both boxes
+        void mergeWithBox(const BoundingBox& target_box);
+
         /* Comparison Operator Overloads */
 
         [[nodiscard]] bool operator==(const BoundingBox& rhs) const
