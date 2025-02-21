@@ -5,6 +5,7 @@
 #include "bounding_box.hpp"
 
 #include <limits>
+#include <vector>
 
 // Tests the default constructor
 TEST(GraphicsBoundingBox, DefaultConstructor)
@@ -178,6 +179,33 @@ TEST(GraphicsBoundingBox, MergeBoxes)
     const gfx::Vector4 max_extent_expected{ gfx::createPoint(14, 4, 8) };
     const gfx::Vector4 max_extent_actual{ bounding_box_a.getMaxExtentPoint() };
     EXPECT_EQ(max_extent_actual, max_extent_expected);
+}
+
+// Tests checking if a point is contained within the extents of a bounding box
+TEST(GraphicsBoundingBox, ContainsPoint)
+{
+    const gfx::BoundingBox bounding_box{ 5, -2, 0,
+                                         11, 4, 7 };
+
+    std::vector<std::pair<gfx::Vector4, bool>> test_cases_input_expected{
+        { gfx::createPoint(5, -2, 0), true },
+        { gfx::createPoint(11, 4, 7), true },
+        { gfx::createPoint(8, 1, 3), true },
+        { gfx::createPoint(3, 0, 3), false },
+        { gfx::createPoint(8, -4, 3), false },
+        { gfx::createPoint(8, 1, -1), false },
+        { gfx::createPoint(13, 1, 3), false },
+        { gfx::createPoint(8, 5, 3), false },
+        { gfx::createPoint(8, 1, 8), false }
+    };
+
+    for (const auto test_case : test_cases_input_expected) {
+        const auto input_point{ test_case.first };
+        const bool result_expected{ test_case.second };
+
+        const bool result_actual{ bounding_box.containsPoint(input_point) };
+        EXPECT_EQ(result_actual, result_expected);
+    }
 }
 
 #pragma clang diagnostic pop
