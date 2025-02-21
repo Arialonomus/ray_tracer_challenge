@@ -200,10 +200,30 @@ TEST(GraphicsBoundingBox, ContainsPoint)
     };
 
     for (const auto test_case : test_cases_input_expected) {
-        const auto input_point{ test_case.first };
-        const bool result_expected{ test_case.second };
+        auto [input_point, result_expected] { test_case };
 
         const bool result_actual{ bounding_box.containsPoint(input_point) };
+        EXPECT_EQ(result_actual, result_expected);
+    }
+}
+
+// Tests checking if a bounding is contained within the extents of another bounding box
+TEST(GraphicsBoundingBox, ContainsBox)
+{
+    const gfx::BoundingBox bounding_box{ 5, -2, 0,
+                                         11, 4, 7 };
+
+    std::vector<std::pair<gfx::BoundingBox, bool>> test_cases_input_expected{
+            { gfx::BoundingBox{ 5, -2, 0, 11, 4, 7 }, true },
+            { gfx::BoundingBox{ 6, -1, 1, 10, 3, 6 }, true },
+            { gfx::BoundingBox{ 4, -3, -1, 10, 3, 6 }, false },
+            { gfx::BoundingBox{ 6, -1, 1, 12, 5, 8 }, false }
+    };
+
+    for (const auto test_case : test_cases_input_expected) {
+        auto [input_box, result_expected] { test_case };
+
+        const bool result_actual{ bounding_box.containsBox(input_box) };
         EXPECT_EQ(result_actual, result_expected);
     }
 }
