@@ -104,6 +104,21 @@ TEST(GraphicsCube, InequalityOperator)
     ASSERT_TRUE(cube_a != cube_b);
 }
 
+// Tests getting the bounds of a cube
+TEST(GraphicsCube, GetBounds)
+{
+    const gfx::Cube cube{ };
+    const gfx::BoundingBox cube_bounds{ cube.getBounds() };
+
+    const gfx::Vector4 cube_min_extent_expected{ gfx::createPoint(-1, -1, -1) };
+    const gfx::Vector4 cube_min_extent_actual{ cube_bounds.getMinExtentPoint() };
+    EXPECT_EQ(cube_min_extent_actual, cube_min_extent_expected);
+
+    const gfx::Vector4 cube_max_extent_expected{ gfx::createPoint(1, 1, 1) };
+    const gfx::Vector4 cube_max_extent_actual{ cube_bounds.getMaxExtentPoint() };
+    EXPECT_EQ(cube_max_extent_actual, cube_max_extent_expected);
+}
+
 // Tests a ray intersecting a cube at each face, as well as inside
 TEST(GraphicsCube, RayCubeIntersections)
 {

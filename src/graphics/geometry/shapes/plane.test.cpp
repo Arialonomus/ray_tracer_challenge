@@ -103,6 +103,25 @@ const gfx::Plane plane_b{ };
 ASSERT_TRUE(plane_a != plane_b);
 }
 
+// Tests getting the bounds of a plane
+TEST(GraphicsPlane, GetBounds)
+{
+    const gfx::Plane plane{ };
+    const gfx::BoundingBox plane_bounds{ plane.getBounds() };
+
+    const gfx::Vector4 plane_min_extent_expected{ gfx::createPoint(-std::numeric_limits<double>::infinity(),
+                                                                   0,
+                                                                   -std::numeric_limits<double>::infinity()) };
+    const gfx::Vector4 plane_min_extent_actual{ plane_bounds.getMinExtentPoint() };
+    EXPECT_EQ(plane_min_extent_actual, plane_min_extent_expected);
+
+    const gfx::Vector4 plane_max_extent_expected{ gfx::createPoint(std::numeric_limits<double>::infinity(),
+                                                                   0,
+                                                                   std::numeric_limits<double>::infinity()) };
+    const gfx::Vector4 plane_max_extent_actual{ plane_bounds.getMaxExtentPoint() };
+    EXPECT_EQ(plane_max_extent_actual, plane_max_extent_expected);
+}
+
 // Tests that the normal of a plane is constant everywhere
 TEST(GraphicsPlane, NormalVectorIsConstant)
 {

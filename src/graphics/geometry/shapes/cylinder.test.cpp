@@ -261,6 +261,38 @@ TEST(GraphicsCylinder, InequalityOperator)
     ASSERT_TRUE(cylinder_a != cylinder_b);
 }
 
+// Tests getting the bounds of a cylinder
+TEST(GraphicsCylinder, GetBounds)
+{
+    // Test getting the bounding box of an unbounded cylinder
+    const gfx::Cylinder cylinder_unbounded{ };
+    const gfx::BoundingBox cylinder_unbounded_bounds{ cylinder_unbounded.getBounds() };
+
+    const gfx::Vector4 cylinder_unbounded_min_extent_expected{ gfx::createPoint(-1,
+                                                                                -std::numeric_limits<double>::infinity(),
+                                                                                -1) };
+    const gfx::Vector4 cylinder_unbounded_min_extent_actual{ cylinder_unbounded_bounds.getMinExtentPoint() };
+    EXPECT_EQ(cylinder_unbounded_min_extent_actual, cylinder_unbounded_min_extent_expected);
+
+    const gfx::Vector4 cylinder_unbounded_max_extent_expected{ gfx::createPoint(1,
+                                                                                std::numeric_limits<double>::infinity(),
+                                                                                1) };
+    const gfx::Vector4 cylinder_unbounded_max_extent_actual{ cylinder_unbounded_bounds.getMaxExtentPoint() };
+    EXPECT_EQ(cylinder_unbounded_max_extent_actual, cylinder_unbounded_max_extent_expected);
+
+    // Test getting the bounding box of a bounded cylinder
+    const gfx::Cylinder cylinder_bounded{ -5, 3 };
+    const gfx::BoundingBox cylinder_bounded_bounds{ cylinder_bounded.getBounds() };
+
+    const gfx::Vector4 cylinder_bounded_min_extent_expected{ gfx::createPoint(-1, -5, -1) };
+    const gfx::Vector4 cylinder_bounded_min_extent_actual{ cylinder_bounded_bounds.getMinExtentPoint() };
+    EXPECT_EQ(cylinder_bounded_min_extent_actual, cylinder_bounded_min_extent_expected);
+
+    const gfx::Vector4 cylinder_bounded_max_extent_expected{ gfx::createPoint(1, 3, 1) };
+    const gfx::Vector4 cylinder_bounded_max_extent_actual{ cylinder_bounded_bounds.getMaxExtentPoint() };
+    EXPECT_EQ(cylinder_bounded_max_extent_actual, cylinder_bounded_max_extent_expected);
+}
+
 // Tests a ray missing an unbounded cylinder
 TEST(GraphicsCylinder, RayCylinderMissesUnbounded)
 {

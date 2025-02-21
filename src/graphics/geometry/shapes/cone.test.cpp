@@ -261,6 +261,38 @@ TEST(GraphicsCone, InequalityOperator)
     ASSERT_TRUE(cone_a != cone_b);
 }
 
+// Tests getting the bounds of a cone
+TEST(GraphicsCone, GetBounds)
+{
+    // Test getting the bounding box of an unbounded cone
+    const gfx::Cone cone_unbounded{ };
+    const gfx::BoundingBox cone_unbounded_bounds{ cone_unbounded.getBounds() };
+
+    const gfx::Vector4 cone_unbounded_min_extent_expected{ gfx::createPoint(-std::numeric_limits<double>::infinity(),
+                                                                            -std::numeric_limits<double>::infinity(),
+                                                                            -std::numeric_limits<double>::infinity()) };
+    const gfx::Vector4 cone_unbounded_min_extent_actual{ cone_unbounded_bounds.getMinExtentPoint() };
+    EXPECT_EQ(cone_unbounded_min_extent_actual, cone_unbounded_min_extent_expected);
+
+    const gfx::Vector4 cone_unbounded_max_extent_expected{ gfx::createPoint(std::numeric_limits<double>::infinity(),
+                                                                            std::numeric_limits<double>::infinity(),
+                                                                            std::numeric_limits<double>::infinity()) };
+    const gfx::Vector4 cone_unbounded_max_extent_actual{ cone_unbounded_bounds.getMaxExtentPoint() };
+    EXPECT_EQ(cone_unbounded_max_extent_actual, cone_unbounded_max_extent_expected);
+
+    // Test getting the bounding box of a bounded cone
+    const gfx::Cone cone_bounded{ -5, 3 };
+    const gfx::BoundingBox cone_bounded_bounds{ cone_bounded.getBounds() };
+
+    const gfx::Vector4 cone_bounded_min_extent_expected{ gfx::createPoint(-5, -5, -5) };
+    const gfx::Vector4 cone_bounded_min_extent_actual{ cone_bounded_bounds.getMinExtentPoint() };
+    EXPECT_EQ(cone_bounded_min_extent_actual, cone_bounded_min_extent_expected);
+
+    const gfx::Vector4 cone_bounded_max_extent_expected{ gfx::createPoint(5, 3, 5) };
+    const gfx::Vector4 cone_bounded_max_extent_actual{ cone_bounded_bounds.getMaxExtentPoint() };
+    EXPECT_EQ(cone_bounded_max_extent_actual, cone_bounded_max_extent_expected);
+}
+
 // Tests ray intersections with an unbounded cone
 TEST(GraphicsCone, RayConeHitsUnbounded)
 {

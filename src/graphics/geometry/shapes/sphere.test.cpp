@@ -105,6 +105,21 @@ TEST(GraphicsSphere, InequalityOperator)
     ASSERT_TRUE(sphere_a != sphere_b);
 }
 
+// Tests getting the bounds of a sphere
+TEST(GraphicsSphere, GetBounds)
+{
+    const gfx::Sphere sphere{ };
+    const gfx::BoundingBox sphere_bounds{ sphere.getBounds() };
+
+    const gfx::Vector4 sphere_min_extent_expected{ gfx::createPoint(-1, -1, -1) };
+    const gfx::Vector4 sphere_min_extent_actual{ sphere_bounds.getMinExtentPoint() };
+    EXPECT_EQ(sphere_min_extent_actual, sphere_min_extent_expected);
+
+    const gfx::Vector4 sphere_max_extent_expected{ gfx::createPoint(1, 1, 1) };
+    const gfx::Vector4 sphere_max_extent_actual{ sphere_bounds.getMaxExtentPoint() };
+    EXPECT_EQ(sphere_max_extent_actual, sphere_max_extent_expected);
+}
+
 // Tests getting the surface normal at various points
 TEST(GraphicsSphere, GetSurfaceNormal)
 {
