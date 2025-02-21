@@ -129,6 +129,11 @@ namespace gfx {
         // by the extents of this bounding box
         [[nodiscard]] bool containsBox(const BoundingBox& box) const;
 
+        /* Transformation Operations */
+
+        // Returns a new axis-aligned bounding box enclosing the transformed bounds volume
+        [[nodiscard]] BoundingBox transform(const Matrix4& transform_matrix) const;
+
     private:
         /* Data Members */
 
