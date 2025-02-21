@@ -13,45 +13,61 @@ namespace gfx {
 
         // Transform-Only Constructor
         explicit Group(const Matrix4& transform_matrix)
-                : Object(transform_matrix), m_children{ }
+                : Object(transform_matrix), m_children{ }, m_bounds{ }
         {}
 
         // Object List Constructors
         template<typename... ObjectPtrs>
         explicit Group(const std::shared_ptr<Object>& first_object_ptr,
                        const ObjectPtrs&... remaining_object_ptrs)
-                : Object(), m_children { first_object_ptr, remaining_object_ptrs...  }
-        { this->setParentForAllChildren(this); }
+                : Object(),
+                  m_children { first_object_ptr, remaining_object_ptrs... },
+                  m_bounds(this->calculateBounds())
+        {
+            this->setParentForAllChildren(this);
+        }
 
         template<typename... ObjectRefs>
         explicit Group(const Object& first_object_ref,
                        const ObjectRefs&... remaining_object_refs)
-                : Object(), m_children{ }
-        { addChildren(first_object_ref, remaining_object_refs...); }
+                : Object(), m_children{ }, m_bounds{ }
+        {
+            addChildren(first_object_ref, remaining_object_refs...);
+            m_bounds = this->calculateBounds();
+        }
 
         // Standard Constructors
         template<typename... ObjectPtrs>
         explicit Group(const Matrix4& transform_matrix,
                        const std::shared_ptr<Object>& first_object_ptr,
                        const ObjectPtrs&... remaining_object_ptrs)
-                : Object(transform_matrix), m_children { first_object_ptr, remaining_object_ptrs...  }
+                : Object(transform_matrix),
+                  m_children { first_object_ptr, remaining_object_ptrs...  },
+                  m_bounds{ this->calculateBounds() }
         { this->setParentForAllChildren(this); }
 
         template<typename... ObjectRefs>
         explicit Group(const Matrix4& transform_matrix,
                        const Object& first_object_ref,
                        const ObjectRefs&... remaining_object_refs)
-                       : Object(transform_matrix), m_children { }
-        { addChildren(first_object_ref, remaining_object_refs...); }
+                       : Object(transform_matrix), m_children { }, m_bounds{ }
+        {
+            addChildren(first_object_ref, remaining_object_refs...);
+            m_bounds = this->calculateBounds();
+        }
 
         // Copy Constructor
         Group(const Group& src)
-                : Object(src.getTransform()), m_children { src.m_children }
+                : Object(src.getTransform()),
+                  m_children { src.m_children },
+                  m_bounds{ src.m_bounds }
         { this->setParentForAllChildren(this); }
 
         // Move Constructor
         Group(Group&& src) noexcept
-                : Object(src.getTransform()), m_children { std::move(src.m_children) }
+                : Object(src.getTransform()),
+                  m_children { std::move(src.m_children) },
+                  m_bounds{ src.m_bounds }
         { this->setParentForAllChildren(this); }
 
         /* Destructor */
@@ -69,6 +85,7 @@ namespace gfx {
             this->setTransform(rhs.getTransform());
             m_children = rhs.m_children;
             this->setParentForAllChildren(this);
+            m_bounds = rhs.m_bounds;
 
             return *this;
         }
@@ -77,6 +94,7 @@ namespace gfx {
             this->setTransform(rhs.getTransform());
             m_children = std::move(rhs.m_children);
             this->setParentForAllChildren(this);
+            m_bounds = rhs.m_bounds;
 
             return *this;
         }
@@ -133,5 +151,8 @@ namespace gfx {
                 child_ptr->setParent(parent_ptr);
             }
         }
+
+        // Calculates the extents of a bounding box enclosing the bounding boxes of each child
+        [[nodiscard]] BoundingBox calculateBounds() const;
     };
 }

@@ -11,14 +11,18 @@ namespace gfx {
         auto cloned_object_ptr{ object.clone() };
         cloned_object_ptr->setParent(this);
         m_children.push_back(cloned_object_ptr);
+        m_bounds.mergeWithBox(object.getLocalSpaceBounds());
     }
+
 
     // Object Inserter (from pointer)
     void Group::addChild(const std::shared_ptr<Object>& object_ptr)
     {
         object_ptr->setParent(this);
         m_children.push_back(object_ptr);
+        m_bounds.mergeWithBox(object_ptr->getLocalSpaceBounds());
     }
+
 
     // Intersections with Child Object(s) in a Group
     std::vector<Intersection> Group::calculateIntersections(const Ray& transformed_ray) const
@@ -32,6 +36,7 @@ namespace gfx {
         std::sort(intersections.begin(), intersections.end());
         return intersections;
     }
+
 
     // Group Object Equivalency Check
     bool Group::areEquivalent(const Object& other_object) const
@@ -52,5 +57,18 @@ namespace gfx {
         }
 
         return true;
+    }
+
+
+    // Group Bounding Volume Calculator
+    BoundingBox Group::calculateBounds() const
+    {
+        BoundingBox new_enclosing_volume{ };
+
+        for (const auto& child_ptr : m_children) {
+            new_enclosing_volume.mergeWithBox(child_ptr->getLocalSpaceBounds());
+        }
+
+        return new_enclosing_volume;
     }
 }
