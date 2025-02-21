@@ -40,4 +40,9 @@ namespace gfx {
                 utils::isLessOrEqual(point.z(), m_max_extents[2]) &&
                 utils::isGreaterOrEqual(point.z(), m_min_extents[2]);
     }
+
+    bool BoundingBox::containsBox(const BoundingBox& box) const
+    {
+        return this->containsPoint(box.getMinExtentPoint()) && this->containsPoint(box.getMaxExtentPoint());
+    }
 }

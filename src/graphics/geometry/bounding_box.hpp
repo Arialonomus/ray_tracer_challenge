@@ -125,6 +125,10 @@ namespace gfx {
         // Returns true if a point is contained within the extents of the bounding box
         [[nodiscard]] bool containsPoint(const Vector4& point) const;
 
+        // Returns true if the extents of the passed-in bounding box are entirely contained
+        // by the extents of this bounding box
+        [[nodiscard]] bool containsBox(const BoundingBox& box) const;
+
     private:
         /* Data Members */
 
