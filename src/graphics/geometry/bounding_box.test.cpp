@@ -312,4 +312,92 @@ TEST(GraphicsBoundingBox, RayNonCubicBoundingBoxIntersections)
     }
 }
 
+// Tests splitting a bounding box with various widths
+TEST(GraphicsBoundingBox, Split)
+{
+    // Test splitting a perfect cube
+    const gfx::BoundingBox box_cube{ -1, -4, -5,
+                                     9, 6, 5 };
+
+    auto [ box_cube_left, box_cube_right ] { box_cube.split() };
+    const gfx::Vector4 box_cube_left_min_extent_expected{ gfx::createPoint(-1, -4, -5) };
+    const gfx::Vector4 box_cube_left_min_extent_actual{ box_cube_left.getMinExtentPoint() };
+    EXPECT_EQ(box_cube_left_min_extent_actual, box_cube_left_min_extent_expected);
+
+    const gfx::Vector4 box_cube_left_max_extent_expected{ gfx::createPoint(4, 6, 5) };
+    const gfx::Vector4 box_cube_left_max_extent_actual{ box_cube_left.getMaxExtentPoint() };
+    EXPECT_EQ(box_cube_left_max_extent_actual, box_cube_left_max_extent_expected);
+
+    const gfx::Vector4 box_cube_right_min_extent_expected{ gfx::createPoint(4, -4, -5) };
+    const gfx::Vector4 box_cube_right_min_extent_actual{ box_cube_right.getMinExtentPoint() };
+    EXPECT_EQ(box_cube_right_min_extent_actual, box_cube_right_min_extent_expected);
+
+    const gfx::Vector4 box_cube_right_max_extent_expected{ gfx::createPoint(9, 6, 5) };
+    const gfx::Vector4 box_cube_right_max_extent_actual{ box_cube_right.getMaxExtentPoint() };
+    EXPECT_EQ(box_cube_right_max_extent_actual, box_cube_right_max_extent_expected);
+
+    // Test splitting an x-wide box
+    const gfx::BoundingBox box_x_wide{ -1, -2, -3,
+                                       9, 5.5, 3 };
+
+    auto [ box_x_wide_left, box_x_wide_right ] { box_x_wide.split() };
+    const gfx::Vector4 box_x_wide_left_min_extent_expected{ gfx::createPoint(-1, -2, -3) };
+    const gfx::Vector4 box_x_wide_left_min_extent_actual{ box_x_wide_left.getMinExtentPoint() };
+    EXPECT_EQ(box_x_wide_left_min_extent_actual, box_x_wide_left_min_extent_expected);
+
+    const gfx::Vector4 box_x_wide_left_max_extent_expected{ gfx::createPoint(4, 5.5, 3) };
+    const gfx::Vector4 box_x_wide_left_max_extent_actual{ box_x_wide_left.getMaxExtentPoint() };
+    EXPECT_EQ(box_x_wide_left_max_extent_actual, box_x_wide_left_max_extent_expected);
+
+    const gfx::Vector4 box_x_wide_right_min_extent_expected{ gfx::createPoint(4, -2, -3) };
+    const gfx::Vector4 box_x_wide_right_min_extent_actual{ box_x_wide_right.getMinExtentPoint() };
+    EXPECT_EQ(box_x_wide_right_min_extent_actual, box_x_wide_right_min_extent_expected);
+
+    const gfx::Vector4 box_x_wide_right_max_extent_expected{ gfx::createPoint(9, 5.5, 3) };
+    const gfx::Vector4 box_x_wide_right_max_extent_actual{ box_x_wide_right.getMaxExtentPoint() };
+    EXPECT_EQ(box_x_wide_right_max_extent_actual, box_x_wide_right_max_extent_expected);
+
+    // Test splitting a y-wide box
+    const gfx::BoundingBox box_y_wide{ -1, -2, -3,
+                                       5, 8, 3 };
+
+    auto [ box_y_wide_left, box_y_wide_right ] { box_y_wide.split() };
+    const gfx::Vector4 box_y_wide_left_min_extent_expected{ gfx::createPoint(-1, -2, -3) };
+    const gfx::Vector4 box_y_wide_left_min_extent_actual{ box_y_wide_left.getMinExtentPoint() };
+    EXPECT_EQ(box_y_wide_left_min_extent_actual, box_y_wide_left_min_extent_expected);
+
+    const gfx::Vector4 box_y_wide_left_max_extent_expected{ gfx::createPoint(5, 3, 3) };
+    const gfx::Vector4 box_y_wide_left_max_extent_actual{ box_y_wide_left.getMaxExtentPoint() };
+    EXPECT_EQ(box_y_wide_left_max_extent_actual, box_y_wide_left_max_extent_expected);
+
+    const gfx::Vector4 box_y_wide_right_min_extent_expected{ gfx::createPoint(-1, 3, -3) };
+    const gfx::Vector4 box_y_wide_right_min_extent_actual{ box_y_wide_right.getMinExtentPoint() };
+    EXPECT_EQ(box_y_wide_right_min_extent_actual, box_y_wide_right_min_extent_expected);
+
+    const gfx::Vector4 box_y_wide_right_max_extent_expected{ gfx::createPoint(5, 8, 3) };
+    const gfx::Vector4 box_y_wide_right_max_extent_actual{ box_y_wide_right.getMaxExtentPoint() };
+    EXPECT_EQ(box_y_wide_right_max_extent_actual, box_y_wide_right_max_extent_expected);
+
+    // Test splitting a z-wide box
+    const gfx::BoundingBox box_z_wide{ -1, -2, -3,
+                                       5, 3, 7 };
+
+    auto [ box_z_wide_left, box_z_wide_right ] { box_z_wide.split() };
+    const gfx::Vector4 box_z_wide_left_min_extent_expected{ gfx::createPoint(-1, -2, -3) };
+    const gfx::Vector4 box_z_wide_left_min_extent_actual{ box_z_wide_left.getMinExtentPoint() };
+    EXPECT_EQ(box_z_wide_left_min_extent_actual, box_z_wide_left_min_extent_expected);
+
+    const gfx::Vector4 box_z_wide_left_max_extent_expected{ gfx::createPoint(5, 3, 2) };
+    const gfx::Vector4 box_z_wide_left_max_extent_actual{ box_z_wide_left.getMaxExtentPoint() };
+    EXPECT_EQ(box_z_wide_left_max_extent_actual, box_z_wide_left_max_extent_expected);
+
+    const gfx::Vector4 box_z_wide_right_min_extent_expected{ gfx::createPoint(-1, -2, 2) };
+    const gfx::Vector4 box_z_wide_right_min_extent_actual{ box_z_wide_right.getMinExtentPoint() };
+    EXPECT_EQ(box_z_wide_right_min_extent_actual, box_z_wide_right_min_extent_expected);
+
+    const gfx::Vector4 box_z_wide_right_max_extent_expected{ gfx::createPoint(5, 3, 7) };
+    const gfx::Vector4 box_z_wide_right_max_extent_actual{ box_z_wide_right.getMaxExtentPoint() };
+    EXPECT_EQ(box_z_wide_right_max_extent_actual, box_z_wide_right_max_extent_expected);
+}
+
 #pragma clang diagnostic pop
