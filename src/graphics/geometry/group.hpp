@@ -50,7 +50,9 @@ namespace gfx {
         { this->setParentForAllChildren(this); }
 
         // Move Constructor
-        Group(Group&&) = default;
+        Group(Group&& src) noexcept
+                : Object(src.getTransform()), m_children { std::move(src.m_children) }
+        { this->setParentForAllChildren(this); }
 
         /* Destructor */
 
@@ -70,7 +72,14 @@ namespace gfx {
 
             return *this;
         }
-        Group& operator=(Group&&) = default;
+        Group& operator=(Group&& rhs) noexcept
+        {
+            this->setTransform(rhs.getTransform());
+            m_children = std::move(rhs.m_children);
+            this->setParentForAllChildren(this);
+
+            return *this;
+        }
 
         /* Accessors */
 
