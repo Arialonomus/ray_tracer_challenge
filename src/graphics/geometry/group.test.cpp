@@ -223,7 +223,7 @@ TEST(GraphicsGroup, GetBounds)
             2)
     };
 
-    // Test bounds calculations via constructor
+    // Test bounds calculations via object pointer list constructor
     const gfx::Group group_a{ sphere_ptr, cylinder_ptr };
     const gfx::BoundingBox group_a_bounds{ group_a.getBounds() };
 
@@ -235,7 +235,7 @@ TEST(GraphicsGroup, GetBounds)
     const gfx::Vector4 group_a_max_extent_actual{ group_a_bounds.getMaxExtentPoint() };
     EXPECT_EQ(group_a_max_extent_actual, group_a_max_extent_expected);
 
-    // Test bounds calculations via adding objects individually
+    // Test bounds calculations via adding object pointers individually
     gfx::Group group_b{ };
     group_b.addChild(sphere_ptr);
     group_b.addChild(cylinder_ptr);
@@ -248,6 +248,37 @@ TEST(GraphicsGroup, GetBounds)
     const gfx::Vector4 group_b_max_extent_expected{ gfx::createPoint(4, 7, 4.5) };
     const gfx::Vector4 group_b_max_extent_actual{ group_b_bounds.getMaxExtentPoint() };
     EXPECT_EQ(group_b_max_extent_actual, group_b_max_extent_expected);
+
+    // Test bounds calculations via object list constructor
+    const gfx::Sphere sphere{ gfx::createTranslationMatrix(2, 5, -3) * gfx::createScalingMatrix(2) };
+    const gfx::Cylinder cylinder{ gfx::createTranslationMatrix(-4, -1, 4) * gfx::createScalingMatrix(0.5, 1, 0.5),
+                                  -2,
+                                  2 };
+
+    const gfx::Group group_c{ sphere, cylinder };
+    const gfx::BoundingBox group_c_bounds{ group_c.getBounds() };
+
+    const gfx::Vector4 group_c_min_extent_expected{ gfx::createPoint(-4.5, -3, -5) };
+    const gfx::Vector4 group_c_min_extent_actual{ group_c_bounds.getMinExtentPoint() };
+    EXPECT_EQ(group_c_min_extent_actual, group_c_min_extent_expected);
+
+    const gfx::Vector4 group_c_max_extent_expected{ gfx::createPoint(4, 7, 4.5) };
+    const gfx::Vector4 group_c_max_extent_actual{ group_c_bounds.getMaxExtentPoint() };
+    EXPECT_EQ(group_c_max_extent_actual, group_c_max_extent_expected);
+
+    // Test bounds calculations via adding object pointers individually
+    gfx::Group group_d{ };
+    group_d.addChild(sphere);
+    group_d.addChild(cylinder);
+    const gfx::BoundingBox group_d_bounds{ group_d.getBounds() };
+
+    const gfx::Vector4 group_d_min_extent_expected{ gfx::createPoint(-4.5, -3, -5) };
+    const gfx::Vector4 group_d_min_extent_actual{ group_d_bounds.getMinExtentPoint() };
+    EXPECT_EQ(group_d_min_extent_actual, group_d_min_extent_expected);
+
+    const gfx::Vector4 group_d_max_extent_expected{ gfx::createPoint(4, 7, 4.5) };
+    const gfx::Vector4 group_d_max_extent_actual{ group_d_bounds.getMaxExtentPoint() };
+    EXPECT_EQ(group_d_max_extent_actual, group_d_max_extent_expected);
 }
 
 // Tests intersecting a ray with an empty group
