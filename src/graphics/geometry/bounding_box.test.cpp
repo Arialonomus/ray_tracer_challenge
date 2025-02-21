@@ -7,6 +7,8 @@
 #include <limits>
 #include <vector>
 
+#include "transform.hpp"
+
 // Tests the default constructor
 TEST(GraphicsBoundingBox, DefaultConstructor)
 {
@@ -226,6 +228,26 @@ TEST(GraphicsBoundingBox, ContainsBox)
         const bool result_actual{ bounding_box.containsBox(input_box) };
         EXPECT_EQ(result_actual, result_expected);
     }
+}
+
+// Tests transforming a bounding box and getting a new enclosing volume
+TEST(GraphicsBoundingBox, Transform)
+{
+    const gfx::BoundingBox bounding_box{ -1, -1, -1,
+                                         1, 1, 1 };
+    const gfx::Matrix4 transform_matrix{
+        gfx::createXRotationMatrix(M_PI_4) * gfx::createYRotationMatrix(M_PI_4)
+    };
+
+    const gfx::BoundingBox new_enclosing_volume{ bounding_box.transform(transform_matrix) };
+
+    const gfx::Vector4 min_extent_expected{ gfx::createPoint(-1.414214, -1.707107, -1.707107) };
+    const gfx::Vector4 min_extent_actual{ new_enclosing_volume.getMinExtentPoint() };
+    EXPECT_EQ(min_extent_actual, min_extent_expected);
+
+    const gfx::Vector4 max_extent_expected{ gfx::createPoint(1.414214, 1.707107, 1.707107) };
+    const gfx::Vector4 max_extent_actual{ new_enclosing_volume.getMaxExtentPoint() };
+    EXPECT_EQ(max_extent_actual, max_extent_expected);
 }
 
 #pragma clang diagnostic pop
