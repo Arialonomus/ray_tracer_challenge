@@ -1,4 +1,4 @@
-#include "group.hpp"
+#include "composite_surface.hpp"
 
 #include <algorithm>
 
@@ -6,7 +6,7 @@
 
 namespace gfx {
     // Object Inserter (from object ref)
-    void Group::addChild(const Object& object)
+    void CompositeSurface::addChild(const Object& object)
     {
         auto cloned_object_ptr{ object.clone() };
         cloned_object_ptr->setParent(this);
@@ -15,7 +15,7 @@ namespace gfx {
     }
 
     // Copy Assignment Operator
-    Group& Group::operator=(const Group& rhs)
+    CompositeSurface& CompositeSurface::operator=(const CompositeSurface& rhs)
     {
         this->setTransform(rhs.getTransform());
         m_children = rhs.m_children;
@@ -26,7 +26,7 @@ namespace gfx {
     }
 
     // Move Assignment Operator
-    Group& Group::operator=(Group&& rhs) noexcept
+    CompositeSurface& CompositeSurface::operator=(CompositeSurface&& rhs) noexcept
     {
         this->setTransform(rhs.getTransform());
         m_children = std::move(rhs.m_children);
@@ -37,15 +37,15 @@ namespace gfx {
     }
 
     // Object Inserter (from pointer)
-    void Group::addChild(const std::shared_ptr<Object>& object_ptr)
+    void CompositeSurface::addChild(const std::shared_ptr<Object>& object_ptr)
     {
         object_ptr->setParent(this);
         m_children.push_back(object_ptr);
         m_bounds.mergeWithBox(object_ptr->getLocalSpaceBounds());
     }
 
-    // Intersections with Child Object(s) in a Group
-    std::vector<Intersection> Group::calculateIntersections(const Ray& transformed_ray) const
+    // Intersections with Child Object(s) in a Composite Surface
+    std::vector<Intersection> CompositeSurface::calculateIntersections(const Ray& transformed_ray) const
     {
         // Check if ray intersects bounding box
         std::vector<Intersection> intersections{ };
@@ -61,10 +61,10 @@ namespace gfx {
         return intersections;
     }
 
-    // Group Object Equivalency Check
-    bool Group::areEquivalent(const Object& other_object) const
+    // Composite Surface Object Equivalency Check
+    bool CompositeSurface::areEquivalent(const Object& other_object) const
     {
-        const Group& other_group{ dynamic_cast<const Group&>(other_object) };
+        const CompositeSurface& other_group{ dynamic_cast<const CompositeSurface&>(other_object) };
 
         // Ensure the number of children in the next layer match for each object
         const size_t num_children{ this->m_children.size() };
@@ -80,15 +80,15 @@ namespace gfx {
     }
 
     // Parent Setter Helper Method
-    void Group::setParentForAllChildren(Group* const parent_ptr) const
+    void CompositeSurface::setParentForAllChildren(CompositeSurface* const parent_ptr) const
     {
         for (const auto& child_ptr : m_children) {
             child_ptr->setParent(parent_ptr);
         }
     }
 
-    // Group Bounding Volume Calculator
-    BoundingBox Group::calculateBounds() const
+    // Composite Surface Bounding Volume Calculator
+    BoundingBox CompositeSurface::calculateBounds() const
     {
         BoundingBox new_enclosing_volume{ };
 

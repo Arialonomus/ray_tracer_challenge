@@ -1,7 +1,7 @@
 #include "object.hpp"
 
 #include "intersection.hpp"
-#include "group.hpp"
+#include "composite_surface.hpp"
 
 namespace gfx {
     BoundingBox Object::getLocalSpaceBounds() const

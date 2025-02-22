@@ -19,7 +19,7 @@ set(GFX_UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/cylinder.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/cone.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/object.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/group.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/composite_surface.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/bounding_box.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/ray.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/intersection.test.cpp

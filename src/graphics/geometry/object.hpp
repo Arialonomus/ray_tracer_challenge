@@ -8,7 +8,7 @@ namespace gfx {
     /* Forward Declarations */
     class Ray;
     class Intersection;
-    class Group;
+    class CompositeSurface;
 
     class Object
     {
@@ -42,7 +42,7 @@ namespace gfx {
         [[nodiscard]] bool hasParent() const
         { return m_parent != nullptr; }
 
-        [[nodiscard]] const Group* getParent() const
+        [[nodiscard]] const CompositeSurface* getParent() const
         { return m_parent; }
 
         // Returns a bounding volume in object space (i.e. without a transformation applied)
@@ -56,7 +56,7 @@ namespace gfx {
         void setTransform(const Matrix4& transform_matrix)
         { m_transform = transform_matrix; }
 
-        void setParent(Group* const parent_group_ptr)
+        void setParent(CompositeSurface* const parent_group_ptr)
         { m_parent = parent_group_ptr; }
 
         /* Comparison Operator Overloads */
@@ -77,7 +77,7 @@ namespace gfx {
         /* Data Members */
 
         Matrix4 m_transform{ gfx::createIdentityMatrix() };
-        Group* m_parent{ nullptr };
+        CompositeSurface* m_parent{ nullptr };
 
         /* Helper Methods */
 

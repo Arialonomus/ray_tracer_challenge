@@ -3,23 +3,23 @@
 #include "object.hpp"
 
 namespace gfx {
-    class Group : public Object
+    class CompositeSurface : public Object
     {
     public:
         /* Constructors */
 
         // Default Constructor
-        Group() = default;
+        CompositeSurface() = default;
 
         // Transform-Only Constructor
-        explicit Group(const Matrix4& transform_matrix)
+        explicit CompositeSurface(const Matrix4& transform_matrix)
                 : Object(transform_matrix), m_children{ }, m_bounds{ }
         {}
 
         // Object List Constructors
         template<typename... ObjectPtrs>
-        explicit Group(const std::shared_ptr<Object>& first_object_ptr,
-                       const ObjectPtrs&... remaining_object_ptrs)
+        explicit CompositeSurface(const std::shared_ptr<Object>& first_object_ptr,
+                                  const ObjectPtrs&... remaining_object_ptrs)
                 : Object(),
                   m_children { first_object_ptr, remaining_object_ptrs... },
                   m_bounds(this->calculateBounds())
@@ -28,8 +28,8 @@ namespace gfx {
         }
 
         template<typename... ObjectRefs>
-        explicit Group(const Object& first_object_ref,
-                       const ObjectRefs&... remaining_object_refs)
+        explicit CompositeSurface(const Object& first_object_ref,
+                                  const ObjectRefs&... remaining_object_refs)
                 : Object(), m_children{ }, m_bounds{ }
         {
             addChildren(first_object_ref, remaining_object_refs...);
@@ -38,18 +38,18 @@ namespace gfx {
 
         // Standard Constructors
         template<typename... ObjectPtrs>
-        explicit Group(const Matrix4& transform_matrix,
-                       const std::shared_ptr<Object>& first_object_ptr,
-                       const ObjectPtrs&... remaining_object_ptrs)
+        explicit CompositeSurface(const Matrix4& transform_matrix,
+                                  const std::shared_ptr<Object>& first_object_ptr,
+                                  const ObjectPtrs&... remaining_object_ptrs)
                 : Object(transform_matrix),
                   m_children { first_object_ptr, remaining_object_ptrs...  },
                   m_bounds{ this->calculateBounds() }
         { this->setParentForAllChildren(this); }
 
         template<typename... ObjectRefs>
-        explicit Group(const Matrix4& transform_matrix,
-                       const Object& first_object_ref,
-                       const ObjectRefs&... remaining_object_refs)
+        explicit CompositeSurface(const Matrix4& transform_matrix,
+                                  const Object& first_object_ref,
+                                  const ObjectRefs&... remaining_object_refs)
                        : Object(transform_matrix), m_children { }, m_bounds{ }
         {
             addChildren(first_object_ref, remaining_object_refs...);
@@ -57,14 +57,14 @@ namespace gfx {
         }
 
         // Copy Constructor
-        Group(const Group& src)
+        CompositeSurface(const CompositeSurface& src)
                 : Object(src.getTransform()),
                   m_children { src.m_children },
                   m_bounds{ src.m_bounds }
         { this->setParentForAllChildren(this); }
 
         // Move Constructor
-        Group(Group&& src) noexcept
+        CompositeSurface(CompositeSurface&& src) noexcept
                 : Object(src.getTransform()),
                   m_children { std::move(src.m_children) },
                   m_bounds{ src.m_bounds }
@@ -72,7 +72,7 @@ namespace gfx {
 
         /* Destructor */
 
-        ~Group() override
+        ~CompositeSurface() override
         {
             // Unlink the child from the group before object destruction
             this->setParentForAllChildren(nullptr);
@@ -80,8 +80,8 @@ namespace gfx {
 
         /* Assignment Operators */
 
-        Group& operator=(const Group& rhs);
-        Group& operator=(Group&& rhs) noexcept;
+        CompositeSurface& operator=(const CompositeSurface& rhs);
+        CompositeSurface& operator=(CompositeSurface&& rhs) noexcept;
 
         /* Accessors */
 
@@ -105,7 +105,7 @@ namespace gfx {
 
         // Creates a clone of this group to be stored in an object list
         [[nodiscard]] std::shared_ptr<Object> clone() const override
-        { return std::make_shared<Group>(*this); }
+        { return std::make_shared<CompositeSurface>(*this); }
 
     private:
         /* Data Members */
@@ -129,7 +129,7 @@ namespace gfx {
         void addChildren() {}    // Base case for recursion
 
         // Sets the parent pointer for all children in the group
-        void setParentForAllChildren(Group* parent_ptr) const;
+        void setParentForAllChildren(CompositeSurface* parent_ptr) const;
 
         // Calculates the extents of a bounding box enclosing the bounding boxes of each child
         [[nodiscard]] BoundingBox calculateBounds() const;
