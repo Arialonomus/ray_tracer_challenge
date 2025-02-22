@@ -19,8 +19,10 @@ namespace gfx {
         Object() = default;
 
         // Standard Constructor
-        explicit Object(const Matrix4& transform)
-                : m_transform{ transform }, m_parent{ nullptr }
+        explicit Object(const Matrix4& transform_matrix)
+                : m_transform{ transform_matrix },
+                  m_transform_inverse{ transform_matrix.inverse() },
+                  m_parent{ nullptr }
         {}
 
         // Copy Constructor
@@ -54,7 +56,10 @@ namespace gfx {
         /* Mutators */
 
         void setTransform(const Matrix4& transform_matrix)
-        { m_transform = transform_matrix; }
+        {
+            m_transform = transform_matrix;
+            m_transform_inverse = transform_matrix.inverse();
+        }
 
         void setParent(CompositeSurface* const parent_group_ptr)
         { m_parent = parent_group_ptr; }
@@ -77,6 +82,7 @@ namespace gfx {
         /* Data Members */
 
         Matrix4 m_transform{ gfx::createIdentityMatrix() };
+        Matrix4 m_transform_inverse{ gfx::createIdentityMatrix() };
         CompositeSurface* m_parent{ nullptr };
 
         /* Helper Methods */

@@ -6,7 +6,7 @@ namespace gfx {
         if (m_material.hasPattern()) {
             // Apply object and pattern transformations and sample the point
             const Vector4 object_point{ this->transformToObjectSpace(world_point) };
-            const Vector4 pattern_point{ m_material.getPattern().getTransform().inverse() * object_point };
+            const Vector4 pattern_point{ m_material.getPattern().getTransformInverse() * object_point };
 
             return m_material.getPattern().samplePatternAt(pattern_point);
         }

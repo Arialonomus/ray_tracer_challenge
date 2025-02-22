@@ -19,6 +19,7 @@ namespace rt {
                   m_viewport_height{ viewport_height },
                   m_field_of_view{ field_of_view },
                   m_transform{ gfx::createIdentityMatrix() },
+                  m_transform_inverse{ gfx::createIdentityMatrix() },
                   m_pixel_size{},
                   m_half_width{},
                   m_half_height{}
@@ -33,6 +34,7 @@ namespace rt {
                   m_viewport_height{ viewport_height },
                   m_field_of_view{ field_of_view },
                   m_transform{ transform_matrix },
+                  m_transform_inverse{ transform_matrix.inverse() },
                   m_pixel_size{},
                   m_half_width{},
                   m_half_height{}
@@ -90,7 +92,10 @@ namespace rt {
         { m_field_of_view = field_of_view; }
 
         void setTransform(const gfx::Matrix4& transform_matrix)
-        { m_transform = transform_matrix; }
+        {
+            m_transform = transform_matrix;
+            m_transform_inverse = transform_matrix.inverse();
+        }
 
         /* Comparison Operator Overloads */
 
@@ -108,6 +113,7 @@ namespace rt {
         size_t m_viewport_height;
         double m_field_of_view;
         gfx::Matrix4 m_transform;
+        gfx::Matrix4 m_transform_inverse;
 
         /* Cached State */
         // These variables are dependent on the viewport dimensions. However, because they are used in

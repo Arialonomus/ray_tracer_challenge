@@ -17,7 +17,7 @@ namespace gfx {
 
         // Standard Constructor
         explicit Pattern(const Matrix4& transform_matrix)
-                : m_transform{ transform_matrix }
+                : m_transform{ transform_matrix }, m_transform_inverse{ transform_matrix.inverse() }
         {}
 
         /* Destructor */
@@ -29,13 +29,20 @@ namespace gfx {
         [[nodiscard]] const Matrix4& getTransform() const
         { return m_transform; }
 
+
+        [[nodiscard]] const Matrix4& getTransformInverse() const
+        { return m_transform_inverse; }
+
         // Returns the color for this pattern at a passed-in point
         [[nodiscard]] virtual Color samplePatternAt(const Vector4& pattern_point) const = 0;
 
         /* Mutators */
 
         void setTransform(const Matrix4& transform_matrix)
-        { m_transform = transform_matrix; }
+        {
+            m_transform = transform_matrix;
+            m_transform_inverse = transform_matrix.inverse();
+        }
 
         /* Comparison Operator Overloads */
 
@@ -51,6 +58,7 @@ namespace gfx {
         /* Data Members */
 
         Matrix4 m_transform{ gfx::createIdentityMatrix() };
+        Matrix4 m_transform_inverse{ gfx::createIdentityMatrix() };
 
         /* Helper Methods */
 

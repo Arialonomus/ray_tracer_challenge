@@ -26,7 +26,7 @@ namespace rt {
         const double world_y{ m_half_height - pixel_y_offset };
 
         // Move the viewport pixel position and the world origin into camera space
-        const gfx::Matrix4 inverse_transform{ m_transform.inverse() };
+        const gfx::Matrix4 inverse_transform{ m_transform_inverse };
         const gfx::Vector4 pixel_camera_space_pos{
             inverse_transform * gfx::createPoint(world_x, world_y, -1) // Viewport is always 1 unit away from camera origin
         };
