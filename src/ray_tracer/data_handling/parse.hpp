@@ -11,6 +11,8 @@
 #include "color.hpp"
 #include "matrix4.hpp"
 
+#include "composite_surface.hpp"
+
 using json = nlohmann::json;
 
 struct Scene{
@@ -27,6 +29,9 @@ namespace data {
 
     // Returns a pointer to a newly created shape described by the passed-in JSON data
     [[nodiscard]] std::shared_ptr<gfx::Object> parseObjectData(const json& object_data);
+
+    // Returns a pointer to a newly created composite surface described by the passed-in JSON data
+    [[nodiscard]] std::shared_ptr<gfx::CompositeSurface> buildCompositeSurface(const json& composite_surface_data);
 
     // Returns a newly constructed material based on the passed in material data
     [[nodiscard]] gfx::Material parseMaterialData(const json& material_data);

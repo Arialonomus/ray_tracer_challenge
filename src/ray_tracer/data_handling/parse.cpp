@@ -16,6 +16,7 @@
 #include "checkered_pattern.hpp"
 
 namespace data {
+    // Scene Data Parser
     Scene parseSceneData(const json& scene_data)
     {
         // Get the light source data
@@ -63,9 +64,15 @@ namespace data {
         return Scene{ world, camera };
     }
 
-
+    // Renderable Object Parser
     std::shared_ptr<gfx::Object> parseObjectData(const json& object_data)
     {
+        // Build composite surface, if applicable
+        std::string_view shape_type_str{ object_data["shape"].get<std::string_view>() };
+        if (shape_type_str == "composite_surface") {
+            return buildCompositeSurface(object_data);
+        }
+
         // Define string-to-case mapping for possible shape primitives
         enum class Cases { Plane, Sphere, Cube, Cylinder, Cone };
         static const std::unordered_map<std::string_view, Cases> stringToCaseMap{
@@ -77,7 +84,6 @@ namespace data {
         };
 
         // Convert the string to a Case for use in the switch statement
-        std::string_view shape_type_str{ object_data["shape"].get<std::string_view>() };
         auto it{ stringToCaseMap.find(shape_type_str) };
         if (it == stringToCaseMap.end()) {
             throw std::invalid_argument("Invalid shape type, check spelling in scene data input file");
@@ -119,7 +125,30 @@ namespace data {
         }
     }
 
+    // Composite Surface Builder
+    std::shared_ptr<gfx::CompositeSurface> buildCompositeSurface(const json& composite_surface_data)
+    {
+        // Build the transform matrix, if present
+        gfx::Matrix4 transform_matrix{ gfx::createIdentityMatrix() };
+        if (composite_surface_data.contains("transform"))
+            transform_matrix = buildChainedTransformMatrix(composite_surface_data["transform"]);
 
+        // Construct the composite surface
+        std::shared_ptr<gfx::CompositeSurface> composite_surface_ptr{ std::make_shared<gfx::CompositeSurface>(transform_matrix) };
+
+        // Extract the material data, if present
+        if(composite_surface_data.contains("material"))
+            composite_surface_ptr->addMaterial(parseMaterialData(composite_surface_data["material"]));
+
+        // Add the child objects to the composite surface
+        const json& child_data_list{ composite_surface_data["children"] };
+        for (const auto& child_data: child_data_list) {
+            composite_surface_ptr->addChild(parseObjectData(child_data));
+        }
+        return composite_surface_ptr;
+    }
+
+    // Material Data Parser
     gfx::Material parseMaterialData(const json& material_data)
     {
         // Parse the material attribute data
@@ -142,7 +171,7 @@ namespace data {
         return material;
     }
 
-
+    // Pattern Data Parser
     std::unique_ptr<gfx::Pattern> parsePatternData(const json& pattern_data)
     {
         // Define string-to-case mapping for possible patterns
@@ -198,24 +227,23 @@ namespace data {
         }
     }
 
-
+    // Color Data Parser
     gfx::Color parseColorData(const json& color_data)
     {
         return gfx::Color{ color_data[0], color_data[1], color_data[2] };
     }
 
-
+    // Chained Transformation Matrix Builder
     gfx::Matrix4 buildChainedTransformMatrix(const json& transform_data_list)
     {
         gfx::Matrix4 transform_matrix{ gfx::createIdentityMatrix() };
         for (const auto& transform_data: transform_data_list) {
             transform_matrix *= parseTransformMatrixData(transform_data);
         }
-
         return transform_matrix;
     }
 
-
+    // Transform Matrix Parser
     gfx::Matrix4 parseTransformMatrixData(const json& transform_data)
     {
         // Define string-to-case mapping for possible transform matrices
