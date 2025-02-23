@@ -45,8 +45,7 @@ namespace gfx {
 
         /* Accessors */
 
-        [[nodiscard]] const Material& getMaterial() const
-        { return m_material; }
+        [[nodiscard]] const Material& getMaterial() const;
 
         [[nodiscard]] Color getObjectColorAt(const Vector4& world_point) const;
 

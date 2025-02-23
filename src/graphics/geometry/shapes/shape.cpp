@@ -1,18 +1,30 @@
 #include "shape.hpp"
 
+#include "composite_surface.hpp"
+
 namespace gfx {
+    const Material& Shape::getMaterial() const
+    {
+        if (this->hasParent() && this->getParent()->hasMaterial())
+            return this->getParent()->getMaterial();
+        else
+            return m_material;
+    }
+
     Color Shape::getObjectColorAt(const Vector4& world_point) const
     {
-        if (m_material.hasPattern()) {
+        const Material& material{ this->getMaterial() };
+
+        if (material.hasPattern()) {
             // Apply object and pattern transformations and sample the point
             const Vector4 object_point{ this->transformToObjectSpace(world_point) };
-            const Vector4 pattern_point{ m_material.getPattern().getTransformInverse() * object_point };
+            const Vector4 pattern_point{ material.getPattern().getTransformInverse() * object_point };
 
-            return m_material.getPattern().samplePatternAt(pattern_point);
+            return material.getPattern().samplePatternAt(pattern_point);
         }
 
         // Return the base surface color
-        return m_material.getColor();
+        return material.getColor();
     }
 
     Vector4 Shape::getSurfaceNormalAt(const Vector4& world_point) const
