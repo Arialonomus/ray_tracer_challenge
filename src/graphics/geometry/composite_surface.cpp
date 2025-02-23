@@ -5,15 +5,6 @@
 #include "intersection.hpp"
 
 namespace gfx {
-    // Object Inserter (from object ref)
-    void CompositeSurface::addChild(const Object& object)
-    {
-        auto cloned_object_ptr{ object.clone() };
-        cloned_object_ptr->setParent(this);
-        m_children.push_back(cloned_object_ptr);
-        m_bounds.mergeWithBox(cloned_object_ptr->getLocalSpaceBounds());
-    }
-
     // Copy Assignment Operator
     CompositeSurface& CompositeSurface::operator=(const CompositeSurface& rhs)
     {
@@ -36,6 +27,15 @@ namespace gfx {
         m_material = std::move(rhs.m_material);
 
         return *this;
+    }
+
+    // Object Inserter (from object ref)
+    void CompositeSurface::addChild(const Object& object)
+    {
+        auto cloned_object_ptr{ object.clone() };
+        cloned_object_ptr->setParent(this);
+        m_children.push_back(cloned_object_ptr);
+        m_bounds.mergeWithBox(cloned_object_ptr->getLocalSpaceBounds());
     }
 
     // Object Inserter (from pointer)
