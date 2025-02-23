@@ -7,9 +7,18 @@
 
 #include "matrix4.hpp"
 #include "transform.hpp"
+
 #include "plane.hpp"
 #include "sphere.hpp"
+#include "cube.hpp"
+#include "cylinder.hpp"
+#include "cone.hpp"
+#include "composite_surface.hpp"
+
 #include "stripe_pattern.hpp"
+#include "gradient_pattern.hpp"
+#include "ring_pattern.hpp"
+#include "checkered_pattern.hpp"
 
 using json = nlohmann::json;
 
@@ -238,6 +247,54 @@ TEST(RayTracerParse, ParsePatternData)
 
     const auto stripe_pattern_actual{ data::parsePatternData(stripe_pattern_data) };
     EXPECT_EQ(*stripe_pattern_actual, stripe_pattern_expected);
+
+    // Test creating a gradient pattern
+    const json gradient_pattern_data{
+            { "type", "gradient"},
+            { "transform", json::array({
+                                               { { "type", "scale" }, { "values", json::array({ 5 }) } }
+                                       }) },
+            { "color_a", json::array({ 0, 0, 0 }) },
+            { "color_b", json::array({ 1, 1, 1 }) },
+    };
+    const gfx::GradientPattern gradient_pattern_expected{ gfx::createScalingMatrix(5),
+                                                          gfx::black(),
+                                                          gfx::white() };
+
+    const auto gradient_pattern_actual{ data::parsePatternData(gradient_pattern_data) };
+    EXPECT_EQ(*gradient_pattern_actual, gradient_pattern_expected);
+
+    // Test creating a ring pattern
+    const json ring_pattern_data{
+            { "type", "ring"},
+            { "transform", json::array({
+                                               { { "type", "translate" }, { "values", json::array({ 5, 10, 15 }) } }
+                                       }) },
+            { "color_a", json::array({ 0, 0, 0 }) },
+            { "color_b", json::array({ 1, 1, 1 }) },
+    };
+    const gfx::RingPattern ring_pattern_expected{ gfx::createTranslationMatrix(5, 10, 15),
+                                                  gfx::black(),
+                                                  gfx::white() };
+
+    const auto ring_pattern_actual{ data::parsePatternData(ring_pattern_data) };
+    EXPECT_EQ(*ring_pattern_actual, ring_pattern_expected);
+
+    // Test creating a checkered pattern
+    const json checkered_pattern_data{
+            { "type", "checkered"},
+            { "transform", json::array({
+                { { "type", "rotate_z" }, { "values", json::array({ M_PI_4 }) } }
+            }) },
+            { "color_a", json::array({ 0, 0, 0 }) },
+            { "color_b", json::array({ 1, 1, 1 }) },
+    };
+    const gfx::CheckeredPattern checkered_pattern_expected{ gfx::createZRotationMatrix(M_PI_4),
+                                                            gfx::black(),
+                                                            gfx::white() };
+
+    const auto checkered_pattern_actual{ data::parsePatternData(checkered_pattern_data) };
+    EXPECT_EQ(*checkered_pattern_actual, checkered_pattern_expected);
 }
 
 // Tests creating a material object from parsed JSON data
