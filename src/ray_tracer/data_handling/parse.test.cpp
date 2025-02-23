@@ -416,3 +416,24 @@ TEST(RayTracerParse, ParseCubeData)
     const gfx::Cube cube_actual{ dynamic_cast<const gfx::Cube&>(*data::parseObjectData(cube_data)) };
     EXPECT_EQ(cube_actual, cube_expected);
 }
+
+// Tests creating a cylinder from parsed JSON data
+TEST(RayTracerParse, ParseCylinderData)
+{
+    const json cylinder_data{
+            { "shape", "cylinder"},
+            { "transform", json::array({ }) },
+            { "material", {
+                { "color", json::array({ 1, 1, 0.5 }) }
+            } },
+            { "y_min", -2 },
+            { "y_max", 2 },
+            { "is_closed", true }
+    };
+
+    const gfx::Material material_expected{ gfx::Color{ 1, 1, 0.5 } };
+    const gfx::Cylinder cylinder_expected{ material_expected, -2, 2, true };
+
+    const gfx::Cylinder cylinder_actual{ dynamic_cast<const gfx::Cylinder&>(*data::parseObjectData(cylinder_data)) };
+    EXPECT_EQ(cylinder_actual, cylinder_expected);
+}
