@@ -493,6 +493,6 @@ TEST(RayTracerParse, BuildCompositeSurface)
     const gfx::Material material{ gfx::Color{ 0, 0, 1 } };
     composite_surface_expected.addMaterial(material);
 
-    const auto composite_surface_actual_ptr{data::buildCompositeSurface(composite_surface_data)};
+    const auto composite_surface_actual_ptr{ data::parseCompositeSurfaceData(composite_surface_data)};
     EXPECT_EQ(*composite_surface_actual_ptr, composite_surface_expected);
 }

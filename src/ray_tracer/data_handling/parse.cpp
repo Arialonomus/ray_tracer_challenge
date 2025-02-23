@@ -70,7 +70,7 @@ namespace data {
         // Build composite surface, if applicable
         std::string_view shape_type_str{ object_data["shape"].get<std::string_view>() };
         if (shape_type_str == "composite_surface") {
-            return buildCompositeSurface(object_data);
+            return parseCompositeSurfaceData(object_data);
         }
 
         // Define string-to-case mapping for possible shape primitives
@@ -120,18 +120,16 @@ namespace data {
             case Cases::Cube:
                 return std::make_shared<gfx::Cube>(gfx::Cube{ transform_matrix, material });
             case Cases::Cylinder:
-                return std::make_shared<gfx::Cylinder>(gfx::Cylinder{
-                    transform_matrix, material,
-                    y_min, y_max, is_closed });
+                return std::make_shared<gfx::Cylinder>(gfx::Cylinder{transform_matrix, material,
+                                                                     y_min, y_max, is_closed });
             case Cases::Cone:
-                return std::make_shared<gfx::Cone>(gfx::Cone{
-                    transform_matrix, material,
-                    y_min, y_max, is_closed });
+                return std::make_shared<gfx::Cone>(gfx::Cone{transform_matrix, material,
+                                                             y_min, y_max, is_closed });
         }
     }
 
     // Composite Surface Builder
-    std::shared_ptr<gfx::CompositeSurface> buildCompositeSurface(const json& composite_surface_data)
+    std::shared_ptr<gfx::CompositeSurface> parseCompositeSurfaceData(const json& composite_surface_data)
     {
         // Build the transform matrix, if present
         gfx::Matrix4 transform_matrix{ gfx::createIdentityMatrix() };

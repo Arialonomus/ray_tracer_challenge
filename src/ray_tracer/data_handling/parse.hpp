@@ -31,7 +31,7 @@ namespace data {
     [[nodiscard]] std::shared_ptr<gfx::Object> parseObjectData(const json& object_data);
 
     // Returns a pointer to a newly created composite surface described by the passed-in JSON data
-    [[nodiscard]] std::shared_ptr<gfx::CompositeSurface> buildCompositeSurface(const json& composite_surface_data);
+    [[nodiscard]] std::shared_ptr<gfx::CompositeSurface> parseCompositeSurfaceData(const json& composite_surface_data);
 
     // Returns a newly constructed material based on the passed in material data
     [[nodiscard]] gfx::Material parseMaterialData(const json& material_data);
