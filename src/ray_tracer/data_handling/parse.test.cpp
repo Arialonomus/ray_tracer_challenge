@@ -437,3 +437,21 @@ TEST(RayTracerParse, ParseCylinderData)
     const gfx::Cylinder cylinder_actual{ dynamic_cast<const gfx::Cylinder&>(*data::parseObjectData(cylinder_data)) };
     EXPECT_EQ(cylinder_actual, cylinder_expected);
 }
+
+// Tests creating a cone from parsed JSON data
+TEST(RayTracerParse, ParseConeData)
+{
+    const json cone_data{
+            { "shape", "cone"},
+            { "transform", json::array({ }) },
+            { "material", {
+                { "color", json::array({ 1, 1, 0.5 }) }
+            } },
+    };
+
+    const gfx::Material material_expected{ gfx::Color{ 1, 1, 0.5 } };
+    const gfx::Cone cone_expected{ material_expected };
+
+    const gfx::Cone cone_actual{ dynamic_cast<const gfx::Cone&>(*data::parseObjectData(cone_data)) };
+    EXPECT_EQ(cone_actual, cone_expected);
+}
