@@ -13,13 +13,13 @@ target_sources(gfx PRIVATE
         graphics/data_structures/matrix4.cpp
         graphics/functions/linear_algebra.cpp
         graphics/functions/transform.cpp
-        graphics/geometry/shapes/surface.cpp
-        graphics/geometry/shapes/sphere.cpp
-        graphics/geometry/shapes/plane.cpp
-        graphics/geometry/shapes/cube.cpp
-        graphics/geometry/shapes/cylinder.cpp
-        graphics/geometry/shapes/cone.cpp
-        graphics/geometry/shapes/triangle.cpp
+        graphics/geometry/surfaces/surface.cpp
+        graphics/geometry/surfaces/sphere.cpp
+        graphics/geometry/surfaces/plane.cpp
+        graphics/geometry/surfaces/cube.cpp
+        graphics/geometry/surfaces/cylinder.cpp
+        graphics/geometry/surfaces/cone.cpp
+        graphics/geometry/surfaces/triangle.cpp
         graphics/geometry/object.cpp
         graphics/geometry/composite_surface.cpp
         graphics/geometry/bounding_box.cpp
@@ -39,7 +39,7 @@ target_include_directories(gfx PUBLIC
         graphics/data_structures
         graphics/functions
         graphics/geometry
-        graphics/geometry/shapes
+        graphics/geometry/surfaces
         graphics/shading
         graphics/shading/patterns
         graphics/utils

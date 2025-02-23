@@ -12,13 +12,13 @@ set(GFX_UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/matrix4.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/functions/transform.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/functions/linear_algebra.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/surface.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/sphere.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/plane.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/cube.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/cylinder.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/cone.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/triangle.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/surfaces/surface.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/surfaces/sphere.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/surfaces/plane.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/surfaces/cube.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/surfaces/cylinder.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/surfaces/cone.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/surfaces/triangle.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/object.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/composite_surface.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/bounding_box.test.cpp
