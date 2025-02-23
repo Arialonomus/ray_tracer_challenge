@@ -15,7 +15,33 @@ namespace gfx {
     // Ray-Triangle Intersection Calculator
     std::vector<Intersection> Triangle::calculateIntersections(const Ray& transformed_ray) const
     {
-        return std::vector<Intersection>{ };
+        const Vector4 ray_direction{ transformed_ray.getDirection() };
+        const Vector4 ray_cross_edge_b{ ray_direction.crossProduct(m_edge_b) };
+        const double determinant{ dotProduct(m_edge_a, ray_cross_edge_b) } ;
+
+        if (utils::areEqual(determinant, 0.0))
+            // Ray is parallel to the triangle plane
+            return std::vector<Intersection>{ };
+
+        const Vector4 ray_origin{ transformed_ray.getOrigin() };
+        const double inverse_determinant{ 1.0 / determinant };
+        const Vector4 vertex_a_to_origin{ ray_origin - m_vertex_a };
+        const double u { inverse_determinant * dotProduct(vertex_a_to_origin, ray_cross_edge_b) };
+
+        if (utils::isLess(u, 0.0) || utils::isGreater(u, 1.0))
+            // Ray misses Edge B (Vertex A to Vertex C)
+            return std::vector<Intersection>{ };
+
+        const Vector4 origin_cross_edge_a{ vertex_a_to_origin.crossProduct(m_edge_a) };
+        const double v { inverse_determinant * dotProduct(ray_direction, origin_cross_edge_a) };
+
+        if (utils::isLess(v, 0.0) || utils::isGreater(u + v, 1.0))
+            // Ray misses Edges B & C
+            return std::vector<Intersection>{ };
+
+        // Ray intersects the triangle
+        const double t { inverse_determinant * dotProduct(m_edge_b, origin_cross_edge_a) };
+        return std::vector<Intersection>{ { t, this } };
     }
 
     // Triangle Object Equivalency Check
