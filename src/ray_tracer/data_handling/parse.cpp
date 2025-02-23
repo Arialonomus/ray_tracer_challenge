@@ -91,11 +91,16 @@ namespace data {
         Cases shape_type{ it->second };
 
         // Build the transform matrix
-        const gfx::Matrix4 transform_matrix{ buildChainedTransformMatrix(object_data["transform"]) };
+        gfx::Matrix4 transform_matrix{ gfx::createIdentityMatrix() };
+        if (object_data.contains("transform")) {
+            transform_matrix = buildChainedTransformMatrix(object_data["transform"]);
+        }
 
         // Extract the material data
-        const json& material_data{ object_data["material"] };
-        gfx::Material material{ parseMaterialData(material_data) };
+        gfx::Material material{ };
+        if (object_data.contains("material")) {
+            material = parseMaterialData(object_data["material"]);
+        }
 
         // Store values for unbounded shapes, if present
         const double y_min{ object_data.contains("y_min") ?
