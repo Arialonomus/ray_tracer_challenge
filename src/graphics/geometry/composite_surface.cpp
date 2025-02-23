@@ -21,6 +21,7 @@ namespace gfx {
         m_children = rhs.m_children;
         this->setParentForAllChildren(this);
         m_bounds = rhs.m_bounds;
+        m_material = rhs.m_material;
 
         return *this;
     }
@@ -32,6 +33,7 @@ namespace gfx {
         m_children = std::move(rhs.m_children);
         this->setParentForAllChildren(this);
         m_bounds = rhs.m_bounds;
+        m_material = std::move(rhs.m_material);
 
         return *this;
     }

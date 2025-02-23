@@ -2,6 +2,8 @@
 
 #include "object.hpp"
 
+#include "material.hpp"
+
 namespace gfx {
     class CompositeSurface : public Object
     {
@@ -13,7 +15,7 @@ namespace gfx {
 
         // Transform-Only Constructor
         explicit CompositeSurface(const Matrix4& transform_matrix)
-                : Object(transform_matrix), m_children{ }, m_bounds{ }
+                : Object(transform_matrix), m_children{ }, m_material{ std::nullopt }, m_bounds{ }
         {}
 
         // Object List Constructors
@@ -22,6 +24,7 @@ namespace gfx {
                                   const ObjectPtrs&... remaining_object_ptrs)
                 : Object(),
                   m_children { first_object_ptr, remaining_object_ptrs... },
+                  m_material{ std::nullopt },
                   m_bounds(this->calculateBounds())
         {
             this->setParentForAllChildren(this);
@@ -30,7 +33,7 @@ namespace gfx {
         template<typename... ObjectRefs>
         explicit CompositeSurface(const Object& first_object_ref,
                                   const ObjectRefs&... remaining_object_refs)
-                : Object(), m_children{ }, m_bounds{ }
+                : Object(), m_children{ }, m_material{ std::nullopt }, m_bounds{ }
         {
             addChildren(first_object_ref, remaining_object_refs...);
             m_bounds = this->calculateBounds();
@@ -60,6 +63,7 @@ namespace gfx {
         CompositeSurface(const CompositeSurface& src)
                 : Object(src.getTransform()),
                   m_children { src.m_children },
+                  m_material{ src.m_material },
                   m_bounds{ src.m_bounds }
         { this->setParentForAllChildren(this); }
 
@@ -67,6 +71,7 @@ namespace gfx {
         CompositeSurface(CompositeSurface&& src) noexcept
                 : Object(src.getTransform()),
                   m_children { std::move(src.m_children) },
+                  m_material{ std::move(src.m_material) },
                   m_bounds{ src.m_bounds }
         { this->setParentForAllChildren(this); }
 
@@ -92,6 +97,12 @@ namespace gfx {
         [[nodiscard]] const Object& getChildAt(const size_t index) const
         { return *m_children.at(index); }
 
+        [[nodiscard]] bool hasMaterial() const
+        { return (this->hasParent() && this->getParent()->hasMaterial()) || m_material.has_value(); }
+
+        [[nodiscard]] const Material& getMaterial() const
+        { return (this->hasParent() && this->getParent()->hasMaterial()) ? this->getParent()->getMaterial() : m_material.value(); }
+
         [[nodiscard]] BoundingBox getBounds() const override
         { return m_bounds; }
 
@@ -100,6 +111,14 @@ namespace gfx {
         // Adds a single object as a child to the group
         void addChild(const Object& object);
         void addChild(const std::shared_ptr<Object>& object_ptr);
+
+        // Add a material to apply to all child objects in this composite surface
+        void addMaterial(const Material& material)
+        { m_material = material; }
+
+        // Allows child objects to be drawn with their own material
+        void removeMaterial()
+        { m_material = std::nullopt; }
 
         /* Object Operations */
 
@@ -112,6 +131,7 @@ namespace gfx {
         
         std::vector<std::shared_ptr<Object>> m_children{ };
         BoundingBox m_bounds{ };
+        std::optional<Material> m_material{ std::nullopt };
 
         /* Object Helper Method Overrides */
 
