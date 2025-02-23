@@ -455,3 +455,44 @@ TEST(RayTracerParse, ParseConeData)
     const gfx::Cone cone_actual{ dynamic_cast<const gfx::Cone&>(*data::parseObjectData(cone_data)) };
     EXPECT_EQ(cone_actual, cone_expected);
 }
+
+// Tests building a composite surface from parsed JSON data
+TEST(RayTracerParse, BuildCompositeSurface)
+{
+    const json composite_surface_data{
+            { "shape", "composite_surface"},
+            { "transform", json::array({
+                { { "type", "translate" }, { "values", json::array({ 1, 1, 1 }) } }
+            })},
+            { "material", {
+                { "color", json::array({ 0, 0, 1 }) }
+            } },
+            { "children", json::array({
+                {
+                    { "shape", "cube" },
+                    { "transform", json::array({
+                        { { "type", "rotate_y" },
+                          { "values", json::array({ M_PI_2 }) } }
+                    }) }
+                },
+                {
+                    { "shape", "sphere"},
+                    { "transform", json::array({
+                        { { "type", "translate" },
+                          { "values", json::array({ -0.5, 0.5, 0.5 }) } }
+                    }) }
+                }
+            }) }
+    };
+
+    const gfx::Cube cube{ gfx::createYRotationMatrix(M_PI_2) };
+    const gfx::Sphere sphere{ gfx::createTranslationMatrix(-0.5, 0.5, 0.5) };
+
+    gfx::CompositeSurface composite_surface_expected{ gfx::createTranslationMatrix(1, 1, 1),
+                                                      cube, sphere};
+    const gfx::Material material{ gfx::Color{ 0, 0, 1 } };
+    composite_surface_expected.addMaterial(material);
+
+    const auto composite_surface_actual_ptr{data::buildCompositeSurface(composite_surface_data)};
+    EXPECT_EQ(*composite_surface_actual_ptr, composite_surface_expected);
+}
