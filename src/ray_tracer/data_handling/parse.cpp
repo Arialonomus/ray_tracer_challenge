@@ -91,6 +91,15 @@ namespace data {
         const json& material_data{ object_data["material"] };
         gfx::Material material{ parseMaterialData(material_data) };
 
+        // Store values for unbounded shapes, if present
+        const double y_min{ object_data.contains("y_min") ?
+            object_data["y_min"].get<double>() : -std::numeric_limits<double>::infinity()
+        };
+        const double y_max{ object_data.contains("y_max") ?
+            object_data["y_max"].get<double>() : std::numeric_limits<double>::infinity()
+        };
+        const bool is_closed{ object_data.contains("is_closed") && object_data["is_closed"].get<bool>() };
+
         // Create and return the object
         switch (shape_type) {
             case Cases::Plane:
@@ -100,9 +109,13 @@ namespace data {
             case Cases::Cube:
                 return std::make_shared<gfx::Cube>(gfx::Cube{ transform_matrix, material });
             case Cases::Cylinder:
-                return std::make_shared<gfx::Cylinder>(gfx::Cylinder{ transform_matrix, material });
+                return std::make_shared<gfx::Cylinder>(gfx::Cylinder{
+                    transform_matrix, material,
+                    y_min, y_max, is_closed });
             case Cases::Cone:
-                return std::make_shared<gfx::Cone>(gfx::Cone{ transform_matrix, material });
+                return std::make_shared<gfx::Cone>(gfx::Cone{
+                    transform_matrix, material,
+                    y_min, y_max, is_closed });
         }
     }
 
