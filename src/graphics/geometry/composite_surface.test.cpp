@@ -281,7 +281,30 @@ TEST(GraphicsCompositeSurface, GetBounds)
     EXPECT_EQ(composite_surface_d_max_extent_actual, composite_surface_d_max_extent_expected);
 }
 
-// Tests intersecting a ray with an empty composite_surface
+// Test setting the material for a composite surface
+TEST(GraphicsCompositeSurface, SetMaterial)
+{
+    const gfx::Material material_a{ gfx::white() };
+    const gfx::Sphere sphere_a{ gfx::createTranslationMatrix(0.5, 0, 0), material_a };
+    const gfx::Material material_b{ gfx::white() };
+    const gfx::Sphere sphere_b{ gfx::createTranslationMatrix(-0.5, 0, 0), material_b };
+
+    gfx::CompositeSurface composite_surface{ sphere_a, sphere_b };
+
+    // Test that a composite surface's material is applied to all child objects
+    const gfx::Material glassy_material{ gfx::createGlassyMaterial() };
+    composite_surface.addMaterial(glassy_material);
+
+    EXPECT_EQ(dynamic_cast<const gfx::Shape&>(composite_surface.getChildAt(0)).getMaterial(), glassy_material);
+    EXPECT_EQ(dynamic_cast<const gfx::Shape&>(composite_surface.getChildAt(1)).getMaterial(), glassy_material);
+
+    // Test that removing the material allows child objects to return their own material
+    composite_surface.removeMaterial();
+    EXPECT_EQ(dynamic_cast<const gfx::Shape&>(composite_surface.getChildAt(0)).getMaterial(), material_a);
+    EXPECT_EQ(dynamic_cast<const gfx::Shape&>(composite_surface.getChildAt(1)).getMaterial(), material_b);
+}
+
+// Tests intersecting a ray with an empty composite surface
 TEST(GraphicsCompositeSurface, RayEmptyCompositeSurfaceIntersection)
 {
     const gfx::CompositeSurface composite_surface{ };
@@ -293,7 +316,7 @@ TEST(GraphicsCompositeSurface, RayEmptyCompositeSurfaceIntersection)
     EXPECT_TRUE(intersections.empty());
 }
 
-// Tests intersecting a ray with a non-empty composite_surface
+// Tests intersecting a ray with a non-empty composite surface
 TEST(GraphicsCompositeSurface, RayCompositeSurfaceIntersection)
 {
     const gfx::Sphere sphere_a{ };
@@ -312,7 +335,7 @@ TEST(GraphicsCompositeSurface, RayCompositeSurfaceIntersection)
     EXPECT_EQ(intersections.at(3).getObject(), sphere_a);
 }
 
-// Tests intersecting a ray with a non-empty composite_surface with a transformation applied
+// Tests intersecting a ray with a non-empty composite surface with a transformation applied
 TEST(GraphicsCompositeSurface, RayTransformedCompositeSurfaceIntersection)
 {
     const gfx::Sphere sphere{ gfx::createTranslationMatrix(5, 0, 0) };
