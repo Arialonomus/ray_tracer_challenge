@@ -222,63 +222,6 @@ TEST(RayTracerParse, ParseColorData)
     EXPECT_EQ(color_actual, color_expected);
 }
 
-// Tests creating a plane from parsed JSON data
-TEST(RayTracerParse, ParsePlaneData)
-{
-    const json plane_data{
-            { "shape", "plane"},
-            { "transform", json::array({ }) },
-            { "material", {
-                { "color", json::array({ 1, 0.9, 0.9 }) },
-                { "ambient", 0.1 },
-                { "diffuse", 0.9 },
-                { "specular", 0 },
-                { "shininess", 200 }
-            }}
-    };
-
-    const gfx::Material material_expected{ 1, 0.9, 0.9,
-                                           0.1,
-                                           0.9,
-                                           0,
-                                           200,
-                                           0 };
-    const gfx::Plane plane_expected{ material_expected };
-
-    const gfx::Plane plane_actual{ dynamic_cast<const gfx::Plane&>(*data::parseObjectData(plane_data)) };
-    EXPECT_EQ(plane_actual, plane_expected);
-}
-
-// Tests creating a sphere from parsed JSON data
-TEST(RayTracerParse, ParseSphereDataNoPattern)
-{
-    const json sphere_data{
-            { "shape", "sphere"},
-            { "transform", json::array({
-                { { "type", "translate" }, { "values", json::array({ -0.5, 1, 0.5 }) } }
-            })},
-            { "material", {
-                { "color", json::array({ 0.1, 1, 0.5 }) },
-                { "ambient", 0.1 },
-                { "diffuse", 0.7 },
-                { "specular", 0.3 },
-                { "shininess", 200 }
-            } }
-    };
-
-    const gfx::Material material_expected{ 0.1, 1, 0.5,
-                                           0.1,
-                                           0.7,
-                                           0.3,
-                                           200,
-                                           0 };
-    const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(-0.5, 1, 0.5) };
-    const gfx::Sphere sphere_expected{ transform_expected, material_expected };
-
-    const gfx::Sphere sphere_actual{ dynamic_cast<const gfx::Sphere&>(*data::parseObjectData(sphere_data)) };
-    EXPECT_EQ(sphere_actual, sphere_expected);
-}
-
 // Tests creating various patterns from parsed JSON data
 TEST(RayTracerParse, ParsePatternData)
 {
@@ -295,4 +238,43 @@ TEST(RayTracerParse, ParsePatternData)
 
     const auto stripe_pattern_actual{ data::parsePatternData(stripe_pattern_data) };
     EXPECT_EQ(*stripe_pattern_actual, stripe_pattern_expected);
+}
+
+// Tests creating a plane from parsed JSON data
+TEST(RayTracerParse, ParsePlaneData)
+{
+    const json plane_data{
+            { "shape", "plane"},
+            { "transform", json::array({ }) },
+            { "material", {
+                { "color", json::array({ 1, 0.9, 0.9 }) }
+            } }
+    };
+
+    const gfx::Material material_expected{ gfx::Color{ 1, 0.9, 0.9 } };
+    const gfx::Plane plane_expected{ material_expected };
+
+    const gfx::Plane plane_actual{ dynamic_cast<const gfx::Plane&>(*data::parseObjectData(plane_data)) };
+    EXPECT_EQ(plane_actual, plane_expected);
+}
+
+// Tests creating a sphere from parsed JSON data
+TEST(RayTracerParse, ParseSphereDataNoPattern)
+{
+    const json sphere_data{
+            { "shape", "sphere"},
+            { "transform", json::array({
+                { { "type", "translate" }, { "values", json::array({ -0.5, 1, 0.5 }) } }
+            })},
+            { "material", {
+                { "color", json::array({ 0.1, 1, 0.5 }) }
+            } }
+    };
+
+    const gfx::Material material_expected{ gfx::Color{ 1, 0.9, 0.9 } };
+    const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(-0.5, 1, 0.5) };
+    const gfx::Sphere sphere_expected{ transform_expected, material_expected };
+
+    const gfx::Sphere sphere_actual{ dynamic_cast<const gfx::Sphere&>(*data::parseObjectData(sphere_data)) };
+    EXPECT_EQ(sphere_actual, sphere_expected);
 }
