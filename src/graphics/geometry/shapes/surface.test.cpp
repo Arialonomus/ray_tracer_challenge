@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "shape.hpp"
+#include "surface.hpp"
 
 #include <cmath>
 #include <vector>
@@ -16,18 +16,18 @@
 
 #include "stripe_pattern.hpp"
 
-class TestShape : public gfx::Shape
+class TestSurface : public gfx::Surface
 {
 public:
-    TestShape() = default;
-    explicit TestShape(const gfx::Matrix4& transform)
-            : Shape{ transform }, m_transformed_ray{ }
+    TestSurface() = default;
+    explicit TestSurface(const gfx::Matrix4& transform)
+            : Surface{ transform }, m_transformed_ray{ }
     {}
-    explicit TestShape(const gfx::Material& material)
-            : Shape{ material }, m_transformed_ray{ }
+    explicit TestSurface(const gfx::Material& material)
+            : Surface{ material }, m_transformed_ray{ }
     {}
-    TestShape(const gfx::Matrix4& transform, const gfx::Material& material)
-            : Shape{ transform, material }, m_transformed_ray{ }
+    TestSurface(const gfx::Matrix4& transform, const gfx::Material& material)
+            : Surface{ transform, material }, m_transformed_ray{ }
     {}
 
     [[nodiscard]] gfx::BoundingBox getBounds() const override
@@ -35,7 +35,7 @@ public:
                                1, 1, 1 }; }
 
     [[nodiscard]] std::shared_ptr<Object> clone() const override
-    { return std::make_shared<TestShape>(*this); }
+    { return std::make_shared<TestSurface>(*this); }
 
     [[nodiscard]] gfx::Ray getTransformedRay() const
     { return m_transformed_ray; }
@@ -54,150 +54,150 @@ private:
         return std::vector<gfx::Intersection>{ };
     }
 
-    [[nodiscard]] bool areEquivalent(const Object& other_shape) const override
+    [[nodiscard]] bool areEquivalent(const Object& other_surface) const override
     {
-        const TestShape& other_test_shape{ dynamic_cast<const TestShape&>(other_shape) };
+        const TestSurface& other_test_surface{ dynamic_cast<const TestSurface&>(other_surface) };
 
         return
-                this->getTransform() == other_test_shape.getTransform() &&
-                this->getMaterial() == other_test_shape.getMaterial();
+                this->getTransform() == other_test_surface.getTransform() &&
+                this->getMaterial() == other_test_surface.getMaterial();
     }
 };
 
 // Tests the base class default constructor
-TEST(GraphicsShape, BaseClassDefaultConstructor)
+TEST(GraphicsSurface, BaseClassDefaultConstructor)
 {
-    const TestShape shape{ };
+    const TestSurface surface{ };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
     const gfx::Material material_expected{ };
 
-    ASSERT_EQ(shape.getTransform(), transform_expected);
-    ASSERT_EQ(shape.getMaterial(), material_expected);
-    ASSERT_FALSE(shape.hasParent());
-    ASSERT_EQ(shape.getParent(), nullptr);
+    ASSERT_EQ(surface.getTransform(), transform_expected);
+    ASSERT_EQ(surface.getMaterial(), material_expected);
+    ASSERT_FALSE(surface.hasParent());
+    ASSERT_EQ(surface.getParent(), nullptr);
 }
 
 // Tests the base class transform constructor
-TEST(GraphicsShape, BaseClassTransformConstructor)
+TEST(GraphicsSurface, BaseClassTransformConstructor)
 {
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     const gfx::Material material_expected{ };
-    const TestShape shape{ transform_expected };
+    const TestSurface surface{ transform_expected };
 
-    ASSERT_EQ(shape.getTransform(), transform_expected);
-    ASSERT_EQ(shape.getMaterial(), material_expected);
-    ASSERT_FALSE(shape.hasParent());
-    ASSERT_EQ(shape.getParent(), nullptr);
+    ASSERT_EQ(surface.getTransform(), transform_expected);
+    ASSERT_EQ(surface.getMaterial(), material_expected);
+    ASSERT_FALSE(surface.hasParent());
+    ASSERT_EQ(surface.getParent(), nullptr);
 }
 
 // Tests the base class material constructor
-TEST(GraphicsShape, BaseClassMaterialConstructor)
+TEST(GraphicsSurface, BaseClassMaterialConstructor)
 {
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
     const gfx::Material material_expected{ gfx::Color{ 0.5, 0.5, 0.5 } };
-    const TestShape shape{ material_expected };
+    const TestSurface surface{ material_expected };
 
-    ASSERT_EQ(shape.getTransform(), transform_expected);
-    ASSERT_EQ(shape.getMaterial(), material_expected);
-    ASSERT_FALSE(shape.hasParent());
-    ASSERT_EQ(shape.getParent(), nullptr);
+    ASSERT_EQ(surface.getTransform(), transform_expected);
+    ASSERT_EQ(surface.getMaterial(), material_expected);
+    ASSERT_FALSE(surface.hasParent());
+    ASSERT_EQ(surface.getParent(), nullptr);
 }
 
 // Tests the base class standard constructor
-TEST(GraphicsShape, BaseClassStandardConstructor)
+TEST(GraphicsSurface, BaseClassStandardConstructor)
 {
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     const gfx::Material material_expected{ gfx::Color{ 0.5, 0.5, 0.5 }  };
-    const TestShape shape{ transform_expected, material_expected };
+    const TestSurface surface{ transform_expected, material_expected };
 
-    ASSERT_EQ(shape.getTransform(), transform_expected);
-    ASSERT_EQ(shape.getMaterial(), material_expected);
-    ASSERT_FALSE(shape.hasParent());
-    ASSERT_EQ(shape.getParent(), nullptr);
+    ASSERT_EQ(surface.getTransform(), transform_expected);
+    ASSERT_EQ(surface.getMaterial(), material_expected);
+    ASSERT_FALSE(surface.hasParent());
+    ASSERT_EQ(surface.getParent(), nullptr);
 }
 
-// Tests setting the transform of a shape
-TEST(GraphicsShape, SetTransform)
+// Tests setting the transform of a surface
+TEST(GraphicsSurface, SetTransform)
 {
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
-    TestShape shape{ };
+    TestSurface surface{ };
 
-    shape.setTransform(transform_expected);
+    surface.setTransform(transform_expected);
 
-    ASSERT_EQ(shape.getTransform(), transform_expected);
+    ASSERT_EQ(surface.getTransform(), transform_expected);
 }
 
-// Tests setting the material of a shape
-TEST(GraphicsShape, SetMaterial)
+// Tests setting the material of a surface
+TEST(GraphicsSurface, SetMaterial)
 {
     const gfx::Material material_expected{ gfx::Color{ 0.5, 0.5, 0.5 }  };
-    TestShape shape{ };
+    TestSurface surface{ };
 
-    shape.setMaterial(material_expected);
+    surface.setMaterial(material_expected);
 
-    ASSERT_EQ(shape.getMaterial(), material_expected);
+    ASSERT_EQ(surface.getMaterial(), material_expected);
 }
 
 // Tests that getIntersections properly transforms a ray to object space before calculating intersections
-TEST(GraphicsShape, GetIntersectionsTransformsRay)
+TEST(GraphicsSurface, GetIntersectionsTransformsRay)
 {
-    // Test intersecting a scaled shape
+    // Test intersecting a scaled surface
     const gfx::Ray ray_a_initial{ 0, 0, -5,
                                   0, 0, 1 };
-    const TestShape shape_a{ gfx::createScalingMatrix(2) };
+    const TestSurface surface_a{ gfx::createScalingMatrix(2) };
 
-    const auto discarded_intersections_a{ shape_a.getObjectIntersections(ray_a_initial) };
+    const auto discarded_intersections_a{ surface_a.getObjectIntersections(ray_a_initial) };
 
     const gfx::Ray ray_a_transformed_expected{ 0, 0, -2.5,
                                                0, 0, 0.5};
-    const gfx::Ray ray_a_transformed_actual{ shape_a.getTransformedRay() };
+    const gfx::Ray ray_a_transformed_actual{ surface_a.getTransformedRay() };
     ASSERT_EQ(ray_a_transformed_actual, ray_a_transformed_expected);
 
-    // Test intersecting a translated shape
+    // Test intersecting a translated surface
     const gfx::Ray ray_b_initial{ 0, 0, -5,
                                   0, 0, 1 };
-    const TestShape shape_b{ gfx::createTranslationMatrix(5, 0, 0) };
+    const TestSurface surface_b{ gfx::createTranslationMatrix(5, 0, 0) };
 
-    const auto discarded_intersections_b{ shape_b.getObjectIntersections(ray_b_initial) };
+    const auto discarded_intersections_b{ surface_b.getObjectIntersections(ray_b_initial) };
 
     const gfx::Ray ray_b_transformed_expected{ -5, 0, -5,
                                                0, 0, 1};
-    const gfx::Ray ray_b_transformed_actual{ shape_b.getTransformedRay() };
+    const gfx::Ray ray_b_transformed_actual{ surface_b.getTransformedRay() };
     ASSERT_EQ(ray_b_transformed_actual, ray_b_transformed_expected);
 }
 
 // Tests that getSurfaceNormal transforms a vector to and from object space
-TEST(GraphicsShape, GetSurfaceNormalTransformsVector)
+TEST(GraphicsSurface, GetSurfaceNormalTransformsVector)
 {
-    // Test calculating the normal on a translated shape
-    TestShape shape_a{ gfx::createTranslationMatrix(0, 1, 0) };
+    // Test calculating the normal on a translated surface
+    TestSurface surface_a{ gfx::createTranslationMatrix(0, 1, 0) };
     const gfx::Vector4 input_point_a{ 0, 1.707107, -0.707107, 1 };
-    const gfx::Vector4 vector_a_transformed_actual{ shape_a.getSurfaceNormalAt(input_point_a) };
+    const gfx::Vector4 vector_a_transformed_actual{ surface_a.getSurfaceNormalAt(input_point_a) };
 
     const gfx::Vector4 vector_a_transformed_expected{ 0, 0.707107, -0.707107, 0 };
     ASSERT_EQ(vector_a_transformed_actual, vector_a_transformed_expected);
 
-    // Test calculating the normal on a transformed shape
-    TestShape shape_b{ gfx::createScalingMatrix(1, 0.5, 1) * gfx::createZRotationMatrix(M_PI / 5) };
+    // Test calculating the normal on a transformed surface
+    TestSurface surface_b{ gfx::createScalingMatrix(1, 0.5, 1) * gfx::createZRotationMatrix(M_PI / 5) };
     const gfx::Vector4 input_point_b{ 0, M_PI_2, -M_PI_2, 1 };
-    const gfx::Vector4 vector_b_transformed_actual{ shape_b.getSurfaceNormalAt(input_point_b) };
+    const gfx::Vector4 vector_b_transformed_actual{ surface_b.getSurfaceNormalAt(input_point_b) };
 
     const gfx::Vector4 vector_b_transformed_expected{ 0, 0.970143, -0.242536, 0 };
     ASSERT_EQ(vector_b_transformed_actual, vector_b_transformed_expected);
 }
 
 // Tests getting the color from an object with no pattern
-TEST(GraphicsShape, GetObjectColorNoPattern)
+TEST(GraphicsSurface, GetObjectColorNoPattern)
 {
     const gfx::Material material{ gfx::cyan() };
-    const TestShape shape{ material };
+    const TestSurface surface{ material };
 
-    const gfx::Color color_actual{ shape.getObjectColorAt(gfx::createPoint(0, 0, 0))};
+    const gfx::Color color_actual{ surface.getObjectColorAt(gfx::createPoint(0, 0, 0))};
     EXPECT_EQ(color_actual, gfx::cyan());
 }
 
 // Tests getting the color from objects with patterns in various states
-TEST(GraphicsShape, GetObjectColorPattern)
+TEST(GraphicsSurface, GetObjectColorPattern)
 {
     // Test getting the object color from a stripe-patterned sphere with no transformations
     const gfx::StripePattern stripe_pattern_a{ gfx::white(), gfx::black() };

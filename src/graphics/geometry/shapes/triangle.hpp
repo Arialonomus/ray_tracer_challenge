@@ -1,11 +1,11 @@
 #pragma once
 
-#include "shape.hpp"
+#include "surface.hpp"
 
 #include <vector>
 
 namespace gfx {
-    class Triangle : public Shape
+    class Triangle : public Surface
     {
     public:
         /* Constructors */
@@ -15,7 +15,7 @@ namespace gfx {
 
         // Standard Constructor
         Triangle(const Vector4& vertex_a, const Vector4& vertex_b, const Vector4& vertex_c)
-                : Shape{ },
+                : Surface{ },
                   m_vertex_a{ vertex_a },
                   m_vertex_b{ vertex_b },
                   m_vertex_c{ vertex_c },

@@ -1,22 +1,22 @@
 #pragma once
 
-#include "shape.hpp"
+#include "surface.hpp"
 
 namespace gfx {
-    class Cube : public Shape
+    class Cube : public Surface
     {
     public:
         /* Constructors */
 
         Cube() = default;
         explicit Cube(const Matrix4& transform)
-                : Shape{ transform }
+                : Surface{ transform }
         {}
         explicit Cube(const Material& material)
-                : Shape{ material }
+                : Surface{ material }
         {}
         Cube(const Matrix4& transform, const Material& material)
-                : Shape{ transform, material }
+                : Surface{ transform, material }
         {}
         Cube(const Cube&) = default;
 

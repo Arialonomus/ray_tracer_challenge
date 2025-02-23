@@ -1,12 +1,12 @@
 #pragma once
 
-#include "shape.hpp"
+#include "surface.hpp"
 
 #include <vector>
 #include <limits>
 
 namespace gfx {
-    class Cylinder : public Shape
+    class Cylinder : public Surface
     {
     public:
         /* Constructors */
@@ -16,7 +16,7 @@ namespace gfx {
 
         // Default Constructor (Bounded Cylinder)
         Cylinder(const double y_min, const double y_max, bool is_closed = false)
-                : Shape{ },
+                : Surface{ },
                   m_y_min{ y_min },
                   m_y_max{ y_max },
                   m_is_closed{ is_closed }
@@ -24,7 +24,7 @@ namespace gfx {
 
         // Transform-Only Constructor (Unbounded Cylinder)
         explicit Cylinder(const Matrix4& transform)
-                : Shape{ transform },
+                : Surface{ transform },
                   m_y_min{ -std::numeric_limits<double>::infinity() },
                   m_y_max{ std::numeric_limits<double>::infinity() },
                   m_is_closed{ false }
@@ -32,7 +32,7 @@ namespace gfx {
 
         // Transform-Only Constructor (Bounded Cylinder)
         Cylinder(const Matrix4& transform, const double y_min, const double y_max, bool is_closed = false)
-                : Shape{ transform },
+                : Surface{ transform },
                   m_y_min{ y_min },
                   m_y_max{ y_max },
                   m_is_closed{ is_closed }
@@ -40,7 +40,7 @@ namespace gfx {
 
         // Material-Only Constructor (Unbounded Cylinder)
         explicit Cylinder(const Material& material)
-                : Shape{ material },
+                : Surface{ material },
                   m_y_min{ -std::numeric_limits<double>::infinity() },
                   m_y_max{ std::numeric_limits<double>::infinity() },
                   m_is_closed{ false }
@@ -48,7 +48,7 @@ namespace gfx {
 
         // Material-Only Constructor (Bounded Cylinder)
         Cylinder(const Material& material, const double y_min, const double y_max, bool is_closed = false)
-                : Shape{ material },
+                : Surface{ material },
                   m_y_min{ y_min },
                   m_y_max{ y_max },
                   m_is_closed{ is_closed }
@@ -56,7 +56,7 @@ namespace gfx {
 
         // Standard Constructor (Unbounded Cylinder)
         Cylinder(const Matrix4& transform, const Material& material)
-                : Shape{ transform, material },
+                : Surface{ transform, material },
                   m_y_min{ -std::numeric_limits<double>::infinity() },
                   m_y_max{ std::numeric_limits<double>::infinity() },
                   m_is_closed{ false }
@@ -68,7 +68,7 @@ namespace gfx {
                  const double y_min,
                  const double y_max,
                  bool is_closed = false)
-                : Shape{ transform, material },
+                : Surface{ transform, material },
                   m_y_min{ y_min },
                   m_y_max{ y_max },
                   m_is_closed{ is_closed }

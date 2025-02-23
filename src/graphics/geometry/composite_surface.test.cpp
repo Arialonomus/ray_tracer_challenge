@@ -295,19 +295,19 @@ TEST(GraphicsCompositeSurface, SetMaterial)
     const gfx::Material glassy_material{ gfx::createGlassyMaterial() };
     composite_surface.addMaterial(glassy_material);
 
-    EXPECT_EQ(dynamic_cast<const gfx::Shape&>(composite_surface.getChildAt(0)).getMaterial(), glassy_material);
-    EXPECT_EQ(dynamic_cast<const gfx::Shape&>(composite_surface.getChildAt(1)).getMaterial(), glassy_material);
+    EXPECT_EQ(dynamic_cast<const gfx::Surface&>(composite_surface.getChildAt(0)).getMaterial(), glassy_material);
+    EXPECT_EQ(dynamic_cast<const gfx::Surface&>(composite_surface.getChildAt(1)).getMaterial(), glassy_material);
 
     // Test that removing the material allows child objects to return their own material
     composite_surface.removeMaterial();
-    EXPECT_EQ(dynamic_cast<const gfx::Shape&>(composite_surface.getChildAt(0)).getMaterial(), material_a);
-    EXPECT_EQ(dynamic_cast<const gfx::Shape&>(composite_surface.getChildAt(1)).getMaterial(), material_b);
+    EXPECT_EQ(dynamic_cast<const gfx::Surface&>(composite_surface.getChildAt(0)).getMaterial(), material_a);
+    EXPECT_EQ(dynamic_cast<const gfx::Surface&>(composite_surface.getChildAt(1)).getMaterial(), material_b);
 
     // Test that setting the material at the root of a composite surface tree propagates to all children
     gfx::CompositeSurface nested_composite_surface{ composite_surface, composite_surface };
     nested_composite_surface.addMaterial(glassy_material);
     EXPECT_EQ(
-            dynamic_cast<const gfx::Shape&>(
+            dynamic_cast<const gfx::Surface&>(
             dynamic_cast<const gfx::CompositeSurface&>(
             nested_composite_surface.getChildAt(0)).getChildAt(1)).getMaterial(), glassy_material);
 }

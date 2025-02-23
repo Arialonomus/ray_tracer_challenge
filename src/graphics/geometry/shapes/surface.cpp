@@ -1,9 +1,9 @@
-#include "shape.hpp"
+#include "surface.hpp"
 
 #include "composite_surface.hpp"
 
 namespace gfx {
-    const Material& Shape::getMaterial() const
+    const Material& Surface::getMaterial() const
     {
         if (this->hasParent() && this->getParent()->hasMaterial())
             return this->getParent()->getMaterial();
@@ -11,7 +11,7 @@ namespace gfx {
             return m_material;
     }
 
-    Color Shape::getObjectColorAt(const Vector4& world_point) const
+    Color Surface::getObjectColorAt(const Vector4& world_point) const
     {
         const Material& material{ this->getMaterial() };
 
@@ -27,7 +27,7 @@ namespace gfx {
         return material.getColor();
     }
 
-    Vector4 Shape::getSurfaceNormalAt(const Vector4& world_point) const
+    Vector4 Surface::getSurfaceNormalAt(const Vector4& world_point) const
     {
         // Transform the point from world space to object space
         const Vector4 object_point{ this->transformToObjectSpace(world_point) };

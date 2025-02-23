@@ -6,7 +6,7 @@
 
 #include "world.hpp"
 #include "camera.hpp"
-#include "shape.hpp"
+#include "surface.hpp"
 #include "pattern.hpp"
 #include "color.hpp"
 #include "matrix4.hpp"
@@ -47,4 +47,8 @@ namespace data {
 
     // Returns the appropriate transformation matrix based on the JSON description of the desired matrix
     [[nodiscard]] gfx::Matrix4 parseTransformMatrixData(const json& transform_data);
+
+    /* Wavefront OBJ Data Functions */
+
+    //
 }

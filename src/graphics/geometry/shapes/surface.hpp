@@ -9,39 +9,39 @@
 #include "material.hpp"
 
 namespace gfx {
-    class Shape : public Object
+    class Surface : public Object
     {
     public:
         /* Constructors */
 
         // Default Constructor
-        Shape() = default;
+        Surface() = default;
 
         // Transform-Only Constructor
-        explicit Shape(const Matrix4& transform)
+        explicit Surface(const Matrix4& transform)
                 : Object(transform), m_material{ }
         {}
 
         // Material-Only Constructor
-        explicit Shape(Material material)
+        explicit Surface(Material material)
                 : Object(), m_material{ std::move(material) }
         {}
 
         // Standard Constructor
-        Shape(const Matrix4& transform, Material material)
+        Surface(const Matrix4& transform, Material material)
                 : Object(transform), m_material{ std::move(material) }
         {}
 
         // Copy Constructor
-        Shape(const Shape&) = default;
+        Surface(const Surface&) = default;
 
         /* Destructor */
 
-        ~Shape() override = default;
+        ~Surface() override = default;
 
         /* Assignment Operators */
 
-        Shape& operator=(const Shape&) = default;
+        Surface& operator=(const Surface&) = default;
 
         /* Accessors */
 

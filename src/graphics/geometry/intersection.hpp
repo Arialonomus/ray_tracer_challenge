@@ -3,12 +3,12 @@
 #include <vector>
 #include <optional>
 
-#include "shape.hpp"
+#include "surface.hpp"
 #include "ray.hpp"
 
 namespace gfx {
     // Forward declarations
-    class Shape;
+    class Surface;
     class Ray;
 
     class Intersection
@@ -18,7 +18,7 @@ namespace gfx {
 
         Intersection() = delete;
 
-        Intersection(const double t, const Shape* object_ptr)
+        Intersection(const double t, const Surface* object_ptr)
                 : m_t{ t }, m_object_ptr{ object_ptr }
         {}
 
@@ -39,7 +39,7 @@ namespace gfx {
         [[nodiscard]] double getT() const
         { return m_t; }
 
-        [[nodiscard]] const Shape& getObject() const
+        [[nodiscard]] const Surface& getObject() const
         { return *m_object_ptr; }
 
         /* Comparison Operator Overloads */
@@ -56,7 +56,7 @@ namespace gfx {
         /* Data Members */
 
         double m_t;
-        const Shape* m_object_ptr;   // Shapes should always exist during the lifetime of the intersection
+        const Surface* m_object_ptr;   // Shapes should always exist during the lifetime of the intersection
     };
 
     // An extension of the intersection class containing pre-computed state information

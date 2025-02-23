@@ -7,7 +7,7 @@
 #include "util_functions.hpp"
 
 namespace gfx {
-    Color calculateSurfaceColor(const Shape& object,
+    Color calculateSurfaceColor(const Surface& object,
                                 const PointLight& light,
                                 const Vector4& point_position,
                                 const Vector4& surface_normal,
@@ -53,8 +53,8 @@ namespace gfx {
     {
         // The order in which objects are added must be maintained, but we use a map to facilitate quick removal
         // of objects from the list at arbitrary positions without having to repeatedly search the list
-        std::list<const Shape*> containing_objects_list{ };
-        std::unordered_map<const Shape*, std::list<const Shape*>::iterator> object_list_iterator_map{ };
+        std::list<const Surface*> containing_objects_list{ };
+        std::unordered_map<const Surface*, std::list<const Surface*>::iterator> object_list_iterator_map{ };
 
         // Assume the exited medium is air
         double n1 = 1.0;
@@ -66,7 +66,7 @@ namespace gfx {
                 n1 = containing_objects_list.back()->getMaterial().getRefractiveIndex();
             }
 
-            const Shape* object_ptr{ &intersection.getObject() };
+            const Surface* object_ptr{ &intersection.getObject() };
             if (object_list_iterator_map.contains(object_ptr)) {
                 // The ray has exited this object, remove it from the list
                 auto list_iter{ object_list_iterator_map[object_ptr] };

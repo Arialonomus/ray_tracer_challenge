@@ -1,24 +1,24 @@
 #pragma once
 
-#include "shape.hpp"
+#include "surface.hpp"
 
 #include <vector>
 
 namespace gfx {
-    class Sphere : public Shape
+    class Sphere : public Surface
     {
     public:
         /* Constructors */
 
         Sphere() = default;
         explicit Sphere(const Matrix4& transform)
-                : Shape{ transform }
+                : Surface{ transform }
         {}
         explicit Sphere(const Material& material)
-                : Shape{ material }
+                : Surface{ material }
         {}
         Sphere(const Matrix4& transform, const Material& material)
-                : Shape{ transform, material }
+                : Surface{ transform, material }
         {}
         Sphere(const Sphere&) = default;
 

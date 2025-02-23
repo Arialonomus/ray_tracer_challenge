@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "shape.hpp"
+#include "surface.hpp"
 #include "util_functions.hpp"
 #include "shading_functions.hpp"
 

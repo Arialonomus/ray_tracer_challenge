@@ -13,7 +13,7 @@ target_sources(gfx PRIVATE
         graphics/data_structures/matrix4.cpp
         graphics/functions/linear_algebra.cpp
         graphics/functions/transform.cpp
-        graphics/geometry/shapes/shape.cpp
+        graphics/geometry/shapes/surface.cpp
         graphics/geometry/shapes/sphere.cpp
         graphics/geometry/shapes/plane.cpp
         graphics/geometry/shapes/cube.cpp

@@ -2,23 +2,23 @@
 
 #include <limits>
 
-#include "shape.hpp"
+#include "surface.hpp"
 
 namespace gfx {
-    class Plane : public Shape
+    class Plane : public Surface
     {
     public:
         /* Constructors */
 
         Plane() = default;
         explicit Plane(const Matrix4& transform)
-                : Shape{ transform }
+                : Surface{ transform }
         {}
         explicit Plane(const Material& material)
-        : Shape{ material }
+        : Surface{ material }
         {}
         Plane(const Matrix4& transform, const Material& material)
-                : Shape{ transform, material }
+                : Surface{ transform, material }
         {}
         Plane(const Plane&) = default;
 

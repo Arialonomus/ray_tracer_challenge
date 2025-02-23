@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "light.hpp"
-#include "shape.hpp"
+#include "surface.hpp"
 #include "sphere.hpp"
 #include "ray.hpp"
 #include "transform.hpp"
@@ -244,7 +244,7 @@ TEST(GraphicsWorld, CalculatePixelColorInShadow)
     auto possible_hit{ getHit(world_intersections) };
 
     ASSERT_TRUE(possible_hit);
-    const gfx::Intersection intersection_expected{ 4, dynamic_cast<const gfx::Shape*>(&world.getObjectAt(1)) };
+    const gfx::Intersection intersection_expected{ 4, dynamic_cast<const gfx::Surface*>(&world.getObjectAt(1)) };
     const gfx::Intersection& intersection_actual{ possible_hit.value() };
 
     EXPECT_EQ(intersection_actual, intersection_expected);
@@ -261,7 +261,7 @@ TEST(GraphicsWorld, CalculateReflectedColorNonReflective)
     const gfx::Ray ray{ 0, 0, 1,
                         0, 0, 1 };
 
-    const gfx::Intersection base_intersection{ 1, dynamic_cast<const gfx::Shape*>(&default_world.getObjectAt(1)) };
+    const gfx::Intersection base_intersection{ 1, dynamic_cast<const gfx::Surface*>(&default_world.getObjectAt(1)) };
     const gfx::DetailedIntersection detailed_intersection{ base_intersection, ray };
 
     const gfx::Color color_expected{ gfx::black() };
@@ -307,7 +307,7 @@ TEST(GraphicsWorld, CalculatePixelColorReflectiveMaterial)
     auto possible_hit{ getHit(world_intersections) };
 
     ASSERT_TRUE(possible_hit);
-    const gfx::Intersection intersection_expected{ M_SQRT2, dynamic_cast<const gfx::Shape*>(&world.getObjectAt(2)) };
+    const gfx::Intersection intersection_expected{ M_SQRT2, dynamic_cast<const gfx::Surface*>(&world.getObjectAt(2)) };
     const gfx::Intersection& intersection_actual{ possible_hit.value() };
 
     EXPECT_EQ(intersection_actual, intersection_expected);
@@ -427,7 +427,7 @@ TEST(GraphicsWorld, CalculatePixelColorTransparentMaterial)
     auto possible_hit{ getHit(world_intersections) };
 
     ASSERT_TRUE(possible_hit);
-    const gfx::Intersection intersection_expected{ M_SQRT2, dynamic_cast<const gfx::Shape*>(&world.getObjectAt(2)) };
+    const gfx::Intersection intersection_expected{ M_SQRT2, dynamic_cast<const gfx::Surface*>(&world.getObjectAt(2)) };
     const gfx::Intersection& intersection_actual{ possible_hit.value() };
 
     EXPECT_EQ(intersection_actual, intersection_expected);
@@ -463,7 +463,7 @@ TEST(GraphicsWorld, CalculatePixelColorReflectiveTransparentMaterial)
     auto possible_hit{ getHit(world_intersections) };
 
     ASSERT_TRUE(possible_hit);
-    const gfx::Intersection intersection_expected{ M_SQRT2, dynamic_cast<const gfx::Shape*>(&world.getObjectAt(2)) };
+    const gfx::Intersection intersection_expected{ M_SQRT2, dynamic_cast<const gfx::Surface*>(&world.getObjectAt(2)) };
     const gfx::Intersection& intersection_actual{ possible_hit.value() };
 
     EXPECT_EQ(intersection_actual, intersection_expected);

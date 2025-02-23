@@ -12,7 +12,7 @@ set(GFX_UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/matrix4.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/functions/transform.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/functions/linear_algebra.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/shape.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/surface.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/sphere.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/plane.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/shapes/cube.test.cpp
