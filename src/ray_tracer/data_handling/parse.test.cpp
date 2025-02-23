@@ -376,7 +376,7 @@ TEST(RayTracerParse, ParsePlaneData)
 }
 
 // Tests creating a sphere from parsed JSON data
-TEST(RayTracerParse, ParseSphereDataNoPattern)
+TEST(RayTracerParse, ParseSphereData)
 {
     const json sphere_data{
             { "shape", "sphere"},
@@ -394,4 +394,25 @@ TEST(RayTracerParse, ParseSphereDataNoPattern)
 
     const gfx::Sphere sphere_actual{ dynamic_cast<const gfx::Sphere&>(*data::parseObjectData(sphere_data)) };
     EXPECT_EQ(sphere_actual, sphere_expected);
+}
+
+// Tests creating a cube from parsed JSON data
+TEST(RayTracerParse, ParseCubeData)
+{
+    const json cube_data{
+            { "shape", "cube"},
+            { "transform", json::array({
+                { { "type", "rotate_y" }, { "values", json::array({ M_PI_2 }) } }
+            })},
+            { "material", {
+                { "color", json::array({ 1, 1, 0.5 }) }
+            } }
+    };
+
+    const gfx::Material material_expected{ gfx::Color{ 1, 1, 0.5 } };
+    const gfx::Matrix4 transform_expected{ gfx::createYRotationMatrix(M_PI_2) };
+    const gfx::Cube cube_expected{ transform_expected, material_expected };
+
+    const gfx::Cube cube_actual{ dynamic_cast<const gfx::Cube&>(*data::parseObjectData(cube_data)) };
+    EXPECT_EQ(cube_actual, cube_expected);
 }
