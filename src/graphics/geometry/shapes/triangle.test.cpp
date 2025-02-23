@@ -149,4 +149,62 @@ TEST(GraphicsTriangle, GetSurfaceNormal)
     EXPECT_TRUE(surface_normal_a == surface_normal_b && surface_normal_b == surface_normal_c);
 }
 
+// Test casting a ray parallel to a triangle
+TEST(GraphicsTriangle, RayTriangleMissParallelRay)
+{
+    const gfx::Triangle triangle{ gfx::createPoint(0, 1, 0),
+                                  gfx::createPoint(-1, 0, 0),
+                                  gfx::createPoint(1, 0, 0) };
+
+    const gfx::Ray ray{ 0, -1, -2,
+                        0, 1, 0 };
+
+    std::vector<gfx::Intersection> intersections{ triangle.getObjectIntersections(ray) };
+    EXPECT_TRUE(intersections.empty());
+}
+
+// Test casting rays that miss each edge
+TEST(GraphicsTriangle, RayTriangleMissEdges)
+{
+    const gfx::Triangle triangle{ gfx::createPoint(0, 1, 0),
+                                  gfx::createPoint(-1, 0, 0),
+                                  gfx::createPoint(1, 0, 0) };
+
+    // Test a ray that misses Edge A (Vertex A to Vertex B)
+    const gfx::Ray ray_a{ 0, -1, -2,
+                          0, 1, 0 };
+
+    std::vector<gfx::Intersection> intersections_a{ triangle.getObjectIntersections(ray_a) };
+    EXPECT_TRUE(intersections_a.empty());
+
+    // Test a ray that misses Edge B (Vertex A to Vertex C)
+    const gfx::Ray ray_b{ 1, 1, -2,
+                          0, 0, 1 };
+
+    std::vector<gfx::Intersection> intersections_b{ triangle.getObjectIntersections(ray_b) };
+    EXPECT_TRUE(intersections_b.empty());
+
+    // Test a ray that misses Edge C (Vertex B to Vertex C)
+    const gfx::Ray ray_c{ -1, 1, -2,
+                          0, 0, 1 };
+
+    std::vector<gfx::Intersection> intersections_c{ triangle.getObjectIntersections(ray_c) };
+    EXPECT_TRUE(intersections_c.empty());
+}
+
+// Tests casting a ray that hits a triangle
+TEST(GraphicsTriangle, RayTriangleHit)
+{
+    const gfx::Triangle triangle{ gfx::createPoint(0, 1, 0),
+                                  gfx::createPoint(-1, 0, 0),
+                                  gfx::createPoint(1, 0, 0) };
+
+    const gfx::Ray ray{ 0, 0.5, -2,
+                        0, 0, 1 };
+
+    std::vector<gfx::Intersection> intersections{ triangle.getObjectIntersections(ray) };
+    ASSERT_EQ(intersections.size(), 1);
+    EXPECT_FLOAT_EQ(intersections.at(0).getT(), 2);
+}
+
 #pragma clang diagnostic pop
