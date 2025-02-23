@@ -68,6 +68,11 @@ namespace gfx {
     {
         const CompositeSurface& other_group{ dynamic_cast<const CompositeSurface&>(other_object) };
 
+        // Compare the surface materials, if present
+        if (this->hasMaterial() != other_group.hasMaterial() ||
+                (this->hasMaterial() && this->getMaterial() != other_group.getMaterial()))
+            return false;
+
         // Ensure the number of children in the next layer match for each object
         const size_t num_children{ this->m_children.size() };
         if (num_children != other_group.m_children.size())
