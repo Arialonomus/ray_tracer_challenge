@@ -63,38 +63,17 @@ namespace data {
         return Scene{ world, camera };
     }
 
-    std::shared_ptr<gfx::Shape> parseObjectData(const json& object_data)
+
+    std::shared_ptr<gfx::Object> parseObjectData(const json& object_data)
     {
-        // Build the transform matrix
-        gfx::Matrix4 transform_matrix{ buildChainedTransformMatrix(object_data["transform"]) };
-
-        // Extract the material data
-        const json& material_data{ object_data["material"] };
-        gfx::Material material{
-            material_data.contains("ambient") ? material_data["ambient"].get<double>() : 0.1,
-            material_data.contains("diffuse") ? material_data["diffuse"].get<double>() : 0.9,
-            material_data.contains("specular") ? material_data["specular"].get<double>() : 0.9,
-            material_data.contains("shininess") ? material_data["shininess"].get<double>() : 200,
-            material_data.contains("reflectivity") ? material_data["reflectivity"].get<double>() : 0,
-            material_data.contains("transparency") ? material_data["transparency"].get<double>() : 0,
-            material_data.contains("refractive_index") ? material_data["refractive_index"].get<double>() : 1,
-        };
-
-        // Set the pattern or object color
-        if (material_data.contains("pattern")) {
-            material.setPattern(parsePatternData(material_data["pattern"]));
-        } else {
-            material.setColor(parseColorData(material_data["color"]));
-        }
-
         // Define string-to-case mapping for possible shape primitives
         enum class Cases { Plane, Sphere, Cube, Cylinder, Cone };
         static const std::unordered_map<std::string_view, Cases> stringToCaseMap{
-                { "plane",      Cases::Plane },
-                { "sphere",     Cases::Sphere },
-                { "cube",       Cases::Cube },
-                { "cylinder",   Cases::Cylinder },
-                { "cone",       Cases::Cone }
+                { "plane",              Cases::Plane },
+                { "sphere",             Cases::Sphere },
+                { "cube",               Cases::Cube },
+                { "cylinder",           Cases::Cylinder },
+                { "cone",               Cases::Cone }
         };
 
         // Convert the string to a Case for use in the switch statement
@@ -104,6 +83,13 @@ namespace data {
             throw std::invalid_argument("Invalid shape type, check spelling in scene data input file");
         }
         Cases shape_type{ it->second };
+
+        // Build the transform matrix
+        const gfx::Matrix4 transform_matrix{ buildChainedTransformMatrix(object_data["transform"]) };
+
+        // Extract the material data
+        const json& material_data{ object_data["material"] };
+        gfx::Material material{ parseMaterialData(material_data) };
 
         // Create and return the object
         switch (shape_type) {
@@ -119,6 +105,30 @@ namespace data {
                 return std::make_shared<gfx::Cone>(gfx::Cone{ transform_matrix, material });
         }
     }
+
+
+    gfx::Material parseMaterialData(const json& material_data)
+    {
+        // Parse the material attribute data
+        gfx::Material material{
+            material_data.contains("ambient") ? material_data["ambient"].get<double>() : 0.1,
+            material_data.contains("diffuse") ? material_data["diffuse"].get<double>() : 0.9,
+            material_data.contains("specular") ? material_data["specular"].get<double>() : 0.9,
+            material_data.contains("shininess") ? material_data["shininess"].get<double>() : 200,
+            material_data.contains("reflectivity") ? material_data["reflectivity"].get<double>() : 0,
+            material_data.contains("transparency") ? material_data["transparency"].get<double>() : 0,
+            material_data.contains("refractive_index") ? material_data["refractive_index"].get<double>() : 1
+        };
+
+        // Set the pattern or object color
+        if (material_data.contains("pattern"))
+            material.setPattern(parsePatternData(material_data["pattern"]));
+        else
+            material.setColor(parseColorData(material_data["color"]));
+
+        return material;
+    }
+
 
     std::unique_ptr<gfx::Pattern> parsePatternData(const json& pattern_data)
     {
@@ -175,10 +185,12 @@ namespace data {
         }
     }
 
+
     gfx::Color parseColorData(const json& color_data)
     {
         return gfx::Color{ color_data[0], color_data[1], color_data[2] };
     }
+
 
     gfx::Matrix4 buildChainedTransformMatrix(const json& transform_data_list)
     {
@@ -189,6 +201,7 @@ namespace data {
 
         return transform_matrix;
     }
+
 
     gfx::Matrix4 parseTransformMatrixData(const json& transform_data)
     {

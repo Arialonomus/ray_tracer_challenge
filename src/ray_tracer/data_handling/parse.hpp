@@ -19,14 +19,17 @@ struct Scene{
 };
 
 namespace data {
-    /* Scene Data Functions */
+    /* JSON Scene Data Functions */
 
     // Reads a JSON file containing scene data and returns a Scene struct
     // containing the world and camera defined by the scene data
     [[nodiscard]] Scene parseSceneData(const json& scene_data);
 
     // Returns a pointer to a newly created shape described by the passed-in JSON data
-    [[nodiscard]] std::shared_ptr<gfx::Shape> parseObjectData(const json& object_data);
+    [[nodiscard]] std::shared_ptr<gfx::Object> parseObjectData(const json& object_data);
+
+    // Returns a newly constructed material based on the passed in material data
+    [[nodiscard]] gfx::Material parseMaterialData(const json& material_data);
 
     // Returns a pointer to a newly created pattern described by the passed-in JSON data
     [[nodiscard]] std::unique_ptr<gfx::Pattern> parsePatternData(const json& pattern_data);
