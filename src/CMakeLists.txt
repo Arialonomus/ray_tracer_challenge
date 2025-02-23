@@ -19,6 +19,7 @@ target_sources(gfx PRIVATE
         graphics/geometry/shapes/cube.cpp
         graphics/geometry/shapes/cylinder.cpp
         graphics/geometry/shapes/cone.cpp
+        graphics/geometry/shapes/triangle.cpp
         graphics/geometry/object.cpp
         graphics/geometry/composite_surface.cpp
         graphics/geometry/bounding_box.cpp
