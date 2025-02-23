@@ -302,6 +302,14 @@ TEST(GraphicsCompositeSurface, SetMaterial)
     composite_surface.removeMaterial();
     EXPECT_EQ(dynamic_cast<const gfx::Shape&>(composite_surface.getChildAt(0)).getMaterial(), material_a);
     EXPECT_EQ(dynamic_cast<const gfx::Shape&>(composite_surface.getChildAt(1)).getMaterial(), material_b);
+
+    // Test that setting the material at the root of a composite surface tree propagates to all children
+    gfx::CompositeSurface nested_composite_surface{ composite_surface, composite_surface };
+    nested_composite_surface.addMaterial(glassy_material);
+    EXPECT_EQ(
+            dynamic_cast<const gfx::Shape&>(
+            dynamic_cast<const gfx::CompositeSurface&>(
+            nested_composite_surface.getChildAt(0)).getChildAt(1)).getMaterial(), glassy_material);
 }
 
 // Tests intersecting a ray with an empty composite surface
