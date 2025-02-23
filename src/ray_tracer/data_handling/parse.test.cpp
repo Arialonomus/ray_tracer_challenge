@@ -240,6 +240,66 @@ TEST(RayTracerParse, ParsePatternData)
     EXPECT_EQ(*stripe_pattern_actual, stripe_pattern_expected);
 }
 
+// Tests creating a material object from parsed JSON data
+TEST(RayTracerParse, ParseMaterialData)
+{
+    // Test parsing a material without a pattern
+    const json material_data_no_pattern{
+            { "color", json::array({ 1, 0.9, 0.9 }) },
+            { "ambient", 0.5 },
+            { "diffuse", 0.5 },
+            { "specular", 1 },
+            { "shininess", 5000 },
+            { "reflectivity", 0.5 },
+            { "transparency", 1 },
+            { "refractive_index", 1.25 }
+    };
+
+    const gfx::Material material_no_pattern_expected{ 1, 0.9, 0.9,
+                                                      0.5,
+                                                      0.5,
+                                                      1,
+                                                      5000,
+                                                      0.5,
+                                                      1,
+                                                      1.25 };
+    const gfx::Material material_no_pattern_actual(data::parseMaterialData(material_data_no_pattern));
+
+    EXPECT_EQ(material_no_pattern_actual, material_no_pattern_expected);
+
+    // Test parsing a material with a pattern
+    const json material_data_with_pattern{
+           { "pattern", {
+                { "type", "stripe"},
+                { "transform", json::array({ }) },
+                { "color_a", json::array({ 0, 0, 0 }) },
+                { "color_b", json::array({ 1, 1, 1 }) },
+           } },
+           { "ambient", 0.5 },
+           { "diffuse", 0.5 },
+           { "specular", 1 },
+           { "shininess", 5000 },
+           { "reflectivity", 0.5 },
+           { "transparency", 1 },
+           { "refractive_index", 1.25 }
+       };
+
+    const gfx::StripePattern stripe_pattern_expected{ gfx::black(),
+                                                      gfx::white() };
+
+    const gfx::Material material_with_pattern_expected{ stripe_pattern_expected,
+                                                        0.5,
+                                                        0.5,
+                                                        1,
+                                                        5000,
+                                                        0.5,
+                                                        1,
+                                                        1.25 };
+    const gfx::Material material_with_pattern_actual(data::parseMaterialData(material_data_with_pattern));
+
+    EXPECT_EQ(material_with_pattern_actual, material_with_pattern_expected);
+}
+
 // Tests creating a plane from parsed JSON data
 TEST(RayTracerParse, ParsePlaneData)
 {
@@ -271,7 +331,7 @@ TEST(RayTracerParse, ParseSphereDataNoPattern)
             } }
     };
 
-    const gfx::Material material_expected{ gfx::Color{ 1, 0.9, 0.9 } };
+    const gfx::Material material_expected{ gfx::Color{ 0.1, 1, 0.5 } };
     const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(-0.5, 1, 0.5) };
     const gfx::Sphere sphere_expected{ transform_expected, material_expected };
 
