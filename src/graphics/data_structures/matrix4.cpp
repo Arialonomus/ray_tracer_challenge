@@ -7,23 +7,14 @@
 #include "linear_algebra.hpp"
 
 namespace gfx {
-    // Span-Based Constructor
-    Matrix4::Matrix4(std::span<const double, 16> values)
-            : m_data{ }
-    {
-        std::copy(values.begin(), values.end(), m_data.begin());
-    }
-    
     // Equality Operator
     bool Matrix4::operator==(const Matrix4& rhs) const
     {
         for (int row = 0; row < 4; ++row)
             for (int col = 0; col < 4; ++col) {
-                if (!utils::areEqual(m_data[row * 4 + col], rhs[row, col])) {
+                if (!utils::areEqual(m_data[row * 4 + col], rhs[row, col]))
                     return false;
-                }
             }
-    
         return true;
     }
 
@@ -48,13 +39,12 @@ namespace gfx {
     bool Matrix4::isIdentityMatrix() const
     {
         std::array<double, 16> identity_values{ 1.0, 0.0, 0.0, 0.0,
-                                               0.0, 1.0, 0.0, 0.0,
-                                               0.0, 0.0, 1.0, 0.0,
-                                               0.0, 0.0, 0.0, 1.0 };
+                                                0.0, 1.0, 0.0, 0.0,
+                                                0.0, 0.0, 1.0, 0.0,
+                                                0.0, 0.0, 0.0, 1.0 };
         for (int i = 0; i < 16; ++i) {
-            if (utils::areNotEqual(m_data[i], identity_values[i])) {
+            if (utils::areNotEqual(m_data[i], identity_values[i]))
                 return false;
-            }
         }
         return true;
     }
@@ -69,20 +59,6 @@ namespace gfx {
                 (*this)[0, 3], (*this)[1, 3], (*this)[2, 3], (*this)[3, 3]
         };
     }
-
-    // Submatrix Generator
-    std::vector<double> Matrix4::submatrix(size_t row_to_remove, size_t col_to_remove) const
-    {
-        return getSubmatrix(std::vector<double>{ m_data.begin(), m_data.end() },
-                            row_to_remove,
-                            col_to_remove);
-    }
-    
-    // Matrix Determinant
-    double Matrix4::determinant() const
-    {
-        return calculateDeterminant(std::vector<double>{ m_data.begin(), m_data.end() });
-    }
     
     // Matrix Inverse
     Matrix4 Matrix4::inverse() const
@@ -91,7 +67,7 @@ namespace gfx {
             // Inverse of identity matrix is the identity matrix
             return Matrix4{ };
 
-        const double determinant = this->determinant();
+        const double determinant{ calculateDeterminant(m_data) };
         if (determinant == 0)
             // Matrix with 0 determinant is not invertible
             throw std::invalid_argument{ "Matrix determinant cannot be zero." };
@@ -108,7 +84,7 @@ namespace gfx {
     // Matrix Multiplication Operator
     Matrix4 operator*(const Matrix4& lhs, const Matrix4& rhs)
     {
-        Matrix4 return_matrix{};
+        Matrix4 return_matrix{ };
         for (int row = 0; row < 4; ++row)
             for (int col = 0; col < 4; ++col) {
                 return_matrix[row, col] =
@@ -117,7 +93,6 @@ namespace gfx {
                         lhs[row, 2] * rhs[2, col] +
                         lhs[row, 3] * rhs[3, col];
             }
-    
         return return_matrix;
     }
 }

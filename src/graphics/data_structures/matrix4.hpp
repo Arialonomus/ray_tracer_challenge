@@ -9,7 +9,11 @@ namespace gfx {
     {
     public:
         /* Constructors */
+
+        // Default Constructor (Identity Matrix)
         Matrix4() = default;
+
+        // Float List Constructor
         Matrix4(const double e00, const double e01, const double e02, const double e03,
                 const double e10, const double e11, const double e12, const double e13,
                 const double e20, const double e21, const double e22, const double e23,
@@ -19,7 +23,13 @@ namespace gfx {
                           e20, e21, e22, e23,
                           e30, e31, e32, e33 }
         {}
-        explicit Matrix4(std::span<const double, 16> values);
+
+        // Span-Based Constructor
+        explicit Matrix4(std::span<const double, 16> values)
+                : m_data{ }
+        { std::copy(values.begin(), values.end(), m_data.begin()); }
+
+        // Copy Constructor
         Matrix4(const Matrix4&) = default;
 
         /* Destructor */
@@ -66,14 +76,6 @@ namespace gfx {
                                        0.0, 1.0, 0.0, 0.0,
                                        0.0, 0.0, 1.0, 0.0,
                                        0.0, 0.0, 0.0, 1.0 };    // Initialized to the identity matrix
-
-        /* Helper Methods */
-
-        // Returns the 3x3 submatrix formed by removing the passed in row & column
-        [[nodiscard]] std::vector<double> submatrix(size_t row_to_remove, size_t col_to_remove) const;
-
-        // Returns the determinant of this matrix
-        [[nodiscard]] double determinant() const;
     };
 
     /* Matrix Factory Functions */
