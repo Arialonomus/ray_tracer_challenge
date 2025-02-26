@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 #include "matrix3.hpp"
 
+#include "vector3.hpp"
+
 // Tests the default constructor
 TEST(GraphicsMatrix3, DefaultConstructor)
 {
@@ -180,6 +182,24 @@ TEST(GraphicsMatrix3, MatrixMultiplicationShorthandOperator)
     matrix_a *= matrix_b;
 
     EXPECT_TRUE(matrix_a == matrix_expected);
+}
+
+// Tests matrix-matrix and matrix-vector multiplication by the identity matrix
+TEST(GraphicsMatrix3, IdentityMatrixMultiplication)
+{
+    const gfx::Matrix3 matrix_identity{ };
+    const gfx::Matrix3 matrix_a{
+            0.0, 1.0, 2.0,
+            1.0, 2.0, 4.0,
+            2.0, 4.0, 8.0
+    };
+    const gfx::Vector3 vector_a{ 1.0, 2.0, 3.0 };
+
+    const gfx::Matrix3 matrix_b = matrix_a * matrix_identity;
+    EXPECT_TRUE(matrix_b == matrix_a);
+
+    const gfx::Vector3 vector_b = matrix_identity * vector_a;
+    EXPECT_TRUE(vector_b == vector_a);
 }
 
 // Tests matrix transposition
