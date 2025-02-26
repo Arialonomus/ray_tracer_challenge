@@ -53,10 +53,10 @@ namespace gfx {
     Matrix4 Matrix4::transpose() const
     {
         return Matrix4{
-                (*this)[0, 0], (*this)[1, 0], (*this)[2, 0], (*this)[3, 0],
-                (*this)[0, 1], (*this)[1, 1], (*this)[2, 1], (*this)[3, 1],
-                (*this)[0, 2], (*this)[1, 2], (*this)[2, 2], (*this)[3, 2],
-                (*this)[0, 3], (*this)[1, 3], (*this)[2, 3], (*this)[3, 3]
+                m_data[0], m_data[4], m_data[8], m_data[12],
+                m_data[1], m_data[5], m_data[9], m_data[13],
+                m_data[2], m_data[6], m_data[10], m_data[14],
+                m_data[3], m_data[7], m_data[11], m_data[15]
         };
     }
     
