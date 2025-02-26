@@ -62,7 +62,10 @@ namespace gfx {
     private:
         /* Data Members */
 
-        std::array<double, 16> m_data{};
+        std::array<double, 16> m_data{ 1.0, 0.0, 0.0, 0.0,
+                                       0.0, 1.0, 0.0, 0.0,
+                                       0.0, 0.0, 1.0, 0.0,
+                                       0.0, 0.0, 0.0, 1.0 };    // Initialized to the identity matrix
 
         /* Helper Methods */
 

@@ -113,12 +113,7 @@ namespace gfx {
     // Identity Matrix Factory Function
     Matrix4 createIdentityMatrix()
     {
-        return Matrix4{
-                1.0, 0.0, 0.0, 0.0,
-                0.0, 1.0, 0.0, 0.0,
-                0.0, 0.0, 1.0, 0.0,
-                0.0, 0.0, 0.0, 1.0
-        };
+        return Matrix4{ };
     }
 
     // Matrix Multiplication Operator
