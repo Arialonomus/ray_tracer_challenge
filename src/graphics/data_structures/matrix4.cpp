@@ -9,7 +9,7 @@
 namespace gfx {
     // Span-Based Constructor
     Matrix4::Matrix4(std::span<const double, 16> values)
-            : m_data{}
+            : m_data{ }
     {
         std::copy(values.begin(), values.end(), m_data.begin());
     }
@@ -87,27 +87,16 @@ namespace gfx {
     // Matrix Inverse
     Matrix4 Matrix4::inverse() const
     {
-        // Return early if this matrix is the identity matrix
-        if (this->isIdentityMatrix()) {
-            return *this;
-        }
-    
-        // Determine if matrix is invertible
+        if (this->isIdentityMatrix())
+            // Inverse of identity matrix is the identity matrix
+            return Matrix4{ };
+
         const double determinant = this->determinant();
-        if (determinant == 0) {
+        if (determinant == 0)
+            // Matrix with 0 determinant is not invertible
             throw std::invalid_argument{ "Matrix determinant cannot be zero." };
-        }
-    
-        // Invert matrix
-        Matrix4 inverted_matrix{};
-        for (int row = 0; row < 4; ++row)
-            for (int col = 0; col < 4; ++col) {
-                const double minor = calculateDeterminant(this->submatrix(row, col));
-                const double cofactor = (row + col) % 2 == 0 ? minor : -minor;
-                inverted_matrix[col, row] = cofactor / determinant;
-            }
-    
-        return inverted_matrix;
+
+        return Matrix4{ std::span<const double, 16>(calculateInverse(m_data, determinant)) };
     }
 
     // Identity Matrix Factory Function
