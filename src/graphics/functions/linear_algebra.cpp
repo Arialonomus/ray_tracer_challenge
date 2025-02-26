@@ -36,4 +36,18 @@ namespace gfx{
         }
         return determinant;
     }
+
+    std::vector<double> calculateInverse(std::span<const double> matrix_values, const double determinant)
+    {
+        const size_t matrix_dimension{ static_cast<size_t>(std::sqrt(matrix_values.size())) };
+        std::vector<double> inverse_matrix_values(matrix_values.size());
+
+        for (int row = 0; row < matrix_dimension; ++row)
+            for (int col = 0; col < matrix_dimension; ++col) {
+                const double minor = calculateDeterminant(getSubmatrix(matrix_values, row, col));
+                const double cofactor = (row + col) % 2 == 0 ? minor : -minor;
+                inverse_matrix_values[col * matrix_dimension + row] = cofactor / determinant;
+            }
+        return inverse_matrix_values;
+    }
 }
