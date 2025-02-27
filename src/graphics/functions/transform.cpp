@@ -12,7 +12,7 @@ namespace gfx {
     }
 
     // 2D Translation Matrix Factory Function (Vector3 Argument Overload)
-    Matrix3 gfx::create2DTranslationMatrix(const Vector3& vec)
+    Matrix3 create2DTranslationMatrix(const Vector3& vec)
     {
         return Matrix3{
                 1.0, 0.0, vec.x(),
