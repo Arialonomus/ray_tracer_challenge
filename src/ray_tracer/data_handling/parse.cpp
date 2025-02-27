@@ -241,13 +241,13 @@ namespace data {
     {
         gfx::Matrix4 transform_matrix{ gfx::createIdentityMatrix() };
         for (const auto& transform_data: transform_data_list) {
-            transform_matrix *= parseTransformMatrixData(transform_data);
+            transform_matrix *= parse3DTransformMatrixData(transform_data);
         }
         return transform_matrix;
     }
 
-    // Transform Matrix Parser
-    gfx::Matrix4 parseTransformMatrixData(const json& transform_data)
+    // 3D Transform Matrix Parser
+    gfx::Matrix4 parse3DTransformMatrixData(const json& transform_data)
     {
         // Define string-to-case mapping for possible transform matrices
         enum class Cases{ Translation, Scaling, XRotation, YRotation, ZRotation, Skew };
@@ -275,7 +275,7 @@ namespace data {
                 if (transform_vals.size() == 3) {
                     return gfx::createTranslationMatrix(transform_vals[0], transform_vals[1], transform_vals[2]);
                 } else {
-                    throw std::invalid_argument("Translation matrix value arrays must only have 3 values");
+                    throw std::invalid_argument("3D Translation matrix value arrays must only have 3 values");
                 }
             case Cases::Scaling:
                 if (transform_vals.size() == 1) {
@@ -283,32 +283,105 @@ namespace data {
                 } else if (transform_vals.size() == 3) {
                     return gfx::createScalingMatrix(transform_vals[0], transform_vals[1], transform_vals[2]);
                 } else {
-                    throw std::invalid_argument("Scaling matrix value arrays must only have 1 or 3 values");
+                    throw std::invalid_argument("3D Scaling matrix value arrays must only have 1 or 3 values");
                 }
             case Cases::XRotation:
                 if (transform_vals.size() == 1) {
                     return gfx::createXRotationMatrix(transform_vals[0]);
                 } else {
-                    throw std::invalid_argument("X-axis rotation matrix value arrays must only have 1 value");
+                    throw std::invalid_argument("3D X-axis rotation matrix value arrays must only have 1 value");
                 }
             case Cases::YRotation:
                 if (transform_vals.size() == 1) {
                     return gfx::createYRotationMatrix(transform_vals[0]);
                 } else {
-                    throw std::invalid_argument("Y-axis rotation matrix value arrays must only have 1 value");
+                    throw std::invalid_argument("3D Y-axis rotation matrix value arrays must only have 1 value");
                 }
             case Cases::ZRotation:
                 if (transform_vals.size() == 1) {
                     return gfx::createZRotationMatrix(transform_vals[0]);
                 } else {
-                    throw std::invalid_argument("Z-axis rotation matrix value arrays must only have 1 value");
+                    throw std::invalid_argument("3D Z-axis rotation matrix value arrays must only have 1 value");
                 }
             case Cases::Skew:
                 if (transform_vals.size() == 6) {
                     return gfx::createSkewMatrix(transform_vals[0], transform_vals[1], transform_vals[2],
                                                  transform_vals[3], transform_vals[4], transform_vals[5]);
                 } else {
-                    throw std::invalid_argument("Skew matrix value arrays must only have 6 values");
+                    throw std::invalid_argument("3D Skew matrix value arrays must only have 6 values");
+                }
+        }
+    }
+
+    // 2D Transform Matrix Parser
+    gfx::Matrix3 parse2DTransformMatrixData(const json& transform_data)
+    {
+        // Define string-to-case mapping for possible transform matrices
+        enum class Cases{ Translation, Scaling, Rotation, XReflection, YReflection, XSkew, YSkew };
+        static const std::unordered_map<std::string_view, Cases> stringToCaseMap{
+                { "translate",  Cases::Translation },
+                { "scale",      Cases::Scaling },
+                { "rotate",     Cases::Rotation },
+                { "reflect_x",  Cases::XReflection },
+                { "reflect_y",  Cases::YReflection },
+                { "skew_x",     Cases::XSkew },
+                { "skew_y",     Cases::YSkew }
+        };
+
+        // Convert the string to a Case for use in the switch statement
+        std::string_view transform_type_str{ transform_data["type"].get<std::string_view>() };
+        auto it{ stringToCaseMap.find(transform_type_str) };
+        if (it == stringToCaseMap.end()) {
+            throw std::invalid_argument("Invalid transform matrix type, check spelling in scene data input file");
+        }
+        Cases matrix_type{ it->second };
+
+        // Return the appropriate matrix based on the matrix type
+        const std::vector<double> transform_vals{ transform_data["values"].get<std::vector<double>>() };
+        switch (matrix_type) {
+            case Cases::Translation:
+                if (transform_vals.size() == 2) {
+                    return gfx::create2DTranslationMatrix(transform_vals[0], transform_vals[1]);
+                } else {
+                    throw std::invalid_argument("2D Translation matrix value arrays must only have 2 values");
+                }
+            case Cases::Scaling:
+                if (transform_vals.size() == 1) {
+                    return gfx::create2DScalingMatrix(transform_vals[0]);
+                } else if (transform_vals.size() == 2) {
+                    return gfx::create2DScalingMatrix(transform_vals[0], transform_vals[1]);
+                } else {
+                    throw std::invalid_argument("2D Scaling matrix value arrays must only have 1 or 2 values");
+                }
+            case Cases::Rotation:
+                if (transform_vals.size() == 1) {
+                    return gfx::create2DRotationMatrix(transform_vals[0]);
+                } else {
+                    throw std::invalid_argument("2D Rotation matrix value arrays must only have 1 value");
+                }
+            case Cases::XReflection:
+                if (!transform_vals.empty()) {
+                    return gfx::create2DHorizontalReflectionMatrix();
+                } else {
+                    throw std::invalid_argument("2D Horizontal reflection matrix value arrays must be empty");
+                }
+            case Cases::YReflection:
+                if (!transform_vals.empty()) {
+                    return gfx::create2DVerticalReflectionMatrix();
+                } else {
+                    throw std::invalid_argument("2D Vertical reflection matrix value arrays must be empty");
+                }
+            case Cases::XSkew:
+                if (transform_vals.size() == 1) {
+                    return gfx::create2DHorizontalSkewMatrix(transform_vals[0]);
+                } else {
+                    throw std::invalid_argument("2D Horizontal skew matrix value arrays must only have 1 value");
+                }
+            case Cases::YSkew:
+                if (transform_vals.size() == 1) {
+                    return gfx::create2DVerticalSkewMatrix(transform_vals[0]);
+                } else {
+                    throw std::invalid_argument("2D Vertical skew matrix value arrays must only have 1 value");
                 }
         }
     }
