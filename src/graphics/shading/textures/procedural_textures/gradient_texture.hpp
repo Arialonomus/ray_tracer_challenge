@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pattern_tex.hpp"
+#include "texture.hpp"
 
 namespace gfx {
     class GradientTexture : public Texture
