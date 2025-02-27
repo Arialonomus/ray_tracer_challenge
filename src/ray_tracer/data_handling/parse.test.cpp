@@ -15,8 +15,8 @@
 #include "cone.hpp"
 #include "composite_surface.hpp"
 
+#include "gradient_texture.hpp"
 #include "stripe_pattern.hpp"
-#include "gradient_pattern.hpp"
 #include "ring_pattern.hpp"
 #include "checkered_pattern.hpp"
 
@@ -31,7 +31,7 @@ TEST(RayTracerParse, ParseTranslateMatrixData)
             { "values", json::array({ 0, 0, 5 }) }
     };
     const gfx::Matrix4 translate_matrix_expected{ gfx::createTranslationMatrix(0, 0, 5) };
-    const gfx::Matrix4 translate_matrix_actual{ data::parseTransformMatrixData(translate_matrix_data) };
+    const gfx::Matrix4 translate_matrix_actual{ data::parse3DTransformMatrixData(translate_matrix_data) };
 
     ASSERT_EQ(translate_matrix_actual, translate_matrix_expected);
 }
@@ -46,7 +46,7 @@ TEST(RayTracerParse, ParseScalingMatrixData)
     };
     const gfx::Matrix4 uniform_scale_matrix_expected{ gfx::createScalingMatrix(10) };
     const gfx::Matrix4 uniform_scale_matrix_actual{
-            data::parseTransformMatrixData(uniform_scale_matrix_data)
+            data::parse3DTransformMatrixData(uniform_scale_matrix_data)
     };
 
     ASSERT_EQ(uniform_scale_matrix_actual, uniform_scale_matrix_expected);
@@ -58,7 +58,7 @@ TEST(RayTracerParse, ParseScalingMatrixData)
     };
     const gfx::Matrix4 scale_matrix_expected{ gfx::createScalingMatrix(2, 4, 6) };
     const gfx::Matrix4 scale_matrix_actual{
-            data::parseTransformMatrixData(scale_matrix_data)
+            data::parse3DTransformMatrixData(scale_matrix_data)
     };
 
     ASSERT_EQ(scale_matrix_actual, scale_matrix_expected);
@@ -74,7 +74,7 @@ TEST(RayTracerParse, ParseRotationMatrixData)
     };
     const gfx::Matrix4 x_rotation_matrix_expected{ gfx::createXRotationMatrix(M_PI_2) };
     const gfx::Matrix4 x_rotation_matrix_actual{
-            data::parseTransformMatrixData(x_rotation_matrix_data)
+            data::parse3DTransformMatrixData(x_rotation_matrix_data)
     };
 
     ASSERT_EQ(x_rotation_matrix_actual, x_rotation_matrix_expected);
@@ -86,7 +86,7 @@ TEST(RayTracerParse, ParseRotationMatrixData)
     };
     const gfx::Matrix4 y_rotation_matrix_expected{ gfx::createYRotationMatrix(M_PI_2) };
     const gfx::Matrix4 y_rotation_matrix_actual{
-            data::parseTransformMatrixData(y_rotation_matrix_data)
+            data::parse3DTransformMatrixData(y_rotation_matrix_data)
     };
 
     ASSERT_EQ(y_rotation_matrix_actual, y_rotation_matrix_expected);
@@ -98,7 +98,7 @@ TEST(RayTracerParse, ParseRotationMatrixData)
     };
     const gfx::Matrix4 z_rotation_matrix_expected{ gfx::createZRotationMatrix(M_PI_2) };
     const gfx::Matrix4 z_rotation_matrix_actual{
-        data::parseTransformMatrixData(z_rotation_matrix_data)
+            data::parse3DTransformMatrixData(z_rotation_matrix_data)
     };
 
     ASSERT_EQ(z_rotation_matrix_actual, z_rotation_matrix_expected);
@@ -113,7 +113,7 @@ TEST(RayTracerParse, ParseSkewMatrixData)
             { "values", json::array({ 0, 0, 0, 0, 0, 1 }) }
     };
     const gfx::Matrix4 skew_matrix_expected{ gfx::createSkewMatrix(0, 0, 0, 0, 0, 1) };
-    const gfx::Matrix4 skew_matrix_actual{ data::parseTransformMatrixData(skew_matrix_data) };
+    const gfx::Matrix4 skew_matrix_actual{ data::parse3DTransformMatrixData(skew_matrix_data) };
 
     ASSERT_EQ(skew_matrix_actual, skew_matrix_expected);
 }
@@ -129,7 +129,7 @@ TEST(RayTracerParse, ParseMatrixInvalidJSON)
 
     EXPECT_THROW({
         const gfx::Matrix4 error_rotation_matrix_actual{
-                data::parseTransformMatrixData(error_rotation_matrix_data) };
+                data::parse3DTransformMatrixData(error_rotation_matrix_data) };
         }, std::invalid_argument);
 
     // Test invalid number of translate matrix values
@@ -140,7 +140,7 @@ TEST(RayTracerParse, ParseMatrixInvalidJSON)
 
     EXPECT_THROW({
          const gfx::Matrix4 error_translate_matrix_actual{
-                 data::parseTransformMatrixData(error_translate_matrix_data) };
+                 data::parse3DTransformMatrixData(error_translate_matrix_data) };
          }, std::invalid_argument);
 
     // Test invalid number of scale matrix values
@@ -151,7 +151,7 @@ TEST(RayTracerParse, ParseMatrixInvalidJSON)
 
     EXPECT_THROW({
          const gfx::Matrix4 error_scale_matrix_actual{
-                 data::parseTransformMatrixData(error_scale_matrix_data) };
+                 data::parse3DTransformMatrixData(error_scale_matrix_data) };
          }, std::invalid_argument);
 
     // Test invalid number of x-axis rotation matrix values
@@ -162,7 +162,7 @@ TEST(RayTracerParse, ParseMatrixInvalidJSON)
 
     EXPECT_THROW({
          const gfx::Matrix4 error_y_rotation_matrix_actual{
-                 data::parseTransformMatrixData(error_x_rotation_matrix_data) };
+                 data::parse3DTransformMatrixData(error_x_rotation_matrix_data) };
          }, std::invalid_argument);
 
     // Test invalid number of x-axis rotation matrix values
@@ -173,7 +173,7 @@ TEST(RayTracerParse, ParseMatrixInvalidJSON)
 
     EXPECT_THROW({
          const gfx::Matrix4 error_y_rotation_matrix_actual{
-                 data::parseTransformMatrixData(error_y_rotation_matrix_data) };
+                 data::parse3DTransformMatrixData(error_y_rotation_matrix_data) };
          }, std::invalid_argument);
 
     // Test invalid number of x-axis rotation matrix values
@@ -184,7 +184,7 @@ TEST(RayTracerParse, ParseMatrixInvalidJSON)
 
     EXPECT_THROW({
          const gfx::Matrix4 error_z_rotation_matrix_actual{
-                 data::parseTransformMatrixData(error_z_rotation_matrix_data) };
+                 data::parse3DTransformMatrixData(error_z_rotation_matrix_data) };
          }, std::invalid_argument);
 
     // Test invalid number of x-axis rotation matrix values
@@ -195,7 +195,7 @@ TEST(RayTracerParse, ParseMatrixInvalidJSON)
 
     EXPECT_THROW({
          const gfx::Matrix4 error_skew_matrix_actual{
-                 data::parseTransformMatrixData(error_skew_matrix_data) };
+                 data::parse3DTransformMatrixData(error_skew_matrix_data) };
          }, std::invalid_argument);
 }
 
@@ -216,7 +216,7 @@ TEST(RayTracerParse, BuildChainedTransformMatrix)
         gfx::createXRotationMatrix(M_PI_2) *
         gfx::createScalingMatrix(10, 0.01, 10)
     };
-    const gfx::Matrix4 transform_matrix_actual{ data::buildChainedTransformMatrix(transform_data_list) };
+    const gfx::Matrix4 transform_matrix_actual{ data::buildChained3DTransformMatrix(transform_data_list) };
 
     EXPECT_EQ(transform_matrix_actual, transform_matrix_expected);
 }
@@ -232,8 +232,24 @@ TEST(RayTracerParse, ParseColorData)
 }
 
 // Tests creating various patterns from parsed JSON data
-TEST(RayTracerParse, ParsePatternData)
+TEST(RayTracerParse, ParseTextureData)
 {
+    // Test creating a gradient texture
+    const json gradient_pattern_data{
+            { "type", "gradient"},
+            { "transform", json::array({
+                { { "type", "scale" }, { "values", json::array({ 5 }) } }
+            }) },
+            { "color_a", json::array({ 0, 0, 0 }) },
+            { "color_b", json::array({ 1, 1, 1 }) },
+    };
+    const gfx::GradientTexture gradient_pattern_expected{ gfx::create2DScalingMatrix(5),
+                                                          gfx::black(),
+                                                          gfx::white() };
+
+    const auto gradient_pattern_actual{ data::parseTextureData(gradient_pattern_data) };
+    EXPECT_EQ(*gradient_pattern_actual, gradient_pattern_expected);
+
     // Test creating a stripe pattern
     const json stripe_pattern_data{
             { "type", "stripe"},
@@ -241,59 +257,42 @@ TEST(RayTracerParse, ParsePatternData)
             { "color_a", json::array({ 0, 0, 0 }) },
             { "color_b", json::array({ 1, 1, 1 }) },
     };
-    const gfx::StripePattern stripe_pattern_expected{ gfx::createIdentityMatrix(),
-                                                      gfx::black(),
+    const gfx::StripePattern stripe_pattern_expected{ gfx::black(),
                                                       gfx::white() };
 
-    const auto stripe_pattern_actual{ data::parsePatternData(stripe_pattern_data) };
+    const auto stripe_pattern_actual{ data::parseTextureData(stripe_pattern_data) };
     EXPECT_EQ(*stripe_pattern_actual, stripe_pattern_expected);
-
-    // Test creating a gradient pattern
-    const json gradient_pattern_data{
-            { "type", "gradient"},
-            { "transform", json::array({
-                                               { { "type", "scale" }, { "values", json::array({ 5 }) } }
-                                       }) },
-            { "color_a", json::array({ 0, 0, 0 }) },
-            { "color_b", json::array({ 1, 1, 1 }) },
-    };
-    const gfx::GradientPattern gradient_pattern_expected{ gfx::createScalingMatrix(5),
-                                                          gfx::black(),
-                                                          gfx::white() };
-
-    const auto gradient_pattern_actual{ data::parsePatternData(gradient_pattern_data) };
-    EXPECT_EQ(*gradient_pattern_actual, gradient_pattern_expected);
 
     // Test creating a ring pattern
     const json ring_pattern_data{
             { "type", "ring"},
             { "transform", json::array({
-                                               { { "type", "translate" }, { "values", json::array({ 5, 10, 15 }) } }
-                                       }) },
+                { { "type", "translate" }, { "values", json::array({ 5, 15 }) } }
+            }) },
             { "color_a", json::array({ 0, 0, 0 }) },
             { "color_b", json::array({ 1, 1, 1 }) },
     };
-    const gfx::RingPattern ring_pattern_expected{ gfx::createTranslationMatrix(5, 10, 15),
+    const gfx::RingPattern ring_pattern_expected{ gfx::create2DTranslationMatrix(5, 15),
                                                   gfx::black(),
                                                   gfx::white() };
 
-    const auto ring_pattern_actual{ data::parsePatternData(ring_pattern_data) };
+    const auto ring_pattern_actual{ data::parseTextureData(ring_pattern_data) };
     EXPECT_EQ(*ring_pattern_actual, ring_pattern_expected);
 
     // Test creating a checkered pattern
     const json checkered_pattern_data{
             { "type", "checkered"},
             { "transform", json::array({
-                { { "type", "rotate_z" }, { "values", json::array({ M_PI_4 }) } }
+                { { "type", "rotate" }, { "values", json::array({ M_PI_4 }) } }
             }) },
             { "color_a", json::array({ 0, 0, 0 }) },
             { "color_b", json::array({ 1, 1, 1 }) },
     };
-    const gfx::CheckeredPattern checkered_pattern_expected{ gfx::createZRotationMatrix(M_PI_4),
+    const gfx::CheckeredPattern checkered_pattern_expected{ gfx::create2DRotationMatrix(M_PI_4),
                                                             gfx::black(),
                                                             gfx::white() };
 
-    const auto checkered_pattern_actual{ data::parsePatternData(checkered_pattern_data) };
+    const auto checkered_pattern_actual{ data::parseTextureData(checkered_pattern_data) };
     EXPECT_EQ(*checkered_pattern_actual, checkered_pattern_expected);
 }
 
@@ -326,7 +325,7 @@ TEST(RayTracerParse, ParseMaterialData)
 
     // Test parsing a material with a pattern
     const json material_data_with_pattern{
-           { "pattern", {
+           { "texture", {
                 { "type", "stripe"},
                 { "transform", json::array({ }) },
                 { "color_a", json::array({ 0, 0, 0 }) },
@@ -343,7 +342,6 @@ TEST(RayTracerParse, ParseMaterialData)
 
     const gfx::StripePattern stripe_pattern_expected{ gfx::black(),
                                                       gfx::white() };
-
     const gfx::Material material_with_pattern_expected{ stripe_pattern_expected,
                                                         0.5,
                                                         0.5,
@@ -353,7 +351,6 @@ TEST(RayTracerParse, ParseMaterialData)
                                                         1,
                                                         1.25 };
     const gfx::Material material_with_pattern_actual(data::parseMaterialData(material_data_with_pattern));
-
     EXPECT_EQ(material_with_pattern_actual, material_with_pattern_expected);
 }
 
