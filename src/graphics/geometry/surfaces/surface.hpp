@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "material.hpp"
+#include "texture_map.hpp"
 
 namespace gfx {
     class Surface : public Object
@@ -18,18 +19,20 @@ namespace gfx {
         Surface() = default;
 
         // Transform-Only Constructor
-        explicit Surface(const Matrix4& transform)
-                : Object(transform), m_material{ }
+        explicit Surface(const Matrix4& transform, TextureMap texture_mapping = ProjectionMap)
+                : Object(transform), m_material{ }, m_texture_mapping{ std::move(texture_mapping) }
         {}
 
         // Material-Only Constructor
-        explicit Surface(Material material)
-                : Object(), m_material{ std::move(material) }
+        explicit Surface(Material material, TextureMap texture_mapping = ProjectionMap)
+                : Object(), m_material{ std::move(material) }, m_texture_mapping{std::move( texture_mapping )}
         {}
 
         // Standard Constructor
-        Surface(const Matrix4& transform, Material material)
-                : Object(transform), m_material{ std::move(material) }
+        Surface(const Matrix4& transform, Material material, TextureMap texture_mapping = ProjectionMap)
+                : Object(transform),
+                  m_material{ std::move(material) },
+                  m_texture_mapping{std::move( texture_mapping )}
         {}
 
         // Copy Constructor
@@ -47,12 +50,21 @@ namespace gfx {
 
         [[nodiscard]] const Material& getMaterial() const;
 
+        [[nodiscard]] const TextureMap& getTextureMapping() const
+        { return m_texture_mapping; }
+
+        [[nodiscard]] Vector3 getTextureCoordinateFor(const Vector4& point) const
+        { return m_texture_mapping(point); }
+
         [[nodiscard]] Color getObjectColorAt(const Vector4& world_point) const;
 
         /* Mutators */
 
         void setMaterial(const Material& material)
         { m_material = material; }
+
+        void setTextureMap(const TextureMap& texture_mapping)
+        { m_texture_mapping = texture_mapping; }
 
         /* Geometric Operations */
 
@@ -63,6 +75,7 @@ namespace gfx {
         /* Data Members */
 
         Material m_material{ };
+        TextureMap m_texture_mapping{ ProjectionMap };
 
         /* Pure Virtual Helper Methods */
 

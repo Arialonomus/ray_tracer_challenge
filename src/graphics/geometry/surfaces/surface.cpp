@@ -13,18 +13,14 @@ namespace gfx {
 
     Color Surface::getObjectColorAt(const Vector4& world_point) const
     {
+        // Use getter to check for potential parent materials
         const Material& material{ this->getMaterial() };
 
-        if (material.hasPattern()) {
-            // Apply object and pattern transformations and sample the point
-            const Vector4 object_point{ this->transformToObjectSpace(world_point) };
-            const Vector4 pattern_point{ material.getPattern().getTransformInverse() * object_point };
+        // Apply object and pattern transformations and sample the point
+        const Vector4 object_point{ this->transformToObjectSpace(world_point) };
+        const Vector3 texture_coordinate{ this->getTextureCoordinateFor(object_point) };
 
-            return material.getPattern().samplePatternAt(pattern_point);
-        }
-
-        // Return the base surface color
-        return material.getColor();
+        return material.getTexture().getTextureColorAt(texture_coordinate);
     }
 
     Vector4 Surface::getSurfaceNormalAt(const Vector4& world_point) const
