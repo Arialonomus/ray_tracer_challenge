@@ -3,7 +3,8 @@
 #include <memory>
 
 #include "color.hpp"
-#include "pattern.hpp"
+#include "texture.hpp"
+#include "color_texture.hpp"
 
 namespace gfx {
     class Material
@@ -16,8 +17,7 @@ namespace gfx {
 
         // Color-Only Constructor
         explicit Material(const Color& color)
-                : m_color{ color },
-                  m_pattern{ nullptr },
+                : m_texture{ ColorTexture{ color }.clone() },
                   m_ambient{ 0.1 },
                   m_diffuse{ 0.9 },
                   m_specular{ 0.9 },
@@ -28,9 +28,8 @@ namespace gfx {
         {}
 
         // Pattern-Only Constructor
-        explicit Material(const Pattern& pattern)
-                : m_color{ 1, 1, 1 },
-                  m_pattern{ pattern.clone() },
+        explicit Material(const Texture& texture)
+                : m_texture{ texture.clone() },
                   m_ambient{ 0.1 },
                   m_diffuse{ 0.9 },
                   m_specular{ 0.9 },
@@ -46,8 +45,7 @@ namespace gfx {
                  const double specular,
                  const double shininess,
                  const double reflectivity)
-                : m_color{ 1, 1, 1 },
-                  m_pattern{ nullptr },
+                : m_texture{ ColorTexture{ }.clone() },
                   m_ambient{ ambient },
                   m_diffuse{ diffuse },
                   m_specular{ specular },
@@ -65,8 +63,7 @@ namespace gfx {
                  const double reflectivity,
                  const double transparency,
                  const double refractive_index)
-                : m_color{ 1, 1, 1 },
-                  m_pattern{ nullptr },
+                : m_texture{ ColorTexture{ }.clone() },
                   m_ambient{ ambient },
                   m_diffuse{ diffuse },
                   m_specular{ specular },
@@ -83,8 +80,7 @@ namespace gfx {
                  const double specular,
                  const double shininess,
                  const double reflectivity)
-                : m_color{ color },
-                  m_pattern{ nullptr },
+                : m_texture{ ColorTexture{ color }.clone() },
                   m_ambient{ ambient },
                   m_diffuse{ diffuse },
                   m_specular{ specular },
@@ -103,8 +99,7 @@ namespace gfx {
                  const double reflectivity,
                  const double transparency,
                  const double refractive_index)
-                : m_color{ color },
-                  m_pattern{ nullptr },
+                : m_texture{ ColorTexture{ color }.clone() },
                   m_ambient{ ambient },
                   m_diffuse{ diffuse },
                   m_specular{ specular },
@@ -123,8 +118,7 @@ namespace gfx {
                  const double specular,
                  const double shininess,
                  const double reflectivity)
-                : m_color{ Color{ color_r, color_g, color_b }},
-                  m_pattern{ nullptr },
+                : m_texture{ ColorTexture{ color_r, color_g, color_b }.clone() },
                   m_ambient{ ambient },
                   m_diffuse{ diffuse },
                   m_specular{ specular },
@@ -145,8 +139,7 @@ namespace gfx {
                  const double reflectivity,
                  const double transparency,
                  const double refractive_index)
-                : m_color{ Color{ color_r, color_g, color_b }},
-                  m_pattern{ nullptr },
+                : m_texture{ ColorTexture{ color_r, color_g, color_b }.clone() },
                   m_ambient{ ambient },
                   m_diffuse{ diffuse },
                   m_specular{ specular },
@@ -157,14 +150,13 @@ namespace gfx {
         {}
 
         // No-Color Constructor (Opaque Material)
-        Material(const Pattern& pattern,
+        Material(const Texture& texture,
                  const double ambient,
                  const double diffuse,
                  const double specular,
                  const double shininess,
                  const double reflectivity)
-                : m_color{ 1, 1, 1 },
-                  m_pattern{ pattern.clone() },
+                : m_texture{ texture.clone() },
                   m_ambient{ ambient },
                   m_diffuse{ diffuse },
                   m_specular{ specular },
@@ -175,7 +167,7 @@ namespace gfx {
         {}
 
         // No-Color Constructor (Transparent Material)
-        Material(const Pattern& pattern,
+        Material(const Texture& texture,
                  const double ambient,
                  const double diffuse,
                  const double specular,
@@ -183,8 +175,7 @@ namespace gfx {
                  const double reflectivity,
                  const double transparency,
                  const double refractive_index)
-                : m_color{ 1, 1, 1 },
-                  m_pattern{ pattern.clone() },
+                : m_texture{ texture.clone() },
                   m_ambient{ ambient },
                   m_diffuse{ diffuse },
                   m_specular{ specular },
@@ -196,8 +187,7 @@ namespace gfx {
 
         // Copy Constructor
         Material(const Material& src)
-                : m_color{ src.m_color },
-                  m_pattern{ src.m_pattern ? src.m_pattern->clone() : nullptr },
+                : m_texture{ src.m_texture->clone() },
                   m_ambient{ src.m_ambient },
                   m_diffuse{ src.m_diffuse },
                   m_specular{ src.m_specular },
@@ -209,8 +199,7 @@ namespace gfx {
 
         // Move Constructor
         Material(Material&& src) noexcept
-                : m_color{ src.m_color },
-                  m_pattern{ std::move(src.m_pattern) },
+                : m_texture{ std::move(src.m_texture) },
                   m_ambient{ src.m_ambient },
                   m_diffuse{ src.m_diffuse },
                   m_specular{ src.m_specular },
@@ -229,8 +218,7 @@ namespace gfx {
         // Copy Assignment Operator
         Material& operator=(const Material& src)
         {
-            m_color = src.m_color;
-            m_pattern = src.m_pattern ? src.m_pattern->clone() : nullptr;
+            m_texture = src.m_texture->clone();
             m_ambient = src.m_ambient;
             m_diffuse = src.m_diffuse;
             m_specular = src.m_specular;
@@ -245,8 +233,7 @@ namespace gfx {
         // Move Assignment Operator
         Material& operator=(Material&& src) noexcept
         {
-            m_color = src.m_color;
-            m_pattern = std::move(src.m_pattern);
+            m_texture = std::move(src.m_texture);
             m_ambient = src.m_ambient;
             m_diffuse = src.m_diffuse;
             m_specular = src.m_specular;
@@ -260,14 +247,8 @@ namespace gfx {
 
         /* Accessors */
 
-        [[nodiscard]] const Color& getColor() const
-        { return m_color; }
-
-        [[nodiscard]] bool hasPattern() const
-        { return m_pattern != nullptr; }
-
-        [[nodiscard]] const Pattern& getPattern() const
-        { return *m_pattern; }
+        [[nodiscard]] const Texture& getTexture() const
+        { return *m_texture; }
 
         [[nodiscard]] double getAmbient() const
         { return m_ambient; }
@@ -292,16 +273,14 @@ namespace gfx {
 
         /* Mutators */
 
-        void setColor(const Color& color)
-        { m_color = color; }
+        void setTexture(const Texture& texture)
+        { m_texture = texture.clone(); }
 
-        void setColor(const double r, const double g, const double b)
-        { m_color.setValues(r, g, b); }
+        void setTexture(const std::shared_ptr<Texture>& texture_ptr)
+        { m_texture = texture_ptr->clone(); }
 
-        void setPattern(const Pattern& pattern);
-
-        void setPattern(std::unique_ptr<Pattern>&& pattern_ptr)
-        { m_pattern = std::move(pattern_ptr); }
+        void setTexture(std::shared_ptr<Texture>&& texture_ptr)
+        { m_texture = std::move(texture_ptr); }
 
         void setAmbient(const double ambient)
         { m_ambient = ambient; }
@@ -331,8 +310,7 @@ namespace gfx {
     private:
         /* Data Members */
 
-        Color m_color{ 1, 1, 1 };
-        std::unique_ptr<Pattern> m_pattern{ nullptr };
+        std::shared_ptr<Texture> m_texture{ ColorTexture{ }.clone() };
         double m_ambient{ 0.1 };
         double m_diffuse{ 0.9 };
         double m_specular{ 0.9 };
