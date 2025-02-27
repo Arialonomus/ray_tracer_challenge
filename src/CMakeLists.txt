@@ -8,8 +8,10 @@ add_library(gfx)
 # Set source files for the gfx library
 target_sources(gfx PRIVATE
         graphics/utils/util_functions.cpp
+        graphics/data_structures/vector3.cpp
         graphics/data_structures/vector4.cpp
         graphics/data_structures/color.cpp
+        graphics/data_structures/matrix3.cpp
         graphics/data_structures/matrix4.cpp
         graphics/functions/linear_algebra.cpp
         graphics/functions/transform.cpp
@@ -26,10 +28,13 @@ target_sources(gfx PRIVATE
         graphics/geometry/ray.cpp
         graphics/geometry/intersection.cpp
         graphics/geometry/world.cpp
-        graphics/shading/patterns/stripe_pattern.cpp
-        graphics/shading/patterns/gradient_pattern.cpp
-        graphics/shading/patterns/ring_pattern.cpp
-        graphics/shading/patterns/checkered_pattern.cpp
+        graphics/shading/textures/texture.cpp
+        graphics/shading/textures/texture_map.cpp
+        graphics/shading/textures/procedural_textures/color_texture.cpp
+        graphics/shading/textures/procedural_textures/gradient_texture.cpp
+        graphics/shading/textures/procedural_textures/patterns/stripe_pattern.cpp
+        graphics/shading/textures/procedural_textures/patterns/ring_pattern.cpp
+        graphics/shading/textures/procedural_textures/patterns/checkered_pattern.cpp
         graphics/shading/material.cpp
         graphics/shading/shading_functions.cpp
 )
@@ -41,7 +46,9 @@ target_include_directories(gfx PUBLIC
         graphics/geometry
         graphics/geometry/surfaces
         graphics/shading
-        graphics/shading/patterns
+        graphics/shading/textures
+        graphics/shading/textures/procedural_textures
+        graphics/shading/textures/procedural_textures/patterns
         graphics/utils
 )
 

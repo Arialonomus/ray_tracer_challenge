@@ -7,8 +7,10 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 # Gather unit test source files
 set(GFX_UNIT_TESTS
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/vector3.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/vector4.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/color.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/matrix3.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/data_structures/matrix4.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/functions/transform.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/functions/linear_algebra.test.cpp
@@ -25,18 +27,18 @@ set(GFX_UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/ray.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/intersection.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/geometry/world.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/patterns/pattern.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/patterns/two_tone_pattern.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/material.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/shading.test.cpp
-
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/textures/texture.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/textures/texture_map.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/textures/procedural_textures/procedural_texture.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/textures/procedural_textures/patterns/pattern.test.cpp
 )
 set(RAY_TRACER_UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ray_tracer/rendering/canvas.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ray_tracer/rendering/camera.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ray_tracer/rendering/rendering.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ray_tracer/data_handling/parse.test.cpp
-
 )
 
 # Gather all test sources into single variable
