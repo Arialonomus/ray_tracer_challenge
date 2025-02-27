@@ -10,8 +10,8 @@
 #include "cylinder.hpp"
 #include "cone.hpp"
 
+#include "gradient_texture.hpp"
 #include "stripe_pattern.hpp"
-#include "gradient_pattern.hpp"
 #include "ring_pattern.hpp"
 #include "checkered_pattern.hpp"
 
@@ -166,66 +166,67 @@ namespace data {
         };
 
         // Set the pattern or object color
-        if (material_data.contains("pattern"))
-            material.setPattern(parsePatternData(material_data["pattern"]));
-        else
-            material.setColor(parseColorData(material_data["color"]));
+        if (material_data.contains("texture"))
+            material.setTexture(parseTextureData(material_data["texture"]));
+        else if (material_data.contains("color"))
+            material.setTexture(gfx::ColorTexture{ parseColorData(material_data["color"]) });
 
         return material;
     }
 
-    // Pattern Data Parser
-    std::unique_ptr<gfx::Pattern> parsePatternData(const json& pattern_data)
+    // Texture Data Parser
+    std::shared_ptr<gfx::Texture> parseTextureData(const json& texture_data)
     {
-        // Define string-to-case mapping for possible patterns
-        enum class Cases{ Stripe, Gradient, Ring, Checkered };
+        // Define string-to-case mapping for possible textures
+        enum class Cases{ Gradient, Stripe, Ring, Checkered };
         static const std::unordered_map<std::string_view, Cases> stringToCaseMap{
-                { "stripe",    Cases::Stripe },
                 { "gradient",  Cases::Gradient },
+                { "stripe",    Cases::Stripe },
                 { "ring",      Cases::Ring },
                 { "checkered", Cases::Checkered }
         };
 
         // Convert the string to a Case for use in the switch statement
-        std::string_view pattern_type_str{ pattern_data["type"].get<std::string_view>() };
-        auto it{ stringToCaseMap.find(pattern_type_str) };
+        std::string_view texture_type_str{ texture_data["type"].get<std::string_view>() };
+        auto it{ stringToCaseMap.find(texture_type_str) };
         if (it == stringToCaseMap.end()) {
             throw std::invalid_argument("Invalid pattern type, check spelling in scene data input file");
         }
-        Cases pattern_type{ it->second };
+        Cases texture_type{ it->second };
 
         // Build the transform matrix
-        gfx::Matrix4 transform_matrix{ buildChainedTransformMatrix(pattern_data["transform"]) };
+        gfx::Matrix3 transform_matrix{ parse2DTransformMatrixData(texture_data["transform"]) };
 
-        // Create and return the pattern
-        switch (pattern_type) {
+        // Create and return the texture
+        const auto [ texture_a_ptr, texture_b_ptr ] { createPatternTextures(texture_data) };
+        switch (texture_type) {
+            case Cases::Gradient:
+                return std::make_shared<gfx::GradientTexture>(
+                        gfx::GradientTexture{
+                                transform_matrix,
+                                parseColorData(texture_data["color_a"]),
+                                parseColorData(texture_data["color_b"])
+                        });
             case Cases::Stripe:
-                return std::make_unique<gfx::StripePattern>(
+                return std::make_shared<gfx::StripePattern>(
                         gfx::StripePattern{
                                 transform_matrix,
-                                parseColorData(pattern_data["color_a"]),
-                                parseColorData(pattern_data["color_b"])
-                        });
-            case Cases::Gradient:
-                return std::make_unique<gfx::GradientPattern>(
-                        gfx::GradientPattern{
-                                transform_matrix,
-                                parseColorData(pattern_data["color_a"]),
-                                parseColorData(pattern_data["color_b"])
+                                *texture_a_ptr,
+                                *texture_b_ptr
                         });
             case Cases::Ring:
-                return std::make_unique<gfx::RingPattern>(
+                return std::make_shared<gfx::RingPattern>(
                         gfx::RingPattern{
                                 transform_matrix,
-                                parseColorData(pattern_data["color_a"]),
-                                parseColorData(pattern_data["color_b"])
+                                *texture_a_ptr,
+                                *texture_b_ptr
                         });
             case Cases::Checkered:
-                return std::make_unique<gfx::CheckeredPattern>(
+                return std::make_shared<gfx::CheckeredPattern>(
                         gfx::CheckeredPattern{
                                 transform_matrix,
-                                parseColorData(pattern_data["color_a"]),
-                                parseColorData(pattern_data["color_b"])
+                                *texture_a_ptr,
+                                *texture_b_ptr
                         });
         }
     }
@@ -234,6 +235,30 @@ namespace data {
     gfx::Color parseColorData(const json& color_data)
     {
         return gfx::Color{ color_data[0], color_data[1], color_data[2] };
+    }
+
+    // Nested Pattern Texture Creator
+    std::pair<std::shared_ptr<gfx::Texture>, std::shared_ptr<gfx::Texture>>
+    createPatternTextures(const json& pattern_data)
+    {
+        std::shared_ptr<gfx::Texture> texture_a_ptr, texture_b_ptr = nullptr;
+        if (pattern_data.contains("color_a")) {
+            texture_a_ptr = gfx::ColorTexture{ parseColorData(pattern_data["color_a"]) }.clone();
+        } else if (pattern_data.contains("texture_a")) {
+            texture_a_ptr = parseTextureData(pattern_data["texture_a"]);
+        } else {
+            throw std::invalid_argument("Pattern must contain a definition of another pattern (as pattern_a) or a color (as color_a)");
+        }
+
+        if (pattern_data.contains("color_b")) {
+            texture_b_ptr = gfx::ColorTexture{ parseColorData(pattern_data["color_b"]) }.clone();
+        } else if (pattern_data.contains("texture_b")) {
+            texture_b_ptr = parseTextureData(pattern_data["texture_b"]);
+        } else {
+            throw std::invalid_argument("Pattern must contain a definition of another pattern (as pattern_b) or a color (as color_b)");
+        }
+
+        return { texture_a_ptr, texture_b_ptr };
     }
 
     // Chained Transformation Matrix Builder
