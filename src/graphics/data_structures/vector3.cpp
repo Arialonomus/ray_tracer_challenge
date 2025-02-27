@@ -103,6 +103,12 @@ namespace gfx {
         );
     }
 
+    // Point Factory Function
+    Vector3 create2DPoint(const double u, const double v)
+    {
+        return Vector3{ u, v, 1.0 };
+    }
+
     // Addition Operator
     Vector3 operator+(const Vector3& lhs, const Vector3& rhs)
     {

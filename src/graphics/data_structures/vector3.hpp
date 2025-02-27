@@ -73,6 +73,11 @@ namespace gfx {
         std::array<double, 3> m_data{ 0.0, 0.0, 0.0 };
     };
 
+    /* Vector Factory Functions */
+
+    // Returns a Vector4 representing a point in space
+    [[nodiscard]] Vector3 create2DPoint(double u, double v);
+
     /* Global Arithmetic Operator Overloads */
 
     [[nodiscard]] Vector3 operator+(const Vector3& lhs, const Vector3& rhs);
