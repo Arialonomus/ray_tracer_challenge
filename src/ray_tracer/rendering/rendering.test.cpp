@@ -12,8 +12,7 @@
 // Tests rendering a world to a canvas
 TEST(RayTracerRendering, RenderWorld)
 {
-    gfx::Material material{ };
-    material.setColor(0.8, 1.0, 0.6);
+    gfx::Material material{ gfx::Color{ 0.8, 1.0, 0.6 } };
     material.setDiffuse(0.7);
     material.setSpecular(0.2);
 

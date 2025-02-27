@@ -10,6 +10,7 @@
 #include "transform.hpp"
 #include "intersection.hpp"
 #include "plane.hpp"
+#include "texture_map.hpp"
 
 static const gfx::World default_world {
     gfx::PointLight { gfx::Color{ 1, 1, 1 },
@@ -183,8 +184,7 @@ TEST(GraphicsWorld, CalculatePixelColorHitOutside)
 // Test shading a color when a ray hits an object in world from the inside
 TEST(GraphicsWorld, CalculatePixelColorHitInside)
 {
-    gfx::Material material{ };
-    material.setColor(0.8, 1.0, 0.6);
+    gfx::Material material{ gfx::Color{ 0.8, 1.0, 0.6 } };
     material.setDiffuse(0.7);
     material.setSpecular(0.2);
 
@@ -205,9 +205,8 @@ TEST(GraphicsWorld, CalculatePixelColorHitInside)
 // Test shading a color when a ray intersection is behind the ray origin
 TEST(GraphicsWorld, CalculatePixelColorHitBehind)
 {
-    gfx::Material sphere_a_material{ };
+    gfx::Material sphere_a_material{ gfx::Color{ 0.8, 1.0, 0.6 } };
     sphere_a_material.setAmbient(1);
-    sphere_a_material.setColor(0.8, 1.0, 0.6);
     sphere_a_material.setDiffuse(0.7);
     sphere_a_material.setSpecular(0.2);
 
@@ -222,7 +221,7 @@ TEST(GraphicsWorld, CalculatePixelColorHitBehind)
     const gfx::Ray ray{ 0, 0, 0.75,
                         0, 0, -1 };
 
-    const gfx::Color pixel_color_expected{ sphere_b.getMaterial().getColor() };
+    const gfx::Color pixel_color_expected{ gfx::white() };
     const gfx::Color pixel_color_actual{ world.calculatePixelColor(ray) };
 
     EXPECT_EQ(pixel_color_actual, pixel_color_expected);
@@ -351,8 +350,7 @@ TEST(GraphicsWorld, CalculateRefractedColorMaximumDepth)
 // Tests calculating the refracted color under total internal reflection
 TEST(GraphicsWorld, CalculateRefractedColorTotalInternalReflection)
 {
-    gfx::Material sphere_a_material{ };
-    sphere_a_material.setColor(0.8, 1.0, 0.6);
+    gfx::Material sphere_a_material{ gfx::Color{ 0.8, 1.0, 0.6 } };
     sphere_a_material.setDiffuse(0.7);
     sphere_a_material.setSpecular(0.2);
     sphere_a_material.setTransparency(1);
@@ -376,13 +374,35 @@ TEST(GraphicsWorld, CalculateRefractedColorTotalInternalReflection)
 // Tests calculating the refracted color using refraction rays
 TEST(GraphicsWorld, CalculateRefractedColor)
 {
-    gfx::Material sphere_a_material{ };
-    sphere_a_material.setPattern(gfx::TestPattern{ });
+    // The original test spec on p133-134 of "The Ray Tracer Challenge" defines a test pattern that returns
+    // a color based on the passed-in coordinates. This functionality is used to ensure rays are properly
+    // refracted in this test. Following the redesign of Patterns into Textures which use uv coordinates for
+    // sampling, this design was no longer possible. As a temporary solution, these test structures have been added
+    // preserve the test functionality
+    class RefractionTestTexture : public gfx::Texture {
+    public:
+        RefractionTestTexture() = default;
+        ~RefractionTestTexture() override = default;
+
+        [[nodiscard]] std::shared_ptr<gfx::Texture> clone() const override
+        { return std::make_shared<RefractionTestTexture>(*this); }
+
+        [[nodiscard]] gfx::Color sampleTextureAt(const gfx::Vector3& transformed_uv) const override
+        { return gfx::Color{ transformed_uv.x(), transformed_uv.y(), transformed_uv.w() }; }
+
+        [[nodiscard]] bool areEquivalent(const Texture& other_texture) const override
+        { return true; }
+    };
+    gfx::TextureMap RefractionTestMap{ [](const gfx::Vector4& point) -> gfx::Vector3 {
+        return gfx::Vector3{ point.x(), point.y(), point.z() };
+    } };
+
+    gfx::Material sphere_a_material{ RefractionTestTexture{ } };
     sphere_a_material.setAmbient(1);
     sphere_a_material.setDiffuse(0.7);
     sphere_a_material.setSpecular(0.2);
 
-    gfx::Sphere sphere_a{ sphere_a_material };
+    gfx::Sphere sphere_a{ sphere_a_material, RefractionTestMap };
 
     gfx::Material sphere_b_material{ };
     sphere_b_material.setTransparency(1);
