@@ -216,31 +216,37 @@ namespace gfx {
         /* Assignment Operators */
 
         // Copy Assignment Operator
-        Material& operator=(const Material& src)
+        Material& operator=(const Material& rhs)
         {
-            m_texture = src.m_texture->clone();
-            m_ambient = src.m_ambient;
-            m_diffuse = src.m_diffuse;
-            m_specular = src.m_specular;
-            m_shininess = src.m_shininess;
-            m_reflectivity = src.m_reflectivity;
-            m_transparency = src.m_transparency;
-            m_refractive_index = src.m_refractive_index;
+            if (this == &rhs)
+                return *this;
+
+            m_texture = rhs.m_texture->clone();
+            m_ambient = rhs.m_ambient;
+            m_diffuse = rhs.m_diffuse;
+            m_specular = rhs.m_specular;
+            m_shininess = rhs.m_shininess;
+            m_reflectivity = rhs.m_reflectivity;
+            m_transparency = rhs.m_transparency;
+            m_refractive_index = rhs.m_refractive_index;
 
             return *this;
         }
 
         // Move Assignment Operator
-        Material& operator=(Material&& src) noexcept
+        Material& operator=(Material&& rhs) noexcept
         {
-            m_texture = std::move(src.m_texture);
-            m_ambient = src.m_ambient;
-            m_diffuse = src.m_diffuse;
-            m_specular = src.m_specular;
-            m_shininess = src.m_shininess;
-            m_reflectivity = src.m_reflectivity;
-            m_transparency = src.m_transparency;
-            m_refractive_index = src.m_refractive_index;
+            if (rhs == *this)
+                return *this;
+
+            m_texture = std::move(rhs.m_texture);
+            m_ambient = rhs.m_ambient;
+            m_diffuse = rhs.m_diffuse;
+            m_specular = rhs.m_specular;
+            m_shininess = rhs.m_shininess;
+            m_reflectivity = rhs.m_reflectivity;
+            m_transparency = rhs.m_transparency;
+            m_refractive_index = rhs.m_refractive_index;
 
             return *this;
         }
