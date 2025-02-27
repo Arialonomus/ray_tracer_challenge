@@ -372,7 +372,9 @@ namespace data {
         Cases matrix_type{ it->second };
 
         // Return the appropriate matrix based on the matrix type
-        const std::vector<double> transform_vals{ transform_data["values"].get<std::vector<double>>() };
+        std::vector<double> transform_vals{ };
+        if (transform_data.contains("values"))
+            transform_vals.append_range(transform_data["values"].get<std::vector<double>>());
         switch (matrix_type) {
             case Cases::Translation:
                 if (transform_vals.size() == 2) {
@@ -395,17 +397,9 @@ namespace data {
                     throw std::invalid_argument("2D Rotation matrix value arrays must only have 1 value");
                 }
             case Cases::XReflection:
-                if (!transform_vals.empty()) {
-                    return gfx::create2DHorizontalReflectionMatrix();
-                } else {
-                    throw std::invalid_argument("2D Horizontal reflection matrix value arrays must be empty");
-                }
+                return gfx::create2DHorizontalReflectionMatrix();
             case Cases::YReflection:
-                if (!transform_vals.empty()) {
-                    return gfx::create2DVerticalReflectionMatrix();
-                } else {
-                    throw std::invalid_argument("2D Vertical reflection matrix value arrays must be empty");
-                }
+                return gfx::create2DVerticalReflectionMatrix();
             case Cases::XSkew:
                 if (transform_vals.size() == 1) {
                     return gfx::create2DHorizontalSkewMatrix(transform_vals[0]);
