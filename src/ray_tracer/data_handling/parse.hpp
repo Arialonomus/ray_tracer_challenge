@@ -47,10 +47,13 @@ namespace data {
     [[nodiscard]] gfx::Color parseColorData(const json& color_data);
 
     // Builds a transform matrix from the array of transform matrices described by the passed-in JSON data
-    [[nodiscard]] gfx::Matrix4 buildChainedTransformMatrix(const json& transform_data_list);
+    [[nodiscard]] gfx::Matrix4 buildChained3DTransformMatrix(const json& transform_data_list);
 
     // Returns the appropriate 3D transformation matrix based on the JSON description of the desired matrix
     [[nodiscard]] gfx::Matrix4 parse3DTransformMatrixData(const json& transform_data);
+
+    // Builds a transform matrix from the array of transform matrices described by the passed-in JSON data
+    [[nodiscard]] gfx::Matrix3 buildChained2DTransformMatrix(const json& transform_data_list);
 
     // Returns the appropriate 2D transformation matrix based on the JSON description of the desired matrix
     [[nodiscard]] gfx::Matrix3 parse2DTransformMatrixData(const json& transform_data);

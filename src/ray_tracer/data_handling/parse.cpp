@@ -93,7 +93,7 @@ namespace data {
         // Build the transform matrix
         gfx::Matrix4 transform_matrix{ gfx::createIdentityMatrix() };
         if (object_data.contains("transform")) {
-            transform_matrix = buildChainedTransformMatrix(object_data["transform"]);
+            transform_matrix = buildChained3DTransformMatrix(object_data["transform"]);
         }
 
         // Extract the material data
@@ -134,7 +134,7 @@ namespace data {
         // Build the transform matrix, if present
         gfx::Matrix4 transform_matrix{ gfx::createIdentityMatrix() };
         if (composite_surface_data.contains("transform"))
-            transform_matrix = buildChainedTransformMatrix(composite_surface_data["transform"]);
+            transform_matrix = buildChained3DTransformMatrix(composite_surface_data["transform"]);
 
         // Construct the composite surface
         std::shared_ptr<gfx::CompositeSurface> composite_surface_ptr{ std::make_shared<gfx::CompositeSurface>(transform_matrix) };
@@ -195,7 +195,7 @@ namespace data {
         Cases texture_type{ it->second };
 
         // Build the transform matrix
-        gfx::Matrix3 transform_matrix{ parse2DTransformMatrixData(texture_data["transform"]) };
+        gfx::Matrix3 transform_matrix{ buildChained2DTransformMatrix(texture_data["transform"]) };
 
         // Create and return the texture
         const auto [ texture_a_ptr, texture_b_ptr ] { createPatternTextures(texture_data) };
@@ -261,12 +261,22 @@ namespace data {
         return { texture_a_ptr, texture_b_ptr };
     }
 
-    // Chained Transformation Matrix Builder
-    gfx::Matrix4 buildChainedTransformMatrix(const json& transform_data_list)
+    // Chained 3D Transformation Matrix Builder
+    gfx::Matrix4 buildChained3DTransformMatrix(const json& transform_data_list)
     {
-        gfx::Matrix4 transform_matrix{ gfx::createIdentityMatrix() };
+        gfx::Matrix4 transform_matrix{ };
         for (const auto& transform_data: transform_data_list) {
             transform_matrix *= parse3DTransformMatrixData(transform_data);
+        }
+        return transform_matrix;
+    }
+
+    // Chained 2D Transformation Matrix Builder
+    gfx::Matrix3 buildChained2DTransformMatrix(const json& transform_data_list)
+    {
+        gfx::Matrix3 transform_matrix{ };
+        for (const auto& transform_data: transform_data_list) {
+            transform_matrix *= parse2DTransformMatrixData(transform_data);
         }
         return transform_matrix;
     }
