@@ -19,10 +19,9 @@
           }
         ],
         "material": {
-          "pattern": {
+          "texture": {
             "type": "checkered",
-            "transform": [
-            ],
+            "transform": [],
             "color_a": [0.15, 0.15, 0.15],
             "color_b": [0.85, 0.85, 0.85]
           },
@@ -58,11 +57,7 @@
           }
         ],
         "material": {
-          "color": [
-            1,
-            1,
-            1
-          ],
+          "color": [1, 1, 1],
           "ambient": 0,
           "diffuse": 0,
           "specular": 0.9,

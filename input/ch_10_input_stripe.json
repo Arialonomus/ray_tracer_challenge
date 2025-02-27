@@ -10,7 +10,7 @@
         "shape": "plane",
         "transform": [],
         "material": {
-          "pattern": {
+          "texture": {
             "type": "stripe",
             "transform": [],
             "color_a": [1, 0, 1],
@@ -36,7 +36,7 @@
           }
         ],
         "material": {
-          "pattern": {
+          "texture": {
             "type": "stripe",
             "transform": [],
             "color_a": [1, 0, 1],
@@ -58,7 +58,7 @@
           }
         ],
         "material": {
-          "pattern": {
+          "texture": {
             "type": "stripe",
             "transform": [
               {
@@ -66,7 +66,7 @@
                 "values": [0.5]
               },
               {
-                "type": "rotate_z",
+                "type": "rotate",
                 "values": [1.5707963268]
               }
             ],
@@ -93,7 +93,7 @@
           }
         ],
         "material": {
-          "pattern": {
+          "texture": {
             "type": "stripe",
             "transform": [
               {
@@ -128,16 +128,16 @@
           }
         ],
         "material": {
-          "pattern": {
+          "texture": {
             "type": "stripe",
             "transform": [
               {
-                "type": "rotate_z",
-                "values": [0.785398163398]
-              },
-              {
                 "type": "scale",
                 "values": [0.25]
+              },
+              {
+                "type": "rotate",
+                "values": [0.785398163398]
               }
             ],
             "color_a": [1, 0, 1],

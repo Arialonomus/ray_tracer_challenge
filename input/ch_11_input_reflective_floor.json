@@ -15,7 +15,7 @@
           }
         ],
         "material": {
-          "pattern": {
+          "texture": {
             "type": "checkered",
             "transform": [
             ],
@@ -47,11 +47,11 @@
           }
         ],
         "material": {
-          "pattern": {
+          "texture": {
             "type": "stripe",
             "transform": [
               {
-                "type": "rotate_y",
+                "type": "rotate",
                 "values": [1.5707963268]
               },
               {
@@ -86,11 +86,11 @@
           }
         ],
         "material": {
-          "pattern": {
+          "texture": {
             "type": "stripe",
             "transform": [
               {
-                "type": "rotate_y",
+                "type": "rotate",
                 "values": [1.5707963268]
               },
               {
