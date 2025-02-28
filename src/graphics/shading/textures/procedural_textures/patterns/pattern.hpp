@@ -1,6 +1,6 @@
 #pragma once
 
-#include "procedural_texture.hpp"
+#include "texture_3d.hpp"
 #include "color_texture.hpp"
 
 namespace gfx {

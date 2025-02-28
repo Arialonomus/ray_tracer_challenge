@@ -1,4 +1,4 @@
-#include "procedural_texture.hpp"
+#include "texture_3d.hpp"
 
 namespace gfx {
     Color Texture3D::getTextureColorAt(const Vector4& object_point,
