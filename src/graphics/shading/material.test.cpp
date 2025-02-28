@@ -100,10 +100,10 @@ TEST(GraphicsMaterial, DefaultConstructor)
 
     const gfx::Material material{ };
 
-    const gfx::Vector3 test_point{ gfx::create2DPoint(0, 0) };
+    const gfx::Vector4 test_point{ gfx::createPoint(0, 0, 0) };
     const gfx::Color color_expected{ 1, 1, 1 };
     EXPECT_EQ(material.getTexture(), texture_expected);
-    EXPECT_EQ(material.getTexture().getTextureColorAt(test_point), color_expected);
+    EXPECT_EQ(material.getTexture().getTextureColorAt(test_point, gfx::ProjectionMap), color_expected);
     EXPECT_EQ(material.getProperties(), properties_expected);
 }
 
@@ -118,23 +118,23 @@ TEST(GraphicsMaterial, ColorConstructors)
     // Test the color object constructor
     const gfx::Material material_a{ color_expected };
 
-    const gfx::Vector3 test_point{ gfx::create2DPoint(0, 0) };
+    const gfx::Vector4 test_point{ gfx::createPoint(0, 0, 0) };
     EXPECT_EQ(material_a.getTexture(), texture_expected);
-    EXPECT_EQ(material_a.getTexture().getTextureColorAt(test_point), color_expected);
+    EXPECT_EQ(material_a.getTexture().getTextureColorAt(test_point, gfx::ProjectionMap), color_expected);
     EXPECT_EQ(material_a.getProperties(), properties_expected);
 
     // Test the float list constructor
     const gfx::Material material_b{ color_r, color_g, color_b };
 
     EXPECT_EQ(material_b.getTexture(), texture_expected);
-    EXPECT_EQ(material_b.getTexture().getTextureColorAt(test_point), color_expected);
+    EXPECT_EQ(material_b.getTexture().getTextureColorAt(test_point, gfx::ProjectionMap), color_expected);
     EXPECT_EQ(material_b.getProperties(), properties_expected);
 }
 
 // Tests the texture constructor
 TEST(GraphicsMaterial, TextureConstructor)
 {
-    const gfx::StripePattern pattern_expected{ gfx::create2DScalingMatrix(5),
+    const gfx::StripePattern pattern_expected{ gfx::createScalingMatrix(5),
                                                gfx::white(),
                                                gfx::black() };
     const gfx::MaterialProperties properties_expected{ };
@@ -143,10 +143,10 @@ TEST(GraphicsMaterial, TextureConstructor)
 
     // Test that the pattern texture is applied and properly initialized
     EXPECT_EQ(material.getTexture(), pattern_expected);
-    const gfx::Vector3 test_point_a{ gfx::create2DPoint(0, 0) };
-    EXPECT_EQ(material.getTexture().getTextureColorAt(test_point_a), gfx::white());
-    const gfx::Vector3 test_point_b{ gfx::create2DPoint(5, 0) };
-    EXPECT_EQ(material.getTexture().getTextureColorAt(test_point_b), gfx::black());
+    const gfx::Vector4 test_point_a{ gfx::createPoint(0, 0, 0) };
+    EXPECT_EQ(material.getTexture().getTextureColorAt(test_point_a, gfx::ProjectionMap), gfx::white());
+    const gfx::Vector4 test_point_b{ gfx::createPoint(5, 0, 0) };
+    EXPECT_EQ(material.getTexture().getTextureColorAt(test_point_b, gfx::ProjectionMap), gfx::black());
     EXPECT_EQ(material.getProperties(), properties_expected);
 }
 
@@ -167,9 +167,9 @@ TEST(GraphicsMaterial, MaterialPropertiesConstructor)
     const gfx::Material opaque_material{ opaque_properties };
 
     // Test that the default texture is applied and properly initialized
-    const gfx::Vector3 test_point{ gfx::create2DPoint(0, 0) };
+    const gfx::Vector4 test_point{ gfx::createPoint(0, 0, 0) };
     EXPECT_EQ(opaque_material.getTexture(), texture_expected);
-    EXPECT_EQ(opaque_material.getTexture().getTextureColorAt(test_point), color_expected);
+    EXPECT_EQ(opaque_material.getTexture().getTextureColorAt(test_point, gfx::ProjectionMap), color_expected);
 
     // Test that unspecified material properties are correctly initialized
     EXPECT_EQ(opaque_material.getProperties(), opaque_properties);
@@ -188,7 +188,7 @@ TEST(GraphicsMaterial, MaterialPropertiesConstructor)
 
     // Test that the default texture is applied and properly initialized
     EXPECT_EQ(transparent_material.getTexture(), texture_expected);
-    EXPECT_EQ(transparent_material.getTexture().getTextureColorAt(test_point), color_expected);
+    EXPECT_EQ(transparent_material.getTexture().getTextureColorAt(test_point, gfx::ProjectionMap), color_expected);
 
     // Test that material properties are correctly initialized
     EXPECT_EQ(transparent_material.getProperties(), transparent_properties);
@@ -264,9 +264,9 @@ TEST(GraphicsMaterial, Mutators)
     gfx::Material material{ };
 
     // setPattern (Copy Semantics)
-    const gfx::StripePattern pattern_expected{ gfx::create2DScalingMatrix(5),
-                                                  gfx::white(),
-                                                  gfx::black() };
+    const gfx::StripePattern pattern_expected{ gfx::createScalingMatrix(5),
+                                               gfx::white(),
+                                               gfx::black() };
     material.setTexture(pattern_expected);
     EXPECT_EQ(material.getTexture(), pattern_expected);
 
@@ -278,7 +278,7 @@ TEST(GraphicsMaterial, Mutators)
 
     // setPattern (Move Semantics)
     material.setTexture(std::make_shared<gfx::StripePattern>(
-            gfx::create2DScalingMatrix(5),
+            gfx::createScalingMatrix(5),
             gfx::white(),
             gfx::black()
             ));

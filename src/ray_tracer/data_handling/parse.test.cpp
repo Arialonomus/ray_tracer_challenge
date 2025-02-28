@@ -243,7 +243,7 @@ TEST(RayTracerParse, ParseTextureData)
             { "color_a", json::array({ 0, 0, 0 }) },
             { "color_b", json::array({ 1, 1, 1 }) },
     };
-    const gfx::GradientTexture gradient_pattern_expected{ gfx::create2DScalingMatrix(5),
+    const gfx::GradientTexture gradient_pattern_expected{ gfx::createScalingMatrix(5),
                                                           gfx::black(),
                                                           gfx::white() };
 
@@ -267,12 +267,12 @@ TEST(RayTracerParse, ParseTextureData)
     const json ring_pattern_data{
             { "type", "ring"},
             { "transform", json::array({
-                { { "type", "translate" }, { "values", json::array({ 5, 15 }) } }
+                { { "type", "translate" }, { "values", json::array({ 5, 10, 15 }) } }
             }) },
             { "color_a", json::array({ 0, 0, 0 }) },
             { "color_b", json::array({ 1, 1, 1 }) },
     };
-    const gfx::RingPattern ring_pattern_expected{ gfx::create2DTranslationMatrix(5, 15),
+    const gfx::RingPattern ring_pattern_expected{ gfx::createTranslationMatrix(5, 10, 15),
                                                   gfx::black(),
                                                   gfx::white() };
 
@@ -283,12 +283,12 @@ TEST(RayTracerParse, ParseTextureData)
     const json checkered_pattern_data{
             { "type", "checkered"},
             { "transform", json::array({
-                { { "type", "rotate" }, { "values", json::array({ M_PI_4 }) } }
+                { { "type", "rotate_y" }, { "values", json::array({ M_PI_4 }) } }
             }) },
             { "color_a", json::array({ 0, 0, 0 }) },
             { "color_b", json::array({ 1, 1, 1 }) },
     };
-    const gfx::CheckeredPattern checkered_pattern_expected{ gfx::create2DRotationMatrix(M_PI_4),
+    const gfx::CheckeredPattern checkered_pattern_expected{ gfx::createYRotationMatrix(M_PI_4),
                                                             gfx::black(),
                                                             gfx::white() };
 

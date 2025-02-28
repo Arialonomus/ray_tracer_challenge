@@ -10,7 +10,7 @@
 #include "transform.hpp"
 #include "intersection.hpp"
 #include "plane.hpp"
-#include "texture_map.hpp"
+#include "pattern.hpp"
 
 static const gfx::World default_world {
     gfx::PointLight { gfx::Color{ 1, 1, 1 },
@@ -368,33 +368,10 @@ TEST(GraphicsWorld, CalculateRefractedColorTotalInternalReflection)
 // Tests calculating the refracted color using refraction rays
 TEST(GraphicsWorld, CalculateRefractedColor)
 {
-    // The original test spec on p133-134 of "The Ray Tracer Challenge" defines a test pattern that returns
-    // a color based on the passed-in coordinates. This functionality is used to ensure rays are properly
-    // refracted in this test. Following the redesign of Patterns into Textures which use uv coordinates for
-    // sampling, this design was no longer possible. As a temporary solution, these test structures have been added
-    // preserve the test functionality
-    class RefractionTestTexture : public gfx::Texture {
-    public:
-        RefractionTestTexture() = default;
-        ~RefractionTestTexture() override = default;
-
-        [[nodiscard]] std::shared_ptr<gfx::Texture> clone() const override
-        { return std::make_shared<RefractionTestTexture>(*this); }
-
-        [[nodiscard]] gfx::Color sampleTextureAt(const gfx::Vector3& transformed_uv) const override
-        { return gfx::Color{ transformed_uv.x(), transformed_uv.y(), transformed_uv.w() }; }
-
-        [[nodiscard]] bool areEquivalent(const Texture& other_texture) const override
-        { return true; }
-    };
-    gfx::TextureMap RefractionTestMap{ [](const gfx::Vector4& point) -> gfx::Vector3 {
-        return gfx::Vector3{ point.x(), point.y(), point.z() };
-    } };
-
     const gfx::MaterialProperties properties_a{ .ambient = 1, .diffuse = 0.7, .specular = 0.2 };
-    const RefractionTestTexture sphere_a_texture{ };
+    const TestPatternTex sphere_a_texture{ };
     const gfx::Material sphere_a_material{ sphere_a_texture, properties_a };
-    const gfx::Sphere sphere_a{ sphere_a_material, RefractionTestMap };
+    const gfx::Sphere sphere_a{ sphere_a_material };
 
     const gfx::MaterialProperties properties_b{ .transparency = 1, .refractive_index = 1.5 };
     const gfx::Material sphere_b_material{ properties_b };
