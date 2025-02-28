@@ -28,13 +28,13 @@ target_sources(gfx PRIVATE
         graphics/geometry/ray.cpp
         graphics/geometry/intersection.cpp
         graphics/geometry/world.cpp
-        graphics/shading/textures/texture.cpp
         graphics/shading/textures/texture_map.cpp
-        graphics/shading/textures/procedural_textures/color_texture.cpp
-        graphics/shading/textures/procedural_textures/gradient_texture.cpp
-        graphics/shading/textures/procedural_textures/patterns/stripe_pattern.cpp
-        graphics/shading/textures/procedural_textures/patterns/ring_pattern.cpp
-        graphics/shading/textures/procedural_textures/patterns/checkered_pattern.cpp
+        graphics/shading/textures/texture_3d.cpp
+        graphics/shading/textures/color_texture.cpp
+        graphics/shading/textures/procedural_textures/gradient_texture_3d.cpp
+        graphics/shading/textures/procedural_textures/patterns/stripe_pattern_3d.cpp
+        graphics/shading/textures/procedural_textures/patterns/ring_pattern_3d.cpp
+        graphics/shading/textures/procedural_textures/patterns/checkered_pattern_3d.cpp
         graphics/shading/material.cpp
         graphics/shading/shading_functions.cpp
 )

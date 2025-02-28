@@ -10,10 +10,10 @@
 #include "cylinder.hpp"
 #include "cone.hpp"
 
-#include "gradient_texture.hpp"
-#include "stripe_pattern.hpp"
-#include "ring_pattern.hpp"
-#include "checkered_pattern.hpp"
+#include "gradient_texture_3d.hpp"
+#include "stripe_pattern_3d.hpp"
+#include "ring_pattern_3d.hpp"
+#include "checkered_pattern_3d.hpp"
 
 namespace data {
     // Scene Data Parser
@@ -222,29 +222,29 @@ namespace data {
         const auto [ texture_a_ptr, texture_b_ptr ] { createPatternTextures(texture_data) };
         switch (texture_type) {
             case Cases::Gradient:
-                return std::make_shared<gfx::GradientTexture>(
-                        gfx::GradientTexture{
+                return std::make_shared<gfx::GradientTexture3D>(
+                        gfx::GradientTexture3D{
                                 transform_matrix,
                                 parseColorData(texture_data["color_a"]),
                                 parseColorData(texture_data["color_b"])
                         });
             case Cases::Stripe:
-                return std::make_shared<gfx::StripePattern>(
-                        gfx::StripePattern{
+                return std::make_shared<gfx::StripePattern3D>(
+                        gfx::StripePattern3D{
                                 transform_matrix,
                                 *texture_a_ptr,
                                 *texture_b_ptr
                         });
             case Cases::Ring:
-                return std::make_shared<gfx::RingPattern>(
-                        gfx::RingPattern{
+                return std::make_shared<gfx::RingPattern3D>(
+                        gfx::RingPattern3D{
                                 transform_matrix,
                                 *texture_a_ptr,
                                 *texture_b_ptr
                         });
             case Cases::Checkered:
-                return std::make_shared<gfx::CheckeredPattern>(
-                        gfx::CheckeredPattern{
+                return std::make_shared<gfx::CheckeredPattern3D>(
+                        gfx::CheckeredPattern3D{
                                 transform_matrix,
                                 *texture_a_ptr,
                                 *texture_b_ptr

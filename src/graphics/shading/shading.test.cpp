@@ -9,7 +9,7 @@
 #include "light.hpp"
 #include "vector4.hpp"
 #include "transform.hpp"
-#include "stripe_pattern.hpp"
+#include "stripe_pattern_3d.hpp"
 #include "intersection.hpp"
 #include "world.hpp"
 
@@ -141,7 +141,7 @@ TEST(GraphicsShading, SurfaceInShadow)
 TEST(GraphicsShading, StripePatternedSurface)
 {
     // Test that pattern color A is shaded properly
-    const gfx::StripePattern stripe_pattern{ gfx::white(), gfx::black() };
+    const gfx::StripePattern3D stripe_pattern{ gfx::white(), gfx::black() };
     const gfx::MaterialProperties properties{ .ambient = 1,
                                               .diffuse = 0,
                                               .specular = 0 };

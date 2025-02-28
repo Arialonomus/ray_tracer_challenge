@@ -7,7 +7,7 @@
 #include "world.hpp"
 #include "camera.hpp"
 #include "surface.hpp"
-#include "pattern.hpp"
+#include "pattern_texture_3d.hpp"
 #include "color.hpp"
 #include "matrix4.hpp"
 

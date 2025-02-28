@@ -10,7 +10,7 @@
 #include "transform.hpp"
 #include "intersection.hpp"
 #include "plane.hpp"
-#include "pattern.hpp"
+#include "pattern_texture_3d.hpp"
 
 static const gfx::World default_world {
     gfx::PointLight { gfx::Color{ 1, 1, 1 },
@@ -369,7 +369,7 @@ TEST(GraphicsWorld, CalculateRefractedColorTotalInternalReflection)
 TEST(GraphicsWorld, CalculateRefractedColor)
 {
     const gfx::MaterialProperties properties_a{ .ambient = 1, .diffuse = 0.7, .specular = 0.2 };
-    const TestPatternTex sphere_a_texture{ };
+    const TestPattern3D sphere_a_texture{ };
     const gfx::Material sphere_a_material{ sphere_a_texture, properties_a };
     const gfx::Sphere sphere_a{ sphere_a_material };
 

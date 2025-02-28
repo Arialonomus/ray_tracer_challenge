@@ -14,7 +14,7 @@
 
 #include "sphere.hpp"
 
-#include "stripe_pattern.hpp"
+#include "stripe_pattern_3d.hpp"
 
 class TestSurface : public gfx::Surface
 {
@@ -200,7 +200,7 @@ TEST(GraphicsSurface, GetObjectColorNoPattern)
 TEST(GraphicsSurface, GetObjectColorPattern)
 {
     // Test getting the object color from a stripe-patterned sphere with no transformations
-    const gfx::StripePattern stripe_pattern_a{ gfx::white(), gfx::black() };
+    const gfx::StripePattern3D stripe_pattern_a{ gfx::white(), gfx::black() };
     const gfx::Material material_a{ stripe_pattern_a };
     const gfx::Sphere sphere_a{ material_a };
 
@@ -208,7 +208,7 @@ TEST(GraphicsSurface, GetObjectColorPattern)
     EXPECT_EQ(color_actual_a, gfx::white());
 
     // Test getting the object color from a stripe-patterned sphere with a pattern transformation
-    const gfx::StripePattern stripe_pattern_b{ gfx::white(), gfx::black() };
+    const gfx::StripePattern3D stripe_pattern_b{ gfx::white(), gfx::black() };
     const gfx::Material material_b{ stripe_pattern_b };
     const gfx::Matrix4 sphere_b_transform{ gfx::createScalingMatrix(2) };
     const gfx::Sphere sphere_b{ sphere_b_transform, material_b };
@@ -218,8 +218,8 @@ TEST(GraphicsSurface, GetObjectColorPattern)
 
     // Test getting the object color from a stripe-patterned sphere with a pattern transformation
     const gfx::Matrix4 pattern_c_transform{ gfx::createScalingMatrix(2) };
-    const gfx::StripePattern stripe_pattern_c{ pattern_c_transform,
-                                               gfx::white(), gfx::black() };
+    const gfx::StripePattern3D stripe_pattern_c{ pattern_c_transform,
+                                                 gfx::white(), gfx::black() };
     const gfx::Material material_c{ stripe_pattern_c };
     const gfx::Sphere sphere_c{ material_c };
 
@@ -228,8 +228,8 @@ TEST(GraphicsSurface, GetObjectColorPattern)
 
     // Test getting the object color from a stripe-patterned sphere with a pattern and object transformation
     const gfx::Matrix4 pattern_d_transform{ gfx::createTranslationMatrix(0.5, 0, 0) };
-    const gfx::StripePattern stripe_pattern_d{ pattern_d_transform,
-                                               gfx::white(), gfx::black() };
+    const gfx::StripePattern3D stripe_pattern_d{ pattern_d_transform,
+                                                 gfx::white(), gfx::black() };
     const gfx::Material material_d{ stripe_pattern_d };
     const gfx::Matrix4 sphere_d_transform{ gfx::createScalingMatrix(2) };
     const gfx::Sphere sphere_d{ sphere_d_transform, material_d };

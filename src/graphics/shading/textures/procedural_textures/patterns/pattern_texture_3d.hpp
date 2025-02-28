@@ -4,37 +4,37 @@
 #include "color_texture.hpp"
 
 namespace gfx {
-    class Pattern : public Texture3D
+    class PatternTexture3D : public Texture3D
     {
     public:
         /* Constructors */
 
         // Default Constructor
-        Pattern() = delete;
+        PatternTexture3D() = delete;
 
         // Texture-Only Constructor
-        Pattern(const Texture& texture_a, const Texture& texture_b)
+        PatternTexture3D(const Texture& texture_a, const Texture& texture_b)
                 : Texture3D{ },
                   m_texture_a{ texture_a.clone() },
                   m_texture_b{ texture_b.clone() }
         {}
 
         // Color-Only Constructor
-        Pattern(const Color& color_a, const Color& color_b)
+        PatternTexture3D(const Color& color_a, const Color& color_b)
                 : Texture3D{ },
                   m_texture_a{ ColorTexture{ color_a }.clone() },
                   m_texture_b{ ColorTexture{ color_b }.clone() }
         {}
 
         // Standard Constructor (Textures)
-        Pattern(const Matrix4& transform_matrix, const Texture& texture_a, const Texture& texture_b)
+        PatternTexture3D(const Matrix4& transform_matrix, const Texture& texture_a, const Texture& texture_b)
                 : Texture3D{ transform_matrix },
                   m_texture_a{ texture_a.clone() },
                   m_texture_b{ texture_b.clone() }
         {}
 
         // Standard Constructor (Colors)
-        Pattern(const Matrix4& transform_matrix, const Color& color_a, const Color& color_b)
+        PatternTexture3D(const Matrix4& transform_matrix, const Color& color_a, const Color& color_b)
                 : Texture3D{ transform_matrix },
                   m_texture_a{ ColorTexture{ color_a }.clone() },
                   m_texture_b{ ColorTexture{ color_b }.clone() }
@@ -42,7 +42,7 @@ namespace gfx {
 
         /* Destructor */
 
-        ~Pattern() override = default;
+        ~PatternTexture3D() override = default;
 
         /* Accessors */
 
@@ -61,29 +61,29 @@ namespace gfx {
 }
 
 // Concrete pattern implementation used in some test suites to test base class features
-class TestPatternTex : public gfx::Pattern
+class TestPattern3D : public gfx::PatternTexture3D
 {
 public:
-    TestPatternTex()
-            : Pattern{ gfx::white(), gfx::black() }
+    TestPattern3D()
+            : PatternTexture3D{ gfx::white(), gfx::black() }
     {}
-    TestPatternTex(const gfx::Texture& texture_a, const gfx::Texture& texture_b)
-            : Pattern{ texture_a, texture_b }
+    TestPattern3D(const gfx::Texture& texture_a, const gfx::Texture& texture_b)
+            : PatternTexture3D{ texture_a, texture_b }
     {}
-    TestPatternTex(const gfx::Color& color_a, const gfx::Color& color_b)
-            : Pattern{ color_a, color_b }
+    TestPattern3D(const gfx::Color& color_a, const gfx::Color& color_b)
+            : PatternTexture3D{ color_a, color_b }
     {}
-    TestPatternTex(const gfx::Matrix4& transform_matrix, const gfx::Texture& texture_a, const gfx::Texture& texture_b)
-            : Pattern{ transform_matrix, texture_a, texture_b }
+    TestPattern3D(const gfx::Matrix4& transform_matrix, const gfx::Texture& texture_a, const gfx::Texture& texture_b)
+            : PatternTexture3D{ transform_matrix, texture_a, texture_b }
     {}
-    TestPatternTex(const gfx::Matrix4& transform_matrix, const gfx::Color& color_a, const gfx::Color& color_b)
-            : Pattern{ transform_matrix, color_a, color_b }
+    TestPattern3D(const gfx::Matrix4& transform_matrix, const gfx::Color& color_a, const gfx::Color& color_b)
+            : PatternTexture3D{ transform_matrix, color_a, color_b }
     {}
 
-    ~TestPatternTex() override = default;
+    ~TestPattern3D() override = default;
 
     [[nodiscard]] std::shared_ptr<Texture> clone() const override
-    { return std::make_shared<TestPatternTex>(*this); }
+    { return std::make_shared<TestPattern3D>(*this); }
 
 private:
     [[nodiscard]] gfx::Color sample3DTextureAt(const gfx::Vector4& transformed_point,
@@ -92,7 +92,7 @@ private:
 
     [[nodiscard]] bool areEquivalent(const Texture& other_texture) const override
     {
-        const TestPatternTex& other_test_pattern{ dynamic_cast<const TestPatternTex&>(other_texture) };
+        const TestPattern3D& other_test_pattern{ dynamic_cast<const TestPattern3D&>(other_texture) };
         return this->getTransform() == other_test_pattern.getTransform() &&
                this->getTextureA() == other_test_pattern.getTextureA() &&
                this->getTextureB() == other_test_pattern.getTextureB();

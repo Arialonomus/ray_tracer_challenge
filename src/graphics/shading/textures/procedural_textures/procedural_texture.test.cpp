@@ -7,8 +7,7 @@
 #include "transform.hpp"
 #include "texture_map.hpp"
 
-#include "color_texture.hpp"
-#include "gradient_texture.hpp"
+#include "gradient_texture_3d.hpp"
 
 /* Gradient Texture Derived Class Tests */
 
@@ -18,10 +17,10 @@ TEST(GraphicsProceduralTexture, GradientTextureEqualityOperator)
     const gfx::Matrix4 transform_expected{ gfx::createTranslationMatrix(1, 2, 3) };
     const gfx::Color color_a_expected{ gfx::black() };
     const gfx::Color color_b_expected{ gfx::white() };
-    const gfx::GradientTexture gradient_pattern_src{ transform_expected,
-                                                     color_a_expected,
-                                                     color_b_expected };
-    const gfx::GradientTexture gradient_pattern_cpy{ gradient_pattern_src };
+    const gfx::GradientTexture3D gradient_pattern_src{ transform_expected,
+                                                       color_a_expected,
+                                                       color_b_expected };
+    const gfx::GradientTexture3D gradient_pattern_cpy{ gradient_pattern_src };
 
     ASSERT_TRUE(gradient_pattern_src == gradient_pattern_cpy);
 }
@@ -29,7 +28,7 @@ TEST(GraphicsProceduralTexture, GradientTextureEqualityOperator)
 // Tests that a gradient texture returns the correct color when sampled
 TEST(GraphicsProceduralTexture, GradientTextureGetTextureColorAt)
 {
-    const gfx::GradientTexture gradient_texture{ gfx::white(), gfx::black() };
+    const gfx::GradientTexture3D gradient_texture{ gfx::white(), gfx::black() };
 
     // Test sampling the left edge
     const gfx::Color color_a_expected{ gfx::white() };

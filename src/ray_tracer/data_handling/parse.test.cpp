@@ -15,10 +15,10 @@
 #include "cone.hpp"
 #include "composite_surface.hpp"
 
-#include "gradient_texture.hpp"
-#include "stripe_pattern.hpp"
-#include "ring_pattern.hpp"
-#include "checkered_pattern.hpp"
+#include "gradient_texture_3d.hpp"
+#include "stripe_pattern_3d.hpp"
+#include "ring_pattern_3d.hpp"
+#include "checkered_pattern_3d.hpp"
 
 using json = nlohmann::json;
 
@@ -243,9 +243,9 @@ TEST(RayTracerParse, ParseTextureData)
             { "color_a", json::array({ 0, 0, 0 }) },
             { "color_b", json::array({ 1, 1, 1 }) },
     };
-    const gfx::GradientTexture gradient_pattern_expected{ gfx::createScalingMatrix(5),
-                                                          gfx::black(),
-                                                          gfx::white() };
+    const gfx::GradientTexture3D gradient_pattern_expected{ gfx::createScalingMatrix(5),
+                                                            gfx::black(),
+                                                            gfx::white() };
 
     const auto gradient_pattern_actual{ data::parseTextureData(gradient_pattern_data) };
     EXPECT_EQ(*gradient_pattern_actual, gradient_pattern_expected);
@@ -257,8 +257,8 @@ TEST(RayTracerParse, ParseTextureData)
             { "color_a", json::array({ 0, 0, 0 }) },
             { "color_b", json::array({ 1, 1, 1 }) },
     };
-    const gfx::StripePattern stripe_pattern_expected{ gfx::black(),
-                                                      gfx::white() };
+    const gfx::StripePattern3D stripe_pattern_expected{ gfx::black(),
+                                                        gfx::white() };
 
     const auto stripe_pattern_actual{ data::parseTextureData(stripe_pattern_data) };
     EXPECT_EQ(*stripe_pattern_actual, stripe_pattern_expected);
@@ -272,9 +272,9 @@ TEST(RayTracerParse, ParseTextureData)
             { "color_a", json::array({ 0, 0, 0 }) },
             { "color_b", json::array({ 1, 1, 1 }) },
     };
-    const gfx::RingPattern ring_pattern_expected{ gfx::createTranslationMatrix(5, 10, 15),
-                                                  gfx::black(),
-                                                  gfx::white() };
+    const gfx::RingPattern3D ring_pattern_expected{ gfx::createTranslationMatrix(5, 10, 15),
+                                                    gfx::black(),
+                                                    gfx::white() };
 
     const auto ring_pattern_actual{ data::parseTextureData(ring_pattern_data) };
     EXPECT_EQ(*ring_pattern_actual, ring_pattern_expected);
@@ -288,9 +288,9 @@ TEST(RayTracerParse, ParseTextureData)
             { "color_a", json::array({ 0, 0, 0 }) },
             { "color_b", json::array({ 1, 1, 1 }) },
     };
-    const gfx::CheckeredPattern checkered_pattern_expected{ gfx::createYRotationMatrix(M_PI_4),
-                                                            gfx::black(),
-                                                            gfx::white() };
+    const gfx::CheckeredPattern3D checkered_pattern_expected{ gfx::createYRotationMatrix(M_PI_4),
+                                                              gfx::black(),
+                                                              gfx::white() };
 
     const auto checkered_pattern_actual{ data::parseTextureData(checkered_pattern_data) };
     EXPECT_EQ(*checkered_pattern_actual, checkered_pattern_expected);
@@ -339,8 +339,8 @@ TEST(RayTracerParse, ParseMaterialData)
            { "refractive_index", 1.25 }
        };
 
-    const gfx::StripePattern stripe_pattern_expected{ gfx::black(),
-                                                      gfx::white() };
+    const gfx::StripePattern3D stripe_pattern_expected{ gfx::black(),
+                                                        gfx::white() };
     const gfx::Material material_with_pattern_expected{ stripe_pattern_expected, properties_expected };
     const gfx::Material material_with_pattern_actual(data::parseMaterialData(material_data_with_pattern));
     EXPECT_EQ(material_with_pattern_actual, material_with_pattern_expected);

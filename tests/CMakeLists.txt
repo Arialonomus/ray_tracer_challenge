@@ -32,7 +32,7 @@ set(GFX_UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/textures/texture.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/textures/texture_map.test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/textures/procedural_textures/procedural_texture.test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/textures/procedural_textures/patterns/pattern.test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/graphics/shading/textures/procedural_textures/patterns/pattern_texture.test.cpp
 )
 set(RAY_TRACER_UNIT_TESTS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ray_tracer/rendering/canvas.test.cpp

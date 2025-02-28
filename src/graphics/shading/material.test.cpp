@@ -8,7 +8,7 @@
 #include "texture.hpp"
 #include "color_texture.hpp"
 #include "vector3.hpp"
-#include "stripe_pattern.hpp"
+#include "stripe_pattern_3d.hpp"
 #include "transform.hpp"
 
 // Tests initialization for material properties
@@ -134,9 +134,9 @@ TEST(GraphicsMaterial, ColorConstructors)
 // Tests the texture constructor
 TEST(GraphicsMaterial, TextureConstructor)
 {
-    const gfx::StripePattern pattern_expected{ gfx::createScalingMatrix(5),
-                                               gfx::white(),
-                                               gfx::black() };
+    const gfx::StripePattern3D pattern_expected{ gfx::createScalingMatrix(5),
+                                                 gfx::white(),
+                                                 gfx::black() };
     const gfx::MaterialProperties properties_expected{ };
     
     const gfx::Material material{ pattern_expected };
@@ -264,9 +264,9 @@ TEST(GraphicsMaterial, Mutators)
     gfx::Material material{ };
 
     // setPattern (Copy Semantics)
-    const gfx::StripePattern pattern_expected{ gfx::createScalingMatrix(5),
-                                               gfx::white(),
-                                               gfx::black() };
+    const gfx::StripePattern3D pattern_expected{ gfx::createScalingMatrix(5),
+                                                 gfx::white(),
+                                                 gfx::black() };
     material.setTexture(pattern_expected);
     EXPECT_EQ(material.getTexture(), pattern_expected);
 
@@ -277,7 +277,7 @@ TEST(GraphicsMaterial, Mutators)
     EXPECT_EQ(material.getTexture(), default_texture);
 
     // setPattern (Move Semantics)
-    material.setTexture(std::make_shared<gfx::StripePattern>(
+    material.setTexture(std::make_shared<gfx::StripePattern3D>(
             gfx::createScalingMatrix(5),
             gfx::white(),
             gfx::black()

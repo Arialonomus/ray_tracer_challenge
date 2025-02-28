@@ -3,27 +3,27 @@
 #include "texture_3d.hpp"
 
 namespace gfx {
-    class GradientTexture : public Texture3D
+    class GradientTexture3D : public Texture3D
     {
     public:
         /* Constructors */
 
         // Default Constructor
-        GradientTexture() = delete;
+        GradientTexture3D() = delete;
 
         // Color-Only Constructor
-        GradientTexture(const Color& color_a, const Color& color_b)
+        GradientTexture3D(const Color& color_a, const Color& color_b)
                 : Texture3D{ }, m_color_a{ color_a }, m_color_b{ color_b }
         {}
 
         // Standard Constructor
-        GradientTexture(const Matrix4& transform_matrix, const Color& color_a, const Color& color_b)
+        GradientTexture3D(const Matrix4& transform_matrix, const Color& color_a, const Color& color_b)
                 : Texture3D{ transform_matrix }, m_color_a{ color_a }, m_color_b{ color_b }
         {}
 
         /* Destructor */
 
-        ~GradientTexture() override = default;
+        ~GradientTexture3D() override = default;
 
         /* Accessors */
 
@@ -36,7 +36,7 @@ namespace gfx {
         /* Object Operations */
 
         [[nodiscard]] std::shared_ptr<Texture> clone() const override
-        { return std::make_shared<GradientTexture>(*this); }
+        { return std::make_shared<GradientTexture3D>(*this); }
 
     private:
         /* Data Members */
