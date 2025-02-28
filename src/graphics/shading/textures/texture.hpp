@@ -2,9 +2,9 @@
 
 #include <memory>
 
-#include "matrix3.hpp"
 #include "color.hpp"
-#include "vector3.hpp"
+#include "vector4.hpp"
+#include "texture_map.hpp"
 
 namespace gfx {
     class Texture
@@ -15,22 +15,15 @@ namespace gfx {
         // Default Constructor
         Texture() = default;
 
-        // Standard Constructor
-        explicit Texture(const Matrix3& transform_matrix)
-                : m_transform{ transform_matrix }, m_transform_inverse{ transform_matrix.inverse() }
-        {}
-
         /* Destructor */
 
         virtual ~Texture() = default;
 
         /* Accessors */
 
-        [[nodiscard]] const Matrix3& getTransform() const
-        { return m_transform; }
-
-        // Returns the color at this texture's given uv coordinate
-        [[nodiscard]] Color getTextureColorAt(const Vector3& uv_coordinate) const;
+        // Maps the object point to texture space and samples the texture at that coordinate
+        [[nodiscard]] virtual Color getTextureColorAt(const Vector4& object_point,
+                                                      const TextureMap& mapping) const = 0;
 
         /* Comparison Operator Overloads */
 
@@ -43,15 +36,7 @@ namespace gfx {
         [[nodiscard]] virtual std::shared_ptr<Texture> clone() const = 0;
 
     private:
-        /* Data Members */
-
-        Matrix3 m_transform{ };
-        Matrix3 m_transform_inverse{ };
-
         /* Helper Methods */
-
-        // Samples the texture at a UV coordinate that has been transformed using this texture's transform matrix
-        [[nodiscard]] virtual Color sampleTextureAt(const Vector3& transformed_uv) const = 0;
 
         // Derived-class implemented equality check
         [[nodiscard]] virtual bool areEquivalent(const Texture& other_texture) const = 0;
