@@ -211,12 +211,12 @@ namespace data {
         std::string_view texture_type_str{ texture_data["type"].get<std::string_view>() };
         auto it{ stringToCaseMap.find(texture_type_str) };
         if (it == stringToCaseMap.end()) {
-            throw std::invalid_argument("Invalid pattern type, check spelling in scene data input file");
+            throw std::invalid_argument("Invalid texture type, check spelling in scene data input file");
         }
         Cases texture_type{ it->second };
 
         // Build the transform matrix
-        gfx::Matrix3 transform_matrix{ buildChained2DTransformMatrix(texture_data["transform"]) };
+        gfx::Matrix4 transform_matrix{ buildChained3DTransformMatrix(texture_data["transform"]) };
 
         // Create and return the texture
         const auto [ texture_a_ptr, texture_b_ptr ] { createPatternTextures(texture_data) };
