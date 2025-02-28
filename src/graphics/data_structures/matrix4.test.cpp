@@ -189,7 +189,6 @@ TEST(GraphicsMatrix4, MatrixMultiplicationOperator)
 }
 
 // Tests matrix multiplication with the multiplication shorthand operator
-// Tests matrix multiplication using the multiplication operator
 TEST(GraphicsMatrix4, MatrixMultiplicationShorthandOperator)
 {
     gfx::Matrix4 matrix_a{
