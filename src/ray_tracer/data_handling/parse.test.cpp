@@ -311,16 +311,15 @@ TEST(RayTracerParse, ParseMaterialData)
             { "refractive_index", 1.25 }
     };
 
-    const gfx::Material material_no_pattern_expected{ 1, 0.9, 0.9,
-                                                      0.5,
-                                                      0.5,
-                                                      1,
-                                                      5000,
-                                                      0.5,
-                                                      1,
-                                                      1.25 };
+    const gfx::MaterialProperties properties_expected{ .ambient = 0.5,
+                                                       .diffuse = 0.5,
+                                                       .specular = 1,
+                                                       .shininess = 5000,
+                                                       .reflectivity = 0.5,
+                                                       .transparency = 1,
+                                                       .refractive_index = 1.25 };
+    const gfx::Material material_no_pattern_expected{ 1, 0.9, 0.9, properties_expected };
     const gfx::Material material_no_pattern_actual(data::parseMaterialData(material_data_no_pattern));
-
     EXPECT_EQ(material_no_pattern_actual, material_no_pattern_expected);
 
     // Test parsing a material with a pattern
@@ -342,14 +341,7 @@ TEST(RayTracerParse, ParseMaterialData)
 
     const gfx::StripePattern stripe_pattern_expected{ gfx::black(),
                                                       gfx::white() };
-    const gfx::Material material_with_pattern_expected{ stripe_pattern_expected,
-                                                        0.5,
-                                                        0.5,
-                                                        1,
-                                                        5000,
-                                                        0.5,
-                                                        1,
-                                                        1.25 };
+    const gfx::Material material_with_pattern_expected{ stripe_pattern_expected, properties_expected };
     const gfx::Material material_with_pattern_actual(data::parseMaterialData(material_data_with_pattern));
     EXPECT_EQ(material_with_pattern_actual, material_with_pattern_expected);
 }

@@ -142,12 +142,10 @@ TEST(GraphicsShading, StripePatternedSurface)
 {
     // Test that pattern color A is shaded properly
     const gfx::StripePattern stripe_pattern{ gfx::white(), gfx::black() };
-    const gfx::Material material{ stripe_pattern,
-                                  1,
-                                  0,
-                                  0,
-                                  200,
-                                  0 };
+    const gfx::MaterialProperties properties{ .ambient = 1,
+                                              .diffuse = 0,
+                                              .specular = 0 };
+    const gfx::Material material{ stripe_pattern, properties };
     const gfx::Sphere sphere{ material };
     const gfx::PointLight point_light{ gfx::Color{ 1, 1, 1 },
                                        gfx::createPoint(0, 0, -10) };
@@ -181,29 +179,34 @@ TEST(GraphicsShading, StripePatternedSurface)
 // Tests finding the refractive indices at multiple intersections of overlapping spheres with different mediums
 TEST(GraphicsShading, GetRefractiveIndexOverlappingSpheres)
 {
-    gfx::Material glassy_material_a, glassy_material_b, glassy_material_c{ gfx::createGlassyMaterial() };
+    const gfx::MaterialProperties glassy_properties_a{ .transparency = 1, .refractive_index = 1.5 };
+    const gfx::Material glassy_material_a{ glassy_properties_a };
+    const gfx::Sphere glass_sphere_a{ gfx::createScalingMatrix(2),
+                                      glassy_material_a };
 
-    glassy_material_a.setRefractiveIndex(1.5);
-    const gfx::Sphere glass_sphere_a{ gfx::createScalingMatrix(2), glassy_material_a };
+    const gfx::MaterialProperties glassy_properties_b{ .transparency = 1, .refractive_index = 2.0 };
+    const gfx::Material glassy_material_b{ glassy_properties_b };
+    const gfx::Sphere glass_sphere_b{ gfx::createTranslationMatrix(0, 0, -0.25),
+                                      glassy_material_b };
 
-    glassy_material_b.setRefractiveIndex(2.0);
-    const gfx::Sphere glass_sphere_b{ gfx::createTranslationMatrix(0, 0, -0.25), glassy_material_b };
-
-    glassy_material_c.setRefractiveIndex(2.5);
-    const gfx::Sphere glass_sphere_c{ gfx::createTranslationMatrix(0, 0, 0.25), glassy_material_c };
+    const gfx::MaterialProperties glassy_properties_c{ .transparency = 1, .refractive_index = 2.5 };
+    const gfx::Material glassy_material_c{ glassy_properties_c };
+    const gfx::Sphere glass_sphere_c{ gfx::createTranslationMatrix(0, 0, 0.25),
+                                      glassy_material_c };
 
     const gfx::Ray ray{ 0, 0 , -4,
                         0, 0, 1 };
-
     const gfx::World world{ glass_sphere_a, glass_sphere_b, glass_sphere_c };
 
     auto intersections{ world.getAllIntersections(ray) };
-    const std::vector<std::pair<double, double>> refractive_indices_expected_list{ std::pair(1.0, 1.5),
-                                                                                   std::pair(1.5, 2.0),
-                                                                                   std::pair(2.0, 2.5),
-                                                                                   std::pair(2.5, 2.5),
-                                                                                   std::pair(2.5, 1.5),
-                                                                                   std::pair(1.5, 1.0) };
+    const std::vector<std::pair<double, double>> refractive_indices_expected_list{
+        std::pair(1.0, 1.5),
+        std::pair(1.5, 2.0),
+        std::pair(2.0, 2.5),
+        std::pair(2.5, 2.5),
+        std::pair(2.5, 1.5),
+        std::pair(1.5, 1.0)
+    };
 
     // Ensure test cases are properly initialized for comparison
     ASSERT_EQ(intersections.size(), refractive_indices_expected_list.size());
@@ -212,7 +215,6 @@ TEST(GraphicsShading, GetRefractiveIndexOverlappingSpheres)
     for (int i = 0; i < intersections.size(); ++i) {
         auto refracted_indices_actual{ gfx::getRefractiveIndices(intersections[i],
                                                                  intersections) };
-
         EXPECT_EQ(refracted_indices_actual, refractive_indices_expected_list[i]);
     }
 }

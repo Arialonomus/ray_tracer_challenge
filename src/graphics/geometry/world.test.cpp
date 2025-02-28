@@ -16,10 +16,11 @@ static const gfx::World default_world {
     gfx::PointLight { gfx::Color{ 1, 1, 1 },
                       gfx::createPoint( -10, 10, -10 ) },
     gfx::Sphere {
-        gfx::Material{ gfx::Color{ 0.8, 1.0, 0.6 },
-                       0.1, 0.7, 0.2, 200,
-                       0, 0, 1 }
-        },
+        gfx::Material{
+            gfx::Color{ 0.8, 1.0, 0.6 },
+            gfx::MaterialProperties{ .ambient = 0.1, .diffuse = 0.7, .specular = 0.2 }
+        }
+    },
     gfx::Sphere { gfx::createScalingMatrix(0.5) }
 };
 
@@ -184,12 +185,11 @@ TEST(GraphicsWorld, CalculatePixelColorHitOutside)
 // Test shading a color when a ray hits an object in world from the inside
 TEST(GraphicsWorld, CalculatePixelColorHitInside)
 {
-    gfx::Material material{ gfx::Color{ 0.8, 1.0, 0.6 } };
-    material.setDiffuse(0.7);
-    material.setSpecular(0.2);
+    const gfx::MaterialProperties properties{ .diffuse = 0.7, .specular = 0.2 };
+    const gfx::Material material{ 0.8, 1.0, 0.6, properties };
 
-    gfx::Sphere sphere_a{ material };
-    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
+    const gfx::Sphere sphere_a{ material };
+    const gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
     const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
                                         gfx::createPoint( 0, 0.25, 0 )};
     const gfx::World world{ light_source, sphere_a, sphere_b };
@@ -205,16 +205,13 @@ TEST(GraphicsWorld, CalculatePixelColorHitInside)
 // Test shading a color when a ray intersection is behind the ray origin
 TEST(GraphicsWorld, CalculatePixelColorHitBehind)
 {
-    gfx::Material sphere_a_material{ gfx::Color{ 0.8, 1.0, 0.6 } };
-    sphere_a_material.setAmbient(1);
-    sphere_a_material.setDiffuse(0.7);
-    sphere_a_material.setSpecular(0.2);
+    const gfx::MaterialProperties properties_a{ .ambient = 1, .diffuse = 0.7, .specular = 0.2 };
+    const gfx::Material sphere_a_material{  0.8, 1.0, 0.6, properties_a };
+    const gfx::Sphere sphere_a{ sphere_a_material };
 
-    gfx::Material sphere_b_material{ };
-    sphere_b_material.setAmbient(1);
+    const gfx::Material sphere_b_material{ gfx::MaterialProperties{ .ambient = 1 } };
+    const gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5), sphere_b_material };
 
-    gfx::Sphere sphere_a{ sphere_a_material };
-    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5), sphere_b_material };
     const gfx::PointLight light_source{ gfx::Color{ 1, 1, 1 },
                                         gfx::createPoint( 0, 0.25, 0 )};
     const gfx::World world{ light_source, sphere_a, sphere_b };
@@ -273,8 +270,7 @@ TEST(GraphicsWorld, CalculateReflectedColorReflective)
 {
     gfx::World world{ default_world };
 
-    gfx::Material plane_material{ };
-    plane_material.setReflectivity(0.5);
+    const gfx::Material plane_material{ gfx::MaterialProperties{ .reflectivity = 0.5 }};
     const gfx::Plane plane{ gfx::createTranslationMatrix(0, -1, 0), plane_material };
     world.addObject(plane);
 
@@ -293,8 +289,7 @@ TEST(GraphicsWorld, CalculatePixelColorReflectiveMaterial)
 {
     gfx::World world{ default_world };
 
-    gfx::Material plane_material{ };
-    plane_material.setReflectivity(0.5);
+    const gfx::Material plane_material{ gfx::MaterialProperties{ .reflectivity = 0.5 } };
     const gfx::Plane plane{ gfx::createTranslationMatrix(0, -1, 0), plane_material };
     world.addObject(plane);
 
@@ -350,16 +345,15 @@ TEST(GraphicsWorld, CalculateRefractedColorMaximumDepth)
 // Tests calculating the refracted color under total internal reflection
 TEST(GraphicsWorld, CalculateRefractedColorTotalInternalReflection)
 {
-    gfx::Material sphere_a_material{ gfx::Color{ 0.8, 1.0, 0.6 } };
-    sphere_a_material.setDiffuse(0.7);
-    sphere_a_material.setSpecular(0.2);
-    sphere_a_material.setTransparency(1);
-    sphere_a_material.setRefractiveIndex(1.5);
+    const gfx::MaterialProperties properties_a{ .diffuse = 0.7,
+                                                .specular = 0.2,
+                                                .transparency = 1,
+                                                .refractive_index = 1.5 };
+    const gfx::Material sphere_a_material{ 0.8, 1.0, 0.6, properties_a };
+    const gfx::Sphere sphere_a{ sphere_a_material };
+    const gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
 
-    gfx::Sphere sphere_a{ sphere_a_material };
-    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };
     const gfx::World world{ sphere_a, sphere_b };
-
     const gfx::Ray ray{ 0, 0, M_SQRT2 / 2,
                         0, 1, 0 };
 
@@ -397,18 +391,14 @@ TEST(GraphicsWorld, CalculateRefractedColor)
         return gfx::Vector3{ point.x(), point.y(), point.z() };
     } };
 
-    gfx::Material sphere_a_material{ RefractionTestTexture{ } };
-    sphere_a_material.setAmbient(1);
-    sphere_a_material.setDiffuse(0.7);
-    sphere_a_material.setSpecular(0.2);
+    const gfx::MaterialProperties properties_a{ .ambient = 1, .diffuse = 0.7, .specular = 0.2 };
+    const RefractionTestTexture sphere_a_texture{ };
+    const gfx::Material sphere_a_material{ sphere_a_texture, properties_a };
+    const gfx::Sphere sphere_a{ sphere_a_material, RefractionTestMap };
 
-    gfx::Sphere sphere_a{ sphere_a_material, RefractionTestMap };
-
-    gfx::Material sphere_b_material{ };
-    sphere_b_material.setTransparency(1);
-    sphere_b_material.setRefractiveIndex(1.5);
-
-    gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5), sphere_b_material };
+    const gfx::MaterialProperties properties_b{ .transparency = 1, .refractive_index = 1.5 };
+    const gfx::Material sphere_b_material{ properties_b };
+    const gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5), sphere_b_material };
 
     const gfx::World world{ sphere_a, sphere_b };
 
@@ -428,14 +418,11 @@ TEST(GraphicsWorld, CalculatePixelColorTransparentMaterial)
 {
     gfx::World world{ default_world };
 
-    gfx::Material floor_material{ };
-    floor_material.setTransparency(0.5);
-    floor_material.setRefractiveIndex(1.5);
+    const gfx::Material floor_material{ gfx::MaterialProperties{ .transparency = 0.5, .refractive_index = 1.5 } };
     const gfx::Plane floor{ gfx::createTranslationMatrix(0, -1, 0), floor_material };
     world.addObject(floor);
 
-    gfx::Material ball_material{ gfx::Color(1, 0, 0) };
-    ball_material.setAmbient(0.5);
+    const gfx::Material ball_material{ 1, 0, 0, gfx::MaterialProperties{ .ambient = 0.5 } };
     const gfx::Sphere ball{ gfx::createTranslationMatrix(0, -3.5, -0.5), ball_material };
     world.addObject(ball);
 
@@ -463,15 +450,14 @@ TEST(GraphicsWorld, CalculatePixelColorReflectiveTransparentMaterial)
 {
     gfx::World world{ default_world };
 
-    gfx::Material floor_material{ };
-    floor_material.setReflectivity(0.5);
-    floor_material.setTransparency(0.5);
-    floor_material.setRefractiveIndex(1.5);
+    const gfx::MaterialProperties floor_material_properties{ .reflectivity = 0.5,
+                                                             .transparency = 0.5,
+                                                             .refractive_index = 1.5 };
+    const gfx::Material floor_material{ floor_material_properties };
     const gfx::Plane floor{ gfx::createTranslationMatrix(0, -1, 0), floor_material };
     world.addObject(floor);
 
-    gfx::Material ball_material{ gfx::Color(1, 0, 0) };
-    ball_material.setAmbient(0.5);
+    const gfx::Material ball_material{ 1, 0, 0, gfx::MaterialProperties{ .ambient = 0.5 } };
     const gfx::Sphere ball{ gfx::createTranslationMatrix(0, -3.5, -0.5), ball_material };
     world.addObject(ball);
 

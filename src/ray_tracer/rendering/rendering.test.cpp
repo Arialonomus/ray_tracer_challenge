@@ -12,9 +12,8 @@
 // Tests rendering a world to a canvas
 TEST(RayTracerRendering, RenderWorld)
 {
-    gfx::Material material{ gfx::Color{ 0.8, 1.0, 0.6 } };
-    material.setDiffuse(0.7);
-    material.setSpecular(0.2);
+    const gfx::Material material{ 0.8, 1.0, 0.6,
+                            gfx::MaterialProperties{ .diffuse = 0.7, .specular = 0.2 } };
 
     gfx::Sphere sphere_a{ material };
     gfx::Sphere sphere_b{ gfx::createScalingMatrix(0.5) };

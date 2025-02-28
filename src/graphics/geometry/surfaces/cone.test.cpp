@@ -74,7 +74,7 @@ TEST(GraphicsCone, StandardConstructorDefaultMaterial)
 TEST(GraphicsCone, StandardConstructorDefaultTransform)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
+    const gfx::Material material_expected{ color_expected };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
 
     // Test an unbounded cone
@@ -104,7 +104,7 @@ TEST(GraphicsCone, StandardConstructorDefaultTransform)
 TEST(GraphicsCone, StandardConstructor)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
+    const gfx::Material material_expected{ color_expected };
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
 
     // Test an unbounded cone
@@ -139,7 +139,7 @@ TEST(GraphicsCone, CopyConstructor)
 {
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
+    const gfx::Material material_expected{ color_expected };
     const double y_min_expected{ -1 };
     const double y_max_expected{ 1 };
 
@@ -161,7 +161,7 @@ TEST(GraphicsCone, AssignmentOperator)
 {
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
+    const gfx::Material material_expected{ color_expected };
     const double y_min_expected{ -1 };
     const double y_max_expected{ 1 };
 

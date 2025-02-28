@@ -27,7 +27,7 @@ TEST(GraphicsCube, DefaultConstructor)
 TEST(GraphicsCube, StandardConstructor)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
+    const gfx::Material material_expected{ color_expected };
     const gfx::Cube cube{ gfx::createScalingMatrix(5), material_expected };
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
 
@@ -50,7 +50,7 @@ TEST(GraphicsCube, StandardConstructorDefaultMaterial)
 TEST(GraphicsCube, StandardConstructorDefaultTransform)
 {
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
+    const gfx::Material material_expected{ color_expected };
     const gfx::Cube cube{ material_expected };
     const gfx::Matrix4 transform_expected{ gfx::createIdentityMatrix() };
 
@@ -63,7 +63,7 @@ TEST(GraphicsCube, CopyConstructor)
 {
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
+    const gfx::Material material_expected{ color_expected };
     const gfx::Cube cube_src{ transform_expected, material_expected };
     const gfx::Cube cube_cpy{ cube_src };
 
@@ -76,7 +76,7 @@ TEST(GraphicsCube, AssignmentOperator)
 {
     const gfx::Matrix4 transform_expected{ gfx::createScalingMatrix(5) };
     const gfx::Color color_expected{ 0.5, 0.5, 0.5 };
-    const gfx::Material material_expected{ color_expected, 0.5, 0.5, 0.5, 50, 0.5 };
+    const gfx::Material material_expected{ color_expected };
     const gfx::Cube cube_a{ transform_expected, material_expected };
     gfx::Cube cube_b{ };
 
