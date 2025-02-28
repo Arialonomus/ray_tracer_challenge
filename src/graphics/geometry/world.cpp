@@ -85,8 +85,8 @@ namespace gfx {
 
             // Apply Fresnel Effect for reflective transparent materials,
             const Material hit_material{ detailed_hit.getObject().getMaterial() };
-            if (utils::isGreater(hit_material.getReflectivity(), 0.0) &&
-                utils::isGreater(hit_material.getTransparency(), 0.0))
+            if (utils::isGreater(hit_material.getProperties().reflectivity, 0.0) &&
+                utils::isGreater(hit_material.getProperties().transparency, 0.0))
             {
                 const auto [ n1, n2 ] { getRefractiveIndices(detailed_hit, world_intersections) };
                 const double reflectance{ calculateReflectance(detailed_hit.getViewVector(),
@@ -107,7 +107,8 @@ namespace gfx {
     Color World::calculateReflectedColorAt(const DetailedIntersection& intersection, int remaining_bounces) const
     {
         // Bounce a ray to see what colors the reflective surface picks up
-        const double object_reflectivity{ intersection.getObject().getMaterial().getReflectivity() };
+        const Material& object_material{ intersection.getObject().getMaterial() };
+        const double object_reflectivity{ object_material.getProperties().reflectivity };
         if (utils::areNotEqual(object_reflectivity, 0.0) && remaining_bounces > 0) {
             const Ray reflection_vector{ intersection.getOverPoint(),
                                          intersection.getReflectionVector() };
@@ -123,7 +124,8 @@ namespace gfx {
                                            const std::vector<Intersection>& possible_overlaps,
                                            const int remaining_bounces) const
     {
-        const double object_transparency{ intersection.getObject().getMaterial().getTransparency() };
+        const Material& object_material{ intersection.getObject().getMaterial() };
+        const double object_transparency{ object_material.getProperties().transparency };
         if (utils::areNotEqual(object_transparency, 0.0) && remaining_bounces > 0) {
             // Calculate the trig values for the angles of refraction using Snell's Law: θᵢ/θᵣ = n2/n1
             // Assume θᵢ is the angle of incidence and θᵣ is the angle of refraction

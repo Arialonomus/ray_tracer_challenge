@@ -22,8 +22,8 @@ namespace gfx {
         const Vector4 light_vector{ normalize(light.position - point_position) };
 
         // Simulate the ambient color as a percentage of the base surface color
-        const Material& material{ object.getMaterial() };
-        const Color ambient{ effective_color * material.getAmbient() };
+        const MaterialProperties& material_properties{ object.getMaterial().getProperties() };
+        const Color ambient{ effective_color * material_properties.ambient };
 
         // Check if the light is on the same side of the surface as the viewpoint
         Color diffuse{ 0, 0, 0 };
@@ -32,15 +32,15 @@ namespace gfx {
         if (utils::isGreaterOrEqual(light_normal_cosine, 0.0) && !is_shadowed)
         {
             // Diffuse term is calculated as a ratio in relation to the angle of the incoming light
-            diffuse = effective_color * material.getDiffuse() * light_normal_cosine;
+            diffuse = effective_color * material_properties.diffuse * light_normal_cosine;
 
             // Check if the light reflects toward the viewpoint
             const Vector4 reflection_vector{ -light_vector.reflect(surface_normal) };
             const double light_view_cosine{ dotProduct(reflection_vector, view_vector) };
             if (utils::isGreater(light_view_cosine, 0.0)) {
                 // Specular reflection is dependent on the specular exponent which is a factor of the shininess value
-                const double specular_exponent{ std::pow(light_view_cosine, material.getShininess()) };
-                specular = light.intensity * material.getSpecular() * specular_exponent;
+                const double specular_exponent{ std::pow(light_view_cosine, material_properties.shininess) };
+                specular = light.intensity * material_properties.specular * specular_exponent;
             }
         }
 
@@ -63,7 +63,7 @@ namespace gfx {
         for (const auto& intersection : possible_overlaps) {
             // The exited medium is an overlapping object
             if (intersection == hit && !containing_objects_list.empty()) {
-                n1 = containing_objects_list.back()->getMaterial().getRefractiveIndex();
+                n1 = containing_objects_list.back()->getMaterial().getProperties().refractive_index;
             }
 
             const Surface* object_ptr{ &intersection.getObject() };
@@ -80,7 +80,7 @@ namespace gfx {
 
             if (intersection == hit && !containing_objects_list.empty()) {
                 // The entered medium is an overlapping object
-                const double n2{ containing_objects_list.back()->getMaterial().getRefractiveIndex() };
+                const double n2{ containing_objects_list.back()->getMaterial().getProperties().refractive_index };
 
                 // Terminate loop early since the correct entered object has been found
                 return std::pair<double, double>{ n1, n2 };
