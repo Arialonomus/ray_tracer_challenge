@@ -51,7 +51,7 @@
             "type": "stripe",
             "transform": [
               {
-                "type": "rotate",
+                "type": "rotate_y",
                 "values": [1.5707963268]
               },
               {
@@ -90,7 +90,7 @@
             "type": "stripe",
             "transform": [
               {
-                "type": "rotate",
+                "type": "rotate_y",
                 "values": [1.5707963268]
               },
               {

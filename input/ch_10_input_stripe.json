@@ -66,7 +66,7 @@
                 "values": [0.5]
               },
               {
-                "type": "rotate",
+                "type": "rotate_z",
                 "values": [1.5707963268]
               }
             ],
@@ -136,7 +136,7 @@
                 "values": [0.25]
               },
               {
-                "type": "rotate",
+                "type": "rotate_z",
                 "values": [0.785398163398]
               }
             ],

@@ -51,9 +51,7 @@
         "transform": [
           {
             "type": "scale",
-            "values": [
-              0.5
-            ]
+            "values": [0.5]
           }
         ],
         "material": {
