@@ -16,11 +16,8 @@ namespace gfx {
         // Use getter to check for potential parent materials
         const Material& material{ this->getMaterial() };
 
-        // Apply object and pattern transformations and sample the point
         const Vector4 object_point{ this->transformToObjectSpace(world_point) };
-        const Vector3 texture_coordinate{ this->getTextureCoordinateFor(object_point) };
-
-        return material.getTexture().getTextureColorAt(texture_coordinate);
+        return material.getTexture().getTextureColorAt(object_point, m_texture_mapping);
     }
 
     Vector4 Surface::getSurfaceNormalAt(const Vector4& world_point) const
