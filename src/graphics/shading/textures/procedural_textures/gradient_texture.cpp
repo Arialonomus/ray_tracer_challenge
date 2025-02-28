@@ -3,9 +3,9 @@
 #include <cmath>
 
 namespace gfx {
-    Color GradientTexture::sampleTextureAt(const Vector3& transformed_uv) const
+    Color GradientTexture::sample3DTextureAt(const Vector4& transformed_point, const TextureMap& mapping) const
     {
-        return m_color_a + (m_color_b - m_color_a) * (transformed_uv.x() - std::floor(transformed_uv.x()));
+        return m_color_a + (m_color_b - m_color_a) * (transformed_point.x() - std::floor(transformed_point.x()));
     }
 
     bool GradientTexture::areEquivalent(const Texture& other_texture) const

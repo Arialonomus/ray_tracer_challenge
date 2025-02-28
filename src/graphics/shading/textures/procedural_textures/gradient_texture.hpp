@@ -1,9 +1,9 @@
 #pragma once
 
-#include "texture.hpp"
+#include "procedural_texture.hpp"
 
 namespace gfx {
-    class GradientTexture : public Texture
+    class GradientTexture : public ProceduralTexture
     {
     public:
         /* Constructors */
@@ -13,12 +13,12 @@ namespace gfx {
 
         // Color-Only Constructor
         GradientTexture(const Color& color_a, const Color& color_b)
-                : Texture{ }, m_color_a{ color_a }, m_color_b{ color_b }
+                : ProceduralTexture{ }, m_color_a{ color_a }, m_color_b{ color_b }
         {}
 
         // Standard Constructor
-        GradientTexture(const Matrix3& transform_matrix, const Color& color_a, const Color& color_b)
-                : Texture{ transform_matrix }, m_color_a{ color_a }, m_color_b{ color_b }
+        GradientTexture(const Matrix4& transform_matrix, const Color& color_a, const Color& color_b)
+                : ProceduralTexture{ transform_matrix }, m_color_a{ color_a }, m_color_b{ color_b }
         {}
 
         /* Destructor */
@@ -46,7 +46,8 @@ namespace gfx {
 
         /* Texture Helper Method Overrides */
 
-        [[nodiscard]] Color sampleTextureAt(const Vector3& transformed_uv) const override;
+        [[nodiscard]] Color sample3DTextureAt(const Vector4& transformed_point,
+                                              const TextureMap& mapping) const override;
         [[nodiscard]] bool areEquivalent(const Texture& other_texture) const override;
     };
 }

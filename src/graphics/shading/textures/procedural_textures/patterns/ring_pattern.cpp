@@ -3,13 +3,13 @@
 #include <cmath>
 
 namespace gfx {
-    Color RingPattern::sampleTextureAt(const Vector3& transformed_uv) const
+    Color RingPattern::sample3DTextureAt(const Vector4& transformed_point, const TextureMap& mapping) const
     {
-        const double radius{ std::sqrt(std::pow(transformed_uv.x(), 2) + std::pow(transformed_uv.y(), 2)) };
+        const double radius{ std::sqrt(std::pow(transformed_point.x(), 2) + std::pow(transformed_point.z(), 2)) };
         if (static_cast<int>(std::floor(radius)) % 2 == 0)
-            return this->getTextureA().getTextureColorAt(transformed_uv);
+            return this->getTextureA().getTextureColorAt(transformed_point, mapping);
 
-        return this->getTextureB().getTextureColorAt(transformed_uv);
+        return this->getTextureB().getTextureColorAt(transformed_point, mapping);
     }
 
     bool RingPattern::areEquivalent(const Texture& other_texture) const

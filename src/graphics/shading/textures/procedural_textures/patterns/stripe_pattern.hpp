@@ -22,12 +22,12 @@ namespace gfx {
         {}
 
         // Standard Constructor (Textures)
-        StripePattern(const Matrix3& transform_matrix, const Texture& texture_a, const Texture& texture_b)
+        StripePattern(const Matrix4& transform_matrix, const Texture& texture_a, const Texture& texture_b)
                 : Pattern{ transform_matrix, texture_a, texture_b }
         {}
 
         // Standard Constructor (Colors)
-        StripePattern(const Matrix3& transform_matrix, const Color& color_a, const Color& color_b)
+        StripePattern(const Matrix4& transform_matrix, const Color& color_a, const Color& color_b)
                 : Pattern{ transform_matrix, color_a, color_b }
         {}
 
@@ -43,7 +43,8 @@ namespace gfx {
     private:
         /* Texture Helper Method Overrides */
 
-        [[nodiscard]] Color sampleTextureAt(const Vector3& transformed_uv) const override;
+        [[nodiscard]] Color sample3DTextureAt(const Vector4& transformed_point,
+                                              const TextureMap& mapping) const override;
         [[nodiscard]] bool areEquivalent(const Texture& other_texture) const override;
     };
 }

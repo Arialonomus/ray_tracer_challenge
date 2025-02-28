@@ -3,12 +3,12 @@
 #include <cmath>
 
 namespace gfx {
-    Color StripePattern::sampleTextureAt(const Vector3& transformed_uv) const
+    Color StripePattern::sample3DTextureAt(const Vector4& transformed_point, const TextureMap& mapping) const
     {
-        if (static_cast<int>(std::floor(transformed_uv.x())) % 2 == 0)
-            return this->getTextureA().getTextureColorAt(transformed_uv);
+        if (static_cast<int>(std::floor(transformed_point.x())) % 2 == 0)
+            return this->getTextureA().getTextureColorAt(transformed_point, mapping);
 
-        return this->getTextureB().getTextureColorAt(transformed_uv);
+        return this->getTextureB().getTextureColorAt(transformed_point, mapping);
     }
 
     bool StripePattern::areEquivalent(const Texture& other_texture) const
