@@ -27,6 +27,12 @@ namespace gfx {
 
         ~ColorTexture() override = default;
 
+        /* Accessors */
+
+        [[nodiscard]] Color getTextureColorAt(const Vector4& object_point,
+                                              const TextureMap& mapping) const override
+        { return m_color; }
+
         /* Object Operations */
 
         // Creates a copy of this texture and returns a smart pointer to the new object
@@ -39,10 +45,6 @@ namespace gfx {
         Color m_color{ white() };
 
         /* Texture Helper Method Overrides */
-
-        // Returns the color regardless of coordinate
-        [[nodiscard]] Color sampleTextureAt(const Vector3& transformed_uv) const override
-        { return m_color; }
 
         [[nodiscard]] bool areEquivalent(const Texture& other_texture) const override;
     };
