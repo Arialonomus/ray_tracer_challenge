@@ -36,15 +36,18 @@ namespace data {
     // Returns a newly constructed material based on the passed in material data
     [[nodiscard]] gfx::Material parseMaterialData(const json& material_data);
 
+    // Returns a newly constructed material based on the passed in material data
+    [[nodiscard]] gfx::MaterialProperties parseMaterialPropertyData(const json& material_data);
+
+    // Returns a color object described by the passed in JSON data
+    [[nodiscard]] gfx::Color parseColorData(const json& color_data);
+
     // Returns a pointer to a newly created textures described by the passed-in JSON data
     [[nodiscard]] std::shared_ptr<gfx::Texture> parseTextureData(const json& texture_data);
 
     // Returns a pair of pointers to two newly created textures described by the passed-in JSON data
     [[nodiscard]] std::pair<std::shared_ptr<gfx::Texture>, std::shared_ptr<gfx::Texture>>
     createPatternTextures(const json& pattern_data);
-
-    // Returns a color object described by the passed in JSON data
-    [[nodiscard]] gfx::Color parseColorData(const json& color_data);
 
     // Builds a transform matrix from the array of transform matrices described by the passed-in JSON data
     [[nodiscard]] gfx::Matrix4 buildChained3DTransformMatrix(const json& transform_data_list);

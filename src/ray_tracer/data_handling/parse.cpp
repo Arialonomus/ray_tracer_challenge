@@ -46,11 +46,12 @@ namespace data {
         const std::vector<double> up_vector_vals{ camera_data["transform"]["up_vector"].get<std::vector<double>>() };
 
         // Build the view transform matrix
-        const gfx::Matrix4 view_transform_matrix{ gfx::createViewTransformMatrix(
+        const gfx::Matrix4 view_transform_matrix{
+            gfx::createViewTransformMatrix(
                 gfx::createPoint(input_base_vals[0], input_base_vals[1], input_base_vals[2]),
                 gfx::createPoint(output_base_vals[0], output_base_vals[1], output_base_vals[2]),
                 gfx::createVector(up_vector_vals[0], up_vector_vals[1], up_vector_vals[2])
-        )
+                )
         };
 
         // Create the camera
@@ -155,15 +156,7 @@ namespace data {
     gfx::Material parseMaterialData(const json& material_data)
     {
         // Parse the material attribute data
-        gfx::Material material{
-            material_data.contains("ambient") ? material_data["ambient"].get<double>() : 0.1,
-            material_data.contains("diffuse") ? material_data["diffuse"].get<double>() : 0.9,
-            material_data.contains("specular") ? material_data["specular"].get<double>() : 0.9,
-            material_data.contains("shininess") ? material_data["shininess"].get<double>() : 200,
-            material_data.contains("reflectivity") ? material_data["reflectivity"].get<double>() : 0,
-            material_data.contains("transparency") ? material_data["transparency"].get<double>() : 0,
-            material_data.contains("refractive_index") ? material_data["refractive_index"].get<double>() : 1
-        };
+        gfx::Material material{ parseMaterialPropertyData(material_data) };
 
         // Set the pattern or object color
         if (material_data.contains("texture"))
@@ -172,6 +165,34 @@ namespace data {
             material.setTexture(gfx::ColorTexture{ parseColorData(material_data["color"]) });
 
         return material;
+    }
+
+    // Material Properties Parser
+    gfx::MaterialProperties parseMaterialPropertyData(const json& material_data)
+    {
+        gfx::MaterialProperties properties{ };
+        if (material_data.contains("ambient"))
+            properties.ambient = material_data["ambient"].get<double>();
+        if (material_data.contains("diffuse"))
+            properties.diffuse = material_data["diffuse"].get<double>();
+        if (material_data.contains("specular"))
+            properties.specular = material_data["specular"].get<double>();
+        if (material_data.contains("shininess"))
+            properties.shininess = material_data["shininess"].get<double>();
+        if (material_data.contains("reflectivity"))
+            properties.reflectivity = material_data["reflectivity"].get<double>();
+        if (material_data.contains("transparency"))
+            properties.transparency = material_data["transparency"].get<double>();
+        if (material_data.contains("refractive_index"))
+            properties.refractive_index = material_data["refractive_index"].get<double>();
+
+        return properties;
+    }
+
+    // Color Data Parser
+    gfx::Color parseColorData(const json& color_data)
+    {
+        return gfx::Color{ color_data[0], color_data[1], color_data[2] };
     }
 
     // Texture Data Parser
@@ -231,32 +252,25 @@ namespace data {
         }
     }
 
-    // Color Data Parser
-    gfx::Color parseColorData(const json& color_data)
-    {
-        return gfx::Color{ color_data[0], color_data[1], color_data[2] };
-    }
-
     // Nested Pattern Texture Creator
     std::pair<std::shared_ptr<gfx::Texture>, std::shared_ptr<gfx::Texture>>
     createPatternTextures(const json& pattern_data)
     {
-        std::shared_ptr<gfx::Texture> texture_a_ptr, texture_b_ptr = nullptr;
-        if (pattern_data.contains("color_a")) {
+        std::shared_ptr<gfx::Texture> texture_a_ptr, texture_b_ptr;
+        if (pattern_data.contains("color_a"))
             texture_a_ptr = gfx::ColorTexture{ parseColorData(pattern_data["color_a"]) }.clone();
-        } else if (pattern_data.contains("texture_a")) {
+        else if (pattern_data.contains("texture_a"))
             texture_a_ptr = parseTextureData(pattern_data["texture_a"]);
-        } else {
+        else
             throw std::invalid_argument("Pattern must contain a definition of another pattern (as pattern_a) or a color (as color_a)");
-        }
 
-        if (pattern_data.contains("color_b")) {
+
+        if (pattern_data.contains("color_b"))
             texture_b_ptr = gfx::ColorTexture{ parseColorData(pattern_data["color_b"]) }.clone();
-        } else if (pattern_data.contains("texture_b")) {
+        else if (pattern_data.contains("texture_b"))
             texture_b_ptr = parseTextureData(pattern_data["texture_b"]);
-        } else {
+        else
             throw std::invalid_argument("Pattern must contain a definition of another pattern (as pattern_b) or a color (as color_b)");
-        }
 
         return { texture_a_ptr, texture_b_ptr };
     }
