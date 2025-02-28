@@ -3,31 +3,34 @@
 #include "util_functions.hpp"
 
 namespace gfx {
+    // Material Properties Equality Operator
+    bool MaterialProperties::operator==(const MaterialProperties& rhs) const
+    {
+        return
+                utils::areEqual(ambient, rhs.ambient) &&
+                utils::areEqual(ambient, rhs.ambient) &&
+                utils::areEqual(specular, rhs.specular) &&
+                utils::areEqual(shininess, rhs.shininess) &&
+                utils::areEqual(reflectivity, rhs.reflectivity) &&
+                utils::areEqual(transparency, rhs.transparency) &&
+                utils::areEqual(refractive_index, rhs.refractive_index);
+    }
+
     // Equality Operator
     bool gfx::Material::operator==(const Material& rhs) const
     {
         return
             *m_texture == rhs.getTexture() &&
-            utils::areEqual(m_ambient, rhs.getAmbient()) &&
-            utils::areEqual(m_diffuse, rhs.getDiffuse()) &&
-            utils::areEqual(m_specular, rhs.getSpecular()) &&
-            utils::areEqual(m_shininess, rhs.getShininess()) &&
-            utils::areEqual(m_reflectivity, rhs.getReflectivity()) &&
-            utils::areEqual(m_transparency, rhs.getTransparency()) &&
-            utils::areEqual(m_refractive_index, rhs.getRefractiveIndex());
+            m_properties == rhs.getProperties();
     }
 
     // Glassy Material Factory Function
     Material createGlassyMaterial()
     {
-        return Material{
-            0.1,
-            0.9,
-            0.9,
-            200,
-            0,
-            1,
-            1.5
+        return Material{ MaterialProperties
+                                 { .transparency = 1,
+                                   .refractive_index = 1.5 }
         };
     }
+
 }
