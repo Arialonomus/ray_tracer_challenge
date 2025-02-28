@@ -5,22 +5,22 @@
 #include "matrix4.hpp"
 
 namespace gfx {
-    class ProceduralTexture : public Texture
+    class Texture3D : public Texture
     {
     public:
         /* Constructors */
 
         // Default Constructor
-        ProceduralTexture() = default;
+        Texture3D() = default;
 
         // Standard Constructor
-        explicit ProceduralTexture(const Matrix4& transform_matrix)
+        explicit Texture3D(const Matrix4& transform_matrix)
                 : Texture(), m_transform{ transform_matrix }, m_transform_inverse{ transform_matrix.inverse() }
         {}
 
         /* Destructor */
 
-        ~ProceduralTexture() override = default;
+        ~Texture3D() override = default;
 
         /* Accessors */
 

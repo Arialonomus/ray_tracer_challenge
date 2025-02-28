@@ -3,7 +3,7 @@
 #include "procedural_texture.hpp"
 
 namespace gfx {
-    class GradientTexture : public ProceduralTexture
+    class GradientTexture : public Texture3D
     {
     public:
         /* Constructors */
@@ -13,12 +13,12 @@ namespace gfx {
 
         // Color-Only Constructor
         GradientTexture(const Color& color_a, const Color& color_b)
-                : ProceduralTexture{ }, m_color_a{ color_a }, m_color_b{ color_b }
+                : Texture3D{ }, m_color_a{ color_a }, m_color_b{ color_b }
         {}
 
         // Standard Constructor
         GradientTexture(const Matrix4& transform_matrix, const Color& color_a, const Color& color_b)
-                : ProceduralTexture{ transform_matrix }, m_color_a{ color_a }, m_color_b{ color_b }
+                : Texture3D{ transform_matrix }, m_color_a{ color_a }, m_color_b{ color_b }
         {}
 
         /* Destructor */

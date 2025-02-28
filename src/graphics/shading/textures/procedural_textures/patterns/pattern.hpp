@@ -4,7 +4,7 @@
 #include "color_texture.hpp"
 
 namespace gfx {
-    class Pattern : public ProceduralTexture
+    class Pattern : public Texture3D
     {
     public:
         /* Constructors */
@@ -14,28 +14,28 @@ namespace gfx {
 
         // Texture-Only Constructor
         Pattern(const Texture& texture_a, const Texture& texture_b)
-                : ProceduralTexture{ },
+                : Texture3D{ },
                   m_texture_a{ texture_a.clone() },
                   m_texture_b{ texture_b.clone() }
         {}
 
         // Color-Only Constructor
         Pattern(const Color& color_a, const Color& color_b)
-                : ProceduralTexture{ },
+                : Texture3D{ },
                   m_texture_a{ ColorTexture{ color_a }.clone() },
                   m_texture_b{ ColorTexture{ color_b }.clone() }
         {}
 
         // Standard Constructor (Textures)
         Pattern(const Matrix4& transform_matrix, const Texture& texture_a, const Texture& texture_b)
-                : ProceduralTexture{ transform_matrix },
+                : Texture3D{ transform_matrix },
                   m_texture_a{ texture_a.clone() },
                   m_texture_b{ texture_b.clone() }
         {}
 
         // Standard Constructor (Colors)
         Pattern(const Matrix4& transform_matrix, const Color& color_a, const Color& color_b)
-                : ProceduralTexture{ transform_matrix },
+                : Texture3D{ transform_matrix },
                   m_texture_a{ ColorTexture{ color_a }.clone() },
                   m_texture_b{ ColorTexture{ color_b }.clone() }
         {}
